@@ -52,6 +52,11 @@ class Commandes
      */
     private $livreur;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=InfoLivraison::class, inversedBy="commandes")
+     */
+    private $infoLivraison;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -137,6 +142,18 @@ class Commandes
     public function setLivreur(?Utilisateur $livreur): self
     {
         $this->livreur = $livreur;
+
+        return $this;
+    }
+
+    public function getInfoLivraison(): ?InfoLivraison
+    {
+        return $this->infoLivraison;
+    }
+
+    public function setInfoLivraison(?InfoLivraison $infoLivraison): self
+    {
+        $this->infoLivraison = $infoLivraison;
 
         return $this;
     }
