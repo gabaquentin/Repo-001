@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <!-- Required meta tags always come first -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title> {% block title %}Welcome!{% endblock %}</title>
+    <link rel="icon" type="image/png" href="{{ asset('frontend/img/favicon.png') }}" />
+
+    <!--Core CSS -->
+    <link rel="stylesheet" href="{{ asset('frontend/css/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('frontend/css/bulma.css') }}">
+    <link rel="stylesheet" href="{{ asset('frontend/css/main.css') }}">
+
+    <!-- Fonts -->
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Alegreya+Sans+SC:100,400" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,500" rel="stylesheet">
+
+    {% block stylesheets %}{% endblock %}
+
+</head>
+
+<body>
+
+{% include 'frontend/ecommerce/leftmenu.html.twig' %}
+
+
+<!-- Content Wrapper -->
+{% block body %}{% endblock %}
+<!-- /Content Wrapper -->
+
+<!-- Concatenated plugins -->
+<script src="{{ asset('frontend/js/app.js') }}"></script>
+
+<!--Data-->
+<script src="{{ asset('frontend/js/_data-wishlist.js') }}"></script>
+<script src="{{ asset('frontend/js/_data-addresses.js') }}"></script>
+<script src="{{ asset('frontend/js/_data-orders.js') }}"></script>
+
+<!-- Nephos js -->
+<script src="{{ asset('frontend/js/functions.js') }}"></script>
+<script src="{{ asset('frontend/js/nephos.js') }}"></script>
+<script src="{{ asset('frontend/js/authentication.js') }}"></script>
+<script src="{{ asset('frontend/js/cart.js') }}"></script>
+
+<!--Pages-->
+<script src="{{ asset('frontend/js/account.js') }}"></script>
+<script src="{{ asset('frontend/js/wishlist.js') }}"></script>
+<script src="{{ asset('frontend/js/product.js') }}"></script>
+<script src="{{ asset('frontend/js/orders.js') }}"></script>
+<script src="{{ asset('frontend/js/order.js') }}"></script>
+<script src="{{ asset('frontend/js/checkout.js') }}"></script>
+<script src="{{ asset('frontend/js/search.js') }}"></script>
+
+
+
+</body>
+
+</html>

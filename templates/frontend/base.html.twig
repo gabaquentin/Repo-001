@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+<head>
+    <!-- 1.0 meta -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="description" content="Responsive coming soon template">
+    <meta name="author" content="SimplePixel">
+    <meta name="keywords" content="responsive, monsy, countdown, mailchimp, clean, simple">
+
+    <!-- 2.0 title -->
+
+        <title>{% block title %}Welcome!{% endblock %}</title>
+    <link rel="icon" type="image/png" href="{{ asset('frontend/img/favicon.png') }}" />
+
+    <!-- 3.0 CSS IMPORT -->
+    <!-- CSS IMPORT FOR PLUGIN -->
+    <link rel="stylesheet" href="{{ asset('accueil/css/bootstrap.min.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('accueil/css/font-awesome.min.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('accueil/css/animate.min.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('accueil/css/simple-line-icons.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('accueil/css/magnific-popup.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('accueil/css/jquery.wordrotator.min.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('accueil/css/owl.carousel.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('accueil/css/owl.theme.css') }}" type="text/css">
+
+    <!-- CSS IMPORT FOR FONT -->
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Raleway:300,400">
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Dosis:300,400,500" type="text/css">
+
+    <!-- CSS IMPORT FOR MAIN STYLE AND COLOR SCHEME -->
+    <link rel="stylesheet" href="{{ asset('accueil/css/style.css') }}" type="text/css">
+
+    <!-- support HTML5 elements and media queries for IE9 -->
+    <!--[if lt IE 9]>
+    <script src="{{ asset('accueil/js/html5shiv.js') }}"></script>
+    <script src="{{ asset('accueil/js/respond.min.js') }}"></script>
+    <![endif]-->
+
+    {% block stylesheets %}{% endblock %}
+</head>
+
+    <body>
+        {% block body %}{% endblock %}
+
+        <!-- 16.0 javascript import -->
+        <!-- jquery -->
+        <script type="text/javascript" src="{{ asset('accueil/js/jquery.js') }}"></script>
+        <!-- bootstrap -->
+        <script type="text/javascript" src="{{ asset('accueil/js/bootstrap.min.js') }}"></script>
+        <!-- countdown -->
+        <script type="text/javascript" src="{{ asset('accueil/js/jquery.lwtCountdown-1.0.js') }}"></script>
+        <!-- backstretch -->
+        <script type="text/javascript" src="{{ asset('accueil/js/jquery.backstretch.min.js') }}"></script>
+        <!-- jquery validate -->
+        <script type="text/javascript" src="{{ asset('accueil/js/jquery.validate.min.js') }}"></script>
+        <!-- magnific popup -->
+        <script type="text/javascript" src="{{ asset('accueil/js/jquery.magnific-popup.min.js') }}"></script>
+        <!-- word rotator -->
+        <script type="text/javascript" src="{{ asset('accueil/js/jquery.wordrotator.min.js') }}"></script>
+        <!-- snap svg -->
+        <script type="text/javascript" src="{{ asset('accueil/js/snap.svg-min.js') }}"></script>
+        <!-- classie -->
+        <script type="text/javascript" src="{{ asset('accueil/js/classie.js') }}"></script>
+        <!-- svg loader -->
+        <script type="text/javascript" src="{{ asset('accueil/js/svgLoader.js') }}"></script>
+        <!-- owl carousel -->
+        <script type="text/javascript" src="{{ asset('accueil/js/owl.carousel.js') }}"></script>
+        <!-- main js -->
+        <script type="text/javascript" src="{{ asset('accueil/js/main.js') }}"></script>
+        {% block javascripts %}{% endblock %}
+    </body>
+</html>

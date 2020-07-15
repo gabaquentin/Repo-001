@@ -1,0 +1,42 @@
+<div class="category-quickview">
+    <div class="inner">
+        <ul class="category-menu">
+            <li>
+                <a href="{{path('app')}}">
+                    <span>Accueil</span>
+                    <img src="{{ asset('frontend/img/icons/categories/house.svg') }}" alt="">
+
+                </a>
+            </li>
+            {% set route =  app.request.attributes.get('_route')  %}
+
+            <li>
+                <a {% if route == "app_boutique" %} href="" {% else %}  href="{{path('app_boutique')}}" {% endif %}>
+                    <span>E-Boutique</span>
+                    <img src="{{ asset('frontend/img/illustrations/store.svg') }}" alt="">
+
+                </a>
+            </li>
+
+            <li>
+                <a href="{{path('app_services')}}">
+                    <span>E-Services</span>
+                    <img src="{{ asset('frontend/img/illustrations/couch.svg') }}" alt="">
+
+                </a>
+            </li>
+            <li>
+                <a href="{{path('app_terrain')}}">
+                    <span>E-Terrain</span>
+                    <img src="{{ asset('frontend/img/icons/checkout/world.svg') }}" alt="">
+
+                </a>
+            </li>
+        </ul>
+
+        <!--div class="all-categories is-hidden-mobile">
+                <a href="products.html">Show all categories</a>
+                <div class="centered-divider"></div>
+            </div-->
+    </div>
+</div>

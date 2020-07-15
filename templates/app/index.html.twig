@@ -1,0 +1,285 @@
+{% extends '/frontend/base.html.twig' %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block body %}
+
+
+
+    <!-- 4.0 preloader -->
+    <div class="preloader">
+        <img src="{{ asset('accueil/img/grid.svg') }}" class="centering-xy" alt="preloader" />
+    </div>
+    <!-- end preloader -->
+
+    <!-- 5.0 background container -->
+    <div class="bg-container-slideshow"></div>
+    <!-- end background container -->
+
+    <!-- content container -->
+    <div class="content-container">
+        <!-- 6.0 menu & logo -->
+        <nav class="menu animated entrance">
+            <ul>
+                <!-- logo -->
+                <li><img src="{{ asset('accueil/img/logo.png') }}" alt="logo" class="logo" /></li>
+                <!-- end logo -->
+                <li class="menu-2 menu-out animated">
+                    <a href="#" class="menu-link" data-name="boutique" data-toggle="tooltip" data-placement="bottom" title="E-Boutique">
+                        <span aria-hidden="true" class="icon icon-paper-plane"></span>
+                    </a>
+                </li>
+                <li class="menu-3 menu-out animated">
+                    <a href="#" class="menu-link" data-name="services" data-toggle="tooltip" data-placement="bottom" title="E-Services">
+                        <span aria-hidden="true" class="icon icon-briefcase"></span>
+                    </a>
+                </li>
+                <li class="menu-4 menu-out animated">
+                    <a href="#" class="menu-link" data-name="terrain" data-toggle="tooltip" data-placement="bottom" title="E-Terrain">
+                        <span aria-hidden="true" class="icon icon-call-out"></span>
+                    </a>
+                </li>
+                <li class="menu-1 menu-out animated">
+                    <a href="#" class="menu-link" data-name="partenaire" data-toggle="tooltip" data-placement="bottom" title="Devenir Partenaire">
+                        <span aria-hidden="true" class="icon icon-info"></span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <!-- end menu -->
+
+        <!-- 7.0 coming soon container -->
+        <div class="container">
+            <!-- container -->
+            <div class="coming-soon-container col-lg-12 col-md-12 col-sm-12 col-xs-12 centering-y">
+                <!-- left side -->
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 left-side animated entrance">
+                    <h1>E-Mobilier</h1>
+                </div>
+                <!-- end left side -->
+
+                <!-- right side -->
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 right-side animated entrance">
+                    <h1 id="word-rotator">E-Mobilier</h1>
+                </div>
+                <!-- end right side -->
+
+                <div class="separator animated entrance"></div>
+            </div>
+            <!-- container -->
+        </div>
+        <!-- end coming soon container -->
+
+        <!-- main content -->
+        <div id="main-content" class="main-content">
+            <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 80 60" preserveAspectRatio="none">
+                <path fill="white" fill-opacity="0.85" d="M80,58 80,58 80,60 80,60 Z"/>
+            </svg>
+
+            <!-- 8.0 close main content button -->
+            <div class="close-content-container animated entrance">
+                <a class="close-content" href="#">X</a>
+            </div>
+            <!-- end close main content button -->
+
+            <!-- 9.0 countdown -->
+            <div class="countdown col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div class="countdown-container centering-xy" id="lwt-countdown">
+                    <!-- hours -->
+                    <div class="dash hours_dash entrance animated">
+                        <div class="content">
+                            <div class="digit">0</div><div class="digit">0</div>
+                            <span class="dash_title">hours</span>
+                        </div>
+                    </div>
+                    <!-- end hours -->
+                    <!-- days -->
+                    <div class="dash days_dash entrance animated">
+                        <div class="content">
+                            <div class="digit">0</div><div class="digit">0</div><div class="digit">0</div>
+                            <span class="dash_title">days</span>
+                        </div>
+                    </div>
+                    <!-- end days -->
+                    <!-- minutes -->
+                    <div class="dash minutes_dash entrance animated">
+                        <div class="content">
+                            <div class="digit">0</div><div class="digit">0</div>
+                            <span class="dash_title">mins</span>
+                        </div>
+                    </div>
+                    <!-- end minutes -->
+                    <!-- seconds -->
+                    <div class="dash seconds_dash entrance animated">
+                        <div class="content">
+                            <div class="digit">0</div><div class="digit">0</div>
+                            <span class="dash_title">secs</span>
+                        </div>
+                    </div>
+                    <!-- end seconds -->
+                </div>
+            </div>
+            <!-- end countdown -->
+
+            <!-- 10.0 E-Boutique container -->
+            <div class="boutique-container col-lg-6 col-md-6 col-sm-12 col-xs-12 centering-y">
+                <h2 class="animated entrance">E-Boutique</h2>
+                <p class="boutique-desc col-lg-9 col-lg-offset-3 col-md-10 col-md-offset-2 col-sm-12 col-xs-12 animated entrance">
+                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat ut wisi enim ad minim veniam.
+                <div class="close-content-container go-boutique animated entrance">
+                    <a class="close-content" href="{{ path('app_boutique') }}">GO</a>
+                </div>
+                </p>
+
+                <!-- 10.1 service -->
+                <div class="service-container col-lg-9 col-lg-offset-3 col-md-10 col-md-offset-2 col-sm-12 col-sm-offset-0 animated entrance">
+                    <!-- next service -->
+                    <a class="next-service" href="#">&gt;</a>
+                    <!-- end next service -->
+
+                    <!-- prev service -->
+                    <a class="prev-service" href="#">&lt;</a>
+                    <!-- end prev service -->
+
+                    <div class="owl-carousel">
+                        <!-- branding -->
+                        <div class="service">
+                            <div class="icon-container col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                <span aria-hidden="true" class="icon icon-present"></span>
+                                <span class="text">
+                        	        	Acheter
+                        	        </span>
+                            </div>
+                            <div class="desc-container col-lg-8 col-md-8 col-sm-12 col-xs-12 centering-y">
+                                <p>Lorem ipsum dolor sit semper amet dolor sit semper amet dolor sit semper amet</p>
+                            </div>
+                        </div>
+                        <!-- end branding -->
+
+                        <!-- marketing -->
+                        <div class="service">
+                            <div class="icon-container col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                <span aria-hidden="true" class="icon icon-anchor"></span>
+                                <span class="text">Louer</span>
+                            </div>
+                            <div class="desc-container col-lg-8 col-md-8 col-sm-12 col-xs-12 centering-y">
+                                <p>Lorem ipsum dolor sit semper amet dolor sit semper amet dolor sit semper amet</p>
+                            </div>
+                        </div>
+                        <!-- end marketing -->
+
+                        <!-- design -->
+                        <div class="service">
+                            <div class="icon-container col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                <span aria-hidden="true" class="icon icon-pencil"></span>
+                                <span class="text">Comparer</span>
+                            </div>
+                            <div class="desc-container col-lg-8 col-md-8 col-sm-12 col-xs-12 centering-y">
+                                <p>Lorem ipsum dolor sit semper amet dolor sit semper amet dolor sit semper amet</p>
+                            </div>
+                        </div>
+                        <!-- end design -->
+                    </div>
+                </div>
+                <!-- end service -->
+
+            </div>
+            <!-- end E-Boutique container -->
+
+            <!-- 11.0 E-Services container -->
+            <div class="services-container col-lg-6 col-md-6 col-sm-12 centering-y">
+                <h2 class="animated entrance">E-Services</h2>
+                <p class="services-desc col-lg-9 col-lg-offset-3 col-md-10 col-md-offset-2 col-sm-12 col-sm-offset-0 animated entrance">
+                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut.
+                <div class="close-content-container go-services animated entrance">
+                    <a class="close-content" href="{{ path('app_services') }}">GO</a>
+                </div>
+                </p>
+
+                <!-- // -->
+
+            </div>
+            <!-- end E-Services container -->
+
+            <!-- 12.0 E-Terrain container -->
+            <div class="terrain-container col-lg-6 col-md-6 col-sm-12 col-xs-12 centering-y">
+                <h2 class="animated entrance">E-Terrain</h2>
+                <p class="terrain-desc col-lg-9 col-lg-offset-3 col-md-10 col-md-offset-2 col-sm-12 col-sm-offset-0 col-xs-12 col-xs-offset-0 animated entrance">
+                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat ut wisi enim ad minim veniam.
+                <div class="close-content-container go-terrain animated entrance">
+                    <a class="close-content" href="{{ path('app_terrain') }}">GO</a>
+                </div>
+                </p>
+                <!-- // -->
+
+            </div>
+            <!-- end E-Terrain container -->
+
+            <!-- 13.0 contact container -->
+            <div class="contact-container col-lg-6 col-md-6 col-sm-12 col-xs-12 centering-y">
+                <h2 class="animated entrance">contact</h2>
+                <p class="contact-desc col-lg-9 col-lg-offset-3 col-md-10 col-md-offset-2 col-sm-12 col-sm-offset-0 col-xs-12 col-xs-offset-0 animated entrance">
+                    If you have any question or have a project to discuss with us, drop us a line below. We'd love to talk.
+                </p>
+
+                <!-- contact details -->
+                <div class="contact-details col-lg-10 col-lg-offset-2 col-md-11 col-md-offset-1 col-sm-12 col-sm-offset-0 col-xs-12 col-xs-offset-0 animated entrance">
+                    <!-- phone -->
+                    <div class="detail col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        <span aria-hidden="true" class="icon icon-call-in"></span>
+                        <span class="desc">
+                            	+62 356 3343
+                            </span>
+                    </div>
+                    <!-- end phone -->
+
+                    <!-- email -->
+                    <div class="detail col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        <span aria-hidden="true" class="icon icon-envelope-open"></span>
+                        <span class="desc">
+                            	youremail@email.com
+                            </span>
+                    </div>
+                    <!-- end email -->
+
+                    <!-- address -->
+                    <div class="detail col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        <span aria-hidden="true" class="icon icon-pointer"></span>
+                        <span class="desc">
+                            	245 Quigley Blvd, Ste K
+                            </span>
+                    </div>
+                    <!-- end address -->
+                </div>
+                <!-- end contact details -->
+            </div>
+            <!-- end contact container -->
+
+            <!-- 14.0 main content controls -->
+            <nav class="main-content-controls col-lg-6 col-md-6 animated entrance">
+                <a href="#" class="next-content button-square">&rarr;</a>
+                <a href="#" class="prev-content button-square">&larr;</a>
+            </nav>
+            <!-- end main content controls -->
+        </div>
+        <!-- end main content -->
+
+        <!-- 15.0 footer -->
+        <footer class="animated entrance">
+            <p>copyright 2015 <span aria-hidden="true" class="icon icon-like"></span> by SimplePixel</p>
+
+            <!-- social media link -->
+            <div class="social-media-link">
+                <a href="#"><i class="fa fa-facebook"></i></a>
+                <a href="#"><i class="fa fa-twitter"></i></a>
+                <a href="#"><i class="fa fa-dribbble"></i></a>
+                <a href="#"><i class="fa fa-behance"></i></a>
+            </div>
+            <!-- end social media link -->
+        </footer>
+        <!-- end footer -->
+    </div>
+    <!-- end content container -->
+
+
+{% endblock %}
