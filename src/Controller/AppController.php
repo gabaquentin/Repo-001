@@ -12,9 +12,7 @@ class AppController extends AbstractController
      */
     public function index()
     {
-        return $this->render('app/index.html.twig', [
-            'controller_name' => 'AppController',
-        ]);
+        return $this->render('app/index.html.twig');
     }
 
     /**
@@ -22,9 +20,7 @@ class AppController extends AbstractController
      */
     public function indexBack()
     {
-        return $this->render('back/index.html.twig', [
-            'controller_name' => 'AppController',
-        ]);
+        return $this->render('backend/index.html.twig');
     }
 
     /**
@@ -32,9 +28,7 @@ class AppController extends AbstractController
      */
     public function indexBoutique()
     {
-        return $this->render('app/boutique.html.twig', [
-            'controller_name' => 'AppController',
-        ]);
+        return $this->render('app/boutique.html.twig');
     }
 
     /**
@@ -42,9 +36,7 @@ class AppController extends AbstractController
      */
     public function indexServices()
     {
-        return $this->render('app/services.html.twig', [
-            'controller_name' => 'AppController',
-        ]);
+        return $this->render('app/services.html.twig');
     }
 
     /**
@@ -52,8 +44,6 @@ class AppController extends AbstractController
      */
     public function indexTerrain()
     {
-        return $this->render('app/terrain.html.twig', [
-            'controller_name' => 'AppController',
-        ]);
+        return $this->render('app/terrain.html.twig');
     }
 }
