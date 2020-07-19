@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\AVis;
+use App\Entity\Avis;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method AVis|null find($id, $lockMode = null, $lockVersion = null)
- * @method AVis|null findOneBy(array $criteria, array $orderBy = null)
- * @method AVis[]    findAll()
- * @method AVis[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Avis|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Avis|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Avis[]    findAll()
+ * @method Avis[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class AVisRepository extends ServiceEntityRepository
+class AvisRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, AVis::class);
+        parent::__construct($registry, Avis::class);
     }
 
     // /**
-    //  * @return AVis[] Returns an array of AVis objects
+    //  * @return Avis[] Returns an array of Avis objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class AVisRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?AVis
+    public function findOneBySomeField($value): ?Avis
     {
         return $this->createQueryBuilder('a')
             ->andWhere('a.exampleField = :val')

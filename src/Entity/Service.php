@@ -35,7 +35,7 @@ class Service
     private $CategorieService;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Utilisateur::class, inversedBy="services")
+     * @ORM\ManyToOne(targetEntity=Utilisateur::class)
      */
     private $prestataire;
 

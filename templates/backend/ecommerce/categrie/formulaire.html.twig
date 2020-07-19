@@ -1,0 +1,38 @@
+<div id="content-form">
+    <h4 class="header-title">Ajouter une catégorie</h4>
+    <p class="sub-header">
+    </p>
+
+    {{ form_start(form,{'attr':{'novalidate':'novalidate','id':'form-category','class':'form-horizontal'}}) }}
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label" for="{{ form.nomCategorie.vars.id }}">Nom de la catégorie</label>
+                <div class="col-sm-9">
+                    {{ form_widget(form.nomCategorie, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label" for="{{ form.typeCategorie.vars.id }}">Type de produit</label>
+                <div class="col-sm-9">
+                    {{ form_widget(form.typeCategorie, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label" for="{{ form.categorieParent.vars.id }}">Categorie parent</label>
+                <div class="col-sm-9">
+                    {{ form_widget(form.categorieParent, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+            <div class="form-group mb-0 justify-content-end row">
+                <div class="col-sm-9">
+                    <button type="submit" id="btn-submit" class="btn btn-primary waves-effect waves-lightspinner-border-sm">
+                        <span class="spinner-border-sm" role="status" aria-hidden="true"></span>
+                        Sauvegarder
+                    </button>
+                    <button type="submit" id="btn-reset" class="btn btn-info ml-1 waves-effect waves-light">
+                        Reset
+                    </button>
+                </div>
+            </div>
+    {{ form_end(form) }}
+
+</div>

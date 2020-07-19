@@ -38,7 +38,7 @@ class Demande
     private $service;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Utilisateur::class, inversedBy="demandes")
+     * @ORM\ManyToOne(targetEntity=Utilisateur::class)
      */
     private $client;
 

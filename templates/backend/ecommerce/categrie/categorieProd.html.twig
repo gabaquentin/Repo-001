@@ -1,0 +1,82 @@
+{% extends "backend/base/base.html.twig" %}
+
+{% block stylesheets %}
+    <!-- Plugins css -->
+    <link href="{{ asset('backend/libs/nestable2/jquery.nestable.min.css') }}" rel="stylesheet" />
+{% endblock %}
+
+{% block block_starter %} Gestion des catégories {% endblock %}
+{% block body %}
+
+    <div class="row">
+        <div class="col-md-6">
+            <h4 class="header-title">Liste des catégories et sous catégories</h4>
+            <p class="sub-header">
+                Déplacer une catégorie en un clic.
+            </p>
+            {% if categories is not empty %}
+                <div class="custom-dd-empty dd" id="nestable_list">
+                    <ol class="dd-list">
+                        {% for categorie in categories %}
+                            <li class="dd-item dd3-item" data-id="{{ categorie.id }} ">
+                                <div class="dd-handle dd3-handle"></div>
+                                <div class="dd3-content">
+                                    {{ categorie.nomCategorie }}
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                                    <a class="btn btn-icon btn-sm waves-effect waves-light btn-success btn-modif" data-id="{{ categorie.id }}"><span class="spinner-border-sm" role="status" aria-hidden="true"></span> <i style="color: #fff !important ;" class="fas fa-pencil-alt"></i> </a>
+                                    <a class="btn btn-icon btn-sm waves-effect waves-light btn-danger btn-supp" data-id="{{ categorie.id }}"> <span class="spinner-border-sm" role="status" aria-hidden="true"></span> <i style="color: #fff !important ;" class="fas fa-times"></i> </a>
+
+                                </div>
+                                {% if categorie.sousCategories is not empty %}
+                                    <ol class="dd-list">
+                                        {% for sc in categorie.sousCategories %}
+                                            <li class="dd-item dd3-item" data-id="{{ sc.id }}">
+                                                <div class="dd-handle dd3-handle"></div>
+                                                <div class="dd3-content">
+                                                    {{ sc.nomCategorie }}
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <a class="btn btn-icon btn-sm waves-effect waves-light btn-success btn-modif" data-id="{{ categorie.id }}"><span class="spinner-border-sm" role="status" aria-hidden="true"></span> <i style="color: #fff !important ;" class="fas fa-pencil-alt"></i> </a>
+                                                    <a class="btn btn-icon btn-sm waves-effect waves-light btn-danger btn-supp" data-id="{{ categorie.id }}"> <span class="spinner-border-sm" role="status" aria-hidden="true"></span> <i style="color: #fff !important ;" class="fas fa-times"></i> </a>
+                                                </div>
+                                            </li>
+                                        {% endfor %}
+                                    </ol>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ol>
+                </div>
+                <div class=" ml-0 mt-sm-3 mb-sm-3">
+                    <button type="submit" id="btn-save-category" class="btn btn-primary waves-effect waves-lightspinner-border-sm">
+                        <span class="spinner-border-sm" role="status" aria-hidden="true"></span>
+                        Sauvegarder
+                    </button>
+                </div>
+                {% else %}
+                <div class="alert alert-danger"> Aucune catégorie trouvée</div>
+            {% endif %}
+        </div>
+
+            <!-- end col -->
+
+        <div class="col-md-6">
+            {{ render( path('get_categorie_template',{"type":"twig"}) ) }}
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        const GetCategorieRoute = "{{ path('get_categorie_template') }}"
+        const saveCategoriesRoute = "{{ path('save_category') }}"
+    </script>
+    <script src="{{ asset('backend/libs/nestable2/jquery.nestable.min.js') }}"></script>
+
+    <!-- Nestable init-->
+
+    <script src="{{ asset('backend/js/pages/ecommerce/categorie.js') }}"></script>
+{% endblock %}

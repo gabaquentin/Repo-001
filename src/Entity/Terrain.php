@@ -33,7 +33,7 @@ class Terrain
     private $photos;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Utilisateur::class, inversedBy="terrains")
+     * @ORM\ManyToOne(targetEntity=Utilisateur::class)
      */
     private $proprietaire;
 

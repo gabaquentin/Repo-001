@@ -43,12 +43,12 @@ class Commandes
     private $statut;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Utilisateur::class, inversedBy="commandes")
+     * @ORM\ManyToOne(targetEntity=Utilisateur::class)
      */
     private $client;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Utilisateur::class, inversedBy="commnadesLivreur")
+     * @ORM\ManyToOne(targetEntity=Utilisateur::class)
      */
     private $livreur;
 

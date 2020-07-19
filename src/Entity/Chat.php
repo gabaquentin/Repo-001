@@ -25,7 +25,7 @@ class Chat
     private $discussions;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Utilisateur::class, inversedBy="chats")
+     * @ORM\ManyToOne(targetEntity=Utilisateur::class)
      */
     private $utilisateur;
 

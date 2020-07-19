@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\CategorieProdRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -20,23 +21,46 @@ class CategorieProd
     private $id;
 
     /**
+     * @Assert\NotBlank(message="Vous devez donner un nom de catégorie")
      * @ORM\Column(type="string", length=255)
      */
     private $nomCategorie;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255 , nullable=true)
      */
     private $typeCategorie;
 
     /**
-     * @ORM\OneToMany(targetEntity=SousCategorieProd::class, mappedBy="categorie")
+     * @ORM\Column(type="integer", nullable=true)
      */
-    private $sousCategorieProds;
+    private $quantite;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=CategorieProd::class, inversedBy="sousCategories")
+     */
+    private $categorieParent;
+
+    /**
+     * @ORM\OneToMany(targetEntity=CategorieProd::class, mappedBy="categorieParent")
+     */
+    private $sousCategories;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Produit::class, mappedBy="categorieProd")
+     */
+    private $produits;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $ordre;
+
 
     public function __construct()
     {
-        $this->sousCategorieProds = new ArrayCollection();
+        $this->sousCategories = new ArrayCollection();
+        $this->produits = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -68,34 +92,103 @@ class CategorieProd
         return $this;
     }
 
-    /**
-     * @return Collection|SousCategorieProd[]
-     */
-    public function getSousCategorieProds(): Collection
+    public function getQuantite(): ?int
     {
-        return $this->sousCategorieProds;
+        return $this->quantite;
     }
 
-    public function addSousCategorieProd(SousCategorieProd $sousCategorieProd): self
+    public function setQuantite(?int $quantite): self
     {
-        if (!$this->sousCategorieProds->contains($sousCategorieProd)) {
-            $this->sousCategorieProds[] = $sousCategorieProd;
-            $sousCategorieProd->setCategorie($this);
+        $this->quantite = $quantite;
+
+        return $this;
+    }
+
+    public function getCategorieParent(): ?self
+    {
+        return $this->categorieParent;
+    }
+
+    public function setCategorieParent(?self $categorieParent): self
+    {
+        $this->categorieParent = $categorieParent;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|self[]
+     */
+    public function getSousCategories(): Collection
+    {
+        return $this->sousCategories;
+    }
+
+    public function addSousCategory(self $sousCategory): self
+    {
+        if (!$this->sousCategories->contains($sousCategory)) {
+            $this->sousCategories[] = $sousCategory;
+            $sousCategory->setCategorieParent($this);
         }
 
         return $this;
     }
 
-    public function removeSousCategorieProd(SousCategorieProd $sousCategorieProd): self
+    public function removeSousCategory(self $sousCategory): self
     {
-        if ($this->sousCategorieProds->contains($sousCategorieProd)) {
-            $this->sousCategorieProds->removeElement($sousCategorieProd);
+        if ($this->sousCategories->contains($sousCategory)) {
+            $this->sousCategories->removeElement($sousCategory);
             // set the owning side to null (unless already changed)
-            if ($sousCategorieProd->getCategorie() === $this) {
-                $sousCategorieProd->setCategorie(null);
+            if ($sousCategory->getCategorieParent() === $this) {
+                $sousCategory->setCategorieParent(null);
             }
         }
 
         return $this;
     }
+
+    /**
+     * @return Collection|Produit[]
+     */
+    public function getProduits(): Collection
+    {
+        return $this->produits;
+    }
+
+    public function addProduit(Produit $produit): self
+    {
+        if (!$this->produits->contains($produit)) {
+            $this->produits[] = $produit;
+            $produit->setCategorieProd($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProduit(Produit $produit): self
+    {
+        if ($this->produits->contains($produit)) {
+            $this->produits->removeElement($produit);
+            // set the owning side to null (unless already changed)
+            if ($produit->getCategorieProd() === $this) {
+                $produit->setCategorieProd(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getOrdre(): ?int
+    {
+        return $this->ordre;
+    }
+
+    public function setOrdre(int $ordre): self
+    {
+        $this->ordre = $ordre;
+
+        return $this;
+    }
+
+
 }

@@ -29,7 +29,7 @@ class Message
     private $discussion;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Utilisateur::class, inversedBy="receveur")
+     * @ORM\ManyToOne(targetEntity=Utilisateur::class)
      * @ORM\JoinColumn(nullable=false)
      */
     private $envoyeur;

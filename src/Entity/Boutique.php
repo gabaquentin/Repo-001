@@ -33,7 +33,7 @@ class Boutique
     private $emplacement;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Utilisateur::class, inversedBy="boutiques")
+     * @ORM\ManyToOne(targetEntity=Utilisateur::class)
      */
     private $propritaire;
 

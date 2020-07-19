@@ -24,15 +24,6 @@ class Ville
      */
     private $villes;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Produit::class, mappedBy="ville")
-     */
-    private $produits;
-
-    public function __construct()
-    {
-        $this->produits = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -51,34 +42,4 @@ class Ville
         return $this;
     }
 
-    /**
-     * @return Collection|Produit[]
-     */
-    public function getProduits(): Collection
-    {
-        return $this->produits;
-    }
-
-    public function addProduit(Produit $produit): self
-    {
-        if (!$this->produits->contains($produit)) {
-            $this->produits[] = $produit;
-            $produit->setVille($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProduit(Produit $produit): self
-    {
-        if ($this->produits->contains($produit)) {
-            $this->produits->removeElement($produit);
-            // set the owning side to null (unless already changed)
-            if ($produit->getVille() === $this) {
-                $produit->setVille(null);
-            }
-        }
-
-        return $this;
-    }
 }

@@ -28,12 +28,12 @@ class Reclamation
     private $description;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Utilisateur::class, inversedBy="reclamations")
+     * @ORM\ManyToOne(targetEntity=Utilisateur::class)
      */
     private $client;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Utilisateur::class, inversedBy="reclamationsAdmin")
+     * @ORM\ManyToOne(targetEntity=Utilisateur::class)
      */
     private $administrateur;
 

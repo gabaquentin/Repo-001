@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\EXtraInfo;
+use App\Entity\ExtraInfo;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method EXtraInfo|null find($id, $lockMode = null, $lockVersion = null)
- * @method EXtraInfo|null findOneBy(array $criteria, array $orderBy = null)
- * @method EXtraInfo[]    findAll()
- * @method EXtraInfo[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method ExtraInfo|null find($id, $lockMode = null, $lockVersion = null)
+ * @method ExtraInfo|null findOneBy(array $criteria, array $orderBy = null)
+ * @method ExtraInfo[]    findAll()
+ * @method ExtraInfo[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class EXtraInfoRepository extends ServiceEntityRepository
+class ExtraInfoRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, EXtraInfo::class);
+        parent::__construct($registry, ExtraInfo::class);
     }
 
     // /**
-    //  * @return EXtraInfo[] Returns an array of EXtraInfo objects
+    //  * @return ExtraInfo[] Returns an array of ExtraInfo objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class EXtraInfoRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?EXtraInfo
+    public function findOneBySomeField($value): ?ExtraInfo
     {
         return $this->createQueryBuilder('e')
             ->andWhere('e.exampleField = :val')

@@ -6,6 +6,8 @@ use App\Repository\ProduitRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\MaxDepth;
 
 /**
  * @ORM\Entity(repositoryClass=ProduitRepository::class)
@@ -85,39 +87,39 @@ class Produit
     private $nbreConsultations;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Caracteristiques::class, inversedBy="produits")
+     * @ORM\ManyToOne(targetEntity=Caracteristiques::class)
      */
     private $caracteristique;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Dimension::class, inversedBy="produits")
+     * @ORM\ManyToOne(targetEntity=Dimension::class)
      */
     private $dimension;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Date::class, inversedBy="produits")
+     * @ORM\ManyToOne(targetEntity=Date::class)
      */
     private $date;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Utilisateur::class, inversedBy="produits")
+     * @ORM\ManyToOne(targetEntity=Utilisateur::class)
      */
     private $Client;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Ville::class, inversedBy="produits")
+     * @ORM\ManyToOne(targetEntity=Ville::class)
      */
     private $ville;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=SousCategorieProd::class, inversedBy="produits")
-     */
-    private $sousCategorieProd;
 
     /**
      * @ORM\OneToMany(targetEntity=Avis::class, mappedBy="produit")
      */
     private $avis;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=CategorieProd::class, inversedBy="produits")
+     */
+    private $categorieProd;
 
     public function __construct()
     {
@@ -345,18 +347,6 @@ class Produit
         return $this;
     }
 
-    public function getSousCategorieProd(): ?SousCategorieProd
-    {
-        return $this->sousCategorieProd;
-    }
-
-    public function setSousCategorieProd(?SousCategorieProd $sousCategorieProd): self
-    {
-        $this->sousCategorieProd = $sousCategorieProd;
-
-        return $this;
-    }
-
     /**
      * @return Collection|Avis[]
      */
@@ -384,6 +374,18 @@ class Produit
                 $avi->setProduit(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCategorieProd(): ?CategorieProd
+    {
+        return $this->categorieProd;
+    }
+
+    public function setCategorieProd(?CategorieProd $categorieProd): self
+    {
+        $this->categorieProd = $categorieProd;
 
         return $this;
     }

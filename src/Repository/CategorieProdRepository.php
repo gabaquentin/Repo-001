@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\CategorieProd;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -17,6 +18,30 @@ class CategorieProdRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, CategorieProd::class);
+    }
+
+    /**
+     * @return CategorieProd[] Returns an array of CategorieProd objects
+     */
+    public function findAllCategories()
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.categorieParent is null')
+            ->orderBy('c.ordre', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    /**
+     * @return QueryBuilder
+     */
+    public function findAllCategoriesForm()
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.categorieParent is null')
+            ->orderBy('c.ordre', 'ASC')
+            ;
     }
 
     // /**

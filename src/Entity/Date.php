@@ -29,16 +29,6 @@ class Date
      */
     private $dateModification;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Produit::class, mappedBy="date")
-     */
-    private $produits;
-
-    public function __construct()
-    {
-        $this->produits = new ArrayCollection();
-    }
-
     public function getId(): ?int
     {
         return $this->id;
@@ -68,34 +58,4 @@ class Date
         return $this;
     }
 
-    /**
-     * @return Collection|Produit[]
-     */
-    public function getProduits(): Collection
-    {
-        return $this->produits;
-    }
-
-    public function addProduit(Produit $produit): self
-    {
-        if (!$this->produits->contains($produit)) {
-            $this->produits[] = $produit;
-            $produit->setDate($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProduit(Produit $produit): self
-    {
-        if ($this->produits->contains($produit)) {
-            $this->produits->removeElement($produit);
-            // set the owning side to null (unless already changed)
-            if ($produit->getDate() === $this) {
-                $produit->setDate(null);
-            }
-        }
-
-        return $this;
-    }
 }
