@@ -7,7 +7,6 @@
 
 {% block block_starter %} Gestion des catégories {% endblock %}
 {% block body %}
-
     <div class="row">
         <div class="col-md-6">
             <h4 class="header-title">Liste des catégories et sous catégories</h4>
@@ -38,8 +37,8 @@
                                                     {{ sc.nomCategorie }}
                                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                    <a class="btn btn-icon btn-sm waves-effect waves-light btn-success btn-modif" data-id="{{ categorie.id }}"><span class="spinner-border-sm" role="status" aria-hidden="true"></span> <i style="color: #fff !important ;" class="fas fa-pencil-alt"></i> </a>
-                                                    <a class="btn btn-icon btn-sm waves-effect waves-light btn-danger btn-supp" data-id="{{ categorie.id }}"> <span class="spinner-border-sm" role="status" aria-hidden="true"></span> <i style="color: #fff !important ;" class="fas fa-times"></i> </a>
+                                                    <a class="btn btn-icon btn-sm waves-effect waves-light btn-success btn-modif" data-id="{{ sc.id }}"><span class="spinner-border-sm" role="status" aria-hidden="true"></span> <i style="color: #fff !important ;" class="fas fa-pencil-alt"></i> </a>
+                                                    <a class="btn btn-icon btn-sm waves-effect waves-light btn-danger btn-supp" data-id="{{ sc.id }}"> <span class="spinner-border-sm" role="status" aria-hidden="true"></span> <i style="color: #fff !important ;" class="fas fa-times"></i> </a>
                                                 </div>
                                             </li>
                                         {% endfor %}

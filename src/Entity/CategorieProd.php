@@ -38,6 +38,7 @@ class CategorieProd
 
     /**
      * @ORM\ManyToOne(targetEntity=CategorieProd::class, inversedBy="sousCategories")
+     * @ORM\JoinColumn(nullable=true)
      */
     private $categorieParent;
 
@@ -189,6 +190,14 @@ class CategorieProd
 
         return $this;
     }
+
+    /**
+     * @return string
+     */
+    /*public function __toString()
+    {
+        return $this->getNomCategorie();
+    }*/
 
 
 }

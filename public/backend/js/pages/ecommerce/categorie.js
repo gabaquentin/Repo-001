@@ -15,15 +15,15 @@ $(document).ready(function () {
     })
     $(document).on("click","#btn-reset",function (e) {
         e.preventDefault()
-        ajaxGetCategory(0,contentForm,btnReset);
+        ajaxGetCategory(0,contentForm,$("#btn-reset"));
     })
     $(document).on("click","#btn-submit",function (e) {
         e.preventDefault()
-        ajaxSaveCategory($("#form-category"),btnSauv)
+        ajaxSaveCategory($("#form-category"),$("#btn-submit"))
     })
     btnSaveCategory.on("click",function (e) {
         e.preventDefault()
-        ajaxSaveCategoryDispo($("#nestable_list").nestable("serialize"),$(this));
+        ajaxSaveCategoryDispo($("#nestable_list").nestable("serialize"),$(this),contentForm);
     })
 
 })
@@ -50,7 +50,7 @@ function ajaxSaveCategory(form,button)
     });
 }
 
-function ajaxSaveCategoryDispo(data,button)
+function ajaxSaveCategoryDispo(data,button,formContent)
 {
     $.ajax({
         type: "POST",
@@ -61,8 +61,10 @@ function ajaxSaveCategoryDispo(data,button)
             disableButton(button)
         },
         success: (data) => {
-            displayMessage(data);
-            console.log(data);
+            displayMessage(data)
+            formContent.fadeOut()
+            formContent.html(data["form"]["content"])
+            formContent.fadeIn()
             ableButton(button)
         },
         error: () => {

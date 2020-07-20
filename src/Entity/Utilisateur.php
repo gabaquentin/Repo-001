@@ -40,6 +40,12 @@ class Utilisateur
      */
     private $infoUser;
 
+    /**
+     * @var ExtraInfo
+     * @ORM\OneToOne(targetEntity=ExtraInfo::class, cascade={"persist", "remove"})
+     */
+    private $ExtraInfo;
+
 
     public function getId(): ?int
     {
@@ -99,6 +105,25 @@ class Utilisateur
         $this->infoUser = $infoUser;
         return $this;
     }
+
+    /**
+     * @return ExtraInfo
+     */
+    public function getExtraInfo()
+    {
+        return $this->ExtraInfo;
+    }
+
+    /**
+     * @param ExtraInfo $ExtraInfo
+     * @return Utilisateur
+     */
+    public function setExtraInfo(ExtraInfo $ExtraInfo)
+    {
+        $this->ExtraInfo = $ExtraInfo;
+        return $this;
+    }
+
 
 
 }

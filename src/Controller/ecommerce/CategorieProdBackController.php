@@ -5,7 +5,6 @@ namespace App\Controller\ecommerce;
 use App\Entity\CategorieProd;
 use App\Form\ecommerce\CategorieProdType;
 use App\Repository\CategorieProdRepository;
-use App\Services\ecommerce\Template;
 use App\Services\ecommerce\Tools;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -55,6 +54,13 @@ class CategorieProdBackController extends AbstractController
         $manager = $this->getDoctrine()->getManager();
         $repo = $manager->getRepository(CategorieProd::class);
 
+        if($category==null)
+            $category = new CategorieProd();
+
+        $form = $this->createForm(CategorieProdType::class, $category,[
+            'action'=>$this->generateUrl("save_category",["category"=>($category==null)?$category->getId():null]),
+        ]);
+
         /**
          *  modifications sur la dispostion
          */
@@ -91,17 +97,17 @@ class CategorieProdBackController extends AbstractController
             }
             $manager->flush();
             $data["success"] = ["Catégories modifiées avec succès"];
+            $data['form'] = $this->render('backend/ecommerce/categrie/formulaire.html.twig', [
+                'form'=> $form->createView(),
+            ]);
             return $this->json($data);
         }
         /**
          *  ajout et modifiation de nouvelles catégories
          */
 
-        $category = ($category==null)??new CategorieProd();
-        $form = $this->createForm(CategorieProdType::class, $category,[
-            'action'=>$this->generateUrl("save_category",["category"=>($category==null)?$category->getId():""])
-        ]);
         $form->handleRequest($request);
+
         if($form->isSubmitted() && $form->isValid())
         {
             if($category->getId()==null)
@@ -137,7 +143,7 @@ class CategorieProdBackController extends AbstractController
             $category = new CategorieProd();
 
         $form = $this->createForm(CategorieProdType::class, $category,[
-            'action'=>$this->generateUrl("save_category",["category"=>$category->getId()])
+            'action'=>$this->generateUrl("save_category",["category"=>$category->getId()]),
         ]);
 
         if($type == "twig")

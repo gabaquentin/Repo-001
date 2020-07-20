@@ -15,29 +15,31 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class CategorieProdType extends AbstractType
 {
     private $tools;
-    public function __construct(Tools $tools)
+    private $repo;
+    public function __construct(Tools $tools,CategorieProdRepository $catRepository)
     {
         $this->tools = $tools;
+        $this->repo = $catRepository;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $formOption = [
             'class'=>CategorieProd::class,
-            'query_builder' => function (CategorieProdRepository $catRepository)  {
-                return $catRepository->findAllCategoriesForm();
-            },
+            'empty_data' => 'Vide',
             'choice_label' => function (CategorieProd $category) {
                 return $category->getNomCategorie();
-            }
+            },
+            'required'      => false,
+            'choices' => $this->repo->findAllCategories(),
         ];
         $builder
             ->setAction($options["action"])
             ->add('nomCategorie')
             ->add('typeCategorie',ChoiceType::class, [
-                'choices'  =>$this->tools->getTypeProduit()
+                'choices'  =>$this->tools->getTypeProduit(),
             ])
-            ->add('categorieParent',EntityType::class, $formOption)
+            ->add('categorieParent',EntityType::class,$formOption)
         ;
     }
 
