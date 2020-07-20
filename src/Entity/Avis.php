@@ -43,7 +43,7 @@ class Avis
     private $dislike;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Utilisateur::class, inversedBy="avis")
+     * @ORM\ManyToOne(targetEntity=Utilisateur::class)
      */
     private $client;
 

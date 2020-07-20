@@ -38,7 +38,7 @@ class CategorieProd
 
     /**
      * @ORM\ManyToOne(targetEntity=CategorieProd::class, inversedBy="sousCategories")
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
      */
     private $categorieParent;
 

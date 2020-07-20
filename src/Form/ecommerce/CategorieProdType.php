@@ -26,11 +26,10 @@ class CategorieProdType extends AbstractType
     {
         $formOption = [
             'class'=>CategorieProd::class,
-            'empty_data' => 'Vide',
             'choice_label' => function (CategorieProd $category) {
                 return $category->getNomCategorie();
             },
-            'required'      => false,
+            'required'=> false,
             'choices' => $this->repo->findAllCategories(),
         ];
         $builder

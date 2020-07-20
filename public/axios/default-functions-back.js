@@ -1,7 +1,7 @@
 const timeShow = 5e3;
 
 function displayMessage(data) {
-    if(data['errors'])
+    if(data['errors'] && data['errors'].length!==0)
     {
         let errors = [];
         for(let titre in data['errors'])
@@ -12,7 +12,7 @@ function displayMessage(data) {
             $.NotificationApp.send("Erreur", errors, "top-right", "#bf441d", "error", timeShow, 1, "slide");
         }, (500));
     }
-    if(data['success'])
+    if(data['success'] && data['success'].length!==0)
     {
         let succes = []
         for(let i in data['success'])
