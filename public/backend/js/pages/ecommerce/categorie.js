@@ -25,6 +25,15 @@ $(document).ready(function () {
         e.preventDefault()
         ajaxSaveCategoryDispo($("#nestable_list").nestable("serialize"),$(this),contentForm);
     })
+    btnSupp.on("click",function (e) {
+        e.preventDefault()
+
+        Swal.fire({ title: "Etes vous sûre?", text: "Cette action est irreversible", type: "warning", showCancelButton: !0, confirmButtonColor: "#3085d6", cancelButtonColor: "#dd3333", confirmButtonText: "Oui supprimer",cancelButtonText: "Annuler" }).then(
+            (t)=> {
+                t.value && ajaxSuppressionCat($(this).attr("data-id"),$(this))
+            }
+        )
+    })
 
 })
 
@@ -40,7 +49,11 @@ function ajaxSaveCategory(form,button)
         },
         success: (data) => {
             displayMessage(data);
-            console.log(data);
+            if(data["route"])
+                Swal.fire("Succès", "La catégorie a été sauvegardée", "success").then((t)=>{
+                    document.location.href = data["route"];
+                });
+
             ableButton(button)
         },
         error: () => {
@@ -88,6 +101,30 @@ function ajaxGetCategory(idCategory,formulaire,button) {
             formulaire.fadeOut()
             formulaire.html(data)
             formulaire.fadeIn()
+            ableButton(button)
+        },
+        error: () => {
+            messageErrorServer()
+            ableButton(button)
+        }
+    });
+}
+
+function ajaxSuppressionCat(idCategorie,button) {
+    $.ajax({
+        type: "POST",
+        url: DeteleteCategorieRoute,
+        data : {"idCategory" : idCategorie},
+        dataType: "JSON",
+        beforeSend : () => {
+            disableButton(button)
+        },
+        success: (data) => {
+            displayMessage(data);
+            if(data["errors"].length === 0)
+                Swal.fire("Suppression!", "La catégorie a été supprimée", "success").then((t)=>{
+                    document.location.reload();
+                });
             ableButton(button)
         },
         error: () => {

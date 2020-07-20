@@ -55,7 +55,7 @@ class CategorieProdBackController extends AbstractController
         $repo = $manager->getRepository(CategorieProd::class);
 
         if($category==null)
-            $category = new CategorieProd();
+            $category = (new CategorieProd())->setOrdre(0);
 
         $form = $this->createForm(CategorieProdType::class, $category,[
             'action'=>$this->generateUrl("save_category",["category"=>($category==null)?$category->getId():null]),
@@ -110,17 +110,13 @@ class CategorieProdBackController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid())
         {
-            if($category->getId()==null)
-                $category->setOrdre(0);
-
             $manager->persist($category);
             $manager->flush();
         }
         else
             return $this->json(["errors"=>$tools->getFormErrorsTree($form)]);
 
-
-        return $this->redirectToRoute("category_prod");
+        return $this->json(["route"=>$this->generateUrl("category_prod")]);
     }
 
     /**
@@ -154,6 +150,36 @@ class CategorieProdBackController extends AbstractController
         return $this->json($this->renderView('backend/ecommerce/categrie/formulaire.html.twig', [
             'form'=> $form->createView(),
         ]));
+    }
+
+    /**
+     * @Route("/delete_category", name="delete_category")
+     * @param Request $request
+     * @param CategorieProdRepository $repository
+     * @return JsonResponse
+     */
+    public function DeleteCategorie(Request $request, CategorieProdRepository $repository)
+    {
+        $data = [
+            "errors" => []
+        ];
+        $idCategory = $request->get("idCategory", null);
+        if (!$idCategory)
+            die();
+        $category = $repository->findOneBy(["id" => $idCategory]);
+        if (!$category)
+            die();
+
+        if(!$category->getProduits()->isEmpty())
+            $data["errors"] = ["vous devez supprimer tous les produits de cette catégorie"];
+        else
+        {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($category);
+            $em->flush();
+        }
+
+        return $this->json($data);
     }
 
     /**
