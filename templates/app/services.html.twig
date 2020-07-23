@@ -1,4 +1,4 @@
-{% extends '/frontend/ecommerce/base.html.twig' %}
+{% extends '/frontend/services/base.html.twig' %}
 
 {% block title %}Services{% endblock %}
 
@@ -31,7 +31,7 @@
             <h1>E-SERVICES</h1>
             <h2>Trouvez la main d'oeuvre qu'il vous faut
             </h2>
-            <a href="shop.html" class="button big-button primary-button upper-button rounded raised">Entrer</a>
+            <a href="{{path("services_accueil")}}" class="button big-button primary-button upper-button rounded raised">Entrer</a>
         </div>
 
         <!-- Fullscreen Slick SLider -->

@@ -8,7 +8,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
 
     <title> {% block title %}Welcome!{% endblock %}</title>
-    <link rel="icon" type="image/png" href="{{ asset('frontend/img/favicon.png') }}" />
+    <link rel="icon" type="image/png" href="{{ asset('frontend/img/favicon.png') }}"/>
 
     <!--Core CSS -->
     <link rel="stylesheet" href="{{ asset('frontend/css/app.css') }}">
@@ -35,29 +35,29 @@
 <!-- /Content Wrapper -->
 
 <!-- Concatenated plugins -->
-<script src="{{ asset('frontend/js/app.js') }}"></script>
+{% block javascripts %}
+    <script src="{{ asset('frontend/js/app.js') }}"></script>
 
-<!--Data-->
-<script src="{{ asset('frontend/js/_data-wishlist.js') }}"></script>
-<script src="{{ asset('frontend/js/_data-addresses.js') }}"></script>
-<script src="{{ asset('frontend/js/_data-orders.js') }}"></script>
+    <!--Data-->
+    <script src="{{ asset('frontend/js/_data-wishlist.js') }}"></script>
+    <script src="{{ asset('frontend/js/_data-addresses.js') }}"></script>
+    <script src="{{ asset('frontend/js/_data-orders.js') }}"></script>
 
-<!-- Nephos js -->
-<script src="{{ asset('frontend/js/functions.js') }}"></script>
-<script src="{{ asset('frontend/js/nephos.js') }}"></script>
-<script src="{{ asset('frontend/js/authentication.js') }}"></script>
-<script src="{{ asset('frontend/js/cart.js') }}"></script>
+    <!-- Nephos js -->
+    <script src="{{ asset('frontend/js/functions.js') }}"></script>
+    <script src="{{ asset('frontend/js/nephos.js') }}"></script>
+    <script src="{{ asset('frontend/js/authentication.js') }}"></script>
+    <script src="{{ asset('frontend/js/cart.js') }}"></script>
 
-<!--Pages-->
-<script src="{{ asset('frontend/js/account.js') }}"></script>
-<script src="{{ asset('frontend/js/wishlist.js') }}"></script>
-<script src="{{ asset('frontend/js/product.js') }}"></script>
-<script src="{{ asset('frontend/js/orders.js') }}"></script>
-<script src="{{ asset('frontend/js/order.js') }}"></script>
-<script src="{{ asset('frontend/js/checkout.js') }}"></script>
-<script src="{{ asset('frontend/js/search.js') }}"></script>
-
-
+    <!--Pages-->
+    <script src="{{ asset('frontend/js/account.js') }}"></script>
+    <script src="{{ asset('frontend/js/wishlist.js') }}"></script>
+    <script src="{{ asset('frontend/js/product.js') }}"></script>
+    <script src="{{ asset('frontend/js/orders.js') }}"></script>
+    <script src="{{ asset('frontend/js/order.js') }}"></script>
+    <script src="{{ asset('frontend/js/checkout.js') }}"></script>
+    <script src="{{ asset('frontend/js/search.js') }}"></script>
+{% endblock %}
 
 </body>
 
