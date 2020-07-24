@@ -40,14 +40,6 @@ class AppController extends AbstractController
     }
 
     /**
-     * @Route("/services/accueil",name="services_accueil")
-     */
-    public function accueil_services()
-    {
-        return $this->render("frontend/services/accueil.html.twig");
-    }
-
-    /**
      * @Route("/terrain", name="app_terrain")
      */
     public function indexTerrain()
