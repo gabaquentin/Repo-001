@@ -1,0 +1,37 @@
+{% extends "backend/base/base.html.twig" %}
+{% block title %}Nouveau Service{% endblock %}
+{% block body %}
+    <!-- categorie grid -->
+    <div class="columns is-product-grid is-multiline">
+        <!-- Categorie -->
+        <div class="column is-3">
+            <div class="flat-card product-container" data-product-id="1" data-product-category="House">
+                <!-- Product zoomable image -->
+                <div class="image">
+                    <img src="http://via.placeholder.com/500x500/ffffff/999999" data-demo-src="assets/img/products/red-seat.png" alt="">
+                </div>
+                <!-- Product meta -->
+                <div class="product-info has-text-centered">
+                    <a class="product-details-link" href="product.html">
+                        <h3 class="product-name">Red seat</h3>
+                    </a>
+                    <p class="product-description">Lorem ipsum sit dolor amet</p>
+                    <p class="product-price">
+                        <span>45.00</span>
+                    </p>
+                </div>
+                <!-- Product actions -->
+                <div class="actions">
+                    <div class="add">
+                        <i data-feather="shopping-cart" class="has-simple-popover" data-content="Add to Cart" data-placement="top"></i>
+                    </div>
+                    <div class="like modal-trigger" data-modal="add-to-wishlist-modal">
+                        <i data-feather="heart" class="has-simple-popover" data-content="Add to Wishlist" data-placement="top"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
