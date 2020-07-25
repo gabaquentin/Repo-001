@@ -16,4 +16,14 @@ class ServicesBackController extends AbstractController
             'controller_name' => 'ServicesBackController',
         ]);
     }
+
+    /**
+     * @Route("/back/services", name="accueil_services")
+     */
+    public function accueil_services()
+    {
+        return $this->render('backend/eservices/accueil.html.twig', [
+            'controller_name' => 'ServicesBackController',
+        ]);
+    }
 }
