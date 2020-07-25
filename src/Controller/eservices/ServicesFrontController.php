@@ -12,6 +12,6 @@ class ServicesFrontController extends AbstractController
      */
     public function accueil_services()
     {
-        return $this->render("frontend/services/accueil.html.twig");
+        return $this->render("frontend/eservices/accueil.html.twig");
     }
 }
