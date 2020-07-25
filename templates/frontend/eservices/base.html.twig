@@ -14,13 +14,15 @@
     <link rel="stylesheet" href="{{ asset('frontend/css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/css/bulma.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/css/main.css') }}">
+    <link rel="stylesheet" href="{{ asset('frontend/css/demo.css') }}">
+
 
     <!-- Fonts -->
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Alegreya+Sans+SC:100,400" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,500" rel="stylesheet">
-
+    <link rel="stylesheet" href="http://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css">
     {% block stylesheets %}{% endblock %}
 
 </head>
@@ -36,6 +38,9 @@
 
 <!-- Concatenated plugins -->
 {% block javascripts %}
+    <script
+
+
     <script src="{{ asset('frontend/js/app.js') }}"></script>
 
     <!--Data-->
@@ -57,6 +62,7 @@
     <script src="{{ asset('frontend/js/order.js') }}"></script>
     <script src="{{ asset('frontend/js/checkout.js') }}"></script>
     <script src="{{ asset('frontend/js/search.js') }}"></script>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 {% endblock %}
 
 </body>

@@ -1,5 +1,4 @@
 "use strict"; //Initialize demo modal
-
 function initInfoModal() {
   if (localStorage.getItem('update') === undefined || localStorage.getItem('update') === null) {
     setTimeout(function () {
@@ -61,7 +60,7 @@ $(document).ready(function () {
 
 
   var typed = new Typed('.typed-hero', {
-    strings: ["Hello, Iam Nephos ^2000", "Premium UI Kit ^2000", "For Ecommerce ^2000"],
+    strings: ["Hello", "Bienvenue chez Think-Up", "Service à Domicile"],
     typeSpeed: 45,
     loop: true,
     loopCount: Infinity,
