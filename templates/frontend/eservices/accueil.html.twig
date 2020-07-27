@@ -1,4 +1,7 @@
 {% extends "/frontend/eservices/base.html.twig" %}
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('frontend/css/demo.css') }}">
+{% endblock %}
 {% block body %}
     <div id="info-modal" class="info-modal">
         <div class="info-card">
@@ -38,25 +41,18 @@
         </div>
     </div>
     <!-- Pageloader -->
-    <div class="pageloader is-full is-demo"></div>
+    <div class="pageloader is-full is-demo "></div>
     <div class="infraloader is-full is-active"></div>
     <section class="hero is-fullheight is-demo">
         <div class="hero-body">
             <canvas id="canvas"></canvas>
             <div class="container has-text-centered">
                 <div class="columns is-vcentered">
-                    <div class="column is-6 service_slider">
+                    <div class="column is-6 ">
                             <figure class="image">
                                 <img src="{{ asset('frontend/img/ui/nephos.png') }}" alt="">
+                            </figure>
 
-                            </figure>
-                            <figure class="image">
-                                <img src="{{ asset('frontend/img/ui/nephos.png') }}" alt="">
-
-                            </figure>
-                            <figure class="image">
-                                <img src="{{ asset('frontend/img/ui/nephos.png') }}" alt="">
-                            </figure>
                     </div>
                     <div class="column is-6">
                         <h1 class="title is-1 is-light"><span class="typed-hero"></span></h1>
@@ -623,8 +619,152 @@
             </div>
         </div>
     </section>
-{#TODO affichage des statistiques#}
+    <section class="section is-medium is-grey">
+        <div class="container">
+            <div class="title-wrapper has-text-centered">
+                <div class="title is-3 is-spaced">
+                    Des Clients Satisfaits
+                </div>
+                <div class="subtitle is-5 is-muted">Partout au Cameroun</div>
+                <img class="filigrane" src="{{ asset('frontend/img/logo/nephos-greyscale.svg') }}">
+            </div>
+
+            <div class="content-wrapper">
+                <div class="columns has-text-centered spaced-boxes">
+
+                    <div class="column is-hidden-mobile"></div>
+
+                    <div class="column is-3">
+                        <div class="icon-box">
+                            <div class="icon-wrapper">
+                                <i data-feather="code"></i>
+                            </div>
+                            <div class="box-content">
+                                <div class="box-title">
+                                    Plus de 95%
+                                </div>
+                                <div class="box-text">
+                                    Clients Satisfaits
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="column is-3">
+                        <div class="icon-box">
+                            <div class="icon-wrapper">
+                                <i data-feather="smartphone"></i>
+                            </div>
+                            <div class="box-content">
+                                <div class="box-title">
+                                    87 500
+                                </div>
+                                <div class="box-text">
+                                    Avis 5 étoiles laissés sur le site
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="column is-3">
+                        <div class="icon-box">
+                            <div class="icon-wrapper">
+                                <i data-feather="shopping-cart"></i>
+                            </div>
+                            <div class="box-content">
+                                <div class="box-title">
+                                    4.89/5
+                                </div>
+                                <div class="box-text">
+                                    note moyenne des prestataires
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="column is-hidden-mobile"></div>
+
+                </div>
+                <div class="cta-wrapper has-text-centered is-title-reveal">
+                    <a href="https://1.envato.market/c/128816/275988/4415?subId1=theme&subId2=banner&subId3=https%3A%2F%2Fthemeforest.net%2Fitem%2Fnephos-modern-bulma-ecommerce-app-and-dashboard%2F21724192&u=https%3A%2F%2Fthemeforest.net%2Fitem%2Fnephos-modern-bulma-ecommerce-app-and-dashboard%2F21724192" target="_blank" class="button feather-button primary-button is-bold raised">Buy Now</a>
+                </div>
+            </div>
+        </div>
+    </section>
 {# TODO  affichage des feedbacks des clients satisfaits#}
+    <section class="section is-medium ">
+        <div class="container">
+            <div class="title-wrapper has-text-centered">
+                <div class="title is-3 is-spaced">
+                    Les derniers avis de nos clients
+                </div>
+                <div class="subtitle is-5 is-muted">Partout au Cameroun</div>
+                <img class="filigrane" src="{{ asset('frontend/img/logo/nephos-greyscale.svg') }}">
+            </div>
+
+            <div class="content-wrapper">
+                <div class="columns has-text-centered spaced-boxes">
+
+                    <div class="column is-hidden-mobile"></div>
+
+                    <div class="column is-3">
+                        <div class="icon-box">
+                            <div class="icon-wrapper">
+                                <i data-feather="code"></i>
+                            </div>
+                            <div class="box-content">
+                                <div class="box-title">
+                                    Plus de 95%
+                                </div>
+                                <div class="box-text">
+                                    Clients Satisfaits
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="column is-3">
+                        <div class="icon-box">
+                            <div class="icon-wrapper">
+                                <i data-feather="smartphone"></i>
+                            </div>
+                            <div class="box-content">
+                                <div class="box-title">
+                                    87 500
+                                </div>
+                                <div class="box-text">
+                                    Avis 5 étoiles laissés sur le site
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="column is-3">
+                        <div class="icon-box">
+                            <div class="icon-wrapper">
+                                <i data-feather="shopping-cart"></i>
+                            </div>
+                            <div class="box-content">
+                                <div class="box-title">
+                                    4.89/5
+                                </div>
+                                <div class="box-text">
+                                    note moyenne des prestataires
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="column is-hidden-mobile"></div>
+
+                </div>
+                <div class="cta-wrapper has-text-centered is-title-reveal">
+                    <a href="https://1.envato.market/c/128816/275988/4415?subId1=theme&subId2=banner&subId3=https%3A%2F%2Fthemeforest.net%2Fitem%2Fnephos-modern-bulma-ecommerce-app-and-dashboard%2F21724192&u=https%3A%2F%2Fthemeforest.net%2Fitem%2Fnephos-modern-bulma-ecommerce-app-and-dashboard%2F21724192" target="_blank" class="button feather-button primary-button is-bold raised">Buy Now</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <section class="section is-medium is-grey">
         <div class="container">
             <div class="title-wrapper has-text-centered">
@@ -770,8 +910,8 @@
                 </div>
 
                 <div class="cta-wrapper has-text-centered is-title-reveal">
-                    <a href="https://1.envato.market/c/128816/275988/4415?subId1=theme&subId2=banner&subId3=https%3A%2F%2Fthemeforest.net%2Fitem%2Fnephos-modern-bulma-ecommerce-app-and-dashboard%2F21724192&u=https%3A%2F%2Fthemeforest.net%2Fitem%2Fnephos-modern-bulma-ecommerce-app-and-dashboard%2F21724192"
-                       target="_blank" class="button feather-button primary-button is-bold raised">Buy Nephos</a>
+                    <button class="button feather-button primary-button is-bold raised video">VIDEO</button>
+
                 </div>
             </div>
         </div>
