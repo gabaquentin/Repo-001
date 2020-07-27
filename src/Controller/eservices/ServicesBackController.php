@@ -7,15 +7,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ServicesBackController extends AbstractController
 {
-    /**
-     * @Route("/services/back", name="services_back")
-     */
-    public function index()
-    {
-        return $this->render('services_back/index.html.twig', [
-            'controller_name' => 'ServicesBackController',
-        ]);
-    }
 
     /**
      * @Route("/back/services", name="accueil_services")
@@ -23,6 +14,16 @@ class ServicesBackController extends AbstractController
     public function accueil_services()
     {
         return $this->render('backend/eservices/accueil.html.twig', [
+            'controller_name' => 'ServicesBackController',
+        ]);
+    }
+
+    /**
+     * @Route("/back/services/categorie", name="categorie_services")
+     */
+    public function categorie_detail()
+    {
+        return $this->render('backend/eservices/categorie_detail.html.twig', [
             'controller_name' => 'ServicesBackController',
         ]);
     }
