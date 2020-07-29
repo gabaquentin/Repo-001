@@ -1,0 +1,451 @@
+{% extends "/frontend/eservices/base.html.twig" %}
+{# Page dédié au client dans laquelle il voit ses demandes et les réponses à ses demandes#}
+{# TODO afficher la liste des catégories et pour chaque catégorie affiher la liste des demandes  #}
+{# TODO répondre à une démande #}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('frontend/css/demo.css') }}">
+{% endblock %}
+{% block body %}
+    <section id="demos" class="section is-medium is-grey">
+        <div class="container">
+            <div class="title-wrapper has-text-centered">
+                <div class="title is-3 is-spaced">
+                    Toutes les Catégories
+                </div>
+                <div class="subtitle is-5 is-muted">A Votre Disposition</div>
+                <img class="filigrane" src="{{ asset('frontend/img/logo/nephos-greyscale.svg') }}" alt="">
+            </div>
+
+            <div class="content-wrapper">
+                <div class="columns is-multiline has-text-centered">
+                    <div class="column is-6">
+                        <img src="{{ asset('frontend/img/ui/app/nephos.png') }}" alt="">
+
+                        <!-- Animated Link -->
+                        <div class="link-wrap">
+                            <div class="stroke-wrapper">
+                                <a class="animated-button" href="home.html" target="_blank">
+                                    <svg height="40" width="210" xmlns="http://www.w3.org/2000/svg">
+                                        <rect class="shape" height="40" width="210"></rect>
+                                    </svg>
+                                    <div class="text">Slider Homepage</div>
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="column is-6">
+                        <img src="{{ asset('frontend/img/ui/app/nephos-alt.png') }}" alt="">
+
+                        <!-- Animated Link -->
+                        <div class="link-wrap">
+                            <div class="stroke-wrapper">
+                                <a class="animated-button" href="home-alt.html" target="_blank">
+                                    <svg height="40" width="210" xmlns="http://www.w3.org/2000/svg">
+                                        <rect class="shape" height="40" width="210"></rect>
+                                    </svg>
+                                    <div class="text">Image Homepage</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <img src="{{ asset('frontend/img/ui/app/categories.png') }}" alt="">
+
+                        <!-- Animated Link -->
+                        <div class="link-wrap">
+                            <div class="stroke-wrapper">
+                                <a class="animated-button" href="shop.html" target="_blank">
+                                    <svg height="40" width="210" xmlns="http://www.w3.org/2000/svg">
+                                        <rect class="shape" height="40" width="210"></rect>
+                                    </svg>
+                                    <div class="text">Shop Categories</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <img src="{{ asset('frontend/img/ui/app/auth.png') }}" alt="">
+
+                        <!-- Animated Link -->
+                        <div class="link-wrap">
+                            <div class="stroke-wrapper">
+                                <a class="animated-button" href="authentication.html" target="_blank">
+                                    <svg height="40" width="210" xmlns="http://www.w3.org/2000/svg">
+                                        <rect class="shape" height="40" width="210"></rect>
+                                    </svg>
+                                    <div class="text">Authentication</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <img src="{{ asset('frontend/img/ui/app/products-grid.png') }}" alt="">
+
+                        <!-- Animated Link -->
+                        <div class="link-wrap">
+                            <div class="stroke-wrapper">
+                                <a class="animated-button" href="products.html" target="_blank">
+                                    <svg height="40" width="210" xmlns="http://www.w3.org/2000/svg">
+                                        <rect class="shape" height="40" width="210"></rect>
+                                    </svg>
+                                    <div class="text">Products Grid</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <img src="{{ asset('frontend/img/ui/app/products-list.png') }}" alt="">
+
+                        <!-- Animated Link -->
+                        <div class="link-wrap">
+                            <div class="stroke-wrapper">
+                                <a class="animated-button" href="products-list.html" target="_blank">
+                                    <svg height="40" width="210" xmlns="http://www.w3.org/2000/svg">
+                                        <rect class="shape" height="40" width="210"></rect>
+                                    </svg>
+                                    <div class="text">Products List</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <img src="{{ asset('frontend/img/ui/app/single-product-carousel.png') }}" alt="">
+
+                        <!-- Animated Link -->
+                        <div class="link-wrap">
+                            <div class="stroke-wrapper">
+                                <a class="animated-button" href="product.html" target="_blank">
+                                    <svg height="40" width="210" xmlns="http://www.w3.org/2000/svg">
+                                        <rect class="shape" height="40" width="210"></rect>
+                                    </svg>
+                                    <div class="text">Product Details</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <img src="{{ asset('frontend/img/ui/app/account.png') }}" alt="">
+
+                        <!-- Animated Link -->
+                        <div class="link-wrap">
+                            <div class="stroke-wrapper">
+                                <a class="animated-button" href="account.html" target="_blank">
+                                    <svg height="40" width="210" xmlns="http://www.w3.org/2000/svg">
+                                        <rect class="shape" height="40" width="210"></rect>
+                                    </svg>
+                                    <div class="text">Account</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <img src="{{ asset('frontend/img/ui/app/account-edit.png') }}" alt="">
+
+                        <!-- Animated Link -->
+                        <div class="link-wrap">
+                            <div class="stroke-wrapper">
+                                <a class="animated-button" href="account-edit.html" target="_blank">
+                                    <svg height="40" width="210" xmlns="http://www.w3.org/2000/svg">
+                                        <rect class="shape" height="40" width="210"></rect>
+                                    </svg>
+                                    <div class="text">Edit Account</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <img src="{{ asset('frontend/img/ui/app/account-placeholder.png') }}" alt="">
+
+                        <!-- Animated Link -->
+                        <div class="link-wrap">
+                            <div class="stroke-wrapper">
+                                <a class="animated-button" href="account-placeholder.html" target="_blank">
+                                    <svg height="40" width="210" xmlns="http://www.w3.org/2000/svg">
+                                        <rect class="shape" height="40" width="210"></rect>
+                                    </svg>
+                                    <div class="text">Account Empty</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <img src="{{ asset('frontend/img/ui/app/wishlist.png') }}" alt="">
+
+                        <!-- Animated Link -->
+                        <div class="link-wrap">
+                            <div class="stroke-wrapper">
+                                <a class="animated-button" href="wishlist.html" target="_blank">
+                                    <svg height="40" width="210" xmlns="http://www.w3.org/2000/svg">
+                                        <rect class="shape" height="40" width="210"></rect>
+                                    </svg>
+                                    <div class="text">Wishlist</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <img src="{{ asset('frontend/img/ui/app/wishlist-empty.png') }}" alt="">
+
+                        <!-- Animated Link -->
+                        <div class="link-wrap">
+                            <div class="stroke-wrapper">
+                                <a class="animated-button" href="wishlist-empty.html" target="_blank">
+                                    <svg height="40" width="210" xmlns="http://www.w3.org/2000/svg">
+                                        <rect class="shape" height="40" width="210"></rect>
+                                    </svg>
+                                    <div class="text">Empty Wishlist</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <img src="{{ asset('frontend/img/ui/app/cart.png') }}" alt="">
+
+                        <!-- Animated Link -->
+                        <div class="link-wrap">
+                            <div class="stroke-wrapper">
+                                <a class="animated-button" href="cart.html" target="_blank">
+                                    <svg height="40" width="210" xmlns="http://www.w3.org/2000/svg">
+                                        <rect class="shape" height="40" width="210"></rect>
+                                    </svg>
+                                    <div class="text">Cart</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <img src="{{ asset('frontend/img/ui/app/cart-empty.png') }}" alt="">
+
+                        <!-- Animated Link -->
+                        <div class="link-wrap">
+                            <div class="stroke-wrapper">
+                                <a class="animated-button" href="cart-empty.html" target="_blank">
+                                    <svg height="40" width="210" xmlns="http://www.w3.org/2000/svg">
+                                        <rect class="shape" height="40" width="210"></rect>
+                                    </svg>
+                                    <div class="text">Empty Cart</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <img src="{{ asset('frontend/img/ui/app/orders-grid.png') }}" alt="">
+
+                        <!-- Animated Link -->
+                        <div class="link-wrap">
+                            <div class="stroke-wrapper">
+                                <a class="animated-button" href="orders.html" target="_blank">
+                                    <svg height="40" width="210" xmlns="http://www.w3.org/2000/svg">
+                                        <rect class="shape" height="40" width="210"></rect>
+                                    </svg>
+                                    <div class="text">Orders Grid</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <img src="{{ asset('frontend/img/ui/app/orders-list.png') }}" alt="">
+
+                        <!-- Animated Link -->
+                        <div class="link-wrap">
+                            <div class="stroke-wrapper">
+                                <a class="animated-button" href="orders-list.html" target="_blank">
+                                    <svg height="40" width="210" xmlns="http://www.w3.org/2000/svg">
+                                        <rect class="shape" height="40" width="210"></rect>
+                                    </svg>
+                                    <div class="text">Orders List</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <img src="{{ asset('frontend/img/ui/app/order-details.png') }}" alt="">
+
+                        <!-- Animated Link -->
+                        <div class="link-wrap">
+                            <div class="stroke-wrapper">
+                                <a class="animated-button" href="order.html" target="_blank">
+                                    <svg height="40" width="210" xmlns="http://www.w3.org/2000/svg">
+                                        <rect class="shape" height="40" width="210"></rect>
+                                    </svg>
+                                    <div class="text">Orders Details</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <img src="{{ asset('frontend/img/ui/app/orders-empty.png') }}" alt="">
+
+                        <!-- Animated Link -->
+                        <div class="link-wrap">
+                            <div class="stroke-wrapper">
+                                <a class="animated-button" href="orders-empty.html" target="_blank">
+                                    <svg height="40" width="210" xmlns="http://www.w3.org/2000/svg">
+                                        <rect class="shape" height="40" width="210"></rect>
+                                    </svg>
+                                    <div class="text">Orders Empty</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <img src="{{ asset('frontend/img/ui/app/invoice.png') }}" alt="">
+
+                        <!-- Animated Link -->
+                        <div class="link-wrap">
+                            <div class="stroke-wrapper">
+                                <a class="animated-button" href="invoice.html" target="_blank">
+                                    <svg height="40" width="210" xmlns="http://www.w3.org/2000/svg">
+                                        <rect class="shape" height="40" width="210"></rect>
+                                    </svg>
+                                    <div class="text">Invoice</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <img src="{{ asset('frontend/img/ui/app/checkout1.png') }}" alt="">
+
+                        <!-- Animated Link -->
+                        <div class="link-wrap">
+                            <div class="stroke-wrapper">
+                                <a class="animated-button" href="checkout-step1.html" target="_blank">
+                                    <svg height="40" width="210" xmlns="http://www.w3.org/2000/svg">
+                                        <rect class="shape" height="40" width="210"></rect>
+                                    </svg>
+                                    <div class="text">Checkout Step 1</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <img src="{{ asset('frontend/img/ui/app/checkout2.png') }}" alt="">
+
+                        <!-- Animated Link -->
+                        <div class="link-wrap">
+                            <div class="stroke-wrapper">
+                                <a class="animated-button" href="checkout-step2.html" target="_blank">
+                                    <svg height="40" width="210" xmlns="http://www.w3.org/2000/svg">
+                                        <rect class="shape" height="40" width="210"></rect>
+                                    </svg>
+                                    <div class="text">Checkout Step 2</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <img src="{{ asset('frontend/img/ui/app/checkout3.png') }}" alt="">
+
+                        <!-- Animated Link -->
+                        <div class="link-wrap">
+                            <div class="stroke-wrapper">
+                                <a class="animated-button" href="checkout-step3.html" target="_blank">
+                                    <svg height="40" width="210" xmlns="http://www.w3.org/2000/svg">
+                                        <rect class="shape" height="40" width="210"></rect>
+                                    </svg>
+                                    <div class="text">Checkout Step 3</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <img src="{{ asset('frontend/img/ui/app/checkout4.png') }}" alt="">
+
+                        <!-- Animated Link -->
+                        <div class="link-wrap">
+                            <div class="stroke-wrapper">
+                                <a class="animated-button" href="checkout-step4.html" target="_blank">
+                                    <svg height="40" width="210" xmlns="http://www.w3.org/2000/svg">
+                                        <rect class="shape" height="40" width="210"></rect>
+                                    </svg>
+                                    <div class="text">Checkout Step 4</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <img src="{{ asset('frontend/img/ui/app/checkout5.png') }}" alt="">
+
+                        <!-- Animated Link -->
+                        <div class="link-wrap">
+                            <div class="stroke-wrapper">
+                                <a class="animated-button" href="checkout-step5.html" target="_blank">
+                                    <svg height="40" width="210" xmlns="http://www.w3.org/2000/svg">
+                                        <rect class="shape" height="40" width="210"></rect>
+                                    </svg>
+                                    <div class="text">Checkout Step 5</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <img src="{{ asset('frontend/img/ui/app/error-404.png') }}" alt="">
+
+                        <!-- Animated Link -->
+                        <div class="link-wrap">
+                            <div class="stroke-wrapper">
+                                <a class="animated-button" href="error-404.html" target="_blank">
+                                    <svg height="40" width="210" xmlns="http://www.w3.org/2000/svg">
+                                        <rect class="shape" height="40" width="210"></rect>
+                                    </svg>
+                                    <div class="text">Error 404</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <img src="{{ asset('frontend/img/ui/app/error-500.png') }}" alt="">
+
+                        <!-- Animated Link -->
+                        <div class="link-wrap">
+                            <div class="stroke-wrapper">
+                                <a class="animated-button" href="error-500.html" target="_blank">
+                                    <svg height="40" width="210" xmlns="http://www.w3.org/2000/svg">
+                                        <rect class="shape" height="40" width="210"></rect>
+                                    </svg>
+                                    <div class="text">Error 500</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <img src="{{ asset('frontend/img/ui/app/search-results.png') }}" alt="">
+
+                        <!-- Animated Link -->
+                        <div class="link-wrap">
+                            <div class="stroke-wrapper">
+                                <a class="animated-button" href="search-results.html" target="_blank">
+                                    <svg height="40" width="210" xmlns="http://www.w3.org/2000/svg">
+                                        <rect class="shape" height="40" width="210"></rect>
+                                    </svg>
+                                    <div class="text">Search Results</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <img src="{{ asset('frontend/img/ui/app/elements.png') }}" alt="">
+
+                        <!-- Animated Link -->
+                        <div class="link-wrap">
+                            <div class="stroke-wrapper">
+                                <a class="animated-button" href="elements.html" target="_blank">
+                                    <svg height="40" width="210" xmlns="http://www.w3.org/2000/svg">
+                                        <rect class="shape" height="40" width="210"></rect>
+                                    </svg>
+                                    <div class="text">Elements</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock  %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('frontend/js/demo.js') }}"></script>
+{% endblock %}
