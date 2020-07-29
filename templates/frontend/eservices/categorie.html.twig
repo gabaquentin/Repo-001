@@ -6,42 +6,32 @@
     <!-- Pageloader -->
     <div class="pageloader is-full is-demo"></div>
     <div class="infraloader is-full is-active"></div>
-    <section class="hero is-fullheight is-demo">
+    <section class="hero is-fullheight is-white">
         <div class="hero-body">
             <canvas id="canvas"></canvas>
             <div class="container has-text-centered">
                 <div class="columns is-vcentered">
                     <div class="column is-6">
-                        <img src="{{ asset('frontend/img/ui/nephos.png') }}" alt="">
+                        <img src="{{ asset('frontend/img/ui/nephos.png') }}" alt="" height="500px" width="1000px">
                     </div>
                     <div class="column is-6">
                         <h1 class="title is-1 is-light">
                             Déménagement
-                        </h1>
+                        </h1><span class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star is-half"></i><i class="fas fa-star is-empty"></i><small class="is-hidden-mobile">10000 like</small> </span>
                         <p class="has-padding-bottom is-responsive-centered is-light">We wrote an extensive
                             documentation to
+                            get you started as fast as possible. We want you to have the best experience with our
+                            product.
+                            You diserve it.
                             get you started as fast as possible. We want you to have the best experience with our
                             product.
                             You diserve it.</p>
                         <br>
                         <p class="has-text-centered">
-                            <a href="#start" class="button feather-button secondary-button is-bold raised">
+                            <a href="{{ path('services') }}" class="button feather-button secondary-button is-bold raised">
                                 Je recherche de l'aide</a>
                         </p>
                     </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="hero-foot">
-            <div class="container">
-                <div class="tabs is-centered">
-                    <ul>
-                        <li><a><img class="hero-logo" src="{{ asset('frontend/img/brands/html5-white.svg') }}"></a></li>
-                        <li><a><img class="hero-logo" src="{{ asset('frontend/img/brands/bulma-white.svg') }}"></a></li>
-                        <li><a><img class="hero-logo" src="{{ asset('frontend/img/brands/sass-white.svg') }}"></a></li>
-                        <li><a><img class="hero-logo" src="{{ asset('frontend/img/brands/gulp-white.svg') }}"></a></li>
-                    </ul>
                 </div>
             </div>
         </div>

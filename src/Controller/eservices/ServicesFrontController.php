@@ -38,4 +38,12 @@ class ServicesFrontController extends AbstractController
     {
         return $this->render("frontend/eservices/service.html.twig");
     }
+
+    /**
+     * @Route("/front/services/categorie/servicex/detail_service",name="detail_service")
+     */
+    public function detail_service()
+    {
+        return $this->render("frontend/eservices/detail_service.html.twig");
+    }
 }
