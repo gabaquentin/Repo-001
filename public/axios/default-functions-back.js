@@ -1,4 +1,5 @@
 const timeShow = 5e3;
+const maxImage = 4;
 
 function displayMessage(data) {
     if(data['errors'] && data['errors'].length!==0)
@@ -39,7 +40,11 @@ function ableButton(button)
 }
 
 function messageErrorServer(message = "Probléme de connexion avec le serveur") {
+    displayMessageNotify( message);
+}
+
+function displayMessageNotify( message,type= "error",entete = "Alerte") {
     setTimeout(()=>{
-        $.NotificationApp.send("Alerte", message, "top-right", "#bf441d", "error", timeShow, 1, "slide");
+        $.NotificationApp.send(entete, message, "top-right", "#bf441d", type, timeShow, 1, "slide");
     }, (500));
 }

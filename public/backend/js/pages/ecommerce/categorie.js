@@ -75,9 +75,12 @@ function ajaxSaveCategoryDispo(data,button,formContent)
         },
         success: (data) => {
             displayMessage(data)
-            formContent.fadeOut()
-            formContent.html(data["form"]["content"])
-            formContent.fadeIn()
+            if(data["form"] && data["form"].length!==0)
+            {
+                formContent.fadeOut()
+                formContent.html(data["form"]["content"])
+                formContent.fadeIn()
+            }
             ableButton(button)
         },
         error: () => {

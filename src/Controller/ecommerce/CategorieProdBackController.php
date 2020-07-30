@@ -49,7 +49,8 @@ class CategorieProdBackController extends AbstractController
     public function saveCategory(Request $request,Tools $tools,CategorieProd $category = null)
     {
         $data = [
-            "succes" => []
+            "success" => [],
+            "errors" => []
         ];
         $manager = $this->getDoctrine()->getManager();
         $repo = $manager->getRepository(CategorieProd::class);
@@ -87,19 +88,34 @@ class CategorieProdBackController extends AbstractController
                             /** @var CategorieProd $sousCategory */
                             $sousCategory = $repo->findOneBy(["id" => $scId]);
                             if ($sousCategory != null) {
-                                $sousCategory->setOrdre($j)->setCategorieParent($category);
-                                $manager->persist($sousCategory);
-                                $j++;
+                                if($sousCategory->getTypeCategorie()==$category->getTypeCategorie())
+                                {
+                                    $sousCategory->setOrdre($j)->setCategorieParent($category)->setTypeCategorie($category->getTypeCategorie());
+                                    $manager->persist($sousCategory);
+                                    $j++;
+                                }
+                                else
+                                    array_push($data["errors"],[
+                                        "La sous catégorie ".$sousCategory->getNomCategorie()." de type ".$sousCategory->getTypeCategorie(). " ne peut être fille de la catégorie de type ".$category->getTypeCategorie()
+                                    ]);
                             }
                         }
                     }
                 }
             }
-            $manager->flush();
-            $data["success"] = ["Catégories modifiées avec succès"];
-            $data['form'] = $this->render('backend/ecommerce/categrie/formulaire.html.twig', [
-                'form'=> $form->createView(),
-            ]);
+            if(empty($data["errors"]))
+            {
+                $manager->flush();
+
+                $data["success"] = ["Catégories modifiées avec succès"];
+
+                $data['form'] = $this->render('backend/ecommerce/categrie/formulaire.html.twig', [
+                    'form'=> $form->createView(),
+                ]);
+            }
+            else
+                $manager->clear();
+
             return $this->json($data);
         }
         /**
