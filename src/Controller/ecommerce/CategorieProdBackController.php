@@ -95,9 +95,11 @@ class CategorieProdBackController extends AbstractController
                                     $j++;
                                 }
                                 else
+                                {
                                     array_push($data["errors"],[
                                         "La sous catégorie ".$sousCategory->getNomCategorie()." de type ".$sousCategory->getTypeCategorie(). " ne peut être fille de la catégorie de type ".$category->getTypeCategorie()
                                     ]);
+                                }
                             }
                         }
                     }
@@ -126,6 +128,11 @@ class CategorieProdBackController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid())
         {
+            if($category->getCategorieParent())
+            {
+                if(!($category->getTypeCategorie() == $category->getCategorieParent()->getTypeCategorie()))
+                    return $this->json(["errors"=>["La sous catégorie ".$category->getNomCategorie()." de type ".$category->getTypeCategorie(). " ne peut être fille de la catégorie de type ".$category->getCategorieParent()->getTypeCategorie()]]);
+            }
             $manager->persist($category);
             $manager->flush();
         }

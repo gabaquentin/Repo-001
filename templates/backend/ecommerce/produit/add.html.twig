@@ -57,20 +57,20 @@
                 <div class="form-group row">
                     <label class="col-sm-3 col-form-label" for="{{ form.prix.vars.id }}">Prix</label>
                     <div class="col-sm-9">
-                        {{ form_widget(form.prix, {'attr': {'class': 'form-control','value':'0'}}) }}
+                        {{ form_widget(form.prix, {'attr': {'class': 'form-control'}}) }}
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-3 col-form-label" for="{{ form.prixPromo.vars.id }}">Promotion</label>
                      <div class="col-sm-9">
-                        {{ form_widget(form.prixPromo, {'attr': {'class': 'form-control','value':'0'}}) }}
+                        {{ form_widget(form.prixPromo, {'attr': {'class': 'form-control'}}) }}
                      </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-3 col-form-label" ></label>
                     <div class="col-sm-9">
                         <div class="custom-control custom-checkbox">
-                            {{ form_widget(form.visiblite, {'attr': {'class': 'custom-control-input','checked':'checked'}}) }}
+                            {{ form_widget(form.visiblite, {'attr': {'class': 'custom-control-input'}}) }}
                             <label class="custom-control-label" for="{{ form.visiblite.vars.id }}">Visible sur le site web ?</label>
                         </div>
                     </div>

@@ -70,7 +70,10 @@ $(document).ready(function () {
        ableButton(btnSubmit);
        displayMessage(data);
        if(data["success"]&&data["success"].length!==0)
-           document.location.reload();
+       {
+           if(getOrdreImg().length===0)
+               document.location.reload();
+       }
     });
     /**
      * En cas d'ajout d'une image sur un produit éxistant on vérifie les images déjà upload
@@ -281,7 +284,10 @@ $(document).ready(function () {
                 displayMessage(data);
                 ableButton(button);
                 if(data["success"]&&data["success"].length!==0)
-                    document.location.reload();
+                {
+                    if(getOrdreImg().length===0)
+                        document.location.reload();
+                }
             },
             error: () => {
                 messageErrorServer()
@@ -291,24 +297,3 @@ $(document).ready(function () {
     }
 })
 
-
-function f() {
-    $.ajax({
-        type: "GET",
-        url: GetCategorieRoute,
-        data : {"idCategory" : 1},
-        dataType: "JSON",
-        beforeSend : () => {
-            disableButton(button);
-        },
-        success: (data) => {
-            displayMessage(data);
-            console.log(data);
-            ableButton(button);
-        },
-        error: () => {
-            messageErrorServer();
-            ableButton(button);
-        }
-    });
-}

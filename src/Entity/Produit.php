@@ -18,24 +18,28 @@ class Produit
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
+     * @Groups({"show_list"})
      * @ORM\Column(type="integer")
      */
     private $id;
 
     /**
      * @Assert\NotBlank(message="Vous devez donner un nom au produit")
+     * @Groups({"show_list"})
      * @ORM\Column(type="string", length=255)
      */
     private $nom;
 
     /**
      * @Assert\Choice(callback={"App\Services\ecommerce\Tools", "getTypeTransaction"}, message="Le type de transaction n'est pas défini")
+     * @Groups({"show_list"})
      * @ORM\Column(type="string", length=255)
      */
     private $typeTransaction;
 
     /**
      * @Assert\GreaterThan(value = 0,message="la valeur du prix doit être supérieure à zèro")
+     * @Groups({"show_list"})
      * @ORM\Column(type="float")
      */
     private $prix;
@@ -46,16 +50,19 @@ class Produit
      *      max = 100,
      *      notInRangeMessage = "Pourcentage entre {{ min }}% et {{ max }}%",
      * )
+     * @Groups({"show_list"})
      * @ORM\Column(type="float", nullable=true)
      */
     private $prixPromo;
 
     /**
+     * @Groups({"show_list"})
      * @ORM\Column(type="string", length=255)
      */
     private $images = "a:0:{}";
 
     /**
+     * @Groups({"show_list"})
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $localisation;
@@ -63,7 +70,7 @@ class Produit
     /**
      * @ORM\Column(type="boolean")
      */
-    private $visiblite;
+    private $visiblite = true;
 
     /**
      * @ORM\Column(type="float")
@@ -71,6 +78,7 @@ class Produit
     private $priorite = 1;
 
     /**
+     * @Groups({"show_list"})
      * @ORM\Column(type="integer", nullable=true)
      */
     private $dureeSejour;
@@ -106,6 +114,7 @@ class Produit
     private $dimension;
 
     /**
+     * @Groups({"show_list"})
      * @ORM\OneToOne(targetEntity=Date::class)
      */
     private $date;

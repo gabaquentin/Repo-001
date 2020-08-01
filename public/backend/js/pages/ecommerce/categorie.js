@@ -136,24 +136,3 @@ function ajaxSuppressionCat(idCategorie,button) {
         }
     });
 }
-
-function f() {
-    $.ajax({
-        type: "GET",
-        url: GetCategorieRoute,
-        data : {"idCategory" : 1},
-        dataType: "JSON",
-        beforeSend : () => {
-            disableButton(button)
-        },
-        success: (data) => {
-            displayMessage(data);
-            console.log(data);
-            ableButton(button)
-        },
-        error: () => {
-            messageErrorServer()
-            ableButton(button)
-        }
-    });
-}

@@ -9,6 +9,7 @@ use App\Entity\Date;
 use App\Entity\Produit;
 use App\Form\ecommerce\ProduitType;
 use App\Repository\CategorieProdRepository;
+use App\Repository\ProduitRepository;
 use App\Services\ecommerce\Tools;
 use App\Services\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
@@ -18,6 +19,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use function Symfony\Component\String\s;
 
 /**
  * Class ProduitController
@@ -27,14 +30,43 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProduitController extends AbstractController
 {
     /**
-     * @Route("/", name="produit")
+     * @Route("/", name="produit_back")
      * @return Response
      */
     public function index()
     {
-
-
         return $this->render("backend/ecommerce/produit/show.html.twig");
+    }
+
+    /**
+     * @Route("/get_produit_back", name="get_produit_back")
+     * @param Request $request
+     * @param ProduitRepository $repo
+     * @param Tools $tools
+     * @return Response
+     */
+    public function show(Request $request,ProduitRepository $repo,Tools $tools)
+    {
+        $check = $request->get("_");
+        $draw = $request->get("draw");
+
+        if(!$check)
+            die();
+        $produits = $repo->dataTableProduits($request);
+        $max = $repo->count([]);
+
+        $data = [
+            "draw"=> $draw,
+            "recordsTotal"=> $max,
+            "recordsFiltered"=> $max,
+            "data"=> $produits,
+        ];
+        return $this->json($data, 200, [], [
+            "groups"=>"show_list",
+            ObjectNormalizer::CIRCULAR_REFERENCE_HANDLER => function ($object) {
+                return $object->getId();
+            },
+        ]);
     }
 
     /**
@@ -90,6 +122,7 @@ class ProduitController extends AbstractController
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid())
         {
+
             /**
              * récupération des données
              */
@@ -118,7 +151,11 @@ class ProduitController extends AbstractController
                     {
                         array_push($deletedImages,$ordre);
                         if(array_key_exists($ordre,$imageNames))
+                        {
                             $uploader->deleteFile($imageNames[$ordre],"produit");
+                            unset($imageNames[$ordre]);
+                            $imageNames = array_values($imageNames);
+                        }
                     }
                 }
             }
@@ -161,7 +198,7 @@ class ProduitController extends AbstractController
 
             $manager->persist($produit);
             $manager->flush();
-            return $this->json(['success'=>["ajouté avec succès"]]);
+            return $this->json(['success'=>["Sauvegardé"]]);
         }
 
         return $this->json(['errors'=>$tools->getFormErrorsTree($form)]);
@@ -196,5 +233,35 @@ class ProduitController extends AbstractController
             ]);
 
         return $this->json($data);
+    }
+
+    /**
+     * @Route("/delete" , name="delete_produit")
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @param FileUploader $uploader
+     * @return JsonResponse
+     */
+    public function delete(Request $request,EntityManagerInterface $manager,FileUploader $uploader)
+    {
+        $id = $request->get("idProduit");
+        /** @var Produit $produit */
+        $produit = $manager->getRepository(Produit::class)->findOneBy(["id"=>$id]);
+        if(!$produit)
+            die();
+
+        foreach ($produit->getImages() as $imgeName)
+            $uploader->deleteFile($imgeName,"produit");
+
+        $manager->remove($produit);
+        if($produit->getDimension()!=null)$manager->remove($produit->getDimension());
+        if($produit->getCaracteristique()!=null)$manager->remove($produit->getCaracteristique());
+        if($produit->getDate()!=null)$manager->remove($produit->getDate());
+        foreach ($produit->getAvis() as $avis)
+            $manager->remove($avis);
+
+        $manager->flush();
+
+        return $this->json(["success"=>["produit supprimé"]]);
     }
 }

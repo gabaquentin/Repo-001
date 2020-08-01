@@ -26,6 +26,24 @@ class Tools
         return [0,1,2,3];
     }
 
+    function getColumnsName($unset = 1)
+    {
+        $cols = ["id","images","nom","typeTransaction","prix","prixPromo","localisation"];
+        if($unset!=null)
+            unset($cols[$unset]);
+
+        return array_values($cols);
+    }
+    /**
+     * @param int $col
+     * @return string
+     */
+    function getColumnName(int $col)
+    {
+        $cols = $this->getColumnsName(null);
+        return (array_key_exists($col,$cols))?$cols[$col]:$cols[2];
+    }
+
     /**
      * @return string[]
      */
