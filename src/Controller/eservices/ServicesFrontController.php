@@ -68,4 +68,12 @@ class ServicesFrontController extends AbstractController
     {
         return $this->render("frontend/eservices/detail_service.html.twig");
     }
+
+    /**
+     * @Route("/front/eservices/demandes_client",name="demandes_client")
+     */
+    public function liste_demandes_client()
+    {
+        return $this->render("frontend/eservices/demandes_client.html.twig");
+    }
 }

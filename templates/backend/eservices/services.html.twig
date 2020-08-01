@@ -1,0 +1,332 @@
+{% extends "backend/base/base.html.twig" %}
+
+{% block title %}Déménagement - Services{% endblock %}
+
+{% block block_starter %} Gestion des services {% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-12">
+            <div class="card-box">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <form class="form-inline">
+                            <div class="form-group">
+                                <label for="inputPassword2" class="sr-only">rechercher</label>
+                                <input type="search" class="form-control" id="inputPassword2" placeholder="rechercher...">
+                            </div>
+                            <div class="form-group mx-sm-3">
+                                <label for="status-select" class="mr-2">Trier par</label>
+                                <select class="custom-select" id="status-select">
+                                    <option selected="">Tout</option>
+                                    <option value="1">A-Z</option>
+                                    <option value="2">Z-A</option>
+                                    <option value="2">questions croissantes</option>
+                                    <option value="2">questions décroissantes</option>
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="text-lg-right mt-3 mt-lg-0">
+                            <a href="#custom-modal" class="btn btn-success waves-effect waves-light" data-animation="fadein"
+                               data-plugin="custommodal" data-overlayColor="#38414a"><i
+                                        class="mdi mdi-plus-circle mr-1"></i> nouveau service</a>
+                        </div>
+                    </div><!-- end col-->
+                </div> <!-- end row -->
+            </div> <!-- end card-box -->
+        </div><!-- end col-->
+    </div>
+    <!-- end row -->
+
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="text-center card-box ribbon-box">
+                <div class="ribbon-two ribbon-two-success"><span>Nouveau</span></div>
+                <div class="clearfix"></div>
+                <div class="pt-2 pb-2">
+                    <img src="http://via.placeholder.com/500x500/ffffff/999999" class="img-thumbnail avatar-xxl"
+                         alt="profile-image">
+
+                    <h4 class="mt-3 font-17"><a href="#" class="text-dark">Nom du service</a></h4>
+
+                    <p class="text-muted font-13 mb-3">
+                        Hi I'm Johnathn Deo,has been the industry's standard dummy text ever since the 1500s, when an
+                        unknown printer took a galley of type.
+                    </p>
+
+                    <p class="text-muted">questions <span> | </span> <span> <a href="{{ path('liste_questions') }}" class="text-pink"> 6 </a> </span></p>
+
+                    <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"><i
+                                class="mdi mdi-tooltip-edit mr-1"></i> éditer</button>
+                    <button type="button" class="btn btn-danger btn-sm waves-effect"><i class="mdi mdi-delete-variant mr-1"></i>
+                        supprimer</button>
+
+                </div> <!-- end .padding -->
+            </div> <!-- end card-box-->
+        </div> <!-- end col -->
+
+        <div class="col-lg-4">
+            <div class="text-center card-box ribbon-box">
+                <div class="ribbon-two ribbon-two-success"><span>Nouveau</span></div>
+                <div class="clearfix"></div>
+                <div class="pt-2 pb-2">
+                    <img src="http://via.placeholder.com/500x500/ffffff/999999" class="img-thumbnail avatar-xxl"
+                         alt="profile-image">
+
+                    <h4 class="mt-3 font-17"><a href="#" class="text-dark">Nom du service</a></h4>
+
+                    <p class="text-muted font-13 mb-3">
+                        Hi I'm Johnathn Deo,has been the industry's standard dummy text ever since the 1500s, when an
+                        unknown printer took a galley of type.
+                    </p>
+
+                    <p class="text-muted">questions <span> | </span> <span> <a href="#" class="text-pink"> 6 </a> </span></p>
+
+                    <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"><i
+                                class="mdi mdi-tooltip-edit mr-1"></i> éditer</button>
+                    <button type="button" class="btn btn-danger btn-sm waves-effect"><i class="mdi mdi-delete-variant mr-1"></i>
+                        supprimer</button>
+
+                </div> <!-- end .padding -->
+            </div> <!-- end card-box-->
+        </div> <!-- end col -->
+
+        <div class="col-lg-4">
+            <div class="text-center card-box ribbon-box">
+                <div class="pt-2 pb-2">
+                    <img src="http://via.placeholder.com/500x500/ffffff/999999" class="img-thumbnail avatar-xxl"
+                         alt="profile-image">
+
+                    <h4 class="mt-3 font-17"><a href="#" class="text-dark">Nom du service</a></h4>
+
+                    <p class="text-muted font-13 mb-3">
+                        Hi I'm Johnathn Deo,has been the industry's standard dummy text ever since the 1500s, when an
+                        unknown printer took a galley of type.
+                    </p>
+
+                    <p class="text-muted">questions <span> | </span> <span> <a href="#" class="text-pink"> 6 </a> </span></p>
+
+                    <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"><i
+                                class="mdi mdi-tooltip-edit mr-1"></i> éditer</button>
+                    <button type="button" class="btn btn-danger btn-sm waves-effect"><i class="mdi mdi-delete-variant mr-1"></i>
+                        supprimer</button>
+
+                </div> <!-- end .padding -->
+            </div> <!-- end card-box-->
+        </div> <!-- end col -->
+    </div>
+    <!-- end row -->
+
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="text-center card-box ribbon-box">
+                <div class="pt-2 pb-2">
+                    <img src="http://via.placeholder.com/500x500/ffffff/999999" class="img-thumbnail avatar-xxl"
+                         alt="profile-image">
+
+                    <h4 class="mt-3 font-17"><a href="#" class="text-dark">Nom du service</a></h4>
+
+                    <p class="text-muted font-13 mb-3">
+                        Hi I'm Johnathn Deo,has been the industry's standard dummy text ever since the 1500s, when an
+                        unknown printer took a galley of type.
+                    </p>
+
+                    <p class="text-muted">questions <span> | </span> <span> <a href="#" class="text-pink"> 6 </a> </span></p>
+
+                    <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"><i
+                                class="mdi mdi-tooltip-edit mr-1"></i> éditer</button>
+                    <button type="button" class="btn btn-danger btn-sm waves-effect"><i class="mdi mdi-delete-variant mr-1"></i>
+                        supprimer</button>
+
+                </div> <!-- end .padding -->
+            </div> <!-- end card-box-->
+        </div> <!-- end col -->
+
+        <div class="col-lg-4">
+            <div class="text-center card-box ribbon-box">
+                <div class="pt-2 pb-2">
+                    <img src="http://via.placeholder.com/500x500/ffffff/999999" class="img-thumbnail avatar-xxl"
+                         alt="profile-image">
+
+                    <h4 class="mt-3 font-17"><a href="#" class="text-dark">Nom du service</a></h4>
+
+                    <p class="text-muted font-13 mb-3">
+                        Hi I'm Johnathn Deo,has been the industry's standard dummy text ever since the 1500s, when an
+                        unknown printer took a galley of type.
+                    </p>
+
+                    <p class="text-muted">questions <span> | </span> <span> <a href="#" class="text-pink"> 6 </a> </span></p>
+
+                    <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"><i
+                                class="mdi mdi-tooltip-edit mr-1"></i> éditer</button>
+                    <button type="button" class="btn btn-danger btn-sm waves-effect"><i class="mdi mdi-delete-variant mr-1"></i>
+                        supprimer</button>
+
+                </div> <!-- end .padding -->
+            </div> <!-- end card-box-->
+        </div> <!-- end col -->
+
+        <div class="col-lg-4">
+            <div class="text-center card-box ribbon-box">
+                <div class="pt-2 pb-2">
+                    <img src="http://via.placeholder.com/500x500/ffffff/999999" class="img-thumbnail avatar-xxl"
+                         alt="profile-image">
+
+                    <h4 class="mt-3 font-17"><a href="#" class="text-dark">Nom du service</a></h4>
+
+                    <p class="text-muted font-13 mb-3">
+                        Hi I'm Johnathn Deo,has been the industry's standard dummy text ever since the 1500s, when an
+                        unknown printer took a galley of type.
+                    </p>
+
+                    <p class="text-muted">questions <span> | </span> <span> <a href="#" class="text-pink"> 6 </a> </span></p>
+
+                    <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"><i
+                                class="mdi mdi-tooltip-edit mr-1"></i> éditer</button>
+                    <button type="button" class="btn btn-danger btn-sm waves-effect"><i class="mdi mdi-delete-variant mr-1"></i>
+                        supprimer</button>
+
+                </div> <!-- end .padding -->
+            </div> <!-- end card-box-->
+        </div> <!-- end col -->
+    </div>
+    <!-- end row -->
+
+
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="text-center card-box ribbon-box">
+                <div class="pt-2 pb-2">
+                    <img src="http://via.placeholder.com/500x500/ffffff/999999" class="img-thumbnail avatar-xxl"
+                         alt="profile-image">
+
+                    <h4 class="mt-3 font-17"><a href="#" class="text-dark">Nom du service</a></h4>
+
+                    <p class="text-muted font-13 mb-3">
+                        Hi I'm Johnathn Deo,has been the industry's standard dummy text ever since the 1500s, when an
+                        unknown printer took a galley of type.
+                    </p>
+
+                    <p class="text-muted">questions <span> | </span> <span> <a href="#" class="text-pink"> 6 </a> </span></p>
+
+                    <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"><i
+                                class="mdi mdi-tooltip-edit mr-1"></i> éditer</button>
+                    <button type="button" class="btn btn-danger btn-sm waves-effect"><i class="mdi mdi-delete-variant mr-1"></i>
+                        supprimer</button>
+
+                </div> <!-- end .padding -->
+            </div> <!-- end card-box-->
+        </div> <!-- end col -->
+
+        <div class="col-lg-4">
+            <div class="text-center card-box ribbon-box">
+                <div class="pt-2 pb-2">
+                    <img src="http://via.placeholder.com/500x500/ffffff/999999" class="img-thumbnail avatar-xxl"
+                         alt="profile-image">
+
+                    <h4 class="mt-3 font-17"><a href="#" class="text-dark">Nom du service</a></h4>
+
+                    <p class="text-muted font-13 mb-3">
+                        Hi I'm Johnathn Deo,has been the industry's standard dummy text ever since the 1500s, when an
+                        unknown printer took a galley of type.
+                    </p>
+
+                    <p class="text-muted">questions <span> | </span> <span> <a href="#" class="text-pink"> 6 </a> </span></p>
+
+                    <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"><i
+                                class="mdi mdi-tooltip-edit mr-1"></i> éditer</button>
+                    <button type="button" class="btn btn-danger btn-sm waves-effect"><i class="mdi mdi-delete-variant mr-1"></i>
+                        supprimer</button>
+
+                </div> <!-- end .padding -->
+            </div> <!-- end card-box-->
+        </div> <!-- end col -->
+
+        <div class="col-lg-4">
+            <div class="text-center card-box ribbon-box">
+                <div class="pt-2 pb-2">
+                    <img src="http://via.placeholder.com/500x500/ffffff/999999" class="img-thumbnail avatar-xxl"
+                         alt="profile-image">
+
+                    <h4 class="mt-3 font-17"><a href="#" class="text-dark">Nom du service</a></h4>
+
+                    <p class="text-muted font-13 mb-3">
+                        Hi I'm Johnathn Deo,has been the industry's standard dummy text ever since the 1500s, when an
+                        unknown printer took a galley of type.
+                    </p>
+
+                    <p class="text-muted">questions <span> | </span> <span> <a href="#" class="text-pink"> 6 </a> </span></p>
+
+                    <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"><i
+                                class="mdi mdi-tooltip-edit mr-1"></i> éditer</button>
+                    <button type="button" class="btn btn-danger btn-sm waves-effect"><i class="mdi mdi-delete-variant mr-1"></i>
+                        supprimer</button>
+
+                </div> <!-- end .padding -->
+            </div> <!-- end card-box-->
+        </div> <!-- end col -->
+    </div>
+    <!-- end row -->
+
+    <div class="row">
+        <div class="col-12">
+            <div class="text-right">
+                <ul class="pagination pagination-rounded justify-content-end">
+                    <li class="page-item">
+                        <a class="page-link" href="javascript: void(0);" aria-label="Previous">
+                            <span aria-hidden="true">«</span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                    </li>
+                    <li class="page-item active"><a class="page-link" href="javascript: void(0);">1</a></li>
+                    <li class="page-item"><a class="page-link" href="javascript: void(0);">2</a></li>
+                    <li class="page-item"><a class="page-link" href="javascript: void(0);">3</a></li>
+                    <li class="page-item"><a class="page-link" href="javascript: void(0);">4</a></li>
+                    <li class="page-item"><a class="page-link" href="javascript: void(0);">5</a></li>
+                    <li class="page-item">
+                        <a class="page-link" href="javascript: void(0);" aria-label="Next">
+                            <span aria-hidden="true">»</span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- end row -->
+
+    <!-- Modal -->
+    <div id="custom-modal" class="modal-demo">
+        <button type="button" class="close" onclick="Custombox.modal.close();">
+            <span>&times;</span><span class="sr-only">Close</span>
+        </button>
+        <h4 class="custom-modal-title">Add Members</h4>
+        <div class="custom-modal-text text-left">
+            <form>
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" class="form-control" id="name" placeholder="Enter name">
+                </div>
+                <div class="form-group">
+                    <label for="position">Position</label>
+                    <input type="text" class="form-control" id="position" placeholder="Enter position">
+                </div>
+                <div class="form-group">
+                    <label for="company">Company</label>
+                    <input type="text" class="form-control" id="company" placeholder="Enter company">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Email address</label>
+                    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                </div>
+
+                <div class="text-right">
+                    <button type="submit" class="btn btn-success waves-effect waves-light">Save</button>
+                    <button type="button" class="btn btn-danger waves-effect waves-light m-l-10" onclick="Custombox.close();">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
