@@ -39,11 +39,11 @@ class ServicesFrontController extends AbstractController
         return $this->render("frontend/eservices/service.html.twig");
     }
     /**
-     * @Route("/front/services/demande",name="service_demande")
+     * @Route("/front/services/reponse",name="service_reponse")
      */
-    public function afficher_demande()
+    public function afficher_reponse()
     {
-        return $this->render("frontend/eservices/demande.html.twig");
+        return $this->render("frontend/eservices/reponse.html.twig");
     }
     /**
      * @Route("/front/services/prestation",name="service_prestation")
@@ -59,4 +59,10 @@ class ServicesFrontController extends AbstractController
     {
         return $this->render("frontend/eservices/prestation_client.html.twig");
     }
+
+
 }
+
+
+
+
