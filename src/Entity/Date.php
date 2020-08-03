@@ -3,9 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\DateRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=DateRepository::class)
@@ -20,11 +19,13 @@ class Date
     private $id;
 
     /**
+     * @Groups({"show_list"})
      * @ORM\Column(type="datetime")
      */
     private $dateAjout;
 
     /**
+     * @Groups({"show_list"})
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $dateModification;

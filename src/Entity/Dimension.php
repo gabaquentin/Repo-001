@@ -3,8 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\DimensionRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -20,28 +19,36 @@ class Dimension
     private $id;
 
     /**
-     * @ORM\Column(type="float")
+     * @Assert\PositiveOrZero(message="la longueur doit être un nombre positif")
+     * @ORM\Column(type="float", nullable=true)
      */
-    private $Longeur;
+    private $longueur;
 
     /**
-     * @ORM\Column(type="float")
+     * @Assert\PositiveOrZero(message="la largeur doit être un nombre positif")
+     * @ORM\Column(type="float", nullable=true)
      */
     private $largeur;
+
+    /**
+     * @Assert\PositiveOrZero(message="la hauteur doit être un nombre positif")
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $hauteur;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getLongeur(): ?float
+    public function getLongueur(): ?float
     {
-        return $this->Longeur;
+        return $this->longueur;
     }
 
-    public function setLongeur(float $Longeur): self
+    public function setLongueur(float $longueur): self
     {
-        $this->Longeur = $Longeur;
+        $this->longueur = $longueur;
 
         return $this;
     }
@@ -54,6 +61,18 @@ class Dimension
     public function setLargeur(float $largeur): self
     {
         $this->largeur = $largeur;
+
+        return $this;
+    }
+
+    public function getHauteur(): ?float
+    {
+        return $this->hauteur;
+    }
+
+    public function setHauteur(?float $hauteur): self
+    {
+        $this->hauteur = $hauteur;
 
         return $this;
     }

@@ -3,8 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\CaracteristiquesRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -20,16 +19,19 @@ class Caracteristiques
     private $id;
 
     /**
+     * @Assert\PositiveOrZero(message="le nbre de chambres doit être un nombre positif")
      * @ORM\Column(type="integer", nullable=true)
      */
     private $nbreChambres;
 
     /**
+     * @Assert\PositiveOrZero(message="le nbre de salle de bain doit être un nombre positif")
      * @ORM\Column(type="integer", nullable=true)
      */
     private $nbreSalleBain;
 
     /**
+     * @Assert\PositiveOrZero(message="le nbre de parking doit être un nombre positif")
      * @ORM\Column(type="integer", nullable=true)
      */
     private $nbreParking;
