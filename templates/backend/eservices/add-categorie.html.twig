@@ -1,19 +1,19 @@
 {% extends "backend/base/base.html.twig" %}
 
-{% block title %}Nouveau Service{% endblock %}
+{% block title %}Nouvelle catégorie{% endblock %}
 
 {% block stylesheets %}
-<link href="{{ asset('backend/libs/dropzone/dropzone.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('backend/libs/dropzone/dropzone.min.css') }}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
 {% block block_starter %}Gestion des services {% endblock %}
 
 {% block body %}
-    <h4 class="header-title mb-3">Ajouter un nouveau service</h4>
+    <h4 class="header-title mb-3">Ajouter une nouvelle catégorie</h4>
 
-    <form action="{{ path('ajouter_questions') }}" method="post" >
+    <form action="#" method="post" >
         <div class="form-group row">
-            <label class="col-sm-2 col-form-label" for="userName1">Nom du service</label>
+            <label class="col-sm-2 col-form-label" for="userName1">Nom de la catégorie</label>
             <div class="col-md-9">
                 <input type="text" class="form-control col-sm-6" id="question1" name="question1" value="">
             </div>
