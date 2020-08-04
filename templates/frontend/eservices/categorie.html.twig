@@ -1,78 +1,483 @@
 {% extends "/frontend/eservices/base.html.twig" %}
 
-{% block title %} Déménagement {% endblock %}
+{% block title %}Déménagement{% endblock %}
 
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('frontend/css/demo.css') }}">
+{% endblock %}
 {% block body %}
     <!-- Pageloader -->
-    <div class="pageloader is-full is-demo"></div>
+    <div class="pageloader is-full is-demo "></div>
     <div class="infraloader is-full is-active"></div>
-    <section class="hero is-fullheight is-demo">
+    <section class="hero is-fullheight is-white">
         <div class="hero-body">
             <canvas id="canvas"></canvas>
             <div class="container has-text-centered">
                 <div class="columns is-vcentered">
-                    <div class="column is-6">
-                        <img src="{{ asset('frontend/img/ui/nephos.png') }}" alt="">
+                    <div class="column is-8">
+                        <img src="{{ asset('frontend/img/eservices/0004.jpg') }}" alt="">
                     </div>
-                    <div class="column is-6">
+                    <div class="column is-auto">
                         <h1 class="title is-1 is-light">
                             Déménagement
-                        </h1>
-                        <p class="has-padding-bottom is-responsive-centered is-light">We wrote an extensive
+                        </h1><span class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star is-half"></i><i class="fas fa-star is-empty"></i><small class="is-hidden-mobile"> 1000 like</small> </span>
+                        <br><br>
+                        <p class="is-muted has-padding-bottom is-responsive-centered">We wrote an extensive
                             documentation to
+                            get you started as fast as possible. We want you to have the best experience with our
+                            product.
+                            You diserve it.
                             get you started as fast as possible. We want you to have the best experience with our
                             product.
                             You diserve it.</p>
                         <br>
                         <p class="has-text-centered">
-                            <a href="#start" class="button feather-button secondary-button is-bold raised">
+                            <a href="{{ path('services') }}" class="button feather-button primary-button is-bold raised is-responsive-centered">
                                 Je recherche de l'aide</a>
                         </p>
                     </div>
                 </div>
             </div>
         </div>
-
-        <div class="hero-foot">
-            <div class="container">
-                <div class="tabs is-centered">
-                    <ul>
-                        <li><a><img class="hero-logo" src="{{ asset('frontend/img/brands/html5-white.svg') }}"></a></li>
-                        <li><a><img class="hero-logo" src="{{ asset('frontend/img/brands/bulma-white.svg') }}"></a></li>
-                        <li><a><img class="hero-logo" src="{{ asset('frontend/img/brands/sass-white.svg') }}"></a></li>
-                        <li><a><img class="hero-logo" src="{{ asset('frontend/img/brands/gulp-white.svg') }}"></a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
     </section>
 
-    <section class="section is-medium is-grey">
+
+    <section id="demos" class="section is-medium is-grey">
         <div class="container">
+            <div class="title-wrapper has-text-centered">
+                <div class="title is-3 is-spaced">
+                    Toutes les Catégories
+                </div>
+                <div class="subtitle is-5 is-muted">A Votre Disposition</div>
+                <img class="filigrane" src="{{ asset('frontend/img/logo/nephos-greyscale.svg') }}" alt="">
+            </div>
 
             <div class="content-wrapper">
-                <div class="columns is-vcentered">
-                    <div class="column is-5 is-offset-1 is-on-top">
-                        <div class="feature-divider is-responsive-centered"></div>
-                        <h2 class="title is-4 is-responsive-centered">
-                            Categorie xxxx
-                        </h2>
-                        <p class="is-muted has-padding-bottom is-responsive-centered">We wrote an extensive
-                            documentation to
-                            get you started as fast as possible. We want you to have the best experience with our
-                            product.
-                            You diserve it.</p>
-                        <div class="is-responsive-centered is-title-reveal">
-                            <a href="https://docs.nephos.cssninja.io" target="_blank"
-                               class="button feather-button primary-button is-bold raised is-responsive-centered">Je recherche de l'aide</a>
+                <div class="columns is-multiline has-text-centered">
+                    <div class="column is-6">
+                        <img src="{{ asset('frontend/img/ui/app/nephos.png') }}" alt="">
+
+                        <!-- Animated Link -->
+                        <div class="link-wrap">
+                            <div class="stroke-wrapper">
+                                <a class="animated-button" href="{{ path('categorie') }}">
+                                    <svg height="40" width="210" xmlns="http://www.w3.org/2000/svg">
+                                        <rect class="shape" height="40" width="210"></rect>
+                                    </svg>
+                                    <div class="text">Slider Homepage</div>
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="column is-6">
+                        <img src="{{ asset('frontend/img/ui/app/nephos-alt.png') }}" alt="">
+
+                        <!-- Animated Link -->
+                        <div class="link-wrap">
+                            <div class="stroke-wrapper">
+                                <a class="animated-button" href="home-alt.html" target="_blank">
+                                    <svg height="40" width="210" xmlns="http://www.w3.org/2000/svg">
+                                        <rect class="shape" height="40" width="210"></rect>
+                                    </svg>
+                                    <div class="text">Image Homepage</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <img src="{{ asset('frontend/img/ui/app/categories.png') }}" alt="">
+
+                        <!-- Animated Link -->
+                        <div class="link-wrap">
+                            <div class="stroke-wrapper">
+                                <a class="animated-button" href="shop.html" target="_blank">
+                                    <svg height="40" width="210" xmlns="http://www.w3.org/2000/svg">
+                                        <rect class="shape" height="40" width="210"></rect>
+                                    </svg>
+                                    <div class="text">Shop Categories</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <img src="{{ asset('frontend/img/ui/app/auth.png') }}" alt="">
+
+                        <!-- Animated Link -->
+                        <div class="link-wrap">
+                            <div class="stroke-wrapper">
+                                <a class="animated-button" href="authentication.html" target="_blank">
+                                    <svg height="40" width="210" xmlns="http://www.w3.org/2000/svg">
+                                        <rect class="shape" height="40" width="210"></rect>
+                                    </svg>
+                                    <div class="text">Authentication</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <img src="{{ asset('frontend/img/ui/app/products-grid.png') }}" alt="">
+
+                        <!-- Animated Link -->
+                        <div class="link-wrap">
+                            <div class="stroke-wrapper">
+                                <a class="animated-button" href="products.html" target="_blank">
+                                    <svg height="40" width="210" xmlns="http://www.w3.org/2000/svg">
+                                        <rect class="shape" height="40" width="210"></rect>
+                                    </svg>
+                                    <div class="text">Products Grid</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <img src="{{ asset('frontend/img/ui/app/products-list.png') }}" alt="">
+
+                        <!-- Animated Link -->
+                        <div class="link-wrap">
+                            <div class="stroke-wrapper">
+                                <a class="animated-button" href="products-list.html" target="_blank">
+                                    <svg height="40" width="210" xmlns="http://www.w3.org/2000/svg">
+                                        <rect class="shape" height="40" width="210"></rect>
+                                    </svg>
+                                    <div class="text">Products List</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <img src="{{ asset('frontend/img/ui/app/single-product-carousel.png') }}" alt="">
+
+                        <!-- Animated Link -->
+                        <div class="link-wrap">
+                            <div class="stroke-wrapper">
+                                <a class="animated-button" href="product.html" target="_blank">
+                                    <svg height="40" width="210" xmlns="http://www.w3.org/2000/svg">
+                                        <rect class="shape" height="40" width="210"></rect>
+                                    </svg>
+                                    <div class="text">Product Details</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <img src="{{ asset('frontend/img/ui/app/account.png') }}" alt="">
+
+                        <!-- Animated Link -->
+                        <div class="link-wrap">
+                            <div class="stroke-wrapper">
+                                <a class="animated-button" href="account.html" target="_blank">
+                                    <svg height="40" width="210" xmlns="http://www.w3.org/2000/svg">
+                                        <rect class="shape" height="40" width="210"></rect>
+                                    </svg>
+                                    <div class="text">Account</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <img src="{{ asset('frontend/img/ui/app/account-edit.png') }}" alt="">
+
+                        <!-- Animated Link -->
+                        <div class="link-wrap">
+                            <div class="stroke-wrapper">
+                                <a class="animated-button" href="account-edit.html" target="_blank">
+                                    <svg height="40" width="210" xmlns="http://www.w3.org/2000/svg">
+                                        <rect class="shape" height="40" width="210"></rect>
+                                    </svg>
+                                    <div class="text">Edit Account</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <img src="{{ asset('frontend/img/ui/app/account-placeholder.png') }}" alt="">
+
+                        <!-- Animated Link -->
+                        <div class="link-wrap">
+                            <div class="stroke-wrapper">
+                                <a class="animated-button" href="account-placeholder.html" target="_blank">
+                                    <svg height="40" width="210" xmlns="http://www.w3.org/2000/svg">
+                                        <rect class="shape" height="40" width="210"></rect>
+                                    </svg>
+                                    <div class="text">Account Empty</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <img src="{{ asset('frontend/img/ui/app/wishlist.png') }}" alt="">
+
+                        <!-- Animated Link -->
+                        <div class="link-wrap">
+                            <div class="stroke-wrapper">
+                                <a class="animated-button" href="wishlist.html" target="_blank">
+                                    <svg height="40" width="210" xmlns="http://www.w3.org/2000/svg">
+                                        <rect class="shape" height="40" width="210"></rect>
+                                    </svg>
+                                    <div class="text">Wishlist</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <img src="{{ asset('frontend/img/ui/app/wishlist-empty.png') }}" alt="">
+
+                        <!-- Animated Link -->
+                        <div class="link-wrap">
+                            <div class="stroke-wrapper">
+                                <a class="animated-button" href="wishlist-empty.html" target="_blank">
+                                    <svg height="40" width="210" xmlns="http://www.w3.org/2000/svg">
+                                        <rect class="shape" height="40" width="210"></rect>
+                                    </svg>
+                                    <div class="text">Empty Wishlist</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <img src="{{ asset('frontend/img/ui/app/cart.png') }}" alt="">
+
+                        <!-- Animated Link -->
+                        <div class="link-wrap">
+                            <div class="stroke-wrapper">
+                                <a class="animated-button" href="cart.html" target="_blank">
+                                    <svg height="40" width="210" xmlns="http://www.w3.org/2000/svg">
+                                        <rect class="shape" height="40" width="210"></rect>
+                                    </svg>
+                                    <div class="text">Cart</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <img src="{{ asset('frontend/img/ui/app/cart-empty.png') }}" alt="">
+
+                        <!-- Animated Link -->
+                        <div class="link-wrap">
+                            <div class="stroke-wrapper">
+                                <a class="animated-button" href="cart-empty.html" target="_blank">
+                                    <svg height="40" width="210" xmlns="http://www.w3.org/2000/svg">
+                                        <rect class="shape" height="40" width="210"></rect>
+                                    </svg>
+                                    <div class="text">Empty Cart</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <img src="{{ asset('frontend/img/ui/app/orders-grid.png') }}" alt="">
+
+                        <!-- Animated Link -->
+                        <div class="link-wrap">
+                            <div class="stroke-wrapper">
+                                <a class="animated-button" href="orders.html" target="_blank">
+                                    <svg height="40" width="210" xmlns="http://www.w3.org/2000/svg">
+                                        <rect class="shape" height="40" width="210"></rect>
+                                    </svg>
+                                    <div class="text">Orders Grid</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <img src="{{ asset('frontend/img/ui/app/orders-list.png') }}" alt="">
+
+                        <!-- Animated Link -->
+                        <div class="link-wrap">
+                            <div class="stroke-wrapper">
+                                <a class="animated-button" href="orders-list.html" target="_blank">
+                                    <svg height="40" width="210" xmlns="http://www.w3.org/2000/svg">
+                                        <rect class="shape" height="40" width="210"></rect>
+                                    </svg>
+                                    <div class="text">Orders List</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <img src="{{ asset('frontend/img/ui/app/order-details.png') }}" alt="">
+
+                        <!-- Animated Link -->
+                        <div class="link-wrap">
+                            <div class="stroke-wrapper">
+                                <a class="animated-button" href="order.html" target="_blank">
+                                    <svg height="40" width="210" xmlns="http://www.w3.org/2000/svg">
+                                        <rect class="shape" height="40" width="210"></rect>
+                                    </svg>
+                                    <div class="text">Orders Details</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <img src="{{ asset('frontend/img/ui/app/orders-empty.png') }}" alt="">
+
+                        <!-- Animated Link -->
+                        <div class="link-wrap">
+                            <div class="stroke-wrapper">
+                                <a class="animated-button" href="orders-empty.html" target="_blank">
+                                    <svg height="40" width="210" xmlns="http://www.w3.org/2000/svg">
+                                        <rect class="shape" height="40" width="210"></rect>
+                                    </svg>
+                                    <div class="text">Orders Empty</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <img src="{{ asset('frontend/img/ui/app/invoice.png') }}" alt="">
+
+                        <!-- Animated Link -->
+                        <div class="link-wrap">
+                            <div class="stroke-wrapper">
+                                <a class="animated-button" href="invoice.html" target="_blank">
+                                    <svg height="40" width="210" xmlns="http://www.w3.org/2000/svg">
+                                        <rect class="shape" height="40" width="210"></rect>
+                                    </svg>
+                                    <div class="text">Invoice</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <img src="{{ asset('frontend/img/ui/app/checkout1.png') }}" alt="">
+
+                        <!-- Animated Link -->
+                        <div class="link-wrap">
+                            <div class="stroke-wrapper">
+                                <a class="animated-button" href="checkout-step1.html" target="_blank">
+                                    <svg height="40" width="210" xmlns="http://www.w3.org/2000/svg">
+                                        <rect class="shape" height="40" width="210"></rect>
+                                    </svg>
+                                    <div class="text">Checkout Step 1</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <img src="{{ asset('frontend/img/ui/app/checkout2.png') }}" alt="">
+
+                        <!-- Animated Link -->
+                        <div class="link-wrap">
+                            <div class="stroke-wrapper">
+                                <a class="animated-button" href="checkout-step2.html" target="_blank">
+                                    <svg height="40" width="210" xmlns="http://www.w3.org/2000/svg">
+                                        <rect class="shape" height="40" width="210"></rect>
+                                    </svg>
+                                    <div class="text">Checkout Step 2</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <img src="{{ asset('frontend/img/ui/app/checkout3.png') }}" alt="">
+
+                        <!-- Animated Link -->
+                        <div class="link-wrap">
+                            <div class="stroke-wrapper">
+                                <a class="animated-button" href="checkout-step3.html" target="_blank">
+                                    <svg height="40" width="210" xmlns="http://www.w3.org/2000/svg">
+                                        <rect class="shape" height="40" width="210"></rect>
+                                    </svg>
+                                    <div class="text">Checkout Step 3</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <img src="{{ asset('frontend/img/ui/app/checkout4.png') }}" alt="">
+
+                        <!-- Animated Link -->
+                        <div class="link-wrap">
+                            <div class="stroke-wrapper">
+                                <a class="animated-button" href="checkout-step4.html" target="_blank">
+                                    <svg height="40" width="210" xmlns="http://www.w3.org/2000/svg">
+                                        <rect class="shape" height="40" width="210"></rect>
+                                    </svg>
+                                    <div class="text">Checkout Step 4</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <img src="{{ asset('frontend/img/ui/app/checkout5.png') }}" alt="">
+
+                        <!-- Animated Link -->
+                        <div class="link-wrap">
+                            <div class="stroke-wrapper">
+                                <a class="animated-button" href="checkout-step5.html" target="_blank">
+                                    <svg height="40" width="210" xmlns="http://www.w3.org/2000/svg">
+                                        <rect class="shape" height="40" width="210"></rect>
+                                    </svg>
+                                    <div class="text">Checkout Step 5</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <img src="{{ asset('frontend/img/ui/app/error-404.png') }}" alt="">
+
+                        <!-- Animated Link -->
+                        <div class="link-wrap">
+                            <div class="stroke-wrapper">
+                                <a class="animated-button" href="error-404.html" target="_blank">
+                                    <svg height="40" width="210" xmlns="http://www.w3.org/2000/svg">
+                                        <rect class="shape" height="40" width="210"></rect>
+                                    </svg>
+                                    <div class="text">Error 404</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <img src="{{ asset('frontend/img/ui/app/error-500.png') }}" alt="">
+
+                        <!-- Animated Link -->
+                        <div class="link-wrap">
+                            <div class="stroke-wrapper">
+                                <a class="animated-button" href="error-500.html" target="_blank">
+                                    <svg height="40" width="210" xmlns="http://www.w3.org/2000/svg">
+                                        <rect class="shape" height="40" width="210"></rect>
+                                    </svg>
+                                    <div class="text">Error 500</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <img src="{{ asset('frontend/img/ui/app/search-results.png') }}" alt="">
+
+                        <!-- Animated Link -->
+                        <div class="link-wrap">
+                            <div class="stroke-wrapper">
+                                <a class="animated-button" href="search-results.html" target="_blank">
+                                    <svg height="40" width="210" xmlns="http://www.w3.org/2000/svg">
+                                        <rect class="shape" height="40" width="210"></rect>
+                                    </svg>
+                                    <div class="text">Search Results</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <img src="{{ asset('frontend/img/ui/app/elements.png') }}" alt="">
+
+                        <!-- Animated Link -->
+                        <div class="link-wrap">
+                            <div class="stroke-wrapper">
+                                <a class="animated-button" href="elements.html" target="_blank">
+                                    <svg height="40" width="210" xmlns="http://www.w3.org/2000/svg">
+                                        <rect class="shape" height="40" width="210"></rect>
+                                    </svg>
+                                    <div class="text">Elements</div>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
-        <img class="is-ui is-hidden-mobile" src="">
-
     </section>
 
 
@@ -166,8 +571,231 @@
             </div>
         </div>
     </section>
+    <section class="section is-medium is-grey">
+        <div class="container">
+            <div class="title-wrapper has-text-centered">
+                <div class="title is-3 is-spaced">
+                    Des Clients Satisfaits
+                </div>
+                <div class="subtitle is-5 is-muted">Partout au Cameroun</div>
+                <img class="filigrane" src="{{ asset('frontend/img/logo/nephos-greyscale.svg') }}">
+            </div>
 
-    <section class="section is-medium  is-relative is-grey">
+            <div class="content-wrapper">
+                <div class="columns has-text-centered spaced-boxes">
+
+                    <div class="column is-hidden-mobile"></div>
+
+                    <div class="column is-3">
+                        <div class="icon-box">
+                            <div class="icon-wrapper">
+                                <i data-feather="code"></i>
+                            </div>
+                            <div class="box-content">
+                                <div class="box-title">
+                                    Plus de 95%
+                                </div>
+                                <div class="box-text">
+                                    Clients Satisfaits
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="column is-3">
+                        <div class="icon-box">
+                            <div class="icon-wrapper">
+                                <i data-feather="smartphone"></i>
+                            </div>
+                            <div class="box-content">
+                                <div class="box-title">
+                                    87 500
+                                </div>
+                                <div class="box-text">
+                                    Avis 5 étoiles laissés sur le site
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="column is-3">
+                        <div class="icon-box">
+                            <div class="icon-wrapper">
+                                <i data-feather="shopping-cart"></i>
+                            </div>
+                            <div class="box-content">
+                                <div class="box-title">
+                                    4.89/5
+                                </div>
+                                <div class="box-text">
+                                    note moyenne des prestataires
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="column is-hidden-mobile"></div>
+
+                </div>
+                <div class="cta-wrapper has-text-centered is-title-reveal">
+                    <a href="https://1.envato.market/c/128816/275988/4415?subId1=theme&subId2=banner&subId3=https%3A%2F%2Fthemeforest.net%2Fitem%2Fnephos-modern-bulma-ecommerce-app-and-dashboard%2F21724192&u=https%3A%2F%2Fthemeforest.net%2Fitem%2Fnephos-modern-bulma-ecommerce-app-and-dashboard%2F21724192" target="_blank" class="button feather-button primary-button is-bold raised">Buy Now</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    {# TODO  affichage des feedbacks des clients satisfaits#}
+    <section class="section is-medium ">
+        <div class="container">
+            <div class="title-wrapper has-text-centered">
+                <div class="title is-3 is-spaced">
+                    Les derniers avis de nos clients
+                </div>
+                <div class="subtitle is-5 is-muted">Partout au Cameroun</div>
+                <img class="filigrane" src="{{ asset('frontend/img/logo/nephos-greyscale.svg') }}">
+            </div>
+
+            <div class="content-wrapper">
+                <div class="columns has-text-centered spaced-boxes">
+
+                    <div class="column is-hidden-mobile"></div>
+
+                    <div class="column is-3">
+                        <div class="icon-box">
+                            <div class="icon-wrapper">
+                                <i data-feather="code"></i>
+                            </div>
+                            <div class="box-content">
+                                <div class="box-title">
+                                    Plus de 95%
+                                </div>
+                                <div class="box-text">
+                                    Clients Satisfaits
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="column is-3">
+                        <div class="icon-box">
+                            <div class="icon-wrapper">
+                                <i data-feather="smartphone"></i>
+                            </div>
+                            <div class="box-content">
+                                <div class="box-title">
+                                    87 500
+                                </div>
+                                <div class="box-text">
+                                    Avis 5 étoiles laissés sur le site
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="column is-3">
+                        <div class="icon-box">
+                            <div class="icon-wrapper">
+                                <i data-feather="shopping-cart"></i>
+                            </div>
+                            <div class="box-content">
+                                <div class="box-title">
+                                    4.89/5
+                                </div>
+                                <div class="box-text">
+                                    note moyenne des prestataires
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="column is-hidden-mobile"></div>
+
+                </div>
+                <div class="cta-wrapper has-text-centered is-title-reveal">
+                    <a href="https://1.envato.market/c/128816/275988/4415?subId1=theme&subId2=banner&subId3=https%3A%2F%2Fthemeforest.net%2Fitem%2Fnephos-modern-bulma-ecommerce-app-and-dashboard%2F21724192&u=https%3A%2F%2Fthemeforest.net%2Fitem%2Fnephos-modern-bulma-ecommerce-app-and-dashboard%2F21724192" target="_blank" class="button feather-button primary-button is-bold raised">Buy Now</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section is-medium is-grey">
+        <div class="container">
+            <div class="title-wrapper has-text-centered">
+                <div class="title is-3 is-spaced">
+                    Comment ça marche ?
+                </div>
+                <div class="subtitle is-5 is-muted">Quelque points</div>
+                <img class="filigrane" src="{{ asset('frontend/img/logo/nephos-greyscale.svg') }}">
+            </div>
+            <div class="columns is-vcentered">
+                <div class="column is-4 is-offset-2">
+                    <div class="feature-divider is-responsive-centered"></div>
+                    <h2 class="title is-4 is-responsive-centered">
+                        Je Choisis mon service
+                    </h2>
+                    <p class="is-muted is-responsive-centered">
+                        Nephos has been designed with care. Each UI element has been thought separatly.
+                    </p>
+                </div>
+                <div class="column is-6 has-text-centered is-centered-tablet-portrait">
+                    <img class="is-featured" src="{{ asset('frontend/img/ui/sidebar.png') }}" alt="">
+                </div>
+            </div>
+
+            <div class="columns is-vcentered">
+                <div class="column is-6 is-offset-1 is-hidden-mobile has-text-centered">
+                    <img class="is-featured" src="{{ asset('frontend/img/ui/micro-interactions.png') }}" alt="">
+                </div>
+                <div class="column is-4">
+                    <div class="feature-divider is-responsive-centered"></div>
+                    <h2 class="title is-4 is-responsive-centered">
+                        Je reçois des propositions des pros et des particuliers qualifiés
+                    </h2>
+                    <p class="is-muted is-responsive-centered">
+                        For a better user experience, Nephos is shipped with many built in micro interactions.
+                    </p>
+                </div>
+                <div class="column is-6 is-offset-1 is-hidden-desktop is-hidden-tablet is-centered-tablet-portrait">
+                    <img class="is-featured" src="{{ asset('frontend/img/ui/micro-interactions.png') }}" alt="">
+                </div>
+            </div>
+
+            <div class="columns is-vcentered">
+                <div class="column is-4 is-offset-2">
+                    <div class="feature-divider is-responsive-centered"></div>
+                    <h2 class="title is-4 is-responsive-centered">
+                        Je reseve en ligne une pretation bien pécise
+                    </h2>
+                    <p class="is-muted is-responsive-centered">
+                        6 Themes are available by default. You can also create your very own from scratch.
+                    </p>
+                </div>
+                <div class="column is-6 is-centered-tablet-portrait has-text-centered">
+                    <img class="is-featured" src="{{ asset('frontend/img/ui/color-schemes.png') }}" alt="">
+                </div>
+            </div>
+            <div class="columns is-vcentered">
+                <div class="column is-6 is-offset-1 is-hidden-mobile has-text-centered">
+                    <img class="is-featured" src="{{ asset('frontend/img/ui/micro-interactions.png') }}" alt="">
+                </div>
+                <div class="column is-4">
+                    <div class="feature-divider is-responsive-centered"></div>
+                    <h2 class="title is-4 is-responsive-centered">
+                        Je donne mon feedback sur le travail effectué
+                    </h2>
+                    <p class="is-muted is-responsive-centered">
+                        For a better user experience, Nephos is shipped with many built in micro interactions.
+                    </p>
+                </div>
+                <div class="column is-6 is-offset-1 is-hidden-desktop is-hidden-tablet is-centered-tablet-portrait">
+                    <img class="is-featured" src="{{ asset('frontend/img/ui/micro-interactions.png') }}" alt="">
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <section class="section is-medium  is-relative">
         <div class="container">
 
             <div class="content-wrapper">
@@ -197,7 +825,8 @@
 
     </section>
 
-    <section class="section is-medium ">
+
+    <section class="section is-medium is-grey">
         <div class="container">
 
             <div class="title-wrapper has-text-centered">
@@ -233,8 +862,8 @@
                 </div>
 
                 <div class="cta-wrapper has-text-centered is-title-reveal">
-                    <a href="https://1.envato.market/c/128816/275988/4415?subId1=theme&subId2=banner&subId3=https%3A%2F%2Fthemeforest.net%2Fitem%2Fnephos-modern-bulma-ecommerce-app-and-dashboard%2F21724192&u=https%3A%2F%2Fthemeforest.net%2Fitem%2Fnephos-modern-bulma-ecommerce-app-and-dashboard%2F21724192"
-                       target="_blank" class="button feather-button primary-button is-bold raised">Buy Nephos</a>
+                    <button class="button feather-button primary-button is-bold raised video">VIDEO</button>
+
                 </div>
             </div>
         </div>
