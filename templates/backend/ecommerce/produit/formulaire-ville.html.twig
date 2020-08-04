@@ -1,0 +1,10 @@
+{{ form_start(form,{'attr':{'novalidate':'novalidate','id':'form-ville','data-plugin':'dropzone'}}) }}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label for="field-3" class="control-label">Nom de la ville</label>
+                {{ form_widget(form.villes, {'attr': {'class': 'form-control'}}) }}
+            </div>
+        </div>
+    </div>
+{{ form_end(form) }}

@@ -6,6 +6,7 @@ use App\Repository\ProduitRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\MaxDepth;
 
@@ -17,36 +18,51 @@ class Produit
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
+     * @Groups({"show_list"})
      * @ORM\Column(type="integer")
      */
     private $id;
 
     /**
+     * @Assert\NotBlank(message="Vous devez donner un nom au produit")
+     * @Groups({"show_list"})
      * @ORM\Column(type="string", length=255)
      */
     private $nom;
 
     /**
+     * @Assert\Choice(callback={"App\Services\ecommerce\Tools", "getTypeTransaction"}, message="Le type de transaction n'est pas défini")
+     * @Groups({"show_list"})
      * @ORM\Column(type="string", length=255)
      */
     private $typeTransaction;
 
     /**
+     * @Assert\GreaterThan(value = 0,message="la valeur du prix doit être supérieure à zèro")
+     * @Groups({"show_list"})
      * @ORM\Column(type="float")
      */
     private $prix;
 
     /**
+     * @Assert\Range(
+     *      min = 0,
+     *      max = 100,
+     *      notInRangeMessage = "Pourcentage entre {{ min }}% et {{ max }}%",
+     * )
+     * @Groups({"show_list"})
      * @ORM\Column(type="float", nullable=true)
      */
     private $prixPromo;
 
     /**
+     * @Groups({"show_list"})
      * @ORM\Column(type="string", length=255)
      */
-    private $images;
+    private $images = "a:0:{}";
 
     /**
+     * @Groups({"show_list"})
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $localisation;
@@ -54,14 +70,15 @@ class Produit
     /**
      * @ORM\Column(type="boolean")
      */
-    private $visiblite;
+    private $visiblite = true;
 
     /**
      * @ORM\Column(type="float")
      */
-    private $priorite;
+    private $priorite = 1;
 
     /**
+     * @Groups({"show_list"})
      * @ORM\Column(type="integer", nullable=true)
      */
     private $dureeSejour;
@@ -74,30 +91,31 @@ class Produit
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $produitsAssocies;
+    private $produitsAssocies = "a:0:{}";
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    private $attributs;
+    private $attributs = "a:0:{}";
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $nbreConsultations;
+    private $nbreConsultations = 0;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Caracteristiques::class)
+     * @ORM\OneToOne(targetEntity=Caracteristiques::class)
      */
     private $caracteristique;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Dimension::class)
+     * @ORM\OneToOne(targetEntity=Dimension::class)
      */
     private $dimension;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Date::class)
+     * @Groups({"show_list"})
+     * @ORM\OneToOne(targetEntity=Date::class)
      */
     private $date;
 
@@ -121,6 +139,11 @@ class Produit
      */
     private $categorieProd;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $description;
+
     public function __construct()
     {
         $this->avis = new ArrayCollection();
@@ -138,7 +161,7 @@ class Produit
 
     public function setNom(string $nom): self
     {
-        $this->nom = $nom;
+        $this->nom = strtolower($nom);
 
         return $this;
     }
@@ -150,7 +173,7 @@ class Produit
 
     public function setTypeTransaction(string $typeTransaction): self
     {
-        $this->typeTransaction = $typeTransaction;
+        $this->typeTransaction = strtolower($typeTransaction);
 
         return $this;
     }
@@ -179,14 +202,14 @@ class Produit
         return $this;
     }
 
-    public function getImages(): ?string
+    public function getImages(): ?array
     {
-        return $this->images;
+        return unserialize($this->images);
     }
 
-    public function setImages(string $images): self
+    public function setImages(array $images): self
     {
-        $this->images = $images;
+        $this->images = serialize($images);
 
         return $this;
     }
@@ -203,7 +226,7 @@ class Produit
         return $this;
     }
 
-    public function getVisiblite(): ?bool
+    public function isVisiblite(): ?bool
     {
         return $this->visiblite;
     }
@@ -239,7 +262,7 @@ class Produit
         return $this;
     }
 
-    public function getMeuble(): ?bool
+    public function isMeuble(): ?bool
     {
         return $this->meuble;
     }
@@ -251,26 +274,26 @@ class Produit
         return $this;
     }
 
-    public function getProduitsAssocies(): ?string
+    public function getProduitsAssocies(): ?array
     {
-        return $this->produitsAssocies;
+        return unserialize($this->produitsAssocies);
     }
 
-    public function setProduitsAssocies(?string $produitsAssocies): self
+    public function setProduitsAssocies(?array $produitsAssocies): self
     {
-        $this->produitsAssocies = $produitsAssocies;
+        $this->produitsAssocies = serialize($produitsAssocies);
 
         return $this;
     }
 
-    public function getAttributs(): ?string
+    public function getAttributs(): ?array
     {
-        return $this->attributs;
+        return unserialize($this->attributs);
     }
 
-    public function setAttributs(?string $attributs): self
+    public function setAttributs(?array $attributs): self
     {
-        $this->attributs = $attributs;
+        $this->attributs = serialize($attributs);
 
         return $this;
     }
@@ -386,6 +409,18 @@ class Produit
     public function setCategorieProd(?CategorieProd $categorieProd): self
     {
         $this->categorieProd = $categorieProd;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }

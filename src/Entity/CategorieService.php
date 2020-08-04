@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * @ORM\Table(name="categorie_service", indexes={@ORM\Index(name="fk_categorie_service", columns={"categorie_parent"})})
  * @ORM\Entity(repositoryClass=CategorieServiceRepository::class)
  */
 class CategorieService
@@ -23,6 +24,30 @@ class CategorieService
      * @ORM\Column(type="string", length=255)
      */
     private $nom;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="string", length=255, nullable=false)
+     */
+    private $description;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="img", type="string", length=255, nullable=false)
+     */
+    private $img;
+
+    /**
+     * @var CategorieService
+     *
+     * @ORM\ManyToOne(targetEntity="CategorieService")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="categorie_parent", referencedColumnName="id")
+     * })
+     */
+    private $categorieParent;
 
     /**
      * @ORM\OneToMany(targetEntity=Service::class, mappedBy="CategorieService")
@@ -49,6 +74,54 @@ class CategorieService
         $this->nom = $nom;
 
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription(): string
+    {
+        return $this -> description;
+    }
+
+    /**
+     * @param string $description
+     */
+    public function setDescription(string $description): void
+    {
+        $this -> description = $description;
+    }
+
+    /**
+     * @return string
+     */
+    public function getImg(): string
+    {
+        return $this -> img;
+    }
+
+    /**
+     * @param string $img
+     */
+    public function setImg(string $img): void
+    {
+        $this -> img = $img;
+    }
+
+    /**
+     * @return CategorieService
+     */
+    public function getCategorieParent(): CategorieService
+    {
+        return $this -> categorieParent;
+    }
+
+    /**
+     * @param CategorieService $categorieParent
+     */
+    public function setCategorieParent(CategorieService $categorieParent): void
+    {
+        $this -> categorieParent = $categorieParent;
     }
 
     /**

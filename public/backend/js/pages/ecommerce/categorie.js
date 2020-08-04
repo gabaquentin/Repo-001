@@ -75,9 +75,12 @@ function ajaxSaveCategoryDispo(data,button,formContent)
         },
         success: (data) => {
             displayMessage(data)
-            formContent.fadeOut()
-            formContent.html(data["form"]["content"])
-            formContent.fadeIn()
+            if(data["form"] && data["form"].length!==0)
+            {
+                formContent.fadeOut()
+                formContent.html(data["form"]["content"])
+                formContent.fadeIn()
+            }
             ableButton(button)
         },
         error: () => {
@@ -125,27 +128,6 @@ function ajaxSuppressionCat(idCategorie,button) {
                 Swal.fire("Suppression!", "La catégorie a été supprimée", "success").then((t)=>{
                     document.location.reload();
                 });
-            ableButton(button)
-        },
-        error: () => {
-            messageErrorServer()
-            ableButton(button)
-        }
-    });
-}
-
-function f() {
-    $.ajax({
-        type: "GET",
-        url: GetCategorieRoute,
-        data : {"idCategory" : 1},
-        dataType: "JSON",
-        beforeSend : () => {
-            disableButton(button)
-        },
-        success: (data) => {
-            displayMessage(data);
-            console.log(data);
             ableButton(button)
         },
         error: () => {
