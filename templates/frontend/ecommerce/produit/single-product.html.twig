@@ -1,0 +1,538 @@
+{% extends 'frontend/ecommerce/base.html.twig' %}
+
+{% block stylesheets %}
+    <link href="{{ asset('backend/libs/quill/quill.core.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('backend/libs/quill/quill.bubble.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('backend/libs/quill/quill.snow.css') }}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block title %}Services{% endblock %}
+
+{% block body %}
+    <div id="product-page" class="shop-wrapper product-container" data-product-id="{{ produit.id }}">
+
+        <!-- Search overlay -->
+        <div class="search-overlay"></div>
+
+        <!-- Search input -->
+        <div class="search-input-wrapper is-desktop is-hidden">
+            <div class="field">
+                <div class="control">
+                    <input id="nephos-search" type="text" name="search" placeholder="Search a Product">
+                    <span id="clear-search" role="button"><i data-feather="x"></i></span>
+                    <span class="bar"></span>
+                </div>
+                <span class="search-help">Type the name of the product you are looking for</span>
+            </div>
+        </div>
+
+        <div class="product-panel has-background-image">
+
+
+            <!-- Left Header -->
+            <div class="panel-header">
+                <div class="likes">
+                    <span>263</span>
+                    <i class="is-liked" data-feather="heart"></i>
+                </div>
+            </div>
+
+            <!-- Product image -->
+            <div id="product-view" class="product-image translateLeft">
+
+                <div class="is-carousel">
+                    <div class="fullscreen-slick">
+                        {% for image in produit.images %}
+                            <div><img src="/images/produits/{{ image }}" data-action="zoom" alt="" class="" style=""></div>
+                        {% endfor %}
+                    </div>
+
+                </div>
+                <!--img src="http://via.placeholder.com/500x500/ffffff/999999" data-demo-src="assets/img/products/red-seat.png" data-action="zoom" alt=""-->
+            </div>
+
+            <!-- Product details -->
+            <div id="meta-view" class="translateLeft is-hidden">
+                <!-- Product description -->
+                <div class="detailed-description">
+                    <div class="meta-block">
+                        <h3>Nom du produit</h3>
+                        <p id="panel-product-name">{{ produit.nom }}</p>
+                    </div>
+                    <div class="meta-block">
+                        <h3>Type de transaction</h3>
+                        <p id="panel-product-sku">{{ produit.typeTransaction }}</p>
+                    </div>
+                    <div class="meta-block">
+                        <h3>Ville</h3>
+                        <p>{{ produit.ville.villes }}</p>
+                    </div>
+                    {% if produit.localisation is not empty %}
+                        <div class="meta-block">
+                            <h3>Localisation</h3>
+                            <p>{{ produit.localisation }}</p>
+                        </div>
+                    {% endif %}
+                    {% if produit.dimension is not null %}
+                        <div class="meta-block">
+                            <h3>Dimensions</h3>
+                            <p>L:{{ produit.dimension.longueur is null?"0":produit.dimension.longueur }}m * l:{{ produit.dimension.largeur is null?"0":produit.dimension.largeur }}m * H:{{ produit.dimension.hauteur is null?"0":produit.dimension.hauteur }}m</p>
+                        </div>
+                    {% endif %}
+                    {% if produit.caracteristique is not null %}
+                        <div class="meta-block">
+                            <h3>Pièces</h3>
+                            <p> Chambres : {{ produit.caracteristique.nbreChambres is null?"indéfini":produit.caracteristique.nbreChambres }} - Parking : {{ produit.caracteristique.nbreParking is null?"inéfini":produit.caracteristique.nbreParking }} - Salle de bain : {{ produit.caracteristique.nbreSalleBain is null?"indéfini":produit.caracteristique.nbreSalleBain }}</p>
+                        </div>
+                    {% endif %}
+                    {% if produit.categorieProd.typeCategorie=="immobilier" %}
+                        <div class="meta-block">
+                            <h3>Meublé</h3>
+                            <p>{{ produit.meuble?"Oui":"Non" }}</p>
+                        </div>
+                        {% if produit.dureeSejour is not null %}
+                            <div class="meta-block">
+                                <h3>Durée du séjour</h3>
+                                <p>{{ produit.dureeSejour }} Jours</p>
+                            </div>
+                        {% endif %}
+                    {% endif %}
+
+                    <!-- Product long description -->
+                    <div class="meta-block ql-editor">
+                        <h3 class="spaced">Description</h3>
+                        {{ produit.description|raw }}
+                    </div>
+                    <!-- Product Dimensions -->
+
+
+                </div>
+            </div>
+
+            <!-- Product Ratings -->
+            <div id="ratings-view" class="translateLeft is-hidden">
+                <div class="product-ratings">
+                    <div class="main-rating">
+
+                        <!-- Average Rating -->
+                        <h3>Product Rating</h3>
+                        <div class="stars">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star-half"></i>
+                        </div>
+                        <span>Rated <small>4,5/5</small> out of <small>29</small> reviews</span>
+                        <span class="add-review modal-trigger" data-modal="review-modal"><i data-feather="plus"></i> Add review</span>
+                    </div>
+
+                    <!-- Customer reviews -->
+                    <div class="customer-ratings">
+                        <!-- Product review -->
+                        <div class="media">
+                            <div class="media-left">
+                                <figure class="image is-32x32">
+                                    <img src="http://via.placeholder.com/250x250" data-demo-src="assets/img/avatars/elie.jpg" alt="">
+                                </figure>
+                            </div>
+                            <div class="media-content">
+                                <p>
+                                    <span>Elie Daniels</span>
+                                    <small>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star-half"></i>
+                                    </small>
+                                    <br>
+                                    <span class="rating-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean efficitur sit amet massa fringilla egestas. Nullam condimentum luctus turpis.</span>
+                                </p>
+                            </div>
+                        </div>
+                        <!-- Product review -->
+                        <div class="media">
+                            <div class="media-left">
+                                <figure class="image is-32x32">
+                                    <img src="http://via.placeholder.com/250x250" data-demo-src="assets/img/avatars/john.jpg" alt="">
+                                </figure>
+                            </div>
+                            <div class="media-content">
+                                <p>
+                                    <span>John Smith</span>
+                                    <small>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                    </small>
+                                    <br>
+                                    <span class="rating-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean efficitur sit amet massa fringilla egestas nullam.</span>
+                                </p>
+                            </div>
+                        </div>
+                        <!-- Product review -->
+                        <div class="media">
+                            <div class="media-left">
+                                <figure class="image is-32x32">
+                                    <img src="http://via.placeholder.com/250x250" data-demo-src="assets/img/avatars/marjory.jpg" alt="">
+                                </figure>
+                            </div>
+                            <div class="media-content">
+                                <p>
+                                    <span>Marjory Cambell</span>
+                                    <small>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star-half"></i>
+                                    </small>
+                                    <br>
+                                    <span class="rating-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean efficitur sit amet massa fringilla egestas. Nullam condimentum luctus turpis.</span>
+                                </p>
+                            </div>
+                        </div>
+                        <!-- Product review -->
+                        <div class="media">
+                            <div class="media-left">
+                                <figure class="image is-32x32">
+                                    <img src="http://via.placeholder.com/250x250" data-demo-src="assets/img/avatars/danny.png" alt="">
+                                </figure>
+                            </div>
+                            <div class="media-content">
+                                <p>
+                                    <span>Danny Welsh</span>
+                                    <small>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                    </small>
+                                    <br>
+                                    <span class="rating-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean efficitur sit
+                                            amet massa fringilla egestas nullam.</span>
+                                </p>
+                            </div>
+                        </div>
+                        <!-- Product review -->
+                        <div class="media">
+                            <div class="media-left">
+                                <figure class="image is-32x32">
+                                    <img src="http://via.placeholder.com/250x250" data-demo-src="assets/img/avatars/ron.jpg" alt="">
+                                </figure>
+                            </div>
+                            <div class="media-content">
+                                <p>
+                                    <span>Ron Sutherly</span>
+                                    <small>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                    </small>
+                                    <br>
+                                    <span class="rating-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean efficitur sit
+                                            amet massa fringilla egestas nullam.</span>
+                                </p>
+                            </div>
+                        </div>
+                        <!-- Product review -->
+                        <div class="media">
+                            <div class="media-left">
+                                <figure class="image is-32x32">
+                                    <img src="http://via.placeholder.com/250x250" data-demo-src="assets/img/avatars/samantha.jpg" alt="">
+                                </figure>
+                            </div>
+                            <div class="media-content">
+                                <p>
+                                    <span>Samantha Jackson</span>
+                                    <small>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star-half"></i>
+                                    </small>
+                                    <br>
+                                    <span class="rating-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean efficitur sit
+                                            amet massa fringilla egestas. Nullam condimentum luctus turpis.</span>
+                                </p>
+                            </div>
+                        </div>
+                        <!-- Product review -->
+                        <div class="media">
+                            <div class="media-left">
+                                <figure class="image is-32x32">
+                                    <img src="http://via.placeholder.com/250x250" data-demo-src="assets/img/avatars/eddie.jpg" alt="">
+                                </figure>
+                            </div>
+                            <div class="media-content">
+                                <p>
+                                    <span>Eddy Smith</span>
+                                    <small>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star-half"></i>
+                                    </small>
+                                    <br>
+                                    <span class="rating-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean efficitur sit
+                                            amet massa fringilla egestas. Nullam condimentum luctus turpis.</span>
+                                </p>
+                            </div>
+                        </div>
+                        <!-- Product review -->
+                        <div class="media">
+                            <div class="media-left">
+                                <figure class="image is-32x32">
+                                    <img src="http://via.placeholder.com/250x250" data-demo-src="assets/img/avatars/arthur.jpg" alt="">
+                                </figure>
+                            </div>
+                            <div class="media-content">
+                                <p>
+                                    <span>Arthur Baxter</span>
+                                    <small>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star-half"></i>
+                                    </small>
+                                    <br>
+                                    <span class="rating-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean efficitur sit
+                                            amet massa fringilla egestas. Nullam condimentum luctus turpis.</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /Product Ratings -->
+
+            <!-- Product panel actions -->
+            <div class="product-actions">
+                <!-- Zoom Action -->
+                <div class="zoom-buttons">
+                    <i data-feather="plus-circle"></i>
+                    <i data-feather="minus-circle"></i>
+                </div>
+                <!-- Navigation icons -->
+                <div class="right-actions">
+                    <!-- Product image panel -->
+                    <span id="show-product" class="product-action is-active"><i data-feather="image"></i></span>
+                    <!-- Product meta panel -->
+                    <span id="show-meta" class="product-action"><i data-feather="menu"></i></span>
+                    <!-- Product ratings panel -->
+                    <span id="show-ratings" class="product-action"><i data-feather="message-circle"></i></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right product panel -->
+        <div class="product-info-panel">
+            <div class="inner-panel">
+
+                <!-- Panel body -->
+                <div class="panel-body">
+                    <!-- Product Meta -->
+                    <h3 class="product-name"><var id="product-details-name">{{ produit.nom|upper }}</var> <span id="product-details-sku">{{ produit.categorieProd.nomCategorie }}</span></h3>
+
+                   {# <p id="product-details-shortDesc" class="product-description"> Dernière modification : {{ produit.date.dateModification|localizeddate('none', 'none', null, null, 'MMMM Y') }}</p>
+#}
+                    <!-- Product controls -->
+                    <div class="product-controls">
+                        <!-- Price -->
+                        <div class="product-price">
+                            <div class="heading">Prix</div>
+                            <div class="value">
+                                <span id="new-price">{{ produit.prix*(1-produit.prixPromo/100) }}</span>
+                                {% if produit.prixPromo!=0 %}
+                                    <span id='old-price'>{{ produit.prix}}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <!-- Quantity -->
+                        <div class="product-quantity">
+
+                        </div>
+                        <!-- Add to Cart -->
+                        <div class="add-to-cart">
+                            <div class="heading is-hidden">Ajouter au panier</div>
+                            <button id="details-add-to-cart" class="button big-button cart-button primary-button upper-button rounded is-bold raised">Ajouter au panier</button>
+                        </div>
+
+                    </div>
+                    <div class="columns mt-80">
+                        <div class="column"></div>
+                        <div class="column">
+                            <div class="flat-card profile-card is-auto">
+                                <div class="card-body">
+                                    <div class="profile-image">
+                                        <img src="http://via.placeholder.com/250x250" alt="">
+                                    </div>
+                                    <div class="username has-text-centered">
+                                        <span>Elie Daniels</span>
+                                        <small>Member since Sep 23 2017</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Panel footer -->
+                <div class="panel-footer">
+                    {% if produitAssocies is not empty %}
+                        <div class="footer-inner">
+                            <div class="recommended">Produits Associés</div>
+                            <!-- Recommended items -->
+                            <div id="" class="columns  ">
+
+                                <div class="column"></div>
+                                <div class="column is-9 produit-asscocies">
+                                    {% for produit in produitAssocies %}
+                                        <!-- Item -->
+                                        <div class="column is-3">
+                                            <div class="featured-product">
+                                                <div class="image">
+                                                    <img src="/images/produits/{{ produit.images|first }}" alt="">
+                                                </div>
+                                                <div class="product-info has-text-centered">
+                                                    <a class="" href="{{ path('show_single_product_front',{'produit':produit.id}) }}">
+                                                        <h3 class="product-name">{{ produit.nom }}</h3>
+                                                    </a>
+                                                    <p class="product-description">{{ produit.prix*(1-produit.prixPromo/100) }} F CFA  {{ produit.ville.villes }}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    {% endfor %}
+                                </div>
+                                <div class="column"></div>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+                <!-- /Panel footer -->
+            </div>
+        </div>
+        <!-- /Right product panel -->
+
+    </div>
+
+
+    <!-- Modal -->
+    <div id="review-modal" class="modal review-modal">
+        <div class="modal-background"></div>
+        <div class="modal-content">
+            <div class="box">
+                <div class="box-header">
+                    <img src="http://via.placeholder.com/250x250" alt="">
+                    <span>Rate this product</span>
+                    <div class="modal-delete"><i data-feather="x"></i></div>
+                </div>
+                <div class="box-body">
+
+                    <fieldset class="rating">
+                        <input type="radio" id="star5" name="rating" value="5" /><label class="full" for="star5" title="Awesome - 5 stars"></label>
+                        <input type="radio" id="star4half" name="rating" value="4 and a half" /><label class="half" for="star4half" title="Great - 4.5 stars"></label>
+                        <input type="radio" id="star4" name="rating" value="4" /><label class="full" for="star4" title="Very good - 4 stars"></label>
+                        <input type="radio" id="star3half" name="rating" value="3 and a half" /><label class="half" for="star3half" title="Pretty good - 3.5 stars"></label>
+                        <input type="radio" id="star3" name="rating" value="3" /><label class="full" for="star3" title="Good - 3 stars"></label>
+                        <input type="radio" id="star2half" name="rating" value="2 and a half" /><label class="half" for="star2half" title="Average - 2.5 stars"></label>
+                        <input type="radio" id="star2" name="rating" value="2" /><label class="full" for="star2" title="Mediocre - 2 stars"></label>
+                        <input type="radio" id="star1half" name="rating" value="1 and a half" /><label class="half" for="star1half" title="Weak - 1.5 stars"></label>
+                        <input type="radio" id="star1" name="rating" value="1" /><label class="full" for="star1" title="Bad - 1 star"></label>
+                        <input type="radio" id="starhalf" name="rating" value="half" /><label class="half" for="starhalf" title="Terrible - 0.5 stars"></label>
+                    </fieldset>
+
+                    <div class="control">
+                        <textarea class="textarea is-button" placeholder="write something..."></textarea>
+                        <div class="textarea-button">
+                            <button class="button primary-button raised">Post review</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--button class="modal-close is-large" aria-label="close"></button-->
+    </div>
+    <!-- /Modal -->
+
+
+    <!-- Add to Wishlist Modal -->
+    <div id="add-to-wishlist-modal" class="modal add-to-wishlist-modal">
+        <div class="modal-background"></div>
+        <div class="modal-content">
+            <div class="box">
+                <div class="box-header">
+                    <img src="assets/img/logo/nephos-greyscale.svg" alt="">
+                    <span>ADD TO WISHLIST</span>
+                    <div class="modal-delete"><i data-feather="x"></i></div>
+                </div>
+                <div class="box-body">
+                    <div class="inner-content">
+                        <div id="existing-product-message" class="message is-link has-close-icon is-hidden">
+                            <div class="message-body">
+                                <a class="close-icon">
+                                    <i data-feather="x"></i>
+                                </a>
+                                This product already exists in the selected wishlist. Please try another one.
+                            </div>
+                        </div>
+                        <div id="wishlist-modal-list-placeholder" class="modal-placeholder is-hidden">
+                            <div class="placeholder-content">
+                                <img src="assets/img/illustrations/bed.svg" alt="">
+                                <h3>No Wishlists</h3>
+                                <p>You currently don't have any wishlist saved. Start by creating one.</p>
+                                <div class="button-wrap">
+                                    <a href="wishlist.html" class="button big-button primary-button rounded raised modal-delete">Add
+                                        Wishlist</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="wishlist-modal-list" class="wishlist-modal-list">
+                            <p>Add a new sub list to classify your wishlist items. You can then manage them and find them
+                                more
+                                easily.</p>
+                            <ul>
+                                <li class="list-item is-active">
+                                    <div class="meta">
+                                        <span class="name">Title</span>
+                                        <span class="count"><var>0</var> Items</span>
+                                    </div>
+                                    <div class="selected-indicator">
+                                        <i data-feather="check"></i>
+                                    </div>
+                                </li>
+                                <li class="list-item">
+                                    <div class="meta">
+                                        <span class="name">Title</span>
+                                        <span class="count"><var>0</var> Items</span>
+                                    </div>
+                                    <div class="selected-indicator">
+                                        <i data-feather="check"></i>
+                                    </div>
+                                </li>
+                            </ul>
+                            <div class="button-wrap">
+                                <button type="submit" class="button add-to-wishlist-action is-fullwidth feather-button is-bold primary-button raised">
+                                    Add To Wishlist
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block js %}
+    <script>
+
+    </script>
+    <script src="{{ asset('frontend/js/single-product.js') }}" type="text/javascript"></script>
+{% endblock %}

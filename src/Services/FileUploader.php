@@ -34,11 +34,11 @@ class FileUploader
         {
             $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
             $safeFilename = $this->slugger->slug($originalFilename);
-            $fileName = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
+            $fileName = $safeFilename.'-'.uniqid().'-'.uniqid().'.'.$file->guessExtension();
         }
         else
         {
-            $fileName = $imageName.'-'.uniqid().'.'.$file->guessExtension();
+            $fileName = str_replace(" ","-",$imageName).'-'.uniqid().'.'.$file->guessExtension();
         }
 
         try {
