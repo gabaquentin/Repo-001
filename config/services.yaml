@@ -5,6 +5,7 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     image_produit_path: '%kernel.project_dir%/public/images/produits'
+    image_service_path: '%kernel.project_dir%/public/images/services'
 
 services:
     # default configuration for services in *this* file
@@ -29,3 +30,4 @@ services:
     App\Services\FileUploader:
         arguments:
             $image_produit_path: '%image_produit_path%'
+            $image_service_path: '%image_service_path%'

@@ -1,6 +1,6 @@
 {% extends "/frontend/eservices/base.html.twig" %}
 
-{% block title %}Categorie X{% endblock %}
+{% block title %}{{ categorie.nom~' - Services' }}{% endblock %}
 
 {% block body %}
     <!-- Main wrapper -->
@@ -30,7 +30,7 @@
                     <div class="column main-column is-tablet-landscape-padded">
                         <!-- Title -->
                         <div class="category-title is-product-category">
-                            <h2>Catégorie x</h2>
+                            <h2>{{ categorie.nom }}</h2>
                         </div>
 
                         <!-- Controls -->
@@ -57,22 +57,20 @@
 
                         <!-- Product grid -->
                         <div class="columns is-product-grid is-multiline">
+                            {% for s in services %}
                             <!-- service -->
                             <div class="column is-3">
                                 <div class="flat-card product-container" data-product-id="1" data-product-category="House">
                                     <!-- Product zoomable image -->
                                     <div class="image">
-                                        <img src="http://via.placeholder.com/500x500/ffffff/999999" data-demo-src="assets/img/products/red-seat.png" alt="">
+                                        <img src="{{ asset('images/services/'~s.img) }}" data-demo-src="assets/img/products/red-seat.png" alt="">
                                     </div>
                                     <!-- Product meta -->
                                     <div class="product-info has-text-centered">
-                                        <a href="{{ path('service') }}">
-                                            <h3 class="product-name">Service x</h3>
+                                        <a href="{{ path('detail_service_front', {'service':s.id}) }}">
+                                            <h3 class="product-name">{{ s.nom }}</h3>
                                         </a>
-                                        <p class="product-description">Prix moyen</p>
-                                        <p class="product-price">
-                                            <span>45.00</span>
-                                        </p>
+                                        <p class="product-description">{{ s.description }}</p>
                                     </div>
                                     <!-- Product actions -->
                                     <div class="actions">
@@ -82,181 +80,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- service -->
-                            <div class="column is-3">
-                                <div class="flat-card product-container" data-product-id="1" data-product-category="House">
-                                    <!-- Product zoomable image -->
-                                    <div class="image">
-                                        <img src="http://via.placeholder.com/500x500/ffffff/999999" data-demo-src="assets/img/products/red-seat.png" alt="">
-                                    </div>
-                                    <!-- Product meta -->
-                                    <div class="product-info has-text-centered">
-                                        <a class="product-details-link" href="{{ path('service') }}">
-                                            <h3 class="product-name">Service x</h3>
-                                        </a>
-                                        <p class="product-description">Prix moyen</p>
-                                        <p class="product-price">
-                                            <span>45.00</span>
-                                        </p>
-                                    </div>
-                                    <!-- Product actions -->
-                                    <div class="actions">
-                                        <div class="like modal-trigger" data-modal="add-to-wishlist-modal">
-                                            <i data-feather="heart" class="has-simple-popover" data-content="Add to Wishlist" data-placement="top"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- service -->
-                            <div class="column is-3">
-                                <div class="flat-card product-container" data-product-id="1" data-product-category="House">
-                                    <!-- Product zoomable image -->
-                                    <div class="image">
-                                        <img src="http://via.placeholder.com/500x500/ffffff/999999" data-demo-src="assets/img/products/red-seat.png" alt="">
-                                    </div>
-                                    <!-- Product meta -->
-                                    <div class="product-info has-text-centered">
-                                        <a class="product-details-link" href="{{ path('service') }}">
-                                            <h3 class="product-name">Service x</h3>
-                                        </a>
-                                        <p class="product-description">Prix moyen</p>
-                                        <p class="product-price">
-                                            <span>45.00</span>
-                                        </p>
-                                    </div>
-                                    <!-- Product actions -->
-                                    <div class="actions">
-                                        <div class="like modal-trigger" data-modal="add-to-wishlist-modal">
-                                            <i data-feather="heart" class="has-simple-popover" data-content="Add to Wishlist" data-placement="top"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- service -->
-                            <div class="column is-3">
-                                <div class="flat-card product-container" data-product-id="1" data-product-category="House">
-                                    <!-- Product zoomable image -->
-                                    <div class="image">
-                                        <img src="http://via.placeholder.com/500x500/ffffff/999999" data-demo-src="assets/img/products/red-seat.png" alt="">
-                                    </div>
-                                    <!-- Product meta -->
-                                    <div class="product-info has-text-centered">
-                                        <a class="product-details-link" href="{{ path('service') }}">
-                                            <h3 class="product-name">Service x</h3>
-                                        </a>
-                                        <p class="product-description">Prix moyen</p>
-                                        <p class="product-price">
-                                            <span>45.00</span>
-                                        </p>
-                                    </div>
-                                    <!-- Product actions -->
-                                    <div class="actions">
-                                        <div class="like modal-trigger" data-modal="add-to-wishlist-modal">
-                                            <i data-feather="heart" class="has-simple-popover" data-content="Add to Wishlist" data-placement="top"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- service -->
-                            <div class="column is-3">
-                                <div class="flat-card product-container" data-product-id="1" data-product-category="House">
-                                    <!-- Product zoomable image -->
-                                    <div class="image">
-                                        <img src="http://via.placeholder.com/500x500/ffffff/999999" data-demo-src="assets/img/products/red-seat.png" alt="">
-                                    </div>
-                                    <!-- Product meta -->
-                                    <div class="product-info has-text-centered">
-                                        <a class="product-details-link" href="{{ path('service') }}">
-                                            <h3 class="product-name">Service x</h3>
-                                        </a>
-                                        <p class="product-description">Prix moyen</p>
-                                        <p class="product-price">
-                                            <span>45.00</span>
-                                        </p>
-                                    </div>
-                                    <!-- Product actions -->
-                                    <div class="actions">
-                                        <div class="like modal-trigger" data-modal="add-to-wishlist-modal">
-                                            <i data-feather="heart" class="has-simple-popover" data-content="Add to Wishlist" data-placement="top"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- service -->
-                            <div class="column is-3">
-                                <div class="flat-card product-container" data-product-id="1" data-product-category="House">
-                                    <!-- Product zoomable image -->
-                                    <div class="image">
-                                        <img src="http://via.placeholder.com/500x500/ffffff/999999" data-demo-src="assets/img/products/red-seat.png" alt="">
-                                    </div>
-                                    <!-- Product meta -->
-                                    <div class="product-info has-text-centered">
-                                        <a class="product-details-link" href="{{ path('service') }}">
-                                            <h3 class="product-name">Service x</h3>
-                                        </a>
-                                        <p class="product-description">Prix moyen</p>
-                                        <p class="product-price">
-                                            <span>45.00</span>
-                                        </p>
-                                    </div>
-                                    <!-- Product actions -->
-                                    <div class="actions">
-                                        <div class="like modal-trigger" data-modal="add-to-wishlist-modal">
-                                            <i data-feather="heart" class="has-simple-popover" data-content="Add to Wishlist" data-placement="top"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- service -->
-                            <div class="column is-3">
-                                <div class="flat-card product-container" data-product-id="1" data-product-category="House">
-                                    <!-- Product zoomable image -->
-                                    <div class="image">
-                                        <img src="http://via.placeholder.com/500x500/ffffff/999999" data-demo-src="assets/img/products/red-seat.png" alt="">
-                                    </div>
-                                    <!-- Product meta -->
-                                    <div class="product-info has-text-centered">
-                                        <a class="product-details-link" href="{{ path('service') }}">
-                                            <h3 class="product-name">Service x</h3>
-                                        </a>
-                                        <p class="product-description">Prix moyen</p>
-                                        <p class="product-price">
-                                            <span>45.00</span>
-                                        </p>
-                                    </div>
-                                    <!-- Product actions -->
-                                    <div class="actions">
-                                        <div class="like modal-trigger" data-modal="add-to-wishlist-modal">
-                                            <i data-feather="heart" class="has-simple-popover" data-content="Add to Wishlist" data-placement="top"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- service -->
-                            <div class="column is-3">
-                                <div class="flat-card product-container" data-product-id="1" data-product-category="House">
-                                    <!-- Product zoomable image -->
-                                    <div class="image">
-                                        <img src="http://via.placeholder.com/500x500/ffffff/999999" data-demo-src="assets/img/products/red-seat.png" alt="">
-                                    </div>
-                                    <!-- Product meta -->
-                                    <div class="product-info has-text-centered">
-                                        <a class="product-details-link" href="{{ path('service') }}">
-                                            <h3 class="product-name">Service x</h3>
-                                        </a>
-                                        <p class="product-description">Prix moyen</p>
-                                        <p class="product-price">
-                                            <span>45.00</span>
-                                        </p>
-                                    </div>
-                                    <!-- Product actions -->
-                                    <div class="actions">
-                                        <div class="like modal-trigger" data-modal="add-to-wishlist-modal">
-                                            <i data-feather="heart" class="has-simple-popover" data-content="Add to Wishlist" data-placement="top"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            {% endfor %}
                         </div>
                         <!-- /Product grid -->
 

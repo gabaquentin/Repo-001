@@ -2,59 +2,99 @@
 
 namespace App\Controller\eservices;
 
+use App\Repository\CategorieServiceRepository;
+use App\Repository\ServiceRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+
+/**
+ * Class ServicesFrontController
+ * @package App\Controller\eservices
+ * @Route("/front/eservices")
+ */
 
 class ServicesFrontController extends AbstractController
 {
     /**
-     * @Route("/front/services/accueil",name="services_accueil")
+     * page d'acceuil
+     * affichage de la liste des catégories
+     * @Route("/accueil",name="services_accueil")
+     * @param CategorieServiceRepository $repo
+     * @return Response
      */
-    public function accueil_services()
+    public function accueil_services(CategorieServiceRepository $repo)
     {
-        return $this->render("frontend/eservices/accueil.html.twig");
+        return $this->render("frontend/eservices/accueil.html.twig", [
+            'categories' => $repo->findAll(),
+        ]);
     }
 
     /**
-     * @Route("/front/services/categorie",name="categorie")
+     * page de detail_categorie
+     * afficher les détails d'une catégorie
+     * @Route("/categorie/{id}",name="detail_categorie_front")
+     * @param CategorieServiceRepository $repo
+     * @param int $id
+     * @return Response
      */
-    public function detail_categorie()
+    public function detail_categorie(CategorieServiceRepository $repo, int $id)
     {
-        return $this->render("frontend/eservices/categorie.html.twig");
+        return $this->render("frontend/eservices/categorie.html.twig", [
+            'categorie' => $repo->findOneBy(['id'=> $id]),
+            'categories' => $repo->findAll(),
+        ]);
     }
 
     /**
-     * @Route("/front/services/categorie/services",name="services")
+     * page des services
+     * afficher la liste des services par categorie
+     * @Route("/categorie/services/{categorie}",name="services")
+     * @param ServiceRepository $repoService
+     * @param CategorieServiceRepository $repoCat
+     * @param int $categorie
+     * @return Response
      */
-    public function liste_services_par_categorie()
+    public function liste_services_par_categorie(ServiceRepository $repoService, CategorieServiceRepository $repoCat, int $categorie)
     {
-        return $this->render("frontend/eservices/services.html.twig");
+        return $this->render("frontend/eservices/services.html.twig", [
+            'services' => $repoService->findBy(['CategorieService'=> $categorie]),
+            'categorie' => $repoCat->findOneBy(['id'=> $categorie]),
+
+        ]);
     }
 
     /**
-     * @Route("/front/services/categorie/servicex",name="service")
+     * page service
+     * afficher les details d un service
+     * @Route("/categorie/service/{service}",name="detail_service_front")
+     * @param ServiceRepository $repo
+     * @param int $service
+     * @return Response
      */
-    public function afficher_service()
+    public function afficher_service(ServiceRepository $repo, int $service)
     {
-        return $this->render("frontend/eservices/service.html.twig");
+        return $this->render("frontend/eservices/service.html.twig", [
+            "service" => $repo->findOneBy(['id'=>$service]),
+        ]);
     }
 
     /**
-     * @Route("/front/services/reponse",name="service_reponse")
+     * @Route("/reponse",name="service_reponse")
      */
     public function afficher_demande()
     {
         return $this->render("frontend/eservices/reponse.html.twig");
     }
     /**
-     * @Route("/front/services/prestation",name="service_prestation")
+     * @Route("/prestation",name="service_prestation")
      */
     public function afficher_prestation()
     {
         return $this->render("frontend/eservices/prestation.html.twig");
     }
     /**
-     * @Route("/front/services/prestation_client",name="service_prestation_client")
+     * @Route("/prestation_client",name="service_prestation_client")
      */
     public function afficher_prestation_client()
     {
@@ -62,15 +102,19 @@ class ServicesFrontController extends AbstractController
     }
 
     /**
-     * @Route("/front/services/categorie/servicex/detail_service",name="detail_service")
+     * page de création de demande
+     * créer une nouvelle demande
+     * @Route("/categorie/service/demande/nouvelle/{service}",name="nouvelle_demande")
+     * @param int service
+     * @return Response
      */
-    public function detail_service()
+    public function creer_demande(int $service)
     {
         return $this->render("frontend/eservices/detail_service.html.twig");
     }
 
     /**
-     * @Route("/front/eservices/demandes_client",name="demandes_client")
+     * @Route("/demandes_client",name="demandes_client")
      */
     public function liste_demandes_client()
     {
