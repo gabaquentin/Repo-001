@@ -70,7 +70,7 @@ class ServicesFrontController extends AbstractController
     }
 
     /**
-     * @Route("/front/eservices/demandes_client",name="demandes_client")
+     * @Route("/front/services/demandes_client",name="demandes_client")
      */
     public function liste_demandes_client()
     {
