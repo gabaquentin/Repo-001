@@ -30,14 +30,16 @@ class Service
     private $description;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="img", type="string", length=255, nullable=false)
+     */
+    private $img;
+
+    /**
      * @ORM\ManyToOne(targetEntity=CategorieService::class, inversedBy="services")
      */
     private $CategorieService;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Utilisateur::class)
-     */
-    private $prestataire;
 
     /**
      * @ORM\OneToMany(targetEntity=Demande::class, mappedBy="service")
@@ -78,6 +80,22 @@ class Service
         return $this;
     }
 
+    /**
+     * @return string
+     */
+    public function getImg(): string
+    {
+        return $this -> img;
+    }
+
+    /**
+     * @param string $img
+     */
+    public function setImg(string $img): void
+    {
+        $this -> img = $img;
+    }
+
     public function getCategorieService(): ?CategorieService
     {
         return $this->CategorieService;
@@ -86,18 +104,6 @@ class Service
     public function setCategorieService(?CategorieService $CategorieService): self
     {
         $this->CategorieService = $CategorieService;
-
-        return $this;
-    }
-
-    public function getPrestataire(): ?Utilisateur
-    {
-        return $this->prestataire;
-    }
-
-    public function setPrestataire(?Utilisateur $prestataire): self
-    {
-        $this->prestataire = $prestataire;
 
         return $this;
     }

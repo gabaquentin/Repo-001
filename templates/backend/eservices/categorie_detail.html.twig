@@ -1,6 +1,6 @@
 {% extends "backend/base/base.html.twig" %}
 
-{% block title %}Catégorie{% endblock %}
+{% block title %}{{ categorie.nom }}{% endblock %}
 {% block stylesheets %}
     <!-- Plugins css -->
     <link href="{{ asset('backend/libs/nestable2/jquery.nestable.min.css') }}" rel="stylesheet" />
@@ -9,20 +9,7 @@
 
 {% block block_starter %} Gestion des services {% endblock %}
 {% block body %}
-
-    <div class="row">
-        <div class="col-12" id="bgimg">
-            <div class="text-center">
-                <br>
-                <h3 class="mb-3">Catégorie X</h3>
-                <br><br><br>
-                <button type="button" class="btn btn-success waves-effect waves-light mt-2 mr-1"><i class="mdi mdi-square-edit-outline mr-1"></i> Editer</button>
-                <br><br><br>
-            </div>
-        </div><!-- end col -->
-    </div><!-- end row -->
-
-
+    <h4 class="header-title mb-3">{{ categorie.nom }}</h4>
     <div class="row mt-4">
         <div class="col-12">
             <div class="card-box">
@@ -48,61 +35,16 @@
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane fade active show" id="general-q-tab">
-                        <div class="row pt-2">
-                            <div class="col-lg-6">
-                                <div class="p-lg-2">
-                                    <!-- Question/Answer -->
-                                    <div>
-                                        <div class="faq-question-q-box">Q.</div>
-                                        <h4 class="faq-question" data-wow-delay=".1s">What is Lorem Ipsum?</h4>
-                                        <p class="faq-answer mb-4">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
-                                    </div>
-
-                                    <!-- Question/Answer -->
-                                    <div>
-                                        <div class="faq-question-q-box">Q.</div>
-                                        <h4 class="faq-question">Why use Lorem Ipsum?</h4>
-                                        <p class="faq-answer mb-4">Lorem ipsum dolor sit amet, in mea nonumes dissentias dissentiunt, pro te solet oratio iriure. Cu sit consetetur moderatius intellegam, ius decore accusamus te. Ne primis suavitate disputando nam. Mutat convenirete.</p>
-                                    </div>
-
-                                    <!-- Question/Answer -->
-                                    <div>
-                                        <div class="faq-question-q-box">Q.</div>
-                                        <h4 class="faq-question">How many variations exist?</h4>
-                                        <p class="faq-answer mb-4">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--/col-md-5 -->
-
-                            <div class="col-lg-6">
-                                <div class="p-lg-2">
-                                    <!-- Question/Answer -->
-                                    <div>
-                                        <div class="faq-question-q-box">Q.</div>
-                                        <h4 class="faq-question">Is safe use Lorem Ipsum?</h4>
-                                        <p class="faq-answer mb-4">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
-                                    </div>
-
-                                    <!-- Question/Answer -->
-                                    <div>
-                                        <div class="faq-question-q-box">Q.</div>
-                                        <h4 class="faq-question">When can be used?</h4>
-                                        <p class="faq-answer mb-4">Lorem ipsum dolor sit amet, in mea nonumes dissentias dissentiunt, pro te solet oratio iriure. Cu sit consetetur moderatius intellegam, ius decore accusamus te. Ne primis suavitate disputando nam. Mutat convenirete.</p>
-                                    </div>
-
-                                    <!-- Question/Answer -->
-                                    <div>
-                                        <div class="faq-question-q-box">Q.</div>
-                                        <h4 class="faq-question">License &amp; Copyright</h4>
-                                        <p class="faq-answer mb-4">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--/col-md-5-->
+                        <div class="col-auto">
+                            <p class="sub-header">{{ categorie.description }}</p>
                         </div>
-                        <!-- end row -->
-
+                        <div class="col-auto">
+                            <img class="d-block img-fluid" src="{{ asset('images/services/'~categorie.img) }}"
+                                 alt="First slide" height="500px" width="400px">
+                        </div>
+                        <div class="text-lg-right mt-3 mt-lg-0">
+                            <a href="{{ path('edit_categorie', {'categorie':categorie.id}) }}" class="btn btn-primary waves-effect waves-light" data-animation="fadein" data-overlayColor="#38414a"><i class="mdi mdi-tooltip-edit mr-1"></i> modifier</a>
+                        </div>
                     </div>
                     <div class="tab-pane fade" id="privacy-p-tab">
                         <div class="row">
@@ -172,62 +114,7 @@
                         <!-- end row -->
                     </div>
                     <div class="tab-pane fade" id="support-tab">
-                        <div class="row pt-2">
-                            <div class="col-lg-6">
-                                <div class="p-lg-2">
-                                    <!-- Question/Answer -->
-                                    <div>
-                                        <div class="faq-question-q-box">Q.</div>
-                                        <h4 class="faq-question">How many variations exist?</h4>
-                                        <p class="faq-answer mb-4">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
-                                    </div>
 
-                                    <!-- Question/Answer -->
-                                    <div>
-                                        <div class="faq-question-q-box">Q.</div>
-                                        <h4 class="faq-question" data-wow-delay=".1s">What is Lorem Ipsum?</h4>
-                                        <p class="faq-answer mb-4">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
-                                    </div>
-
-                                    <!-- Question/Answer -->
-                                    <div>
-                                        <div class="faq-question-q-box">Q.</div>
-                                        <h4 class="faq-question">Why use Lorem Ipsum?</h4>
-                                        <p class="faq-answer mb-4">Lorem ipsum dolor sit amet, in mea nonumes dissentias dissentiunt, pro te solet oratio iriure. Cu sit consetetur moderatius intellegam, ius decore accusamus te. Ne primis suavitate disputando nam. Mutat convenirete.</p>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <!--/col-md-5 -->
-
-                            <div class="col-lg-6">
-                                <div class="p-lg-2">
-                                    <!-- Question/Answer -->
-                                    <div>
-                                        <div class="faq-question-q-box">Q.</div>
-                                        <h4 class="faq-question">License &amp; Copyright</h4>
-                                        <p class="faq-answer mb-4">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
-                                    </div>
-
-                                    <!-- Question/Answer -->
-                                    <div>
-                                        <div class="faq-question-q-box">Q.</div>
-                                        <h4 class="faq-question">Is safe use Lorem Ipsum?</h4>
-                                        <p class="faq-answer mb-4">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
-                                    </div>
-
-                                    <!-- Question/Answer -->
-                                    <div>
-                                        <div class="faq-question-q-box">Q.</div>
-                                        <h4 class="faq-question">When can be used?</h4>
-                                        <p class="faq-answer mb-4">Lorem ipsum dolor sit amet, in mea nonumes dissentias dissentiunt, pro te solet oratio iriure. Cu sit consetetur moderatius intellegam, ius decore accusamus te. Ne primis suavitate disputando nam. Mutat convenirete.</p>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <!--/col-md-5-->
-                        </div>
-                        <!-- end row -->
                     </div>
                 </div>
             </div>
