@@ -102,18 +102,6 @@ class ServicesFrontController extends AbstractController
     }
 
     /**
-     * page de création de demande
-     * créer une nouvelle demande
-     * @Route("/categorie/service/demande/nouvelle/{service}",name="nouvelle_demande")
-     * @param int service
-     * @return Response
-     */
-    public function creer_demande(int $service)
-    {
-        return $this->render("frontend/eservices/detail_service.html.twig");
-    }
-
-    /**
      * @Route("/demandes_client",name="demandes_client")
      */
     public function liste_demandes_client()
