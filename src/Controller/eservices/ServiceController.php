@@ -2,8 +2,10 @@
 
 namespace App\Controller\eservices;
 
+use App\Entity\QuestionService;
 use App\Entity\Service;
 use App\Form\eservices\ServiceType;
+use App\Repository\ServiceRepository;
 use App\Services\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -56,6 +58,7 @@ class ServiceController extends AbstractController
             $service->setNom($form->get('nom')->getData());
             $service->setCategorieService($form->get('categorieService')->getData());
             $service->setDescription($form->get('description')->getData());
+            $service->setNbreQuestions($form->get('nbreQuestions')->getData());
             //$imageFile = $request->files->get('files',[]);
             $imageName = $uploader->upload($form->get('imgfile')->getData(),"service",$service->getNom());
             $service->setImg($imageName);
@@ -64,6 +67,8 @@ class ServiceController extends AbstractController
             }*/
             $em->persist($service);
             $em->flush();
+
+            return $this->redirectToRoute('ajouter_questions', ['service'=>$service->getId()]);
         }
 
         return $this->render('backend/eservices/add-service.html.twig', [
@@ -74,11 +79,38 @@ class ServiceController extends AbstractController
 
     /**
      * ajouter des questions à un service passé en paramètre
-     * @Route("service/nouveau/questions", name="ajouter_questions")
+     * @Route("service/nouveau/questions/{service}", name="ajouter_questions")
+     * nbre => nombre de question service => id du service
+     * @param int $service
+     * @param ServiceRepository $repo
+     * @param Request $request
+     * @param EntityManagerInterface $em
+     * @return Response
      */
-    public function ajouter_questions()
+    public function ajouter_questions(EntityManagerInterface $em, int $service, ServiceRepository $repo, Request $request)
     {
+        $serv = $repo->findOneBy(['id'=>$service]);
+        if($request->isMethod('POST')){
+            $data = $request->request->all();
+            file_put_contents(($this->getParameter('questions_service_path')).'/questions_service.json', json_encode($data));
+            for ($i=1; $i<=$serv->getNbreQuestions(); $i++)
+            {
+                $question = new QuestionService();
+                $question->setService($serv);
+                $question->setQuestion($data['question'.$i]);
+                $question->setReponses($data['reponses'.$i]);
+                $question->setTypeQuestion($data['typeQuestion'.$i]);
+                if(isset($data['autre'.$i]))
+                $question->setAutre("oui");
+
+                $em->persist($question);
+                $em->flush();
+            }
+
+            dump($data);
+        }
         return $this->render('backend/eservices/add-questions-service.html.twig', [
+            'service' => $serv,
             'controller_name' => 'ServicesBackController',
         ]);
     }
