@@ -6,7 +6,6 @@
 parameters:
     image_produit_path: '%kernel.project_dir%/public/images/produits'
     image_service_path: '%kernel.project_dir%/public/images/services'
-    questions_service_path : '%kernel.project_dir%/public/backend/data/pages/eservices'
 
 services:
     # default configuration for services in *this* file

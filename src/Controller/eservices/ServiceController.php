@@ -92,7 +92,7 @@ class ServiceController extends AbstractController
         $serv = $repo->findOneBy(['id'=>$service]);
         if($request->isMethod('POST')){
             $data = $request->request->all();
-            file_put_contents(($this->getParameter('questions_service_path')).'/questions_service.json', json_encode($data));
+            //file_put_contents(($this->getParameter('questions_service_path')).'/questions_service.json', json_encode($data));
             for ($i=1; $i<=$serv->getNbreQuestions(); $i++)
             {
                 $question = new QuestionService();
