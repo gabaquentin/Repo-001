@@ -61,7 +61,7 @@ class ProduitRepository extends ServiceEntityRepository
         $order = $this->tools->getOrderColumnProd($request->get("order",""));
 
         $qb = $this->createQueryBuilder("p")
-            ->innerJoin(Date::class,"d")
+            ->innerJoin(Date::class,"d","WITH","d.id=p.date")
             ->setFirstResult($start)
             ->setMaxResults($max)
             ->andWhere("p.visiblite=:visibilite")
@@ -88,9 +88,10 @@ class ProduitRepository extends ServiceEntityRepository
 
     public function countProductsFront(Request $request)
     {
-        return count($this->qbShowProductFront($request)
+        return ($this->qbShowProductFront($request)
+            ->select("count(p.id)")
             ->setMaxResults(null)->setFirstResult(null)
-            ->getQuery()->getResult());
+            ->getQuery()->getSingleScalarResult());
     }
 
     // /**

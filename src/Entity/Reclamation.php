@@ -28,12 +28,12 @@ class Reclamation
     private $description;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Utilisateur::class)
+     * @ORM\ManyToOne(targetEntity=User::class)
      */
     private $client;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Utilisateur::class)
+     * @ORM\ManyToOne(targetEntity=User::class)
      */
     private $administrateur;
 
@@ -66,24 +66,24 @@ class Reclamation
         return $this;
     }
 
-    public function getClient(): ?Utilisateur
+    public function getClient(): ?User
     {
         return $this->client;
     }
 
-    public function setClient(?Utilisateur $client): self
+    public function setClient(?User $client): self
     {
         $this->client = $client;
 
         return $this;
     }
 
-    public function getAdministrateur(): ?Utilisateur
+    public function getAdministrateur(): ?User
     {
         return $this->administrateur;
     }
 
-    public function setAdministrateur(?Utilisateur $administrateur): self
+    public function setAdministrateur(?User $administrateur): self
     {
         $this->administrateur = $administrateur;
 

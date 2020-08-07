@@ -35,7 +35,7 @@ class Service
     private $CategorieService;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Utilisateur::class)
+     * @ORM\ManyToOne(targetEntity=User::class)
      */
     private $prestataire;
 
@@ -90,12 +90,12 @@ class Service
         return $this;
     }
 
-    public function getPrestataire(): ?Utilisateur
+    public function getPrestataire(): ?User
     {
         return $this->prestataire;
     }
 
-    public function setPrestataire(?Utilisateur $prestataire): self
+    public function setPrestataire(?User $prestataire): self
     {
         $this->prestataire = $prestataire;
 
