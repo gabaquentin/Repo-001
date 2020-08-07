@@ -28,7 +28,7 @@ class Emplacement
     private $logitude;
 
     /**
-     * @ORM\OneToOne(targetEntity=Boutique::class, inversedBy="terrain", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=Boutique::class, inversedBy="emplacement", cascade={"persist", "remove"})
      */
     private $boutique;
 

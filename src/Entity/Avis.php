@@ -112,12 +112,12 @@ class Avis
         return $this;
     }
 
-    public function getClient(): ?Utilisateur
+    public function getClient(): ?User
     {
         return $this->client;
     }
 
-    public function setClient(?Utilisateur $client): self
+    public function setClient(?User $client): self
     {
         $this->client = $client;
 

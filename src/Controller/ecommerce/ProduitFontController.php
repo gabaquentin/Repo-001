@@ -68,7 +68,7 @@ class ProduitFontController extends AbstractController
      * @Route("/details/{produit}", name="show_single_product_front")
      * @param Request $request
      * @param EntityManagerInterface $em
-     * @param Produit $produit
+     * @param Produit|null $produit
      * @return Response
      */
     public function showSingleProduct(Request $request,EntityManagerInterface $em,Produit $produit=null)

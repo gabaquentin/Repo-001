@@ -30,6 +30,15 @@ class RegistrationController extends AbstractController
 
     /**
      * @Route("/register/{role}", name="app_register")
+     * @param Request $request
+     * @param UserPasswordEncoderInterface $passwordEncoder
+     * @param GuardAuthenticatorHandler $guardHandler
+     * @param LoginFormAuthenticator $authenticator
+     * @param AuthenticationUtils $authenticationUtils
+     * @param RegistrationCheck $registrationCheck
+     * @param SluggerInterface $slugger
+     * @param $role
+     * @return Response
      */
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, LoginFormAuthenticator $authenticator, AuthenticationUtils $authenticationUtils, RegistrationCheck $registrationCheck ,SluggerInterface $slugger, $role): Response
     {

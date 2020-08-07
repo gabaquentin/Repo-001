@@ -31,6 +31,7 @@ function ajaxShowProducts() {
         success: (data) => {
             showMore.find("a").removeClass("is-loading")
             //console.log(data);
+            const h = container.height() - $(".products .product-container:first-child").height();
 
             if (!data["data"].length)
                 showMore.hide();
@@ -44,6 +45,8 @@ function ajaxShowProducts() {
                 showMore.show();
             else
                 showMore.hide();
+
+            $(window).scrollTop(h);
 
             if(container.attr("data-show")==="0")
                 toasts.service.error('', 'fas fa-plus', 'Aucun produit trouvé', 'bottomRight', 2500);

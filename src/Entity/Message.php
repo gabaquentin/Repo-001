@@ -29,13 +29,13 @@ class Message
     private $discussion;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Utilisateur::class)
+     * @ORM\ManyToOne(targetEntity=User::class)
      * @ORM\JoinColumn(nullable=false)
      */
     private $envoyeur;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Utilisateur::class)
+     * @ORM\ManyToOne(targetEntity=User::class)
      * @ORM\JoinColumn(nullable=false)
      */
     private $receveur;
@@ -69,24 +69,24 @@ class Message
         return $this;
     }
 
-    public function getEnvoyeur(): ?Utilisateur
+    public function getEnvoyeur(): ?User
     {
         return $this->envoyeur;
     }
 
-    public function setEnvoyeur(?Utilisateur $envoyeur): self
+    public function setEnvoyeur(?User $envoyeur): self
     {
         $this->envoyeur = $envoyeur;
 
         return $this;
     }
 
-    public function getReceveur(): ?Utilisateur
+    public function getReceveur(): ?User
     {
         return $this->receveur;
     }
 
-    public function setReceveur(?Utilisateur $receveur): self
+    public function setReceveur(?User $receveur): self
     {
         $this->receveur = $receveur;
 
