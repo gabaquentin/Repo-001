@@ -18,50 +18,52 @@ function initInfoModal() {
 }
 
 $(document).ready(function () {
-  //Info modal
-  initInfoModal(); //Page loader
+  $(".video").click(function(){
+    //Info modal
+    initInfoModal(); //Page loader
+  })
 
-  if ($('.pageloader').length) {
-    $('.pageloader').toggleClass('is-active');
-    $(window).on('load', function () {
-      setTimeout(function () {
-        $('.pageloader').toggleClass('is-active');
-        $('.infraloader').removeClass('is-active');
-      }, 700);
-    });
-  } //Navbar Clone
-
-
-  if ($('#navbar-clone').length) {
-    $(window).scroll(function () {
-      var height = $(window).scrollTop();
-
-      if (height > 50) {
-        $("#navbar-clone").addClass('is-active');
-      } else {
-        $("#navbar-clone").removeClass('is-active');
-      }
-    });
-  } //Mobile menu toggle
+  // if ($('.pageloader').length) {
+  //   $('.pageloader').toggleClass('is-active');
+  //   $(window).on('load', function () {
+  //     setTimeout(function () {
+  //       $('.pageloader').toggleClass('is-active');
+  //       $('.infraloader').removeClass('is-active');
+  //     }, 700);
+  //   });
+  // } //Navbar Clone
 
 
-  if ($('.navbar-burger').length) {
-    $('.navbar-burger').on("click", function () {
-      $('.navbar-burger').toggleClass('is-active');
-
-      if ($('.navbar-menu').hasClass('is-active')) {
-        $('.navbar-menu').removeClass('is-active');
-        $('.navbar').removeClass('is-dark-mobile');
-      } else {
-        $('.navbar-menu').addClass('is-active');
-        $('.navbar').addClass('is-dark-mobile');
-      }
-    });
-  } //Typed js
+  // if ($('#navbar-clone').length) {
+  //   $(window).scroll(function () {
+  //     var height = $(window).scrollTop();
+  //
+  //     if (height > 50) {
+  //       $("#navbar-clone").addClass('is-active');
+  //     } else {
+  //       $("#navbar-clone").removeClass('is-active');
+  //     }
+  //   });
+  // } //Mobile menu toggle
+  //
+  //
+  // if ($('.navbar-burger').length) {
+  //   $('.navbar-burger').on("click", function () {
+  //     $('.navbar-burger').toggleClass('is-active');
+  //
+  //     if ($('.navbar-menu').hasClass('is-active')) {
+  //       $('.navbar-menu').removeClass('is-active');
+  //       $('.navbar').removeClass('is-dark-mobile');
+  //     } else {
+  //       $('.navbar-menu').addClass('is-active');
+  //       $('.navbar').addClass('is-dark-mobile');
+  //     }
+  //   });
+  // } //Typed js
 
 
   var typed = new Typed('.typed-hero', {
-    strings: ["Hello, Iam Nephos ^2000", "Premium UI Kit ^2000", "For Ecommerce ^2000"],
+    strings: ["Hello, Bienvenue chez eservice"],
     typeSpeed: 45,
     loop: true,
     loopCount: Infinity,
@@ -71,7 +73,7 @@ $(document).ready(function () {
   feather.replace(); // Scroll to hash
 
   $('a[href*="#"]') // Remove links that don't actually link to anything
-  .not('[href="#"]').not('[href="#0"]').on('click', function (event) {
+      .not('[href="#"]').not('[href="#0"]').on('click', function (event) {
     // On-page links
     if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
       // Figure out element to scroll to

@@ -1,0 +1,13 @@
+{% extends "/frontend/eservices/base.html.twig" %}
+
+{% block title %}Categorie X{% endblock %}
+
+{% block body %}
+
+    <div class="p_bar_body"><progress id="progress_bar" value="0" max="100"></progress><div class="progress-value"></div></div>
+
+{% endblock %}
+
+{% block javascripts %}
+<script language="JavaScript" type="text/javascript" src="{{ asset('frontend/js/pages/eservices/progress-bar.js') }}"></script>
+{% endblock %}

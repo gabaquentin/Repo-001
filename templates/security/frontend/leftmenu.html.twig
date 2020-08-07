@@ -6,8 +6,8 @@
 <nav class="navbar mobile-navbar is-hidden-desktop is-hidden-tablet" aria-label="main navigation">
     <!-- Brand -->
     <div class="navbar-brand">
-        <a class="navbar-item" href="home.html">
-            <img src="{{ asset('frontend/img/logo/nephos.svg') }}" alt="">
+        <a class="navbar-item" href="{{path('app_account')}}">
+            <img src="{{ asset('frontend/img/logo/nephos-gold.svg') }}" alt="">
         </a>
 
         <!-- Sidebar mode toggler icon -->
@@ -26,24 +26,18 @@
     <div class="navbar-menu">
         <!-- Account -->
         <div class="navbar-item has-dropdown">
-            <a href="account.html" class="navbar-link">
-                <img id="mobile-avatar" src="http://via.placeholder.com/250x250" data-demo-src="{{ asset('frontend/img/logo/avatars/altvatar.png') }}" alt="">
+            <a href="{{path('app_account')}}" class="navbar-link">
+                <img id="mobile-avatar" src="http://via.placeholder.com/250x250" data-demo-src="{{ asset('frontend/img/avatars/altvatar.png') }}" alt="">
                 <span id="mobile-username" class="is-heading">Welcome, Guest</span>
             </a>
 
             <!-- Mobile Dropdown -->
             <div class="navbar-dropdown">
-                <a href="/" class="navbar-item">Home</a>
-                <a href="cart-empty.html" class="navbar-item is-flex">
-                    <span>Cart</span>
-                    <!-- Number of items in Cart -->
-                    <span id="mobile-cart-count" class="menu-badge">0</span>
-                </a>
-                <a href="/account.html" class="navbar-item">Account</a>
+                <a href="{{path('app_account')}}" class="navbar-item">Account</a>
                 <a href="/wishlists.html" class="navbar-item">Wishlists</a>
                 <a href="/orders.html" class="navbar-item">Orders</a>
-                <a id="mobile-login-link" href="authentication.html" class="navbar-item">Login</a>
-                <a id="mobile-register-link" href="authentication.html" class="navbar-item">Register</a>
+                <a id="mobile-login-link" href="{{path('app_login')}}" class="navbar-item">Login</a>
+                <a id="mobile-register-link" href="{{ path('app_register', {'role': 'new_user'}) }}" class="navbar-item">Register</a>
                 <a id="mobile-logout-link" class="navbar-item is-hidden">Logout</a>
             </div>
         </div>
@@ -57,11 +51,10 @@
 
             <!-- Mobile Dropdown -->
             <div class="navbar-dropdown">
-                <a href="products.html" class="navbar-item">House</a>
-                <a href="products.html" class="navbar-item">Office</a>
-                <a href="products.html" class="navbar-item">Kids</a>
-                <a href="products.html" class="navbar-item">Kitchen</a>
-                <a href="products.html" class="navbar-item">Accessories</a>
+                <a href="{{path('app')}}" class="navbar-item">Accueil</a>
+                <a href="{{path('app_boutique')}}" class="navbar-item">E-Boutique</a>
+                <a href="{{path('app_services')}}" class="navbar-item">E-Services</a>
+                <a href="{{path('app_terrain')}}" class="navbar-item">E-Terrain</a>
             </div>
         </div>
     </div>
@@ -70,7 +63,7 @@
 <!-- Main Sidebar-->
 <div class="main-sidebar">
     <div class="sidebar-brand">
-        <a href="home.html"><img src="{{ asset('frontend/img/logo/nephos.svg') }}" alt=""></a>
+        <a href="home.html"><img src="assets/img/logo/nephos.svg" alt=""></a>
     </div>
     <div class="sidebar-inner">
         <ul class="icon-menu">
@@ -99,8 +92,8 @@
                 <div class="small-auth-loader">
                     <div class="loader is-loading"></div>
                 </div>
-                <a id="login-link" href="authentication.html"><i data-feather="user"></i></a>
-                <a id="logout-link" class="is-hidden"><i data-feather="log-out"></i></a>
+                <a id="login-link" href="{{path('app_login')}}"><i data-feather="user"></i></a>
+                <a id="logout-link"  class="is-hidden"><i data-feather="log-out"></i></a>
             </li>
             <li id="fold-link" class="fold-link">
                 <a><i data-feather="arrow-left"></i></a>
@@ -123,6 +116,7 @@
     </a>
 </div>
 <!-- Categories Right quickview -->
+
 {% include 'frontend/rigthmenu.html.twig' %}
 
 <!-- Shop quickview -->
@@ -130,25 +124,13 @@
     <div class="inner">
         <!-- Header -->
         <div class="quickview-header">
-            <h2>Nephos</h2>
+            <h2>E-Mobilier</h2>
             <span id="close-shop-sidebar"><i data-feather="x"></i></span>
         </div>
         <!-- Shop menu -->
         <ul class="shop-menu">
             <li>
-                <a href="shop.html">
-                    <span>Shop</span>
-                    <i data-feather="grid"></i>
-                </a>
-            </li>
-            <li>
-                <a href="products.html">
-                    <span>All Products</span>
-                    <i data-feather="box"></i>
-                </a>
-            </li>
-            <li>
-                <a href="account.html">
+                <a href="{{path('app_account')}}">
                     <span>My Account</span>
                     <i data-feather="user"></i>
                 </a>
@@ -240,62 +222,6 @@
                         </a>
             </div>
             </span>
-
-                    <span class="remove-item">
-                                <i data-feather="x" class="has-simple-popover" data-content="Remove from Cart"
-                                   data-placement="top"></i>
-                            </span>
-                </li>
-                <!-- Item -->
-                <li class="clearfix">
-                    <img src="http://via.placeholder.com/250x250" data-demo-src="{{ asset('frontend/img/products/red-seat.png') }}" alt="" />
-                    <span class="item-meta">
-                                <span class="item-name">Red Seat</span>
-                <span class="item-price">
-                                    <var>45.00</var> x <span>1</span>
-                </span>
-                </span>
-                    <span class="quantity">
-                                <div data-trigger="spinner" class="return-spinner">
-                                    <input class="hidden-spinner" type="hidden" value="1" data-spin="spinner"
-                                           data-rule="quantity" data-min="1" data-max="99">
-                                    <a class="spinner-button is-remove" href="javascript:;" data-spin="down">
-                                        <i data-feather="minus"></i>
-                                    </a>
-                                    <span class="spinner-value">1</span>
-                <a class="spinner-button is-add" href="javascript:;" data-spin="up">
-                    <i data-feather="plus"></i>
-                </a>
-        </div>
-        </span>
-
-                    <span class="remove-item">
-                                <i data-feather="x" class="has-simple-popover" data-content="Remove from Cart"
-                                   data-placement="top"></i>
-                            </span>
-                </li>
-                <!-- Item -->
-                <li class="clearfix">
-                    <img src="http://via.placeholder.com/250x250" data-demo-src="{{ asset('frontend/img/products/kids2.jpg') }}" alt="" />
-                    <span class="item-meta">
-                                <span class="item-name">Rabbit Lamp</span>
-            <span class="item-price">
-                                    <var>14.49</var> x <span>3</span>
-            </span>
-            </span>
-                    <span class="quantity">
-                                <div data-trigger="spinner" class="return-spinner">
-                                    <input class="hidden-spinner" type="hidden" value="3" data-spin="spinner"
-                                           data-rule="quantity" data-min="1" data-max="99">
-                                    <a class="spinner-button is-remove" href="javascript:;" data-spin="down">
-                                        <i data-feather="minus"></i>
-                                    </a>
-                                    <span class="spinner-value">3</span>
-            <a class="spinner-button is-add" href="javascript:;" data-spin="up">
-                <i data-feather="plus"></i>
-            </a>
-    </div>
-    </span>
 
                     <span class="remove-item">
                                 <i data-feather="x" class="has-simple-popover" data-content="Remove from Cart"

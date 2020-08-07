@@ -21,19 +21,22 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,500" rel="stylesheet">
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script> <!-- load jquery via CDN -->
+
     {% block stylesheets %}{% endblock %}
 
 </head>
 
 <body>
 
-{% include 'frontend/services/leftmenu.html.twig' %}
+{% include 'security/frontend/leftmenu.html.twig' %}
 
 
 <!-- Content Wrapper -->
 {% block body %}{% endblock %}
-<!-- /Content Wrapper -->
 
+<!-- /Content Wrapper -->
+{% include 'security/frontend/getuser.html.twig' %}
 <!-- Concatenated plugins -->
 <script src="{{ asset('frontend/js/app.js') }}"></script>
 
