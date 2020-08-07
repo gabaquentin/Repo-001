@@ -46,7 +46,7 @@ class Dimension
         return $this->longueur;
     }
 
-    public function setLongueur(float $longueur): self
+    public function setLongueur(?float $longueur): self
     {
         $this->longueur = $longueur;
 
@@ -58,7 +58,7 @@ class Dimension
         return $this->largeur;
     }
 
-    public function setLargeur(float $largeur): self
+    public function setLargeur(?float $largeur): self
     {
         $this->largeur = $largeur;
 

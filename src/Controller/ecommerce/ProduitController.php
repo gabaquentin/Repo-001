@@ -24,7 +24,7 @@ use function Symfony\Component\String\s;
 
 /**
  * Class ProduitController
- * @Route("/back/ecommerce/produits")
+ * @Route("/back/ecommerce/produit")
  * @package App\Controller\ecommerce
  */
 class ProduitController extends AbstractController
@@ -176,8 +176,7 @@ class ProduitController extends AbstractController
                 $manager->persist($date);
                 $produit->setDate($date);
             }
-            else
-                $produit->getDate()->setDateModification(new \DateTime());
+            $produit->getDate()->setDateModification(new \DateTime());
 
             $produit
                 ->setImages($imageNames)

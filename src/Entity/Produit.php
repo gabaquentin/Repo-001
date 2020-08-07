@@ -120,7 +120,7 @@ class Produit
     private $date;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Utilisateur::class)
+     * @ORM\ManyToOne(targetEntity=User::class)
      */
     private $Client;
 
@@ -346,12 +346,12 @@ class Produit
         return $this;
     }
 
-    public function getClient(): ?Utilisateur
+    public function getClient(): ?User
     {
         return $this->Client;
     }
 
-    public function setClient(?Utilisateur $Client): self
+    public function setClient(?User $Client): self
     {
         $this->Client = $Client;
 

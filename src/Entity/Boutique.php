@@ -33,7 +33,7 @@ class Boutique
     private $emplacement;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Utilisateur::class)
+     * @ORM\ManyToOne(targetEntity=User::class)
      */
     private $propritaire;
 
@@ -84,12 +84,12 @@ class Boutique
         return $this;
     }
 
-    public function getPropritaire(): ?Utilisateur
+    public function getPropritaire(): ?User
     {
         return $this->propritaire;
     }
 
-    public function setPropritaire(?Utilisateur $propritaire): self
+    public function setPropritaire(?User $propritaire): self
     {
         $this->propritaire = $propritaire;
 

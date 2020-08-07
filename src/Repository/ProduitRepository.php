@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Date;
 use App\Entity\Produit;
 use App\Services\ecommerce\Tools;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -49,6 +50,48 @@ class ProduitRepository extends ServiceEntityRepository
         }
 
         return $qb->getQuery()->getResult();
+    }
+
+    public function qbShowProductFront(Request $request)
+    {
+        $max = $request->get("max");
+        $start = $request->get("start");
+        $searchValue = $request->get("searchValue");
+        $idCategories = $request->get("idCategories",[]);
+        $order = $this->tools->getOrderColumnProd($request->get("order",""));
+
+        $qb = $this->createQueryBuilder("p")
+            ->innerJoin(Date::class,"d","WITH","d.id=p.date")
+            ->setFirstResult($start)
+            ->setMaxResults($max)
+            ->andWhere("p.visiblite=:visibilite")
+            ->setParameter(":visibilite",1)
+            ->orderBy($order[2].".".$order[0],$order[1])
+
+        ;
+        if(!empty($idCategories))
+        {
+            $qb->andWhere($qb->expr()->in("p.categorieProd",$idCategories));
+        }
+        if($searchValue!="")
+        {
+            $qb->andWhere("p.nom like :value")->setParameter(":value","%".str_replace("%"," ",$searchValue)."%");
+        }
+
+        return $qb;
+    }
+
+    public function showProductsFront(Request $request)
+    {
+        return $this->qbShowProductFront($request)->getQuery()->getResult();
+    }
+
+    public function countProductsFront(Request $request)
+    {
+        return ($this->qbShowProductFront($request)
+            ->select("count(p.id)")
+            ->setMaxResults(null)->setFirstResult(null)
+            ->getQuery()->getSingleScalarResult());
     }
 
     // /**
