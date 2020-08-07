@@ -1,13 +1,66 @@
 {% extends "/frontend/eservices/base.html.twig" %}
 
 {% block title %}Categorie X{% endblock %}
-
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+{% endblock %}
 {% block body %}
+    <div class="columns">
+        <div class="column is-2"></div>
+        <div class="column is-9">
+            <form id="quizz">
+                <p class="lead">Complété à 0%</p>
+                <div class="progress mb-3">
+                    <div class="progress-bar" role="progressbar">
+                        <span class="sr-only">completé à 40%</span>
+                    </div>
+                </div>
+                <h3 id="question" class="mt-5 d-inline ">
+                    Question
+                </h3>
 
-    <div class="p_bar_body"><progress id="progress_bar" value="0" max="100"></progress><div class="progress-value"></div></div>
+                <img src="" alt="" width="5%" class="img-fluid ml-3">
+                <div id="options" class="form-group mt-3">
+                    <div class="custom-control custom-radio mt-2 mb-3">
+                        <input type="radio" name="option" class="custom-control-input" id="customRadioInline1" number=0>
+                        <label class="custom-control-label" for="customRadioInline1">Check this custom radio</label>
+                        <img src="" alt='' width="5%" class="img-fluid ml-3">
+                    </div>
+                    <div class="custom-control custom-radio mt-2 mb-3">
+                        <input type="radio" name="option" class="custom-control-input" id="customRadioInline2" number=1>
+                        <label class="custom-control-label" for="customRadioInline2">Check this custom radio</label>
+                        <img src="" alt='' width="5%" class="img-fluid ml-3">
 
+                    </div>
+                    <div class="custom-control custom-radio mt-2 mb-3">
+                        <input type="radio" name="option" class="custom-control-input" id="customRadioInline3" number=2>
+                        <label class="custom-control-label" for="customRadioInline3">Check this custom radio</label>
+                        <img src="" alt='' width="5%" class="img-fluid ml-3">
+
+                    </div>
+                    <div class="custom-control custom-radio mt-2 mb-3">
+                        <input type="radio" name="option" class="custom-control-input" id="customRadioInline4" number=3>
+                        <label class="custom-control-label" for="customRadioInline4">Check this custom radio</label>
+                        <img src="" alt='' width="5%" class="img-fluid ml-3">
+
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="columns">
+        <div class="column is-2"></div>
+        <div class="column is-9">
+            <a class="button feather-button primary-button raised" style="color:white">Primary</a>
+            <a class="button feather-button secondary-button btn-outlined raised" style="color:green">Secondary</a>
+        </div>
+
+    </div>
 {% endblock %}
 
 {% block javascripts %}
-<script language="JavaScript" type="text/javascript" src="{{ asset('frontend/js/pages/eservices/progress-bar.js') }}"></script>
+    {{ parent() }}
+<script language="JavaScript" type="text/javascript" src="{{ asset('frontend/js/pages/eservices/jquery.radios-to-slider.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 {% endblock %}
