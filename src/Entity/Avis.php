@@ -43,7 +43,7 @@ class Avis
     private $dislike;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Utilisateur::class)
+     * @ORM\ManyToOne(targetEntity=User::class)
      */
     private $client;
 
