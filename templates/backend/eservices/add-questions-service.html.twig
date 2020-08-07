@@ -1,15 +1,15 @@
 {% extends "backend/base/base.html.twig" %}
 
-{% block title %}Nouveau Service{% endblock %}
+{% block title %}Nouveau Service - Questions {% endblock %}
 
 {% block stylesheets %}
 <!-- Plugins css-->
-<link href="{{ asset('backend/libs/bootstrap-tagsinput/bootstrap-tagsinput.css') }}" rel="stylesheet" />
-<link href="{{ asset('backend/libs/switchery/switchery.min.css') }}" rel="stylesheet" type="text/css" />
-<link href="{{ asset('backend/libs/multiselect/multi-select.css') }}" rel="stylesheet" type="text/css" />
-<link href="{{ asset('backend/libs/select2/select2.min.css') }}" rel="stylesheet" type="text/css" />
-<link href="{{ asset('backend/libs/bootstrap-select/bootstrap-select.min.css') }}" rel="stylesheet" type="text/css" />
-<link href="{{ asset('backend/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('backend/libs/bootstrap-tagsinput/bootstrap-tagsinput.css') }}" rel="stylesheet" />
+    <link href="{{ asset('backend/libs/switchery/switchery.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('backend/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('backend/libs/multiselect/multi-select.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('backend/libs/select2/select2.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('backend/libs/bootstrap-select/bootstrap-select.min.css') }}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
 {% block block_starter %}Gestion des services {% endblock %}
@@ -19,43 +19,21 @@
         <li class="breadcrumb-item"><a href="{{ path('nouveau_service') }}"><h4 class="header-title mb-3">Ajouter un nouveau service</h4></a></li>
         <li class="breadcrumb-item active">questions</li>
     </ol>
-    <form>
+    <form method="post">
         <div id="progressbarwizard">
 
             <ul class="nav nav-pills nav-justified form-wizard-header mb-3">
+                {% for i in 1..service.nbreQuestions %}
                 <li class="nav-item">
-                    <a href="#question-1" data-toggle="tab" class="nav-link">
-                        <span class="number">1.</span>
+                    <a href="#question-{{ i }}" data-toggle="tab" class="nav-link">
+                        <span class="number">{{ i }}.</span>
                         <span class="d-none d-sm-inline">Question</span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="#question-2" data-toggle="tab" class="nav-link">
-                        <span class="number">2.</span>
-                        <span class="d-none d-sm-inline">Question</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#question-3" data-toggle="tab" class="nav-link">
-                        <span class="number">3.</span>
-                        <span class="d-none d-sm-inline">Question</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#question-4" data-toggle="tab" class="nav-link">
-                        <span class="number">4.</span>
-                        <span class="d-none d-sm-inline">Question</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#question-5" data-toggle="tab" class="nav-link">
-                        <span class="number">5.</span>
-                        <span class="d-none d-sm-inline">Question</span>
-                    </a>
-                </li>
+                {% endfor %}
                 <li class="nav-item">
                     <a href="#finish" data-toggle="tab" class="nav-link">
-                        <span class="number">3.</span>
+                        <span class="number">{{ service.nbreQuestions+1 }}.</span>
                         <span class="d-none d-sm-inline">Terminé</span>
                     </a>
                 </li>
@@ -66,182 +44,59 @@
                 <div id="bar" class="progress mb-3" style="height: 7px;">
                     <div class="bar progress-bar progress-bar-striped progress-bar-animated bg-success"></div>
                 </div>
-
-                <div class="tab-pane" id="question-1">
+                {% for i in 1..service.nbreQuestions %}
+                <div class="tab-pane" id="question-{{ i }}">
                     <div class="row">
                         <div class="col-12">
                             <div class="form-group row mb-3">
-                                <label class="col-md-3 col-form-label" for="userName1">Question</label>
+                                <label class="col-md-3 col-form-label" for="userName1">Question {{ i }}</label>
                                 <div class="col-md-9">
-                                    <input type="text" class="form-control" id="question1" name="question1" value="">
+                                    <span class="input-group-addon bootstrap-touchspin-postfix input-group-append">
+                                        <input type="text" class="form-control" id="question{{ i }}" name="question{{ i }}" value="">
+                                        <span class="input-group-text">?</span>
+                                    </span>
                                 </div>
                             </div>
                             <div class="form-group row mb-3">
                                 <label class="col-md-3 col-form-label" for="password1"> Réponses</label>
                                 <div class="col-md-9">
                                     <div>
-                                        <select multiple data-role="tagsinput">
-                                            <option value="Amsterdam">Amsterdam</option>
-                                            <option value="Washington">Washington</option>
-                                            <option value="Sydney">Sydney</option>
-                                        </select>
+                                        <input name="reponses{{ i }}" id="reponses{{ i }}" type="text" value="Amsterdam,Washington,Sydney" data-role="tagsinput" placeholder="add tags"/>
                                     </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row mb-3">
+                                <label class="col-md-3 col-form-label" for="confirm1">Type de question </label>
+                                <div class="col-md-9">
+                                    <select id="typeQuestion{{ i }}" name="typeQuestion{{ i }}" class="selectpicker mb-0" data-style="btn-outline-primary">
+                                        <option value="qru">Question à réponse unique</option>
+                                        <option value="qcm">Question à réponses multiples</option>
+                                    </select>
                                 </div>
                             </div>
 
                             <div class="form-group row mb-3">
                                 <label class="col-md-3 col-form-label" for="confirm1">Voulez-vous ajouter un champ " autre " ?</label>
                                 <div class="col-md-9">
-                                    <input type="checkbox" data-plugin="switchery" data-color="#1AB394" data-secondary-color="#ED5565" />
+                                    <input id="autre{{ i }}" name="autre{{ i }}" value="oui" type="checkbox" data-plugin="switchery" data-color="#1AB394" data-secondary-color="#ED5565" />
                                 </div>
                             </div>
                         </div> <!-- end col -->
                     </div> <!-- end row -->
                 </div>
-
-                <div class="tab-pane" id="question-2">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="form-group row mb-3">
-                                <label class="col-md-3 col-form-label" for="userName1">Question</label>
-                                <div class="col-md-9">
-                                    <input type="text" class="form-control" id="question1" name="question1" value="">
-                                </div>
-                            </div>
-                            <div class="form-group row mb-3">
-                                <label class="col-md-3 col-form-label" for="password1"> Réponses</label>
-                                <div class="col-md-9">
-                                    <div>
-                                        <select multiple data-role="tagsinput">
-                                            <option value="Amsterdam">Amsterdam</option>
-                                            <option value="Washington">Washington</option>
-                                            <option value="Sydney">Sydney</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-group row mb-3">
-                                <label class="col-md-3 col-form-label" for="confirm1">Voulez-vous ajouter un champ " autre " ?</label>
-                                <div class="col-md-9">
-                                    <input type="checkbox" data-plugin="switchery" data-color="#1AB394" data-secondary-color="#ED5565" />
-                                </div>
-                            </div>
-                        </div> <!-- end col -->
-                    </div> <!-- end row -->
-                </div>
-
-                <div class="tab-pane" id="question-3">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="form-group row mb-3">
-                                <label class="col-md-3 col-form-label" for="userName1">Question</label>
-                                <div class="col-md-9">
-                                    <input type="text" class="form-control" id="question1" name="question1" value="">
-                                </div>
-                            </div>
-                            <div class="form-group row mb-3">
-                                <label class="col-md-3 col-form-label" for="password1"> Réponses</label>
-                                <div class="col-md-9">
-                                    <div>
-                                        <select multiple data-role="tagsinput">
-                                            <option value="Amsterdam">Amsterdam</option>
-                                            <option value="Washington">Washington</option>
-                                            <option value="Sydney">Sydney</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-group row mb-3">
-                                <label class="col-md-3 col-form-label" for="confirm1">Voulez-vous ajouter un champ " autre " ?</label>
-                                <div class="col-md-9">
-                                    <input type="checkbox" data-plugin="switchery" data-color="#1AB394" data-secondary-color="#ED5565" />
-                                </div>
-                            </div>
-                        </div> <!-- end col -->
-                    </div> <!-- end row -->
-                </div>
-
-                <div class="tab-pane" id="question-4">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="form-group row mb-3">
-                                <label class="col-md-3 col-form-label" for="userName1">Question</label>
-                                <div class="col-md-9">
-                                    <input type="text" class="form-control" id="question1" name="question1" value="">
-                                </div>
-                            </div>
-                            <div class="form-group row mb-3">
-                                <label class="col-md-3 col-form-label" for="password1"> Réponses</label>
-                                <div class="col-md-9">
-                                    <div>
-                                        <select multiple data-role="tagsinput">
-                                            <option value="Amsterdam">Amsterdam</option>
-                                            <option value="Washington">Washington</option>
-                                            <option value="Sydney">Sydney</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-group row mb-3">
-                                <label class="col-md-3 col-form-label" for="confirm1">Voulez-vous ajouter un champ " autre " ?</label>
-                                <div class="col-md-9">
-                                    <input type="checkbox" data-plugin="switchery" data-color="#1AB394" data-secondary-color="#ED5565" />
-                                </div>
-                            </div>
-                        </div> <!-- end col -->
-                    </div> <!-- end row -->
-                </div>
-
-                <div class="tab-pane" id="question-5">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="form-group row mb-3">
-                                <label class="col-md-3 col-form-label" for="userName1">Question</label>
-                                <div class="col-md-9">
-                                    <input type="text" class="form-control" id="question1" name="question1" value="">
-                                </div>
-                            </div>
-                            <div class="form-group row mb-3">
-                                <label class="col-md-3 col-form-label" for="password1"> Réponses</label>
-                                <div class="col-md-9">
-                                    <div>
-                                        <select multiple data-role="tagsinput">
-                                            <option value="Amsterdam">Amsterdam</option>
-                                            <option value="Washington">Washington</option>
-                                            <option value="Sydney">Sydney</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-group row mb-3">
-                                <label class="col-md-3 col-form-label" for="confirm1">Voulez-vous ajouter un champ " autre " ?</label>
-                                <div class="col-md-9">
-                                    <input type="checkbox" data-plugin="switchery" data-color="#1AB394" data-secondary-color="#ED5565" />
-                                </div>
-                            </div>
-                        </div> <!-- end col -->
-                    </div> <!-- end row -->
-                </div>
-
+                {% endfor %}
                 <div class="tab-pane" id="finish">
                     <div class="row">
                         <div class="col-12">
                             <div class="text-center">
                                 <h2 class="mt-0"><i class="mdi mdi-check-all"></i></h2>
-                                <h3 class="mt-0">Thank you !</h3>
+                                <h3 class="mt-0">Terminé</h3>
 
-                                <p class="w-75 mb-2 mx-auto">Quisque nec turpis at urna dictum luctus. Suspendisse convallis dignissim eros at volutpat. In egestas mattis dui. Aliquam
-                                    mattis dictum aliquet.</p>
+                                <p class="w-75 mb-2 mx-auto">Les questions relatives à ce service seront stockées dans un fichier json</p>
 
                                 <div class="mb-3">
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="customCheck3">
-                                        <label class="custom-control-label" for="customCheck3">I agree with the Terms and Conditions</label>
-                                    </div>
+                                    <button class="btn btn-success" type="submit">Valider</button>
                                 </div>
                             </div>
                         </div> <!-- end col -->
@@ -253,7 +108,7 @@
                         <a href="javascript: void(0);" class="btn btn-secondary">précédent</a>
                     </li>
                     <li class="next list-inline-item float-right">
-                        <a href="javascript: void(0);" class="btn btn-secondary">suivant</a>
+                        <a href="javascript: void(0);" class="btn btn-secondary">{% if 8 == service.nbreQuestions %}Terminé {% else %}suivant {% endif %}</a>
                     </li>
                 </ul>
 
@@ -267,11 +122,10 @@
         <script src="{{ asset('backend/libs/twitter-bootstrap-wizard/jquery.bootstrap.wizard.min.js') }}"></script>
         <script src="{{ asset('backend/libs/bootstrap-tagsinput/bootstrap-tagsinput.min.js') }}"></script>
         <script src="{{ asset('backend/libs/switchery/switchery.min.js') }}"></script>
-        <script src="{{ asset('backend/libs/jquery-quicksearch/jquery.quicksearch.min.js') }}"></script>
+        <script src="{{ asset('backend/libs/jquery-mask-plugin/jquery.mask.min.js') }}"></script>
         <script src="{{ asset('backend/libs/select2/select2.min.js') }}"></script>
         <script src="{{ asset('backend/libs/bootstrap-select/bootstrap-select.min.js') }}"></script>
-        <script src="{{ asset('backend/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js') }}"></script>
-        <script src="{{ asset('backend/libs/jquery-mask-plugin/jquery.mask.min.js') }}"></script>
+        <script src="{{ asset('backend/libs/multiselect/jquery.multi-select.js') }}"></script>
 
         <!-- Init js-->
         <script src="{{ asset('backend/js/pages/form-wizard.init.js') }}"></script>

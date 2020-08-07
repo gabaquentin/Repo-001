@@ -30,6 +30,11 @@ class Service
     private $description;
 
     /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $nbre_questions;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="img", type="string", length=255, nullable=false)
@@ -78,6 +83,22 @@ class Service
         $this->description = $description;
 
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNbreQuestions()
+    {
+        return $this -> nbre_questions;
+    }
+
+    /**
+     * @param mixed $nbre_questions
+     */
+    public function setNbreQuestions($nbre_questions): void
+    {
+        $this -> nbre_questions = $nbre_questions;
     }
 
     /**

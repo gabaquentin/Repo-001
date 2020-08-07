@@ -3,7 +3,8 @@
 {% block title %}Nouveau Service{% endblock %}
 
 {% block stylesheets %}
-<link href="{{ asset('backend/libs/dropzone/dropzone.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('backend/libs/dropzone/dropzone.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('backend/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css') }}" rel="stylesheet" />
 {% endblock %}
 
 {% block block_starter %}Gestion des services {% endblock %}
@@ -30,6 +31,12 @@
                 {{ form_widget(form.description, {'attr': {'class':'form-control','rows':'5', 'id':'description'}}) }}
             </div>
         </div>
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label" for="example-textarea">Nombre de questions associées </label>
+        <div class="col-sm-10">
+            {{ form_widget(form.nbreQuestions, {'attr': {'class':'form-control'}}) }}
+        </div>
+    </div>
         <div class="form-group row">
             <label class="col-sm-2 col-form-label" for="image-service">Image </label>
             <div class="dropzone" id="myAwesomeDropzone" data-plugin="dropzone" data-previews-container="#file-previews"
@@ -77,7 +84,9 @@
         {{ parent() }}
         <!-- Plugins js-->
         <script src="{{ asset('backend/libs/dropzone/dropzone.min.js') }}"></script>
+        <script src="{{ asset('backend/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js') }}"></script>
 
         <!-- Init js-->
         <script src="{{ asset('backend/js/pages/form-fileuploads.init.js') }}"></script>
+        <script src="{{ asset('backend/js/pages/form-advanced.init.js') }}"></script>
     {% endblock %}
