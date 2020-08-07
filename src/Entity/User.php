@@ -88,7 +88,7 @@ class User implements UserInterface
 
     /**
      * @var InfoUser
-     * @ORM\OneToOne(targetEntity=Utilisateur::class, cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=InfoUser::class, cascade={"persist", "remove"})
      */
     private $infoUser;
 
