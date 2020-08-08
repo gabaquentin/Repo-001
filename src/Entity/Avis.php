@@ -18,7 +18,7 @@ class Avis
     private $id;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="float", nullable=false)
      */
     private $note;
 
@@ -33,19 +33,14 @@ class Avis
     private $produit;
 
     /**
-     * @ORM\Column(type="integer")
-     */
-    private $likes;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $dislike;
-
-    /**
      * @ORM\ManyToOne(targetEntity=User::class)
      */
     private $client;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $datePublication;
 
     public function getId(): ?int
     {
@@ -88,30 +83,6 @@ class Avis
         return $this;
     }
 
-    public function getLikes(): ?int
-    {
-        return $this->likes;
-    }
-
-    public function setLikes(int $likes): self
-    {
-        $this->likes = $likes;
-
-        return $this;
-    }
-
-    public function getDislike(): ?int
-    {
-        return $this->dislike;
-    }
-
-    public function setDislike(int $dislike): self
-    {
-        $this->dislike = $dislike;
-
-        return $this;
-    }
-
     public function getClient(): ?User
     {
         return $this->client;
@@ -123,4 +94,21 @@ class Avis
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getDatePublication()
+    {
+        return $this -> datePublication;
+    }
+
+    /**
+     * @param mixed $datePublication
+     */
+    public function setDatePublication($datePublication): void
+    {
+        $this -> datePublication = $datePublication;
+    }
+
 }

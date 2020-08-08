@@ -4,6 +4,7 @@ namespace App\Controller\ecommerce;
 
 use App\Entity\Date;
 use App\Entity\Produit;
+use App\Repository\AvisRepository;
 use App\Repository\CategorieProdRepository;
 use App\Repository\ProduitRepository;
 use App\Services\ecommerce\Tools;
@@ -45,7 +46,7 @@ class ProduitFontController extends AbstractController
     {
         $start = $request->get("start");
 
-        $produits = $repo->showProductsFront($request)  ;
+        $produits = $repo->showProductsFront($request);
         $show = $start + count($produits);
         $itemsMax = $repo->countProductsFront($request);
         //dd($itemsMax);
@@ -68,10 +69,11 @@ class ProduitFontController extends AbstractController
      * @Route("/details/{produit}", name="show_single_product_front")
      * @param Request $request
      * @param EntityManagerInterface $em
+     * @param AvisRepository $repoAvis
      * @param Produit|null $produit
      * @return Response
      */
-    public function showSingleProduct(Request $request,EntityManagerInterface $em,Produit $produit=null)
+    public function showSingleProduct(Request $request,EntityManagerInterface $em, AvisRepository $repoAvis, Produit $produit=null)
     {
         if($produit==null)
             die("404");
@@ -96,7 +98,9 @@ class ProduitFontController extends AbstractController
         }
         return $this->render('frontend/ecommerce/produit/single-product.html.twig', [
             'produit' => $produit,
-            "produitAssocies"=>$produitAssocices
+            "produitAssocies"=>$produitAssocices,
+            "avis" => $repoAvis->findBy([], ['datePublication'=>'desc']),
+            "noteGlobale" => $repoAvis->moyenneDesAvis(),
         ]);
     }
 

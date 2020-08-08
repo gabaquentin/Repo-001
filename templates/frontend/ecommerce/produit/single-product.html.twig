@@ -110,50 +110,7 @@
             </div>
 
             <!-- Product Ratings -->
-            <div id="ratings-view" class="translateLeft is-hidden">
-                <div class="product-ratings">
-                    <div class="main-rating">
-
-                        <!-- Average Rating -->
-                        <h3>Notes et Avis</h3>
-                        <div class="stars">
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star-half"></i>
-                        </div>
-                        <span>Noté <small>4,5/5</small> sur <small>29</small> Avis</span>
-                        <span class="add-review modal-trigger" data-modal="review-modal"><i data-feather="plus"></i> Rédiger un avis</span>
-                    </div>
-
-                    <!-- Customer reviews -->
-                    <div class="customer-ratings">
-                        <!-- Product review -->
-                        <div class="media">
-                            <div class="media-left">
-                                <figure class="image is-32x32">
-                                    <img src="http://via.placeholder.com/250x250" data-demo-src="assets/img/avatars/elie.jpg" alt="">
-                                </figure>
-                            </div>
-                            <div class="media-content">
-                                <p>
-                                    <span>Elie Daniels</span>
-                                    <small>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star-half"></i>
-                                    </small>
-                                    <br>
-                                    <span class="rating-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean efficitur sit amet massa fringilla egestas. Nullam condimentum luctus turpis.</span>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {% include 'frontend/ecommerce/produit/avis.html.twig' %}
             <!-- /Product Ratings -->
 
             <!-- Product panel actions -->
@@ -305,6 +262,9 @@
     </div>
     <!-- /Modal -->
 
+    <!-- Modal -->
+    {% include 'frontend/ecommerce/produit/edit-review-modal.html.twig' %}
+    <!-- /Modal -->
 
     <!-- Add to Wishlist Modal -->
     <div id="add-to-wishlist-modal" class="modal add-to-wishlist-modal">
@@ -420,7 +380,7 @@
                 console.log("+5")
             }
             let comment = $('#comment').val()
-            let url = "http://127.0.0.1:8000/front/ecommerce/produit/details/avis"
+            let url = "{{ path('noter_produit') }}"
             $.ajax({
                 url:url,
                 type: "POST",
@@ -432,6 +392,105 @@
                 },
                 async: true,
                 success: function (data) {
+                    let content  = "";
+                    content += "<div class=\"customer-ratings\">\n" +
+                        "                                        <!-- Product review -->\n" +
+                        "                                        <div class=\"media\">\n" +
+                        "                                                <div class=\"media-left\">\n" +
+                        "                                                        <figure class=\"image is-32x32\">\n" +
+                        "                                                                <img src=\"http://via.placeholder.com/250x250\" data-demo-src=\"assets/img/avatars/elie.jpg\"\n" +
+                        "                                                                     alt=\"\">\n" +
+                        "                                                        </figure>\n" +
+                        "                                                </div>\n" +
+                        "                                                <div class=\"media-content\">\n" +
+                        "                                                        <p>\n" +
+                        "                                                                <span>Ngassa</span>\n" +
+                        "                                                                <small>\n";
+                        if(notes == 0){
+                            content += "<i class=\"fa fa-star-o\"></i>\n" +
+                                "                                                                                <i class=\"fa fa-star-o\"></i>\n" +
+                                "                                                                                <i class=\"fa fa-star-o\"></i>\n" +
+                                "                                                                                <i class=\"fa fa-star-o\"></i>\n" +
+                                "                                                                                <i class=\"fa fa-star-o\"></i>"
+                        }
+                    if(notes == 0.5){
+                        content += "<i class=\"fa fa-star-half\"></i>\n" +
+                            "                                                                                <i class=\"fa fa-star-o\"></i>\n" +
+                            "                                                                                <i class=\"fa fa-star-o\"></i>\n" +
+                            "                                                                                <i class=\"fa fa-star-o\"></i>\n" +
+                            "                                                                                <i class=\"fa fa-star-o\"></i>"
+                    }
+                    if(notes == 1){
+                        content += "<i class=\"fa fa-star\"></i>\n" +
+                            "                                                                                <i class=\"fa fa-star-o\"></i>\n" +
+                            "                                                                                <i class=\"fa fa-star-o\"></i>\n" +
+                            "                                                                                <i class=\"fa fa-star-o\"></i>\n" +
+                            "                                                                                <i class=\"fa fa-star-o\"></i>"
+                    }
+                    if(notes == 1.5){
+                        content += "<i class=\"fa fa-star\"></i>\n" +
+                            "                                                                                <i class=\"fa fa-star-half\"></i>\n" +
+                            "                                                                                <i class=\"fa fa-star-o\"></i>\n" +
+                            "                                                                                <i class=\"fa fa-star-o\"></i>\n" +
+                            "                                                                                <i class=\"fa fa-star-o\"></i>"
+                    }
+                    if(notes == 2){
+                        content += "<i class=\"fa fa-star\"></i>\n" +
+                            "                                                                                <i class=\"fa fa-star\"></i>\n" +
+                            "                                                                                <i class=\"fa fa-star-o\"></i>\n" +
+                            "                                                                                <i class=\"fa fa-star-o\"></i>\n" +
+                            "                                                                                <i class=\"fa fa-star-o\"></i>"
+                    }
+                    if(notes == 2.5){
+                        content += "<i class=\"fa fa-star\"></i>\n" +
+                            "                                                                                <i class=\"fa fa-star\"></i>\n" +
+                            "                                                                                <i class=\"fa fa-star-half\"></i>\n" +
+                            "                                                                                <i class=\"fa fa-star-o\"></i>\n" +
+                            "                                                                                <i class=\"fa fa-star-o\"></i>"
+                    }
+                    if(notes == 3){
+                        content += "<i class=\"fa fa-star\"></i>\n" +
+                            "                                                                                <i class=\"fa fa-star\"></i>\n" +
+                            "                                                                                <i class=\"fa fa-star\"></i>\n" +
+                            "                                                                                <i class=\"fa fa-star-o\"></i>\n" +
+                            "                                                                                <i class=\"fa fa-star-o\"></i>"
+                    }
+                    if(notes == 3.5){
+                        content += "<i class=\"fa fa-star\"></i>\n" +
+                            "                                                                                <i class=\"fa fa-star\"></i>\n" +
+                            "                                                                                <i class=\"fa fa-star\"></i>\n" +
+                            "                                                                                <i class=\"fa fa-star-half\"></i>\n" +
+                            "                                                                                <i class=\"fa fa-star-o\"></i>"
+                    }
+                    if(notes == 4){
+                        content += "<i class=\"fa fa-star\"></i>\n" +
+                            "                                                                                <i class=\"fa fa-star\"></i>\n" +
+                            "                                                                                <i class=\"fa fa-star\"></i>\n" +
+                            "                                                                                <i class=\"fa fa-star\"></i>\n" +
+                            "                                                                                <i class=\"fa fa-star-o\"></i>"
+                    }
+                    if(notes == 4.5){
+                        content += "<i class=\"fa fa-star\"></i>\n" +
+                            "                                                                                <i class=\"fa fa-star\"></i>\n" +
+                            "                                                                                <i class=\"fa fa-star\"></i>\n" +
+                            "                                                                                <i class=\"fa fa-star\"></i>\n" +
+                            "                                                                                <i class=\"fa fa-star-half\"></i>"
+                    }
+                    if(notes == 5){
+                        content += "<i class=\"fa fa-star\"></i>\n" +
+                            "                                                                                <i class=\"fa fa-star\"></i>\n" +
+                            "                                                                                <i class=\"fa fa-star\"></i>\n" +
+                            "                                                                                <i class=\"fa fa-star\"></i>\n" +
+                            "                                                                                <i class=\"fa fa-star\"></i>"
+                    }
+                    content += "</small>\n" +
+                        "                                                                <br>\n" +
+                        "                                                                <span class=\"rating-content\">"+comment+"</span>\n" +
+                        "                                                        </p>\n" +
+                        "                                                </div>\n" +
+                        "                                        </div>\n" +
+                        "                                </div>"
+                    $('#rating-list').prepend(content)
                     console.log("Avis publié");
                 }
             })
