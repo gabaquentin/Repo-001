@@ -34,11 +34,11 @@
             <!-- Mobile Dropdown -->
             <div class="navbar-dropdown">
                 <a href="{{path('app_account')}}" class="navbar-item">Account</a>
-                <a href="/wishlists.html" class="navbar-item">Wishlists</a>
-                <a href="/orders.html" class="navbar-item">Orders</a>
+                <a href="{{path('app_whishlist')}}" class="navbar-item">Wishlists</a>
+                <a href="{{path('app_orders')}}" class="navbar-item">Orders</a>
                 <a id="mobile-login-link" href="{{path('app_login')}}" class="navbar-item">Login</a>
                 <a id="mobile-register-link" href="{{ path('app_register', {'role': 'new_user'}) }}" class="navbar-item">Register</a>
-                <a id="mobile-logout-link" class="navbar-item is-hidden">Logout</a>
+                <a id="mobile-logout-link" href="{{path('app_logout')}}" class="navbar-item is-hidden">Logout</a>
             </div>
         </div>
 
@@ -93,7 +93,7 @@
                     <div class="loader is-loading"></div>
                 </div>
                 <a id="login-link" href="{{path('app_login')}}"><i data-feather="user"></i></a>
-                <a id="logout-link"  class="is-hidden"><i data-feather="log-out"></i></a>
+                <a id="logout-link"  href="{{path('app_logout')}}" class="is-hidden"><i data-feather="log-out"></i></a>
             </li>
             <li id="fold-link" class="fold-link">
                 <a><i data-feather="arrow-left"></i></a>
@@ -136,13 +136,13 @@
                 </a>
             </li>
             <li>
-                <a href="orders.html">
+                <a href="{{path('app_orders')}}">
                     <span>My Orders</span>
                     <i data-feather="credit-card"></i>
                 </a>
             </li>
             <li>
-                <a href="wishlist.html">
+                <a href="{{path('app_whishlist')}}">
                     <span>My Wishlists</span>
                     <i data-feather="heart"></i>
                 </a>
