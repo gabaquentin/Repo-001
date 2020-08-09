@@ -62,28 +62,18 @@ class SecurityController extends AbstractController
     }
 
     /**
+     * @Route("/editaccount", name="app_account_edit")
+     */
+    public function editaccount()
+    {
+        return $this->render('security/frontend/accountedit.html.twig');
+    }
+
+    /**
      * @Route("/logout", name="app_logout")
      */
     public function logout()
     {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
-    }
-
-    /**
-     * @param Request $request
-     *
-     * @return mixed
-     *
-     * @throws HttpException
-     */
-    private function getJson(Request $request)
-    {
-        $data = json_decode($request->getContent(), true);
-
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new HttpException(400, 'Invalid json');
-        }
-
-        return $data;
     }
 }
