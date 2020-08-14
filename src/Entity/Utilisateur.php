@@ -35,6 +35,27 @@ class Utilisateur
     private $typePartenaire;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=false)
+     */
+    private $role;
+
+    /**
+     * @return mixed
+     */
+    public function getRole()
+    {
+        return $this->role;
+    }
+
+    /**
+     * @param mixed $role
+     */
+    public function setRole($role): void
+    {
+        $this->role = $role;
+    }
+
+    /**
      * @var InfoUser
      * @ORM\OneToOne(targetEntity=Utilisateur::class, cascade={"persist", "remove"})
      */

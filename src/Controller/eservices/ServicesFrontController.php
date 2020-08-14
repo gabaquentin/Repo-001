@@ -80,6 +80,18 @@ class ServicesFrontController extends AbstractController
     }
 
     /**
+     * page detail_service
+     * afficher les details d un service
+     * @Route("/categorie/service/detail/{service}",name="detail_service")
+     * @param ServiceRepository $repo
+     * @param int $service
+     * @return Response
+     */
+    public function afficher_detail_service(int $service){
+        return $this->render("frontend/eservices/detail_service.html.twig");
+    }
+
+    /**
      * @Route("/reponse",name="service_reponse")
      */
     public function afficher_demande()

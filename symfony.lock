@@ -1,4 +1,16 @@
 {
+    "becklyn/javascript-routing": {
+        "version": "1.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "1.0",
+            "ref": "ecb8bf9401b0b107af74b50ad521d9ea982edf96"
+        },
+        "files": [
+            "./config/routes/becklyn_javascript_routing.yaml"
+        ]
+    },
     "composer/package-versions-deprecated": {
         "version": "1.8.2"
     },
@@ -94,7 +106,7 @@
         "version": "2.2.3"
     },
     "php": {
-        "version": "7.3"
+        "version": "7.2"
     },
     "phpdocumentor/reflection-common": {
         "version": "2.2.0"

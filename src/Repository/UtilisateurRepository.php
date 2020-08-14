@@ -47,4 +47,11 @@ class UtilisateurRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function findUser()
+    {
+        return $this->createQueryBuilder("u")
+            ->getQuery()
+            ->getResult();
+    }
 }

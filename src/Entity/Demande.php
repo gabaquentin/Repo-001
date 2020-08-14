@@ -23,7 +23,28 @@ class Demande
     private $localisation;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @return mixed
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param mixed $description
+     */
+    public function setDescription($description): void
+    {
+        $this->description = $description;
+    }
+
+    /**
+     * @ORM\Column(name="description",type="text")
+     */
+    private $description;
+
+    /**
+     * @ORM\Column(type="text")
      */
     private $date;
 
