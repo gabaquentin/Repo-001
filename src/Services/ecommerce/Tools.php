@@ -30,7 +30,7 @@ class Tools
      * @param string $val
      * @return string[]
      */
-    function getOrderColumnProd(string $val)
+    function getOrderColumnProd($val)
     {
         $tab = [
             "Plus récent"=>[
@@ -62,7 +62,7 @@ class Tools
      * @param int $col
      * @return string
      */
-    function getColumnName(int $col)
+    function getColumnName($col)
     {
         $cols = $this->getColumnsName(null);
         return (array_key_exists($col,$cols))?$cols[$col]:$cols[2];
@@ -80,7 +80,7 @@ class Tools
      * @param Caracteristiques|null $caracteristiques
      * @return bool
      */
-    public function isCaracteristiquesPersistable(?Caracteristiques $caracteristiques)
+    public function isCaracteristiquesPersistable($caracteristiques)
     {
         if($caracteristiques==null)
             return false;
@@ -92,7 +92,7 @@ class Tools
      * @param Dimension|null $dimension
      * @return bool
      */
-    public function isDimensionPersistable(?Dimension $dimension)
+    public function isDimensionPersistable($dimension)
     {
         if($dimension==null)
             return false;

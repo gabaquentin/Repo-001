@@ -2,11 +2,14 @@
 
 namespace App\Controller\ecommerce;
 
+use App\Entity\CategorieProd;
 use App\Entity\Date;
 use App\Entity\Produit;
+use App\Entity\Ville;
 use App\Repository\AvisRepository;
 use App\Repository\CategorieProdRepository;
 use App\Repository\ProduitRepository;
+use App\Repository\VilleRepository;
 use App\Services\ecommerce\Tools;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -25,13 +28,16 @@ class ProduitFontController extends AbstractController
 {
     /**
      * @Route("/", name="produit_font")
-     * @param CategorieProdRepository $repo
+     * @param EntityManagerInterface $em
      * @return Response
      */
-    public function index(CategorieProdRepository $repo)
+    public function index(EntityManagerInterface $em,Tools $tools)
     {
         return $this->render('frontend/ecommerce/produit/produit.html.twig', [
-            'categories' => $repo->findAllCategories(),
+            'categories' => $em->getRepository(CategorieProd::class)->findAllCategories(),
+            'villes' => $em->getRepository(Ville::class)->findAll(),
+            'prixMax' => $em->getRepository(Produit::class)->getMaxPrice(),
+            'typeTransaction' => $tools->getTypeTransaction(),
         ]);
     }
 
@@ -47,9 +53,10 @@ class ProduitFontController extends AbstractController
         $start = $request->get("start");
 
         $produits = $repo->showProductsFront($request);
+        //dd($produits);
         $show = $start + count($produits);
         $itemsMax = $repo->countProductsFront($request);
-        //dd($itemsMax);
+
         $data = [
             "itemsMax"=>$itemsMax,
             "itemsShow"=>$show,

@@ -51,9 +51,9 @@ class Produit
      *      notInRangeMessage = "Pourcentage entre {{ min }}% et {{ max }}%",
      * )
      * @Groups({"show_list"})
-     * @ORM\Column(type="float", nullable=true)
+     * @ORM\Column(type="float", nullable=false)
      */
-    private $prixPromo;
+    private $prixPromo = 0.0;
 
     /**
      * @Groups({"show_list"})

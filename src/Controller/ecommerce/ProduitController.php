@@ -185,6 +185,8 @@ class ProduitController extends AbstractController
                 ->setProduitsAssocies(explode(",",$produitsAssocies))
             ;
 
+            if(is_null($produit->getPrixPromo()))$produit->setPrixPromo(0);
+
             if($tools->isCaracteristiquesPersistable($produit->getCaracteristique()))
                 $manager->persist($produit->getCaracteristique());
             else

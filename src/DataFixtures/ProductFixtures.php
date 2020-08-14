@@ -82,7 +82,7 @@ class ProductFixtures extends Fixture
                 ->setCategorieProd($catP)
                 ->setDimension($dimension)
                 ->setPrix($f->numberBetween(100,100000000))
-                ->setPrixPromo([$f->numberBetween(0,100),null][$f->numberBetween(0,1)])
+                ->setPrixPromo([$f->numberBetween(0,100),0][$f->numberBetween(0,1)])
                 ->setNbreConsultations($f->numberBetween(0,3000000))
                 ->setPriorite($f->numberBetween(1,1000))
                 ->setLocalisation([$f->address,null][$f->numberBetween(0,1)])
