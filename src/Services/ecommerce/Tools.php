@@ -26,6 +26,30 @@ class Tools
         return [0,1,2,3];
     }
 
+    /**
+     * @param string $val
+     * @return string[]
+     */
+    function getOrderColumnProd(string $val)
+    {
+        $tab = [
+            "Plus récent"=>[
+                "dateModification","desc","d"
+            ],
+            "Prix élévé"=>[
+                "prix","desc","p"
+            ],
+            "Prix bas"=>[
+                "prix","asc","p"
+            ],
+            "Pertinance"=>[
+                "nbreConsultations","desc","p"
+            ],
+        ];
+
+        return array_key_exists($val,$tab)?$tab[$val]:$tab["Plus récent"];
+    }
+
     function getColumnsName($unset = 1)
     {
         $cols = ["id","images","nom","typeTransaction","prix","prixPromo","localisation"];

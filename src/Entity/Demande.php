@@ -38,7 +38,7 @@ class Demande
     private $service;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Utilisateur::class)
+     * @ORM\ManyToOne(targetEntity=User::class)
      */
     private $client;
 
@@ -95,12 +95,12 @@ class Demande
         return $this;
     }
 
-    public function getClient(): ?Utilisateur
+    public function getClient(): ?User
     {
         return $this->client;
     }
 
-    public function setClient(?Utilisateur $client): self
+    public function setClient(?User $client): self
     {
         $this->client = $client;
 

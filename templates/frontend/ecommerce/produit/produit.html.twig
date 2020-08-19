@@ -1,0 +1,134 @@
+{% extends 'frontend/ecommerce/base.html.twig' %}
+
+{% block stylesheets %}
+{% endblock %}
+
+{% block title %}Services{% endblock %}
+
+{% block body %}
+
+
+    <div class="shop-wrapper has-background-image">
+
+        <!-- Search overlay -->
+        <div class="search-overlay"></div>
+
+        <!-- Search input -->
+        <div class="search-input-wrapper is-desktop is-hidden">
+            <div class="field">
+                <div class="control">
+                    <input id="nephos-search" type="text" name="search" placeholder="Search a Product">
+                    <span id="clear-search" role="button"><i data-feather="x"></i></span>
+                    <span class="bar"></span>
+                </div>
+                <span class="search-help">Type the name of the product you are looking for</span>
+            </div>
+        </div>
+
+        <!-- Main section -->
+        <div id="products-list" class="section">
+            <!-- Container -->
+            <div class="container">
+
+                <!-- House products -->
+                <div class="columns category-header">
+                    <div class="column main-column is-tablet-landscape-padded">
+                        <!-- Title -->
+                        <div class="category-title is-product-category">
+                            <h2>LISTE DES PRODUITS</h2>
+                        </div>
+
+                        <!-- Controls -->
+                        <div class="listing-controls">
+                            <div class="search-count">
+                                <span></span>
+                            </div>
+                            <!-- Search -->
+                            <div class="search-field">
+                                <div class="control">
+                                    <input type="text" class="input is-rounded nephos-search-filter" placeholder="Filter results...">
+                                    <a id="search-prod" class="search-icon"><i data-feather="search"></i></a>
+                                </div>
+                            </div>
+
+                            <div class="sort-box">
+                                <div class="sort-box-select">
+                                    <select data-placeholder="Plus récent" class="chosen-select-no-single">
+                                        <option class="ff">Plus récent</option>
+                                        <option class="ff">Prix élévé</option>
+                                        <option class="ff">Prix bas</option>
+                                        <option class="ff">Pertinance</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /Controls -->
+
+                        <!-- Product grid -->
+                        <div class="columns is-search-grid is-multiline">
+                            <div class="column is-3">
+                                <div class="filter-card">
+                                    <h3 class="block-title">Categories</h3>
+                                    <!--Filter block-->
+                                    {% for categorie in categories %}
+                                        <div class="filter-block category-block" data-id="{{ categorie.id }}">
+                                            <div class="field">
+                                                <div class="control">
+                                                    <label class="checkbox-wrap is-small">
+                                                        <input type="checkbox" class="d-checkbox">
+                                                        <span></span>
+                                                        <span class="filter-label">{{ categorie.nomCategorie }}</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="filter-count">
+                                                <span>{{ categorie.produits|length }}</span>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                                <div class="filter-card">
+                                    <h3 class="block-title">Prix</h3>
+                                    <!--Filter block-->
+                                    <div class="filter-block">
+                                        <div class="price-range-wrapper">
+                                            <div class="price-limit">0</div>
+                                            <div class="range-slider">
+                                                <input class="input-range" type="range" value="1500" min="1" max="1500">
+                                                <div class="slider-output">
+                                                    <small>Show between</small><span class="range-value"></span>
+                                                </div>
+                                            </div>
+                                            <div class="price-limit">1500</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div  class="column is-9">
+                                <div class="columns is-product-grid is-multiline products" data-show="0" data-max="30">
+                                    <!-- Product card -->
+
+                                    <!-- /Product card -->
+                                </div>
+                                <div class="show-more"><a href="#" class="button feather-button primary-button is-bold">Montrer plus</a></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+{% endblock %}
+
+{% block js %}
+    <script>
+        const showProductsRoute = "{{ path('show_products_front') }}";
+        const detailProductRoute = "{{ path('show_single_product_front') }}"
+    </script>
+    <script src="{{ asset('frontend/js/product-page.js') }}" type="text/javascript"></script>
+{% endblock %}
