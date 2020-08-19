@@ -1116,33 +1116,33 @@ label.contact-notif-error{
 /*-- ========================================= --
 	15.0 CONTACT
 /*-- ========================================= --*/
-.contact-container{
+.partenaire-container{
 	position:absolute;
 	z-index:4;
 	padding:0px;
 	right:100px;
 	visibility:hidden;
 }
-.contact-container h2{
+.partenaire-container h2{
 	text-align:right;
 }
-.contact-container p.contact-desc{
+.partenaire-container p.partenaire-desc{
 	text-align:right;
 	padding-right:0px;
 	margin-bottom:50px;
 }
-.contact-details{
+.partenaire-details{
 	text-align:center;
 	padding-right:0px;
 }
-.contact-details .detail{
+.partenaire-details .detail{
 	position:relative;
 	float:right;
 }
-.contact-details .detail:first-child{
+.partenaire-details .detail:first-child{
 	margin-right:-15px;
 }
-.contact-details .detail::after{
+.partenaire-details .detail::after{
 	font-family:'Dosis', sans-serif;
 	content:'//';
 	width:20px;
@@ -1153,15 +1153,15 @@ label.contact-notif-error{
 	right:-11px;
 	font-size:20px;
 }
-.contact-details .detail:first-child::after{
+.partenaire-details .detail:first-child::after{
 	content:'';
 }
-.contact-details .detail .icon{
+.partenaire-details .detail .icon{
 	display:inline-block;
 	color:#111111;
 	font-size:30px;
 }
-.contact-details .detail .title{
+.partenaire-details .detail .title{
 	font-family:'Dosis', sans-serif;
 	display:block;
 	color:#111111;
@@ -1173,7 +1173,7 @@ label.contact-notif-error{
 	margin-top:16px;
 	text-transform:capitalize;
 }
-.contact-details .detail .desc{
+.partenaire-details .detail .desc{
 	display:block;
 	color:#111111;
 	font-size:13px;
@@ -1185,7 +1185,7 @@ label.contact-notif-error{
 	-webkit-backface-visibility:hidden;
 	opacity:1;
 }
-.contact-details .detail .desc::before{
+.partenaire-details .detail .desc::before{
 	content:'^';
 	width:20px;
 	height:15px;
@@ -1200,21 +1200,21 @@ label.contact-notif-error{
 	-o-transform: translateX(-50%);
 	transform: translateX(-50%);
 }
-.contact-container h2{
+.partenaire-container h2{
 	animation-delay:0.2s;
 	-webkit-animation-delay:0.2s;
 	-moz-animation-delay:0.2s;
 	-ms-animation-delay:0.2s;
 	-o-animation-delay:0.2s;
 }
-.contact-container p.contact-desc{
+.partenaire-container p.partenaire-desc{
 	animation-delay:0.4s;
 	-webkit-animation-delay:0.4s;
 	-moz-animation-delay:0.4s;
 	-ms-animation-delay:0.4s;
 	-o-animation-delay:0.4s;
 }
-.contact-details{
+.partenaire-details{
 	animation-delay:0.6s;
 	-webkit-animation-delay:0.6s;
 	-moz-animation-delay:0.6s;
@@ -1300,7 +1300,7 @@ footer .social-media-link{
 		width:210px;
 		height:130px;
 	}
-	.contact-container{
+	.partenaire-container{
 		right:40px;
 	}
 }
@@ -1383,7 +1383,7 @@ footer .social-media-link{
 	.boutique-container,
 	.services-container,
 	.terrain-container,
-	.contact-container
+	.partenaire-container
 	{
 		position:relative;
 		float:left;
@@ -1454,20 +1454,20 @@ footer .social-media-link{
 		text-align:left;
 	}
 	.terrain-container p.terrain-desc,
-	.contact-container p.contact-desc
+	.partenaire-container p.partenaire-desc
 	{
 		text-align:center;
 		padding:0px;
 		margin-bottom:30px;
 	}
-	.contact-container h2{
+	.partenaire-container h2{
 		text-align:center;
 	}
-	.contact-details{
+	.partenaire-details{
 		text-align:center;
 		padding:0px;
 	}
-	.contact-details .detail:first-child{
+	.partenaire-details .detail:first-child{
 		margin-right:0px;
 	}
 }
@@ -1545,7 +1545,7 @@ footer .social-media-link{
 	.boutique-container,
 	.services-container,
 	.terrain-container,
-	.contact-container
+	.partenaire-container
 	{
 		position:relative;
 		float:left;
@@ -1586,10 +1586,10 @@ footer .social-media-link{
 		background-size:contain !important;
 		background-position:-50% 50% !important;
 	}
-	.contact-details .detail::after{
+	.partenaire-details .detail::after{
 		display:none;
 	}
-	.contact-details .detail{
+	.partenaire-details .detail{
 		margin-bottom:40px;
 	}
 }

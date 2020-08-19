@@ -44,29 +44,6 @@ class RegistrationController extends AbstractController
             $local = addslashes(trim($request->get('local')));
             $image = addslashes(trim($request->get('image')));
 
-            $user = new User();
-
-            $user->setNom($nom);
-            $user->setPrenom($prenom);
-            $user->setEmail($email);
-            $user->setTelephone($tel);
-            $user->setLocal($local);
-            $user->setImage($image);
-            $user->setCreation(date('d/m/Y H:i:s',time()));
-            // encode the plain password
-            $user->setPassword(
-                $passwordEncoder->encodePassword(
-                    $user,
-                    $password
-                )
-            );
-
-            // set user role
-            if($role == "new_user")
-                $user->setRoles((array)'ROLE_USER');
-            else if($role == "new_admin")
-                $user->setRoles((array)'ROLE_ADMIN');
-
             // registration check
             $code = $registrationCheck->securityCheck($email,$tel);
             $jsonData["code"] = $code ;
@@ -79,6 +56,28 @@ class RegistrationController extends AbstractController
             // code 0 : if no prblems with registration
             if($code == 0)
             {
+                $user = new User();
+
+                $user->setNom($nom);
+                $user->setPrenom($prenom);
+                $user->setEmail($email);
+                $user->setTelephone($tel);
+                $user->setLocal($local);
+                $user->setImage($image);
+                $user->setCreation(date('d/m/Y H:i:s',time()));
+                // encode the plain password
+                $user->setPassword(
+                    $passwordEncoder->encodePassword(
+                        $user,
+                        $password
+                    )
+                );
+
+                // set user role
+                if($role == "new_user")
+                    $user->setRoles((array)'ROLE_USER');
+                else if($role == "new_admin")
+                    $user->setRoles((array)'ROLE_ADMIN');
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($user);
                 $entityManager->flush();

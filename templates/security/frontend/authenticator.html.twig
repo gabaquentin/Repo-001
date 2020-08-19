@@ -55,10 +55,13 @@
                                     {% if authentication == "login" %}
                                     <form id="login-form" method="post" action="{{ path('app_login') }}" >
                                         <!--Field user-->
-                                        <div class="field">
-                                            <label>Email / Telephone</label>
+                                        <div class="field has-flex-label has-validation">
+                                            <label>
+                                                <span>Email / Telephone</span>
+                                                <span class="error">Ne peut etre vide</span>
+                                            </label>
                                             <div class="control is-bigger has-icon">
-                                                <input id="login-email" type="text" name="user" value="{% if last_username is defined %}{{ last_username }}{% endif %}" class="input">
+                                                <input id="login-email" type="text" name="user" value="{% if last_username is defined %}{{ last_username }}{% endif %}" class="input" >
                                                 <div class="form-icon">
                                                     <i data-feather="user"></i>
                                                 </div>
@@ -68,10 +71,10 @@
                                         <div class="field has-flex-label has-validation">
                                             <label>
                                                 <span>Password</span>
-                                                <span class="error">Minimum 8 caractéres</span>
+                                                <span class="error">Mot de passe invalide</span>
                                             </label>
                                             <div class="control is-bigger has-icon">
-                                                <input id="login-password" type="password"  name="password" class="input">
+                                                <input id="login-password" type="password"  name="password" class="input" >
                                                 <div class="form-icon">
                                                     <i data-feather="lock"></i>
                                                 </div>
@@ -431,92 +434,93 @@
         $('#register-submit').on('click', function (event) {
             var $this = $(this);
 
-        var form = $('#registration-form');
+            var form = $('#registration-form');
 
-        form.submit(function (e) {
+            form.submit(function (e) {
 
-            e.preventDefault();
+                e.preventDefault();
 
-            $.ajax({
-                type: "POST",
-                url: form.attr("{{ path('app_register', {'role': 'new_user'}) }}"),
-                data: {
-                    "nom": $('#register-nom').val(),
-                    "prenom": $('#register-prenom').val(),
-                    "email": $('#register-email').val(),
-                    "telephone": $('#register-tel').val(),
-                    "password": $('#register-password').val(),
-                    "local": $('#register-local').val(),
-                    "image": document.getElementById("imagesrc").src,
-                },
-                dataType: 'json',
-                success: function (data) {
-                    /*
-         * code 0 : if no prblems with registration
-         * code 100 : if email already exist in data base
-         * code 200 : if phone number already exist in data base
-         * code 300 : if phone number and email already exist in data base
-         * code 400 : if phone number and/or email is empty
-                    */
-                    if(data['code'] === 0)
-                    {
-                        $('#user-email-label').html(data['email']);
-                        $('#registration-form').addClass('is-hidden');
-                        $('#check-email').removeClass('is-hidden');
+                $.ajax({
+                    type: "POST",
+                    url: form.attr("{{ path('app_register', {'role': 'new_user'}) }}"),
+                    data: {
+                        "nom": $('#register-nom').val(),
+                        "prenom": $('#register-prenom').val(),
+                        "email": $('#register-email').val(),
+                        "telephone": $('#register-tel').val(),
+                        "password": $('#register-password').val(),
+                        "local": $('#register-local').val(),
+                        "image": document.getElementById("imagesrc").src,
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        /*
+             * code 0 : if no prblems with registration
+             * code 100 : if email already exist in data base
+             * code 200 : if phone number already exist in data base
+             * code 300 : if phone number and email already exist in data base
+             * code 400 : if phone number and/or email is empty
+                        */
+                        console.log(data['code']);
+                        if(data['code'] === 0)
+                        {
+                            $('#user-email-label').html(data['email']);
+                            $('#registration-form').addClass('is-hidden');
+                            $('#check-email').removeClass('is-hidden');
 
-                        var register = {
-                            isLoggedIn: true,
-                            firstName: data['nom'],
-                            lastName: data['prenom'],
-                            email: data['email'],
-                            phone: data['tel'],
-                            photoUrl: data['image'],
-                            wishlists: myWishlists,
-                            orders: myOrders,
-                            addresses: myAddresses
-                        };
+                            var register = {
+                                isLoggedIn: true,
+                                firstName: data['nom'],
+                                lastName: data['prenom'],
+                                email: data['email'],
+                                phone: data['tel'],
+                                photoUrl: data['image'],
+                                wishlists: myWishlists,
+                                orders: myOrders,
+                                addresses: elieAddresses
+                            };
 
-                        localStorage.setItem('user', JSON.stringify(register));
+                            localStorage.setItem('user', JSON.stringify(register));
 
+                            setTimeout(function () {
+                                $this.removeClass('is-loading');
+                                toasts.service.success('', 'fas fa-check', data['infos'], 'bottomRight', 11200);
+                            }, 1200);
+                        }
+                        else
+                        {
+                            setTimeout(function () {
+                                $this.removeClass('is-loading');
+                                toasts.service.info('', 'fas fa-meh', data['infos'], 'bottomRight', 11200);
+                            }, 1200);
+
+                            if(data['code'] === 100)
+                            {
+                                $('#register-email').closest('.field').addClass('has-error');
+                            }
+                            else if(data['code'] === 200)
+                            {
+                                $('#register-tel').closest('.field').addClass('has-error');
+                            }
+                            else if(data['code'] === 300)
+                            {
+                                $('#register-email').closest('.field').addClass('has-error');
+                                $('#register-tel').closest('.field').addClass('has-error');
+                            }
+
+                        }
+
+
+                    },
+                    error: function (data) {
                         setTimeout(function () {
                             $this.removeClass('is-loading');
-                            toasts.service.success('', 'fas fa-check', data['infos'], 'bottomRight', 11200);
-                        }, 1200);
-                    }
-                    else
-                    {
-                        setTimeout(function () {
-                            $this.removeClass('is-loading');
-                            toasts.service.info('', 'fas fa-meh', data['infos'], 'bottomRight', 11200);
-                        }, 1200);
+                            toasts.service.error('', 'fas fa-meh', " Erreur interne du server... Veuillez reesayer ", 'bottomRight', 2800);
+                        }, 800);
 
-                        if(data['code'] === 100)
-                        {
-                            $('#register-email').closest('.field').addClass('has-error');
-                        }
-                        else if(data['code'] === 200)
-                        {
-                            $('#register-tel').closest('.field').addClass('has-error');
-                        }
-                        else if(data['code'] === 300)
-                        {
-                            $('#register-email').closest('.field').addClass('has-error');
-                            $('#register-tel').closest('.field').addClass('has-error');
-                        }
-
-                    }
-
-
-                },
-                error: function (data) {
-                    setTimeout(function () {
-                        $this.removeClass('is-loading');
-                        toasts.service.error('', 'fas fa-meh', " Erreur interne du server... Veuillez reesayer ", 'bottomRight', 2800);
-                    }, 800);
-
-                },
+                    },
+                });
             });
-        });
         })
 
     </script>

@@ -1,2 +1,3 @@
 # translations/security.fr.yaml
 'Invalid credentials.': 'Le mot de passe est incorrect!'
+'User could not be found.': "L'utilisateur n'existe pas"
