@@ -29,10 +29,11 @@ class DemandeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('localisation',TextType::class)
-            ->add("description",TextareaType::class)
+            ->add('localisation', TextType::class)
+            ->add("description", TextareaType::class)
             ->add('date')
-            ->add('photo', FileType::class, [
+            ->add("heure")
+            ->add('photo1', FileType::class, [
                 'mapped' => false,
                 'constraints' => [
                     new File([
@@ -44,7 +45,46 @@ class DemandeType extends AbstractType
                         'mimeTypesMessage' => 'SVP insérer une image valide (format jpg, jpeg et png)',
                     ])
                 ],
-            ]);
+            ])
+            ->add('photo2', FileType::class, [
+                'mapped' => false,
+                'constraints' => [
+                    new File([
+                        'mimeTypes' => [
+                            'image/jpg',
+                            'image/jpeg',
+                            'image/png',
+                        ],
+                        'mimeTypesMessage' => 'SVP insérer une image valide (format jpg, jpeg et png)',
+                    ])
+                ],
+            ])
+            ->add('photo3', FileType::class, [
+                'mapped' => false,
+                'constraints' => [
+                    new File([
+                        'mimeTypes' => [
+                            'image/jpg',
+                            'image/jpeg',
+                            'image/png',
+                        ],
+                        'mimeTypesMessage' => 'SVP insérer une image valide (format jpg, jpeg et png)',
+                    ])
+                ],
+            ])
+        ->add('photo4', FileType::class, [
+        'mapped' => false,
+        'constraints' => [
+            new File([
+                'mimeTypes' => [
+                    'image/jpg',
+                    'image/jpeg',
+                    'image/png',
+                ],
+                'mimeTypesMessage' => 'SVP insérer une image valide (format jpg, jpeg et png)',
+            ])
+        ],
+    ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

@@ -24,15 +24,15 @@ function charger_question() {
 function afficher_question(number) {
     $("#question").html(service_questions[number].question)
     $("#options").html("");
-    let rep=service_questions[number].reponses.split(',');
-    let i=1;
-    rep.forEach(element=>{
+    let rep = service_questions[number].reponses.split(',');
+    let i = 1;
+    rep.forEach(element => {
         $("#options").append(' <div class="custom-control custom-radio mt-2 mb-3">\n' +
             '                                                                    <input type="radio" name="option"\n' +
             '                                                                           class="custom-control-input"\n' +
-            '                                                                           id="customRadioInline'+i+'" number=0>\n' +
+            '                                                                           id="customRadioInline' + i + '" number=0>\n' +
             '                                                                    <label class="custom-control-label"\n' +
-            '                                                                           for="customRadioInline'+i+'">' + element+
+            '                                                                           for="customRadioInline' + i + '">' + element +
             '                                                                        </label>\n' +
             '                                                                </div>')
         i++;
@@ -52,10 +52,7 @@ function position() {
     })
     $("#suiv").click(function () {
         if (service_question == 3) {
-            setTimeout(function () {
-                $("#questions").css("display", "none");
-                $("#informations").css("display", "block");
-            }, 2000);
+            envoyer_reponses();
         }
         afficher_reponse();
         recuperer_reponse(service_questions[service_question].question);
@@ -63,8 +60,26 @@ function position() {
         service_question = service_question == 3 ? 3 : service_question + 1;
         afficher_question(service_question);
         ProgressBar();
+    })
+}
 
-
+function envoyer_reponses() {
+    $.ajax({
+        type: "get",
+        url: window.url_recuperer_reponses,
+        dataType: "json",
+        cache: false,
+        data: "&reponses="+JSON.stringify(reponses),
+        success: function (response) {
+            setTimeout(function () {
+                $("#questions").css("display", "none");
+                $("#informations").css("display", "block");
+            }, 2000);
+        },
+        error: function () {
+            alert("cela n'a pas fonctionné")
+            alert(window.url_recuperer_reponses);
+        }
     })
 }
 
@@ -92,17 +107,16 @@ function ProgressBar() {
 }
 
 function recuperer_reponse(question) {
-    console.log(service_question);
+    // console.log(service_question);
     $(".custom-control-input").each(function (index, element) {
         if ($(this).prop("checked")) {
-            if(reponses[service_question]==null){
+            if (reponses[service_question] == null) {
                 reponses[service_question] = {
                     "question": question,
                     "reponse": $(this).next("label").text()
                 };
-            }
-            else {
-                reponses[service_question].reponse=$(this).next("label").text();
+            } else {
+                reponses[service_question].reponse = $(this).next("label").text();
             }
 
             $(this).prop("checked", false);
@@ -113,7 +127,7 @@ function recuperer_reponse(question) {
         } else $("#suiv").prop("disabled", true);
 
     })
-    console.log(reponses)
+    // console.log(reponses)
 
 }
 
@@ -141,11 +155,12 @@ function validation() {
 
         },
         errorPlacement: function (error, element) {
-            if (element.prop('type') === 'text' || element.prop('type') === 'mail' || element.prop('type') === 'password') {
+            if (element.prop('type') === 'text' || element.prop('type') === 'mail' || element.prop('type') === 'password' || element.prop("type") == "file" || element.prop("type") == "textarea" || element.prop("type") == "date" || element.prop("type") == "time") {
                 element.after(error);
             } else if (element.prop('type') === 'radio') {
                 element.parent().parent().after(error);
             }
+            toasts.service.error('', 'fas fa-dizzy', error.text(), 'bottomRight', 2500);
         }
     });
 
@@ -168,7 +183,7 @@ function validation() {
         rules: {
             'demande[localisation]': {
                 required: true,
-                codepostal:true
+                codepostal: true
             },
             'demande[description]': {
                 required: true,
@@ -176,7 +191,16 @@ function validation() {
             'demande[date]': {
                 required: true,
             },
-            "demande[photo]": {
+            "demande[photo1]": {
+                required: true,
+            },
+            "demande[photo2]": {
+                required: true,
+            },
+            "demande[photo3]": {
+                required: true,
+            },
+            "demande[photo4]": {
                 required: true,
             },
         },
@@ -197,7 +221,8 @@ function validation() {
         },
         submitHandler: function (form) {
             alert("validation correcte");
-            // form.submit();
+            form.submit();
+
         }
     })
 }

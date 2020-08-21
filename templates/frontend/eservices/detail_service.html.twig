@@ -118,14 +118,14 @@
                                                 </div>
                                             </div>
                                             <div id="informations" class="inner">
-                                                {{ form_start(form,{'attr':{"id":"informations_2"}}) }}
-                                                <label>Success input</label>
+                                                {{ form_start(form, {'action': path('demande_ajout',{'service':service_id}), 'method': 'post',"attr":{"id":"informations_2"}}) }}
+                                                <label>Code Postal</label>
 
                                                 <div id="success-input" class="control required ">
                                                     {{ form_widget(form.localisation,{'attr':{'class':'input is-default' ,'placeholder': "Code Postale" } }) }}
                                                 </div>
 
-                                                <label>Warning input</label>
+                                                <label>Description</label>
                                                 <div id="warning-input" class="control required ">
                                                     {{ form_widget(form.description,{'attr':{'class':'input is-default' ,'placeholder': "Description" } }) }}
                                                 </div>
@@ -135,12 +135,30 @@
                                                     {{ form_widget(form.date,{'attr':{'class':'input is-default' ,'placeholder': "Choisissez une date","type":"text","data-toggle":"datepicker" } }) }}
 
                                                 </div>
+                                                <label>Heure</label>
+                                                <div class="control">
+                                                    {{ form_widget(form.heure,{'attr':{'class':'input is-default' ,'placeholder': "Choisissez une heure","type":"time"} }) }}
+
+                                                </div>
                                                 <label>Photo</label>
                                                 <div class="control">
-                                                    {{ form_widget(form.photo,{'attr':{'class':'dropify' ,"data-default-file":"","type":"file" } }) }}
+                                                    <div class="columns">
+                                                        <div class="column is-3">
+                                                            {{ form_widget(form.photo1,{'attr':{'class':'dropify' ,"data-default-file":"","type":"file" ,"data-errors-position":"outside"} }) }}
+                                                        </div>
+                                                        <div class="column is-3">
+                                                            {{ form_widget(form.photo2,{'attr':{'class':'dropify' ,"data-default-file":"","type":"file" ,"data-errors-position":"outside"} }) }}
+                                                        </div>
+                                                        <div class="column is-3">
+                                                            {{ form_widget(form.photo3,{'attr':{'class':'dropify' ,"data-default-file":"","type":"file" ,"data-errors-position":"outside"} }) }}
+                                                        </div>
+                                                        <div class="column is-3">
+                                                            {{ form_widget(form.photo4,{'attr':{'class':'dropify' ,"data-default-file":"","type":"file" ,"data-errors-position":"outside"} }) }}
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <input type="button"
-                                                       class=" button feather-button feather-button primary-button raised elements-back animated preFadeInLeft fadeInLeft"
+                                                <input type="submit"
+                                                       class=" button feather-button feather-button primary-button raised  animated preFadeInLeft fadeInLeft"
                                                        value="Valider"></input>
                                                 {{ form_end(form) }}
                                             </div>
@@ -167,7 +185,7 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script language="JavaScript" type="text/javascript"
+    <script language="JavaScript" type="text/javascript"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
             integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
             crossorigin="anonymous"></script>
@@ -180,6 +198,8 @@
     <script>
         let service_id={{ service_id }}
         window.url_service_questions="{{ url('service_questions',{'service':service_id}) }}";
+        window.url_demande_ajout="{{ url('demande_ajout',{'service':service_id}) }}";
+        window.url_recuperer_reponses="{{ url('recuperer_reponses',{'service':service_id})  }}"
     </script>
 
 {% endblock %}

@@ -3573,8 +3573,8 @@ button[type=submit], .will-upload {
 }
 
 /* line 646, src/frontend/scss/components/_quickview.scss */
-.cart-quickview .inner .cart-action .cart-total:before {
-    content: '$';
+.cart-quickview .inner .cart-action .cart-total:after {
+    content: ' F CFA';
     font-size: 90%
 }
 
@@ -3793,8 +3793,8 @@ button[type=submit], .will-upload {
 }
 
 /* line 830, src/frontend/scss/components/_quickview.scss */
-.cart-quickview .inner .cart-body .shopping-cart-items .item-price var:before {
-    content: '$'
+.cart-quickview .inner .cart-body .shopping-cart-items .item-price var:after {
+    content: ' F CFA'
 }
 
 /* line 835, src/frontend/scss/components/_quickview.scss */
@@ -4010,8 +4010,8 @@ button[type=submit], .will-upload {
 }
 
 /* line 78, src/frontend/scss/components/_cards.scss */
-.flat-card .product-info .product-price span:first-child:before {
-    content: '$';
+.flat-card .product-info .product-price span:first-child:after {
+    content: ' F CFA';
     font-size: 80%;
     position: relative
 }
@@ -4025,8 +4025,8 @@ button[type=submit], .will-upload {
 }
 
 /* line 92, src/frontend/scss/components/_cards.scss */
-.flat-card .product-info .product-price .sale-price:before {
-    content: '$';
+.flat-card .product-info .product-price .sale-price:after {
+    content: ' F CFA';
     font-size: 70%;
     position: relative
 }
@@ -7209,8 +7209,8 @@ textarea.textarea.is-button + .textarea-button button {
 }
 
 /* line 90, src/frontend/scss/pages/_cart.scss */
-.cart-card .cart-content li .product-price span:nth-child(2):before {
-    content: '$';
+.cart-card .cart-content li .product-price span:nth-child(2):after {
+    content: ' F CFA';
     font-size: 90%
 }
 
@@ -7421,8 +7421,8 @@ textarea.textarea.is-button + .textarea-button button {
 }
 
 /* line 255, src/frontend/scss/pages/_cart.scss */
-.cart-order-summary .cart-summary-list .summary-item span.amount:before {
-    content: '$'
+.cart-order-summary .cart-summary-list .summary-item span.amount:after {
+    content: ' F CFA'
 }
 
 /* line 268, src/frontend/scss/pages/_cart.scss */
@@ -7688,8 +7688,8 @@ textarea.textarea.is-button + .textarea-button button {
 }
 
 /* line 191, src/frontend/scss/pages/_orders.scss */
-.order-long-card .left-side .order-header .order-total:before {
-    content: '$'
+.order-long-card .left-side .order-header .order-total:after {
+    content: ' F CFA'
 }
 
 /* line 197, src/frontend/scss/pages/_orders.scss */
@@ -7789,8 +7789,8 @@ textarea.textarea.is-button + .textarea-button button {
 }
 
 /* line 264, src/frontend/scss/pages/_orders.scss */
-.order-long-card .left-side .ordered-products .ordered-product .product-meta span.price span:first-child:before {
-    content: '$'
+.order-long-card .left-side .ordered-products .ordered-product .product-meta span.price span:first-child:after {
+    content: ' F CFA'
 }
 
 /* line 269, src/frontend/scss/pages/_orders.scss */
@@ -7820,8 +7820,8 @@ textarea.textarea.is-button + .textarea-button button {
 }
 
 /* line 294, src/frontend/scss/pages/_orders.scss */
-.order-long-card .left-side .ordered-products .ordered-product .product-subtotal span:nth-child(2):before {
-    content: '$'
+.order-long-card .left-side .ordered-products .ordered-product .product-subtotal span:nth-child(2):after {
+    content: ' F CFA'
 }
 
 /* line 304, src/frontend/scss/pages/_orders.scss */
@@ -8288,8 +8288,8 @@ textarea.textarea.is-button + .textarea-button button {
 }
 
 /* line 667, src/frontend/scss/pages/_orders.scss */
-.order-details-wrap .payment-info .payment-block span:nth-child(2):before {
-    content: '$'
+.order-details-wrap .payment-info .payment-block span:nth-child(2):after {
+    content: ' F CFA'
 }
 
 /* line 672, src/frontend/scss/pages/_orders.scss */
@@ -8482,8 +8482,8 @@ textarea.textarea.is-button + .textarea-button button {
 }
 
 /* line 821, src/frontend/scss/pages/_orders.scss */
-.flex-table .flex-table-item .price span:before {
-    content: '$'
+.flex-table .flex-table-item .price span:after {
+    content: ' F CFA'
 }
 
 /* line 827, src/frontend/scss/pages/_orders.scss */
@@ -8517,8 +8517,8 @@ textarea.textarea.is-button + .textarea-button button {
 }
 
 /* line 843, src/frontend/scss/pages/_orders.scss */
-.flex-table .flex-table-item .total span:before {
-    content: '$'
+.flex-table .flex-table-item .total span:after {
+    content: ' F CFA'
 }
 
 @media (max-width: 767px) {
@@ -9077,8 +9077,8 @@ textarea.textarea.is-button + .textarea-button button {
 }
 
 /* line 440, src/frontend/scss/pages/_product.scss */
-.product-info-panel .inner-panel .panel-body .product-controls .product-price .value span:first-child:before {
-    content: '$'
+.product-info-panel .inner-panel .panel-body .product-controls .product-price .value span:first-child:after {
+    content: ' F CFA'
 }
 
 /* line 445, src/frontend/scss/pages/_product.scss */
@@ -9091,8 +9091,8 @@ textarea.textarea.is-button + .textarea-button button {
 }
 
 /* line 452, src/frontend/scss/pages/_product.scss */
-.product-info-panel .inner-panel .panel-body .product-controls .product-price .value span:nth-child(2):before {
-    content: '$'
+.product-info-panel .inner-panel .panel-body .product-controls .product-price .value span:nth-child(2):after {
+    content: ' F CFA'
 }
 
 /* line 461, src/frontend/scss/pages/_product.scss */
@@ -10040,8 +10040,8 @@ textarea.textarea.is-button + .textarea-button button {
 }
 
 /* line 674, src/frontend/scss/pages/_checkout.scss */
-.checkout-wrapper .checkout-side .side-inner .side-card.is-totals .payment-block span:nth-child(2):before {
-    content: '$'
+.checkout-wrapper .checkout-side .side-inner .side-card.is-totals .payment-block span:nth-child(2):after {
+    content: ' F CFA'
 }
 
 /* line 679, src/frontend/scss/pages/_checkout.scss */
@@ -10394,8 +10394,8 @@ textarea.textarea.is-button + .textarea-button button {
 }
 
 /* line 1001, src/frontend/scss/pages/_checkout.scss */
-.flat-card.is-checkout-form .verification-wrapper .total-price span:nth-child(3):before {
-    content: '$';
+.flat-card.is-checkout-form .verification-wrapper .total-price span:nth-child(3):after {
+    content: ' F CFA';
     position: relative;
     top: -10px;
     font-size: 50%
@@ -10491,8 +10491,8 @@ textarea.textarea.is-button + .textarea-button button {
 }
 
 /* line 1091, src/frontend/scss/pages/_checkout.scss */
-.flat-card.is-checkout-form .payment-wrapper .subtotal .partial-value:before, .flat-card.is-checkout-form .payment-wrapper .subtotal .vat-value:before {
-    content: '$';
+.flat-card.is-checkout-form .payment-wrapper .subtotal .partial-value:before, .flat-card.is-checkout-form .payment-wrapper .subtotal .vat-value:after {
+    content: ' F CFA';
     font-size: 60%;
     position: relative;
     top: -6px
@@ -10524,8 +10524,8 @@ textarea.textarea.is-button + .textarea-button button {
 }
 
 /* line 1122, src/frontend/scss/pages/_checkout.scss */
-.flat-card.is-checkout-form .payment-wrapper .total span:before {
-    content: '$';
+.flat-card.is-checkout-form .payment-wrapper .total span:after {
+    content: ' F CFA';
     font-size: 60%;
     position: relative;
     top: -10px
@@ -11612,8 +11612,8 @@ textarea.textarea.is-button + .textarea-button button {
 }
 
 /* line 319, src/frontend/scss/pages/_search.scss */
-.nephos-search-template .entry-text span:nth-child(2):before {
-    content: '$'
+.nephos-search-template .entry-text span:nth-child(2):after {
+    content: ' F CFA'
 }
 
 /* line 331, src/frontend/scss/pages/_search.scss */
@@ -11883,8 +11883,8 @@ textarea.textarea.is-button + .textarea-button button {
 }
 
 /* line 172, src/frontend/scss/pages/_invoice.scss */
-.responsive-table td .unit-price:before, .responsive-table td .total-price:before {
-    content: '$';
+.responsive-table td .unit-price:before, .responsive-table td .total-price:after {
+    content: ' F CFA';
     font-size: 80%
 }
 
@@ -11991,8 +11991,8 @@ textarea.textarea.is-button + .textarea-button button {
 }
 
 /* line 274, src/frontend/scss/pages/_invoice.scss */
-.sub-table .subtotal-value:before, .sub-table .vat-value:before {
-    content: '$';
+.sub-table .subtotal-value:before, .sub-table .vat-value:after {
+    content: ' F CFA';
     font-size: 80%
 }
 
@@ -12003,8 +12003,8 @@ textarea.textarea.is-button + .textarea-button button {
 }
 
 /* line 284, src/frontend/scss/pages/_invoice.scss */
-.sub-table .total-value:before {
-    content: '$';
+.sub-table .total-value:after {
+    content: ' F CFA';
     font-size: 80%
 }
 
