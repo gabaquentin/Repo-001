@@ -224,6 +224,7 @@ TABLE OF CONTENTS
 		});
 		HideServices();
 		HideTerrain();
+		HidePartenaire();
 	}
 	function HideBoutique(){
 		$('.boutique-container h2, p.boutique-desc, .service-container, .go-boutique').removeClass('entrance fadeInUp').addClass('fadeOutUp');
@@ -250,6 +251,7 @@ TABLE OF CONTENTS
 		});
 		HideServices();
 		HideBoutique();
+		HidePartenaire();
 	}
 	function HideTerrain(){
 		$('.terrain-container h2, p.terrain-desc, .go-terrain').removeClass('entrance fadeInUp').addClass('fadeOutUp');
@@ -274,8 +276,9 @@ TABLE OF CONTENTS
 		$('.services-container').css({
 			zIndex:5
 		});
-		HideBoutique();
 		HideTerrain();
+		HideBoutique();
+		HidePartenaire();
 	}
 	function HideServices(){
 		$('.services-container h2, p.services-desc, .go-services').removeClass('entrance fadeInUp').addClass('fadeOutUp');
@@ -290,26 +293,29 @@ TABLE OF CONTENTS
 			},800);
 		}
 	}
-	function ShowContact(){
-		$.menu_name = "contact";
+	function ShowPartenaire(){
+		$.menu_name = "partenaire";
 		
 		if($(window).width() < 1024){
-			$('.contact-container').css('display','block');
+			$('.partenaire-container').css('display','block');
 		}
-		$('.contact-container h2, p.contact-desc, .contact-details').removeClass('fadeOutUp').addClass('fadeInUp');
-		$('.contact-container').css({
+		$('.partenaire-container h2, p.partenaire-desc, .partenaire-details, .go-partenaire').removeClass('fadeOutUp').addClass('fadeInUp');
+		$('.partenaire-container').css({
 			zIndex:5
 		});
+		HideServices();
+		HideBoutique();
+		HideTerrain();
 	}
-	function HideContact(){
-		$('.contact-container h2, p.contact-desc, .contact-details').removeClass('entrance fadeInUp').addClass('fadeOutUp');
-		$('.contact-container').css({
+	function HidePartenaire(){
+		$('.partenaire-container h2, p.partenaire-desc, .partenaire-details, .go-partenaire').removeClass('entrance fadeInUp').addClass('fadeOutUp');
+		$('.partenaire-container').css({
 			zIndex:4
 		});
 		if($(window).width() < 1024){
 			//-- hide container
 			var hideContainer = setTimeout(function(){
-				$('.contact-container').fadeOut('fast');
+				$('.partenaire-container').fadeOut('fast');
 				clearTimeout(this);
 			},800);
 		}
@@ -537,8 +543,8 @@ TABLE OF CONTENTS
 					else if($.menu_name == "services"){
 						ShowServices();
 					}
-					else if($.menu_name == "contact"){
-						ShowContact();
+					else if($.menu_name == "partenaire"){
+						ShowPartenaire();
 					}
 					
 					clearTimeout(this);
@@ -567,8 +573,8 @@ TABLE OF CONTENTS
 			else if($.menu_name == "services"){
 				HideServices();
 			}
-			else if($.menu_name == "contact"){
-				HideContact();
+			else if($.menu_name == "partenaire"){
+				HidePartenaire();
 			}
 			
 			//-- hide main content background
@@ -596,9 +602,9 @@ TABLE OF CONTENTS
 			if($.menu_name == "boutique"){
 				HideBoutique();
 				
-				//-- show contact
-				var showContact = setTimeout(function(){
-					ShowContact();
+				//-- show partenaire
+				var showPartenaire = setTimeout(function(){
+					ShowPartenaire();
 					clearTimeout(this);
 				},600);
 			}
@@ -620,8 +626,8 @@ TABLE OF CONTENTS
 					clearTimeout(this);
 				},600);
 			}
-			else if($.menu_name == "contact"){
-				HideContact();
+			else if($.menu_name == "partenaire"){
+				HidePartenaire();
 				
 				//-- show terrain
 				var showTerrain = setTimeout(function(){
@@ -655,14 +661,14 @@ TABLE OF CONTENTS
 			else if($.menu_name == "terrain"){
 				HideTerrain();
 				
-				//-- show contact
-				var showContact = setTimeout(function(){
-					ShowContact();
+				//-- show partenaire
+				var showPartenaire = setTimeout(function(){
+					ShowPartenaire();
 					clearTimeout(this);
 				},600);
 			}
-			else if($.menu_name == "contact"){
-				HideContact();
+			else if($.menu_name == "partenaire"){
+				HidePartenaire();
 				
 				//-- show boutique
 				var showBoutique = setTimeout(function(){

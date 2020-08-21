@@ -51,14 +51,17 @@
                             <!--Login wrapper-->
                             <div class="login-form-wrapper {% if authentication == "register" %} is-hidden {% endif %}">
                                 <!--Login form-->
-                                <div class="login-form">
+                                <div class="login-form {% if authentication == "reset" or authentication == "process-reset" %} is-hidden {% endif %}">
                                     {% if authentication == "login" %}
                                     <form id="login-form" method="post" action="{{ path('app_login') }}" >
                                         <!--Field user-->
-                                        <div class="field">
-                                            <label>Email / Telephone</label>
+                                        <div class="field has-flex-label has-validation">
+                                            <label>
+                                                <span>Email / Telephone</span>
+                                                <span class="error">Ne peut etre vide</span>
+                                            </label>
                                             <div class="control is-bigger has-icon">
-                                                <input id="login-email" type="text" name="user" value="{% if last_username is defined %}{{ last_username }}{% endif %}" class="input">
+                                                <input id="login-email" type="text" name="user" value="{% if last_username is defined %}{{ last_username }}{% endif %}" class="input" >
                                                 <div class="form-icon">
                                                     <i data-feather="user"></i>
                                                 </div>
@@ -68,10 +71,10 @@
                                         <div class="field has-flex-label has-validation">
                                             <label>
                                                 <span>Password</span>
-                                                <span class="error">Minimum 8 caractéres</span>
+                                                <span class="error">Mot de passe invalide</span>
                                             </label>
                                             <div class="control is-bigger has-icon">
-                                                <input id="login-password" type="password"  name="password" class="input">
+                                                <input id="login-password" type="password"  name="password" class="input" >
                                                 <div class="form-icon">
                                                     <i data-feather="lock"></i>
                                                 </div>
@@ -108,21 +111,25 @@
                                             <a>Forgot Password?</a>
                                         </div>
                                     </form>
-                                    {% elseif authentication == "register" %}
-                                        <form  id="login-form" >
+                                    {% elseif authentication != "login" %}
+                                        <form  id="login-form {% if authentication == "login" %} is-hidden {% endif %}" >
                                             <a class="button feather-button primary-button btn-outlined upper-button raised is-fullwidth" href="{{ path('app_login') }}">Connexion</a>
                                         </form>
                                     {% endif %}
                                 </div>
                                 <!--Reset form-->
-                                <div class="reset-form is-hidden">
-                                    <form>
+                                <div class="reset-form {% if authentication == "login" %} is-hidden {% endif %}">
+                                    {% if authentication == "reset" %}
+                                    <form id="reset-form" method="post" action="{{ path('app_reset_password') }}">
                                         <p class="form-description">Enter your email to be able to reset your password. We'll send you an email with the instructions to follow.</p>
                                         <!--Field-->
-                                        <div class="field">
-                                            <label>Email</label>
+                                        <div class="field has-flex-label has-validation">
+                                            <label>
+                                                <span>Email</span>
+                                                <span class="error">Email incorrect</span>
+                                            </label>
                                             <div class="control is-bigger has-icon">
-                                                <input type="text" class="input">
+                                                <input type="text" id="reset-email" class="input" name="email">
                                                 <div class="form-icon">
                                                     <i data-feather="mail"></i>
                                                 </div>
@@ -130,19 +137,70 @@
                                         </div>
                                         <!--Submit-->
                                         <div class="button-wrap">
-                                            <button type="button" class="button primary-button upper-button raised is-fullwidth is-rounded">Reset Password</button>
+                                            <button type="submit" id="reset-submit" class="button primary-button upper-button raised is-fullwidth is-rounded">Reset Password</button>
                                         </div>
                                         <!--Back-->
                                         <div class="back-link has-text-centered">
-                                            <a>Back To Login</a>
+                                            <a href="{{ path('app_login') }}">Back To Login</a>
                                         </div>
+                                    </form>
+                                        {% elseif authentication == "process-reset" %}
+                                        <form id="reset-process-form" method="post" action="{{ path('app_forgot_password_request') }}">
+                                            <p class="form-description">Reset your password</p>
+                                            <!--Field new password-->
+                                            <div class="field has-flex-label has-validation">
+                                                <label>
+                                                    <span>New Password</span>
+                                                    <span class="error">Mot de passe incorrect</span>
+                                                </label>
+                                                <div class="control is-bigger has-icon">
+                                                    <input type="password" id="reset-password" class="input" name="password">
+                                                    <div class="form-icon">
+                                                        <i data-feather="secure"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--Field reenter password-->
+                                                <div class="field has-flex-label has-validation">
+                                                    <label>
+                                                        <span>Confirm New Password</span>
+                                                        <span class="error">Do not match with password</span>
+                                                    </label>
+                                                <div class="control is-bigger has-icon">
+                                                    <input type="password" id="reset-confirm-password" class="input" name="confirmpassword">
+                                                    <div class="form-icon">
+                                                        <i data-feather="secure"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--Submit-->
+                                            <div class="button-wrap">
+                                                <button type="submit" id="reset-process-submit" class="button primary-button upper-button raised is-fullwidth is-rounded">Reset Password</button>
+                                            </div>
+                                        </form>
+                                    {% elseif authentication != "reset" %}
+                                        <form  id="reset-form" >
+                                            <a class="button feather-button primary-button btn-outlined upper-button raised is-fullwidth" href="{{ path('app_forgot_password_request') }}">Reset Password</a>
+                                            <div class="back-link has-text-centered">
+                                                <a>Back To Login</a>
+                                            </div>
+                                        </form>
+                                    {% endif %}
+                                    <form  id="check-email-reset" class="is-hidden" >
+                                        <p class="form-description">An email has been sent that contains a link that you can click to reset your password. This link will expire in <i id="token-life-time"> </i> hour(s).</p>
+                                        <p class="form-description">If you don't receive an email please check your spam folder or <a href="{{ path('app_forgot_password_request') }}">try again</a>.</p>
+                                    </form>
+                                    <form  id="succes-email-reset" class="is-hidden" >
+                                        <p class="form-description">Votre mot de passe a ete recuperer avec succes</p>
+                                        <p class="form-description">Connectez vous avec vos nouveaux identifiants</p>
+                                        <a class="button feather-button primary-button btn-outlined upper-button raised is-fullwidth" href="{{ path('app_login') }}">Connexion</a>
                                     </form>
                                 </div>
                             </div>
                             <!--Registration wrapper-->
-                            <div class="registration-form-wrapper {% if authentication == "login" %} is-hidden {% endif %}">
+                            <div class="registration-form-wrapper {% if authentication != "register" %} is-hidden {% endif %}">
                                 <!--Registration form-->
-                                <div class="registration-form">
+                                <div class="registration-form" >
                                     {% if authentication == "register" %}
                                     <form  id="registration-form" method="post" action="{{ path('app_register', {'role': 'new_user'}) }}" >
                                         <!--Field avatar-->
@@ -288,7 +346,7 @@
                                             <button id="register-submit" type="submit" class="button primary-button upper-button raised is-fullwidth is-rounded">Register</button>
                                         </div>
                                     </form>
-                                    {% elseif  authentication == "login" %}
+                                    {% elseif  authentication != "register" %}
                                     <form  id="registration-form" >
                                         <div class="button-wrap">
                                             <a class="button feather-button primary-button btn-outlined upper-button raised is-fullwidth" href="{{ path('app_register', {'role': 'new_user'}) }}">Inscription</a>
@@ -376,94 +434,192 @@
         $('#register-submit').on('click', function (event) {
             var $this = $(this);
 
-        var form = $('#registration-form');
+            var form = $('#registration-form');
 
-        form.submit(function (e) {
+            form.submit(function (e) {
 
-            e.preventDefault();
+                e.preventDefault();
 
-            $.ajax({
-                type: "POST",
-                url: form.attr("{{ path('app_register', {'role': 'new_user'}) }}"),
-                data: {
-                    "nom": $('#register-nom').val(),
-                    "prenom": $('#register-prenom').val(),
-                    "email": $('#register-email').val(),
-                    "telephone": $('#register-tel').val(),
-                    "password": $('#register-password').val(),
-                    "local": $('#register-local').val(),
-                    "image": document.getElementById("imagesrc").src,
-                },
-                dataType: 'json',
-                success: function (data) {
-                    /*
-         * code 0 : if no prblems with registration
-         * code 100 : if email already exist in data base
-         * code 200 : if phone number already exist in data base
-         * code 300 : if phone number and email already exist in data base
-         * code 400 : if phone number and/or email is empty
-                    */
-                    if(data['code'] === 0)
-                    {
-                        $('#user-email-label').html(data['email']);
-                        $('#registration-form').addClass('is-hidden');
-                        $('#check-email').removeClass('is-hidden');
+                $.ajax({
+                    type: "POST",
+                    url: form.attr("{{ path('app_register', {'role': 'new_user'}) }}"),
+                    data: {
+                        "nom": $('#register-nom').val(),
+                        "prenom": $('#register-prenom').val(),
+                        "email": $('#register-email').val(),
+                        "telephone": $('#register-tel').val(),
+                        "password": $('#register-password').val(),
+                        "local": $('#register-local').val(),
+                        "image": document.getElementById("imagesrc").src,
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        /*
+             * code 0 : if no prblems with registration
+             * code 100 : if email already exist in data base
+             * code 200 : if phone number already exist in data base
+             * code 300 : if phone number and email already exist in data base
+             * code 400 : if phone number and/or email is empty
+                        */
+                        console.log(data['code']);
+                        if(data['code'] === 0)
+                        {
+                            $('#user-email-label').html(data['email']);
+                            $('#registration-form').addClass('is-hidden');
+                            $('#check-email').removeClass('is-hidden');
 
-                        var register = {
-                            isLoggedIn: true,
-                            firstName: data['nom'],
-                            lastName: data['prenom'],
-                            email: data['email'],
-                            phone: data['tel'],
-                            photoUrl: data['image'],
-                            wishlists: myWishlists,
-                            orders: myOrders,
-                            addresses: elieAddresses
-                        };
+                            var register = {
+                                isLoggedIn: true,
+                                firstName: data['nom'],
+                                lastName: data['prenom'],
+                                email: data['email'],
+                                phone: data['tel'],
+                                photoUrl: data['image'],
+                                wishlists: myWishlists,
+                                orders: myOrders,
+                                addresses: elieAddresses
+                            };
 
-                        localStorage.setItem('user', JSON.stringify(register));
+                            localStorage.setItem('user', JSON.stringify(register));
 
+                            setTimeout(function () {
+                                $this.removeClass('is-loading');
+                                toasts.service.success('', 'fas fa-check', data['infos'], 'bottomRight', 11200);
+                            }, 1200);
+                        }
+                        else
+                        {
+                            setTimeout(function () {
+                                $this.removeClass('is-loading');
+                                toasts.service.info('', 'fas fa-meh', data['infos'], 'bottomRight', 11200);
+                            }, 1200);
+
+                            if(data['code'] === 100)
+                            {
+                                $('#register-email').closest('.field').addClass('has-error');
+                            }
+                            else if(data['code'] === 200)
+                            {
+                                $('#register-tel').closest('.field').addClass('has-error');
+                            }
+                            else if(data['code'] === 300)
+                            {
+                                $('#register-email').closest('.field').addClass('has-error');
+                                $('#register-tel').closest('.field').addClass('has-error');
+                            }
+
+                        }
+
+
+                    },
+                    error: function (data) {
                         setTimeout(function () {
                             $this.removeClass('is-loading');
-                            toasts.service.success('', 'fas fa-check', data['infos'], 'bottomRight', 11200);
-                        }, 1200);
-                    }
-                    else
-                    {
-                        setTimeout(function () {
-                            $this.removeClass('is-loading');
-                            toasts.service.info('', 'fas fa-meh', data['infos'], 'bottomRight', 11200);
-                        }, 1200);
+                            toasts.service.error('', 'fas fa-meh', " Erreur interne du server... Veuillez reesayer ", 'bottomRight', 2800);
+                        }, 800);
 
-                        if(data['code'] === 100)
-                        {
-                            $('#register-email').closest('.field').addClass('has-error');
-                        }
-                        else if(data['code'] === 200)
-                        {
-                            $('#register-tel').closest('.field').addClass('has-error');
-                        }
-                        else if(data['code'] === 300)
-                        {
-                            $('#register-email').closest('.field').addClass('has-error');
-                            $('#register-tel').closest('.field').addClass('has-error');
-                        }
-
-                    }
-
-
-                },
-                error: function (data) {
-                    setTimeout(function () {
-                        $this.removeClass('is-loading');
-                        toasts.service.error('', 'fas fa-meh', " Erreur interne du server... Veuillez reesayer ", 'bottomRight', 2800);
-                    }, 800);
-
-                },
+                    },
+                });
             });
-        });
         })
 
     </script>
 
+    <!-- Asynch request for request reset password -->
+
+    <script>
+        $('#reset-submit').on('click', function (event) {
+            var $this = $(this);
+
+            var form = $('#reset-form');
+
+            form.submit(function (e) {
+
+                e.preventDefault();
+
+                $.ajax({
+                    type: "POST",
+                    url: form.attr("{{ path('app_forgot_password_request') }}"),
+                    data: {
+                        "email": $('#reset-email').val(),
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        if(data['status'] === "succes")
+                        {
+                            setTimeout(function () {
+                                $this.removeClass('is-loading');
+                                toasts.service.success('', 'fas fa-check', "Verifiez vos E-Mail", 'bottomRight', 11200);
+                            }, 1200);
+
+                            $('#token-life-time').html(data['tokenlifetime']);
+                            $('#reset-form').addClass('is-hidden');
+                            $('#check-email-reset').removeClass('is-hidden');
+                        }
+                        else
+                        {
+                            setTimeout(function () {
+                                $this.removeClass('is-loading');
+                                toasts.service.error('', 'fas fa-meh', "Le compte n'existe pas dans notre base de donnees", 'bottomRight', 2800);
+                            }, 800);
+                        }
+
+                    },
+                    error: function (data) {
+                        setTimeout(function () {
+                            $this.removeClass('is-loading');
+                            toasts.service.error('', 'fas fa-meh', " Erreur interne du server... Veuillez reesayer ", 'bottomRight', 2800);
+                        }, 800);
+
+                    },
+                });
+            });
+        })
+
+    </script>
+
+    <!-- Asynch request for reset password -->
+
+    <script>
+        $('#reset-process-submit').on('click', function (event) {
+            var $this = $(this);
+
+            var form = $('#reset-process-form');
+
+            form.submit(function (e) {
+
+                e.preventDefault();
+
+                $.ajax({
+                    type: "POST",
+                    url: form.attr("{{ path('app_reset_password') }}"),
+                    data: {
+                        "password": $('#reset-password').val(),
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+
+                            setTimeout(function () {
+                                $this.removeClass('is-loading');
+                                toasts.service.success('', 'fas fa-check', "Recuperation effectue avec succes", 'bottomRight', 11200);
+                            }, 1200);
+
+                            $('#reset-process-form').addClass('is-hidden');
+                            $('#succes-email-reset').removeClass('is-hidden');
+
+
+
+                    },
+                    error: function (data) {
+                        setTimeout(function () {
+                            $this.removeClass('is-loading');
+                            toasts.service.error('', 'fas fa-meh', " Erreur interne du server... Veuillez reesayer ", 'bottomRight', 2800);
+                        }, 800);
+
+                    },
+                });
+            });
+        })
+
+    </script>
 {% endblock %}
