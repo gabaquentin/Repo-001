@@ -11,7 +11,7 @@ class RegistrationCheck extends AbstractController
     public function securityCheck($email, $tel)
     {
         /*
-         * code 0 : if no prblems with registration
+         * code 0 : if no problems with registration
          * code 100 : if email already exist in data base
          * code 200 : if phone number already exist in data base
          * code 300 : if phone number and email already exist in data base

@@ -2,47 +2,6 @@
 
 var enableShippingAddress = false; //Get account information
 
-function readBlob() {
-
-  var files = document.getElementById('files').files;
-  if (!files.length) {
-    alert('Please select a file!');
-    return;
-  }
-  var file = files[0];
-
-  console.log(file.type);
-
-  var MIMEType = file.type;
-
-  // decode base64 string, remove space for IE compatibility
-  var reader = new FileReader();
-
-  reader.onload = function(readerEvt) {
-
-    // This is done just for the proof of concept
-    var binaryString = readerEvt.target.result;
-    var base64 = btoa(binaryString);
-    var blobfile = atob(base64);
-
-
-    window.blobFromBlobFile = b64toBlob(base64, MIMEType, 512);
-    window.blobURL = URL.createObjectURL(window.blobFromBlobFile);
-
-
-    if (MIMEType != "image/jpeg") {
-      var a = "<br /><a href=\"" + window.blobURL + "\">Blob File Link</a>";
-    } else {
-      var a = "<img src=" + window.blobURL + "\>";
-    }
-
-    document.getElementById('byte_content').innerHTML = a;
-
-  };
-
-  reader.readAsBinaryString(file);
-}
-
 function getAccountInfo() {
   var userData = JSON.parse(localStorage.getItem('user')); //If not logged in, hide account
 
@@ -99,7 +58,7 @@ function getEditAccountInfo() {
   else {
       //Photo
       $('.avatar-wrapper .profile-pic').remove();
-      var avatar = "\n        <img class=\"profile-pic\" src=\"http://via.placeholder.com/250x250\" data-demo-src=\"" + userData.photoUrl + "\" alt=\"\">\n    ";
+      var avatar = "\n        <img class=\"profile-pic\" src=\"" + userData.photoUrl + "\" data-demo-src=\"" + userData.photoUrl + "\" alt=\"\">\n    ";
       $('.avatar-wrapper').prepend(avatar); //User Info
 
       $('#edit-first-name').val(userData.firstName);

@@ -16,7 +16,6 @@ var phone = $('.js-user-phone').data('phone');
 var image = $('.js-user-image').data('image');
 if(isAuthenticated)
 {
-
   var login = {
     isLoggedIn: true,
     firstName: nom,
@@ -26,17 +25,17 @@ if(isAuthenticated)
     photoUrl: image,
     wishlists: myWishlists,
     orders: myOrders,
-    addresses: elieAddresses
+    addresses: myAddresses
 };
 
   localStorage.setItem('user', JSON.stringify(login));
 
-  console.log("tout est ok");
-  console.log(nom);
 }
 else
 {
-  console.log("ce n'est pas bon")
+
+  localStorage.setItem('user', JSON.stringify(user));
+
 }
 
 //If no logged in user is found, set the default guest user object
@@ -237,25 +236,48 @@ function Login() {
       $('#login-submit').removeClass('is-disabled');
       $this.closest('.field').removeClass('has-error');
     }
-  }); //Login with one of the fake accounts
+  });
+
+  $('#login-email').on('change', function () {
+    var $this = $(this);
+    var email = $this.val();
+    if (email === "") {
+      $('#login-submit').addClass('is-disabled');
+      $this.closest('.field').addClass('has-error');
+    } else {
+      $('#login-submit').removeClass('is-disabled');
+      $this.closest('.field').removeClass('has-error');
+    }
+
+  });
 
   $('#login-submit').on('click', function (event) {
 
     // variable pour le calcul des erreurs de saisie
-    var erreur = 2;
+    var erreur = -1;
 
     var password = $('#login-password').val().trim();
+    var email = $('#login-email').val().trim();
 
     if (!ValidateLength(password, 8)) {
       event.preventDefault();
       $('#login-submit').addClass('is-disabled');
       $('#login-password').closest('.field').addClass('has-error');
     } else {
-      erreur -= -1;
+      erreur = -1;
       $('#login-submit').removeClass('is-disabled');
       $('#login-password').closest('.field').removeClass('has-error');
     }
 
+    if (email === "") {
+      event.preventDefault();
+      $('#login-submit').addClass('is-disabled');
+      $('#login-email').closest('.field').addClass('has-error');
+    } else {
+      erreur -= -1;
+      $('#login-submit').removeClass('is-disabled');
+      $('#login-email').closest('.field').removeClass('has-error');
+    }
     // si aucune erreur
 
     if(erreur === 0) {
@@ -341,15 +363,24 @@ function Register() {
 
     if(local === "fr")
     {
+      $('#register-submit').removeClass('is-disabled');
+      $this.closest('.field').removeClass('has-error');
       setTimeout(function () {
         toasts.service.info('', 'fas fa-grin-wink', 'Vous pouvez changer votre preference langue a tout moment dans vos parametres', 'bottomRight', 11200);
       }, 1200);
     }
     else if(local === "en")
     {
+      $('#register-submit').removeClass('is-disabled');
+      $this.closest('.field').removeClass('has-error');
       setTimeout(function () {
         toasts.service.info('', 'fas fa-grin-wink', 'You can change your preferred language at any time in your settings', 'bottomRight', 11200);
       }, 1200);
+    }
+    else
+    {
+      $('#register-submit').addClass('is-disabled');
+      $this.closest('.field').addClass('has-error');
     }
 
   }); //
@@ -390,6 +421,33 @@ function Register() {
     }
 
   });
+
+  $('#register-nom').on('change', function () {
+    var $this = $(this);
+    var nom = $this.val();
+    if (nom === "") {
+      $('#register-submit').addClass('is-disabled');
+      $this.closest('.field').addClass('has-error');
+    } else {
+      $('#register-submit').removeClass('is-disabled');
+      $this.closest('.field').removeClass('has-error');
+    }
+
+  });
+
+  $('#register-prenom').on('change', function () {
+    var $this = $(this);
+    var prenom = $this.val();
+    if (prenom === "") {
+      $('#register-submit').addClass('is-disabled');
+      $this.closest('.field').addClass('has-error');
+    } else {
+      $('#register-submit').removeClass('is-disabled');
+      $this.closest('.field').removeClass('has-error');
+    }
+
+  });
+
 
 
 
@@ -498,16 +556,10 @@ function Register() {
 
     if(erreur === 0) {
       var $this = $(this);
-      var x = document.getElementById("imagesrc").src;
-      $('#register-image').val(x);
-
       $this.addClass('is-loading');
-
     }
     else
     {
-      var x = document.getElementById("imagesrc").src;
-      $('#register-image').val(x);
       setTimeout(function () {
         toasts.service.error('', 'fas fa-dizzy', 'Le formulaire présente des problémes veuillez vérifier vos entrées', 'bottomRight', 11200);
       }, 1200);
@@ -516,8 +568,120 @@ function Register() {
 
   })
 
-}//Logout function
+}//Reset Password function
 
+function Reset() {
+
+  // email validation
+  $('#reset-email').on('change', function () {
+    var $this = $(this);
+    var email = $this.val().trim();
+
+    if (!ValidateEmail(email)) {
+      $('#reset-submit').addClass('is-disabled');
+      $this.closest('.field').addClass('has-error');
+    } else {
+      $('#reset-submit').removeClass('is-disabled');
+      $this.closest('.field').removeClass('has-error');
+    }
+  });// validate password
+  $('#reset-password').on('change', function () {
+    var $this = $(this);
+    var password = $this.val().trim();
+
+    if (!ValidateLength(password, 8)) {
+      $('#reset-process-submit').addClass('is-disabled');
+      $this.closest('.field').addClass('has-error');
+    } else {
+      $('#reset-process-submit').removeClass('is-disabled');
+      $this.closest('.field').removeClass('has-error');
+    }
+  });
+
+  $('#reset-submit').on('click', function (event) {
+
+    var erreur = 1;
+
+    var email =  $('#reset-email').val().trim();
+
+    if (!ValidateEmail(email)) {
+      event.preventDefault();
+      $('#reset-submit').addClass('is-disabled');
+      $('#reset-email').closest('.field').addClass('has-error');
+    } else {
+      erreur = 0;
+      $('#reset-submit').removeClass('is-disabled');
+      $('#reset-email').closest('.field').removeClass('has-error');
+    }
+
+    // si auccune erreur
+    if (erreur === 0)
+    {
+      var $this = $(this);
+      $this.addClass('is-loading');
+    }
+    else
+    {
+      setTimeout(function () {
+        toasts.service.error('', 'fas fa-dizzy', 'Le formulaire présente des problémes veuillez vérifier vos entrées', 'bottomRight', 11200);
+      }, 1200);
+      $('#reset-submit').addClass('is-disabled');
+    }
+  })
+
+  $('#reset-process-submit').on('click', function (event) {
+
+    var erreur = 1;
+
+    var password =  $('#reset-password').val().trim();
+    var passwordConfirm =  $('#reset-confirm-password').val().trim();
+
+    if (!ValidatePassword(password)) {
+      setTimeout(function () {
+        toasts.service.error('', 'fas fa-dizzy', '' +
+            'Le Mot de passe doit contenir :' +
+            ' </br> ' +
+            'Au moins un chiffre 0-9 </br> ' +
+            'Au moins une minuscule a-z </br> ' +
+            'Au moins une majuscule A-Z  </br> ' +
+            'Minimum 8 caractéres  </br> ' +
+            '', 'bottomRight', 11200);
+      }, 11200);
+      event.preventDefault();
+      $('#reset-submit').addClass('is-disabled');
+      $('#reset-password').closest('.field').addClass('has-error');
+    } else {
+      erreur = -1;
+      $('#reset-submit').removeClass('is-disabled');
+      $('#reset-password').closest('.field').removeClass('has-error');
+    }
+
+    if (password !== passwordConfirm) {
+      event.preventDefault();
+      $('#reset-submit').addClass('is-disabled');
+      $('#reset-confirm-password').closest('.field').addClass('has-error');
+    } else {
+      erreur -= -1;
+      $('#register-submit').removeClass('is-disabled');
+      $('#register-confirm-password').closest('.field').removeClass('has-error');
+    }
+
+    // si auccune erreur
+    if (erreur === 0)
+    {
+      var $this = $(this);
+      $this.addClass('is-loading');
+    }
+    else
+    {
+      setTimeout(function () {
+        toasts.service.error('', 'fas fa-dizzy', 'Le formulaire présente des problémes veuillez vérifier vos entrées', 'bottomRight', 11200);
+      }, 1200);
+      $('#reset-submit').addClass('is-disabled');
+    }
+  })
+
+}//Logout function
 
 function Logout() {
   $('#logout-link, #mobile-logout-link').on('click', function () {
@@ -571,6 +735,7 @@ $(document).ready(function () {
   getUser();
   Login();
   Register();
+  Reset();
   uploadProfilePicture();
   Logout();
   fakeAccountsPanel();
