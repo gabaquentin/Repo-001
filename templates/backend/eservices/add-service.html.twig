@@ -3,7 +3,8 @@
 {% block title %}Nouveau Service{% endblock %}
 
 {% block stylesheets %}
-<link href="{{ asset('backend/libs/dropzone/dropzone.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('backend/libs/dropzone/dropzone.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('backend/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css') }}" rel="stylesheet" />
 {% endblock %}
 
 {% block block_starter %}Gestion des services {% endblock %}
@@ -11,25 +12,37 @@
 {% block body %}
     <h4 class="header-title mb-3">Ajouter un nouveau service</h4>
 
-    <form action="{{ path('ajouter_questions') }}" method="post" >
+    {{ form_start(form,{'attr':{'novalidate':'novalidate','id':'form-categorie','data-plugin':'dropzone','data-previews-container':'#file-previews','data-upload-preview-template':'#uploadPreviewTemplate','enctype':'multipart/form-data'}}) }}
         <div class="form-group row">
             <label class="col-sm-2 col-form-label" for="userName1">Nom du service</label>
             <div class="col-md-9">
-                <input type="text" class="form-control col-sm-6" id="question1" name="question1" value="">
+                {{ form_widget(form.nom, {'attr': {'class':'form-control col-sm-6', 'id':'nom'}}) }}
             </div>
         </div>
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label" for="userName1">Catégorie</label>
+        <div class="col-md-auto">
+            {{ form_widget(form.categorieService, {'attr' : {'class':'form-control col-auto', 'id':'categorieService'}}) }}
+        </div>
+    </div>
         <div class="form-group row">
             <label class="col-sm-2 col-form-label" for="example-textarea">Description</label>
             <div class="col-sm-10">
-                <textarea class="form-control" id="description-service" rows="5"></textarea>
+                {{ form_widget(form.description, {'attr': {'class':'form-control','rows':'5', 'id':'description'}}) }}
             </div>
         </div>
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label" for="example-textarea">Nombre de questions associées </label>
+        <div class="col-sm-10">
+            {{ form_widget(form.nbreQuestions, {'attr': {'class':'form-control'}}) }}
+        </div>
+    </div>
         <div class="form-group row">
             <label class="col-sm-2 col-form-label" for="image-service">Image </label>
             <div class="dropzone" id="myAwesomeDropzone" data-plugin="dropzone" data-previews-container="#file-previews"
                  data-upload-preview-template="#uploadPreviewTemplate">
                 <div class="fallback">
-                    <input name="file" type="file" multiple />
+                    {{ form_widget(form.imgfile) }}
                 </div>
 
                 <div class="dz-message needsclick">
@@ -42,7 +55,6 @@
         </div>
         <br>
         <button type="submit" class="btn btn-info waves-effect waves-light">Valider</button>
-    </form>
 
     <!-- file preview template -->
     <div class="d-none" id="uploadPreviewTemplate">
@@ -66,12 +78,15 @@
             </div>
         </div>
     </div>
+    {{ form_end(form) }}
 {% endblock %}
     {% block javascripts %}
         {{ parent() }}
         <!-- Plugins js-->
         <script src="{{ asset('backend/libs/dropzone/dropzone.min.js') }}"></script>
+        <script src="{{ asset('backend/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js') }}"></script>
 
         <!-- Init js-->
         <script src="{{ asset('backend/js/pages/form-fileuploads.init.js') }}"></script>
+        <script src="{{ asset('backend/js/pages/form-advanced.init.js') }}"></script>
     {% endblock %}

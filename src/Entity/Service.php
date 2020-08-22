@@ -30,12 +30,24 @@ class Service
     private $description;
 
     /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $nbre_questions;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="img", type="string", length=255, nullable=false)
+     */
+    private $img;
+
+    /**
      * @ORM\ManyToOne(targetEntity=CategorieService::class, inversedBy="services")
      */
     private $CategorieService;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Utilisateur::class)
+     * @ORM\ManyToOne(targetEntity=User::class)
      */
     private $prestataire;
 
@@ -78,6 +90,38 @@ class Service
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getNbreQuestions()
+    {
+        return $this -> nbre_questions;
+    }
+
+    /**
+     * @param mixed $nbre_questions
+     */
+    public function setNbreQuestions($nbre_questions): void
+    {
+        $this -> nbre_questions = $nbre_questions;
+    }
+
+    /**
+     * @return string
+     */
+    public function getImg(): string
+    {
+        return $this -> img;
+    }
+
+    /**
+     * @param string $img
+     */
+    public function setImg(string $img): void
+    {
+        $this -> img = $img;
+    }
+
     public function getCategorieService(): ?CategorieService
     {
         return $this->CategorieService;
@@ -86,18 +130,6 @@ class Service
     public function setCategorieService(?CategorieService $CategorieService): self
     {
         $this->CategorieService = $CategorieService;
-
-        return $this;
-    }
-
-    public function getPrestataire(): ?Utilisateur
-    {
-        return $this->prestataire;
-    }
-
-    public function setPrestataire(?Utilisateur $prestataire): self
-    {
-        $this->prestataire = $prestataire;
 
         return $this;
     }

@@ -1,6 +1,6 @@
 {% extends "/frontend/eservices/base.html.twig" %}
 
-{% block title %}Categorie X{% endblock %}
+{% block title %}{{ service.nom }}{% endblock %}
 
 {% block body %}
     <!-- Main wrapper -->
@@ -35,7 +35,7 @@
                 <div class="is-carousel">
                     <!-- Product Image -->
                     <div>
-                        <img src="http://via.placeholder.com/500x500/ffffff/999999" data-demo-src="assets/img/products/red-seat.png" data-action="zoom" alt="">
+                        <img src="{{ asset('images/services/'~service.img) }}" data-demo-src="assets/img/products/red-seat.png" data-action="zoom" alt="">
                     </div>
                 </div>
                 <!--img src="http://via.placeholder.com/500x500/ffffff/999999" data-demo-src="assets/img/products/red-seat.png" data-action="zoom" alt=""-->
@@ -43,66 +43,7 @@
 
             <!-- Product details -->
             <div id="meta-view" class="translateLeft is-hidden">
-                <!-- Product description -->
-                <div class="detailed-description">
-                    <div class="meta-block">
-                        <h3>Product name</h3>
-                        <p id="panel-product-name">Red Seat</p>
-                    </div>
-                    <div class="meta-block">
-                        <h3>Product SKU</h3>
-                        <p id="panel-product-sku">W589</p>
-                    </div>
-                    <!-- Product Vendor -->
-                    <div class="meta-block">
-                        <h3>Vendor</h3>
-                        <p id="panel-product-vendor">Govo</p>
-                    </div>
-                    <!-- Product colors -->
-                    <div class="meta-block is-hidden">
-                        <h3>Colors</h3>
-                        <div class="colored-dots">
-                            <div class="dot-wrapper">
-                                <div class="dot is-blue"></div>
-                            </div>
-                            <div class="dot-wrapper">
-                                <div class="dot is-red"></div>
-                            </div>
-                            <div class="dot-wrapper">
-                                <div class="dot is-dark"></div>
-                            </div>
-                            <div class="dot-wrapper">
-                                <div class="dot is-cream"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Product long description -->
-                    <div class="meta-block">
-                        <h3 class="spaced">Description</h3>
-                        <p class="spaced">Lorem ipsum dolor sit amet, tale solet volutpat an his, mutat aliquando sed te. Dico affert sensibus sed eu, quo nibh minimum voluptua ut. Te cibo vituperata usu, diam timeam sensibus qui ut. Quo mazim scripta labores cu, sit no quaeque electram. Per at volumus eleifend suscipiantur. Ad mea viderer suscipiantur.</p>
-                        <p class="spaced">Solum movet salutatus ne has, nec probo suavitate urbanitas in. Volumus vulputate eos an, vix iusto ornatus mediocritatem ex. Ad pri mutat paulo inermis, at usu persius copiosae. Timeam democritum eloquentiam vim an.</p>
-                    </div>
-                    <!-- Product Availability -->
-                    <div class="meta-block">
-                        <h3>Availability</h3>
-                        <p id="panel-product-availability">Available</p>
-                    </div>
-                    <!-- Product Dimensions -->
-                    <div class="meta-block">
-                        <h3>Dimensions</h3>
-                        <p id="panel-product-dimensions">4” x 4” x 8"</p>
-                    </div>
-                    <!-- Product Weight -->
-                    <div class="meta-block">
-                        <h3>Weight</h3>
-                        <p id="panel-product-weight">6.77 Lbs</p>
-                    </div>
-                    <!-- Product Shipping methods -->
-                    <div class="meta-block">
-                        <h3>Shipping Delay</h3>
-                        <p id="panel-product-shipping-delay">2 weeks</p>
-                    </div>
-                </div>
+
             </div>
 
             <!-- Product Ratings -->
@@ -332,21 +273,21 @@
                     <!-- Title -->
                     <div class="category-title">
                         <img class="icons-list-demo" src="{{ asset('frontend/img/pages/eservices/icon-electricite.png') }}" alt=""/>
-                        <h2 id="product-category">Catégorie X</h2>
+                        <h2 id="product-category">{{ service.categorieService.nom }}</h2>
                     </div>
                 </div>
                 <!-- Panel body -->
                 <div class="panel-body">
                     <!-- Product Meta -->
-                    <h3 class="product-name"><var id="product-details-name">Service x</var></h3>
-                    <p id="product-details-shortDesc" class="product-description">This seat is nicely and will fit perfectly in your living room. Lorem ipsum sit dolor amet. Consecteture adipscing elit. Ut fermentum interdum malesuada. Sed ornare posuere lobortis. Lasis Ut fermentum interdum malesuada sed ornare</p>
+                    <h3 class="product-name"><var id="product-details-name">{{ service.nom }}</var></h3>
+                    <p id="product-details-shortDesc" class="product-description">{{ service.description }}</p>
 
                     <!-- Product controls -->
                     <div class="product-controls">
                         <!-- besoin d'aide -->
                         <div class="add-to-cart">
-                            <div class="heading is-vhidden">Add to cart</div>
-                            <a href="{{ path('detail_service') }}"><button id="" class="button big-button cart-button primary-button upper-button rounded is-bold raised">je cherche de l'aide</button></a>
+                            <div class="heading is-vhidden">je cherche de l'aide</div>
+                            <a href="{{ path('nouvelle_demande', {'service':service.id}) }}"><button id="" class="button big-button cart-button primary-button upper-button rounded is-bold raised">je cherche de l'aide</button></a>
                         </div>
                     </div>
                 </div>

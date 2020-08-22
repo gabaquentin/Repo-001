@@ -2,34 +2,60 @@
 
 namespace App\Controller\eservices;
 
+use App\Entity\CategorieService;
+use App\Entity\Service;
+use App\Form\eservices\CategorieServiceType;
+use App\Form\eservices\ServiceType;
+use App\Repository\CategorieServiceRepository;
+use App\Services\FileUploader;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * Class ServicesBackController
+ * @package App\Controller\eservices
+ * @Route("/back/eservices")
+ */
 class ServicesBackController extends AbstractController
 {
 
     /**
-     * @Route("/back/eservices", name="accueil_services")
+     * afficher la liste des catégories
+     * @Route("/", name="accueil_services")
+     * @param CategorieServiceRepository $repo
+     * @return Response
      */
-    public function accueil_services()
+    public function accueil_services(CategorieServiceRepository $repo)
     {
         return $this->render('backend/eservices/accueil.html.twig', [
+            'categories' => $repo->findAll(),
             'controller_name' => 'ServicesBackController',
         ]);
     }
 
     /**
-     * @Route("/back/eservices/categorie", name="detail_categorie")
+     * afficher les détails d'une catégorie
+     * @Route("/categorie/{id}", name="detail_categorie_back")
+     * @param int $id
+     * @param CategorieServiceRepository $repo
+     * @return Response
      */
-    public function categorie_detail()
+    public function categorie_detail(int $id, CategorieServiceRepository $repo)
     {
         return $this->render('backend/eservices/categorie_detail.html.twig', [
+            'categorie' => $repo->findOneBy(['id' => $id]),
+            'categories' => $repo->findAll(),
             'controller_name' => 'ServicesBackController',
         ]);
     }
 
     /**
-     * @Route("/back/eservices/categoriex/services", name="liste_services")
+     * afficher la liste des services en fonction de la catégorie en paramètre
+     * @Route("/categoriex/services", name="liste_services")
      */
     public function services_par_categorie()
     {
@@ -37,47 +63,6 @@ class ServicesBackController extends AbstractController
             'controller_name' => 'ServicesBackController',
         ]);
     }
-
-    /**
-     * @Route("/back/eservices/categoriex/servicex/questions", name="liste_questions")
-     */
-    public function questions_par_service()
-    {
-        return $this->render('backend/eservices/questions_service.html.twig', [
-            'controller_name' => 'ServicesBackController',
-        ]);
-    }
-
-    /**
-     * @Route("/back/eservices/categorie/nouveau", name="nouvelle_categorie")
-     */
-    public function ajouter_categorie()
-    {
-        return $this->render('backend/eservices/add-categorie.html.twig', [
-            'controller_name' => 'ServicesBackController',
-        ]);
-    }
-
-    /**
-     * @Route("/back/eservices/service/nouveau", name="nouveau_service")
-     */
-    public function ajouter_service()
-    {
-        return $this->render('backend/eservices/add-service.html.twig', [
-            'controller_name' => 'ServicesBackController',
-        ]);
-    }
-
-    /**
-     * @Route("/back/eservices/service/nouveau/questions", name="ajouter_questions")
-     */
-    public function ajouter_questions()
-    {
-        return $this->render('backend/eservices/add-questions-service.html.twig', [
-            'controller_name' => 'ServicesBackController',
-        ]);
-    }
-
     /**
      * @Route("/back/eservices/service/blog",name="blog")
      */

@@ -171,7 +171,7 @@
                     <label class="col-sm-3 col-form-label" for="">Description </label>
                     <div class="col-sm-9">
                         <div id="snow-editor" style="height: 100px;" >
-                            {{ extraData.desc is defined?(extraData.desc):"" }}
+                            {{ extraData.desc is defined?(extraData.desc|raw):"" }}
                         </div> <!-- end Snow-editor-->
                     </div>
                 </div>

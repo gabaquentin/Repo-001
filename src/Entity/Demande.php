@@ -23,14 +23,122 @@ class Demande
     private $localisation;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="time", length=255)
+     */
+    private $heure;
+
+    /**
+     * @return mixed
+     */
+    public function getHeure()
+    {
+        return $this->heure;
+    }
+
+    /**
+     * @param mixed $heure
+     */
+    public function setHeure($heure): void
+    {
+        $this->heure = $heure;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param mixed $description
+     */
+    public function setDescription($description): void
+    {
+        $this->description = $description;
+    }
+
+    /**
+     * @ORM\Column(name="description",type="text")
+     */
+    private $description;
+
+    /**
+     * @ORM\Column(type="string", length=255)
      */
     private $date;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="string", length=255)
      */
-    private $photos;
+    private $photo1;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $photo2;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $photo3;
+
+
+    public function getPhoto1():? string
+    {
+        return $this->photo1;
+    }
+
+    public function setPhoto1($photo1): self
+    {
+        $this->photo1 = $photo1;
+        return $this;
+    }
+
+
+    public function getPhoto2():? string
+    {
+        return $this->photo2;
+    }
+
+
+    public function setPhoto2($photo2): self
+    {
+        $this->photo2 = $photo2;
+        return $this;
+    }
+
+
+    public function getPhoto3():? string
+    {
+        return $this->photo3;
+    }
+
+
+    public function setPhoto3($photo3): self
+    {
+        $this->photo3 = $photo3;
+        return $this;
+    }
+
+
+    public function getPhoto4():? string
+    {
+        return $this->photo4;
+    }
+
+    public function setPhoto4($photo4): self
+    {
+        $this->photo4 = $photo4;
+
+        return $this;
+    }
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $photo4;
 
     /**
      * @ORM\ManyToOne(targetEntity=Service::class, inversedBy="demandes")
@@ -38,7 +146,7 @@ class Demande
     private $service;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Utilisateur::class)
+     * @ORM\ManyToOne(targetEntity=User::class)
      */
     private $client;
 
@@ -59,12 +167,12 @@ class Demande
         return $this;
     }
 
-    public function getDate(): ?\DateTimeInterface
+    public function getDate(): ?string
     {
         return $this->date;
     }
 
-    public function setDate(\DateTimeInterface $date): self
+    public function setDate(string $date): self
     {
         $this->date = $date;
 
@@ -95,12 +203,12 @@ class Demande
         return $this;
     }
 
-    public function getClient(): ?Utilisateur
+    public function getClient(): ?User
     {
         return $this->client;
     }
 
-    public function setClient(?Utilisateur $client): self
+    public function setClient(?User $client): self
     {
         $this->client = $client;
 

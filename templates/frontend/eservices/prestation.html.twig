@@ -1,7 +1,5 @@
 {% extends "/frontend/eservices/base.html.twig" %}
-{# Page dédié au client dans laquelle il voit ses demandes et les réponses à ses demandes#}
-{# TODO afficher la liste des catégories et pour chaque catégorie affiher la liste des demandes  #}
-{# TODO répondre à une démande #}
+
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('frontend/css/demo.css') }}">
 {% endblock %}
@@ -425,7 +423,7 @@
                         </div>
                     </div>
                     <div class="column is-6">
-                        <img src="{{ asset('frontend/img/ui/app/elements.png') }}" alt="">
+                        <img src="{{ asset('frontend/img/ui/app/elements.png')}}" alt="">
 
                         <!-- Animated Link -->
                         <div class="link-wrap">
@@ -445,7 +443,3 @@
     </section>
 {% endblock  %}
 
-{% block javascripts %}
-    {{ parent() }}
-    <script src="{{ asset('frontend/js/demo.js') }}"></script>
-{% endblock %}

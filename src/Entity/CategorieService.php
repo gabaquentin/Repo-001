@@ -8,7 +8,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Table(name="categorie_service", indexes={@ORM\Index(name="fk_categorie_service", columns={"categorie_parent"})})
  * @ORM\Entity(repositoryClass=CategorieServiceRepository::class)
  */
 class CategorieService
@@ -26,9 +25,7 @@ class CategorieService
     private $nom;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="description", type="string", length=255, nullable=false)
+     * @ORM\Column(name="description", type="text", nullable=false)
      */
     private $description;
 
@@ -43,9 +40,7 @@ class CategorieService
      * @var CategorieService
      *
      * @ORM\ManyToOne(targetEntity="CategorieService")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="categorie_parent", referencedColumnName="id")
-     * })
+     * @ORM\JoinColumn(name="categorie_parent", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */
     private $categorieParent;
 
@@ -79,7 +74,7 @@ class CategorieService
     /**
      * @return string
      */
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         return $this -> description;
     }
@@ -111,15 +106,15 @@ class CategorieService
     /**
      * @return CategorieService
      */
-    public function getCategorieParent(): CategorieService
+    public function getCategorieParent(): ?CategorieService
     {
         return $this -> categorieParent;
     }
 
     /**
-     * @param CategorieService $categorieParent
+     * @param ?CategorieService $categorieParent
      */
-    public function setCategorieParent(CategorieService $categorieParent): void
+    public function setCategorieParent(?CategorieService $categorieParent): void
     {
         $this -> categorieParent = $categorieParent;
     }

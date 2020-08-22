@@ -15,9 +15,10 @@ class FileUploader
     private $slugger;
     private $fileSystem;
 
-    public function __construct($image_produit_path, SluggerInterface $slugger,Filesystem $filesystem)
+    public function __construct($image_produit_path, SluggerInterface $slugger, Filesystem $filesystem, $image_service_path)
     {
         $this->targetDirectory["produit"] = $image_produit_path;
+        $this->targetDirectory["service"] = $image_service_path;
         $this->slugger = $slugger;
         $this->fileSystem = $filesystem;
     }
@@ -34,11 +35,11 @@ class FileUploader
         {
             $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
             $safeFilename = $this->slugger->slug($originalFilename);
-            $fileName = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
+            $fileName = $safeFilename.'-'.uniqid().'-'.uniqid().'.'.$file->guessExtension();
         }
         else
         {
-            $fileName = $imageName.'-'.uniqid().'.'.$file->guessExtension();
+            $fileName = str_replace(" ","-",$imageName).'-'.uniqid().'.'.$file->guessExtension();
         }
 
         try {

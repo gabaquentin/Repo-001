@@ -1525,6 +1525,10 @@ canvas {
 .section.is-grey {
     background: #fcfcfc
 }
+/* ajouté par romualdjunior */
+section.is-white {
+    background: #ffffff;
+}
 
 /* line 347, src/frontend/scss/demo.scss */
 .section.is-relative {
@@ -2093,6 +2097,11 @@ canvas {
         width: 100%;
         padding: 0 20px 20px 20px
     }
+
 }
+#prestataire_picture{
+    background-image: linear-gradient(to right, rgba(99,26,207,1), rgba(39,114,251,1));
+}
+
 
 /*# sourceMappingURL=../../../scss */

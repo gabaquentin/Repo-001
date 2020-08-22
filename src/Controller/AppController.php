@@ -28,6 +28,7 @@ class AppController extends AbstractController
      */
     public function indexBoutique()
     {
+        return $this->redirectToRoute("produit_font");
         return $this->render('app/boutique.html.twig');
     }
 
