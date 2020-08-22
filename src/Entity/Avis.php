@@ -42,6 +42,11 @@ class Avis
      */
     private $datePublication;
 
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $dateModification;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -109,6 +114,22 @@ class Avis
     public function setDatePublication($datePublication): void
     {
         $this -> datePublication = $datePublication;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDateModification()
+    {
+        return $this -> dateModification;
+    }
+
+    /**
+     * @param mixed $dateModification
+     */
+    public function setDateModification($dateModification): void
+    {
+        $this -> dateModification = $dateModification;
     }
 
 }
