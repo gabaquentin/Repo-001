@@ -2,16 +2,20 @@
 
 namespace App\Controller\ecommerce;
 
+use App\Entity\Attribut;
 use App\Entity\CategorieProd;
 use App\Entity\Date;
 use App\Entity\Produit;
 use App\Entity\Ville;
+use App\Form\ecommerce\ProduitType;
 use App\Repository\AvisRepository;
 use App\Repository\CategorieProdRepository;
 use App\Repository\ProduitRepository;
 use App\Repository\VilleRepository;
 use App\Services\ecommerce\Tools;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,7 +33,10 @@ class ProduitFontController extends AbstractController
     /**
      * @Route("/", name="produit_font")
      * @param EntityManagerInterface $em
+     * @param Tools $tools
      * @return Response
+     * @throws NoResultException
+     * @throws NonUniqueResultException
      */
     public function index(EntityManagerInterface $em,Tools $tools)
     {
@@ -111,4 +118,35 @@ class ProduitFontController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/add" , name="add_product_front")
+     * @Route("/modif/{produit}",name="modify_produit_front")
+     * @param EntityManagerInterface $manager
+     * @param Produit|null $produit
+     * @return Response
+     */
+    public function addProductFront(EntityManagerInterface $manager,Produit $produit=null)
+    {
+        if ($produit == null)
+            $produit = new Produit();
+
+        $form = $this->createForm(ProduitType::class, $produit, [
+            "action" => $this->generateUrl("save_produit", ["produit" => $produit->getId()])
+        ]);
+
+        $extraData = [];
+        $extraData["images"] = $produit->getImages();
+        if ($produit->getId() != null) {
+            $extraData["pa"] = implode(",", $produit->getProduitsAssocies());
+            $extraData["attr"] = implode(",", $produit->getAttributs());
+            $extraData["desc"] = $produit->getDescription();
+        }
+
+        return $this->render("frontend/ecommerce/produit/add-product.html.twig", [
+            "form" => $form->createView(),
+            "categories" => $manager->getRepository(CategorieProd::class)->findAll(),
+            "attributs" => $manager->getRepository(Attribut::class)->findAll(),
+            "extraData" => $extraData
+        ]);
+    }
 }

@@ -141,8 +141,8 @@
                     <!-- Product Meta -->
                     <h3 class="product-name"><var id="product-details-name">{{ produit.nom|upper }}</var> <span id="product-details-sku">{{ produit.categorieProd.nomCategorie }}</span></h3>
 
-                   {# <p id="product-details-shortDesc" class="product-description"> Dernière modification : {{ produit.date.dateModification|localizeddate('none', 'none', null, null, 'MMMM Y') }}</p>
-#}
+                    <p id="product-details-shortDesc" class="product-description"> Dernière modification : {{ produit.date.dateModification|date("d/m/Y H:i") }}</p>
+
                     <!-- Product controls -->
                     <div class="product-controls">
                         <!-- Price -->

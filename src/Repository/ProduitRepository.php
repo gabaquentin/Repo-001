@@ -37,7 +37,7 @@ class ProduitRepository extends ServiceEntityRepository
     public function getMaxPrice()
     {
         return $this->createQueryBuilder("p")
-            ->select("max(p.prix*(1-p.prixPromo))")
+            ->select("max(p.prix*(1-(p.prixPromo/100)))")
             ->getQuery()
             ->getSingleScalarResult();
     }

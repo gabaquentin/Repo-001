@@ -37,7 +37,7 @@ class Tools
                 "dateModification","desc","d"
             ],
             "Prix élévé"=>[
-                "prix","desc","p"
+                "prix*(1-(p.prixPromo/100))","desc","p"
             ],
             "Prix bas"=>[
                 "prix","asc","p"

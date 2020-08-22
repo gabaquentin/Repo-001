@@ -1,6 +1,3 @@
-const timeShow = 5e3;
-const maxImage = 4;
-const devise = "F CFA"
 
 function formatPhpDate(date,withTime = false) {
     let today = new Date(date);
@@ -25,4 +22,11 @@ function formatPhpDate(date,withTime = false) {
     if (withTime)
         toDay += (" " + heures +":"+minutes);
     return toDay;
+}
+
+function truncateString(str, num) {
+    if (str.length <= num) {
+        return str;
+    }
+    return str.slice(0, num) + '...';
 }
