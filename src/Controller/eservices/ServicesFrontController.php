@@ -24,6 +24,22 @@ class ServicesFrontController extends AbstractController
     }
 
     /**
+     * @Route("/front/services/blog",name="afficher_blog")
+     */
+    public function afficher_blog()
+    {
+        return $this->render("frontend/eservices/blog.html.twig");
+    }
+
+    /**
+     * @Route("/front/services/single_blog",name="afficher_blog_detail")
+     */
+    public function afficher_blog_detail()
+    {
+        return $this->render("frontend/eservices/single_blog.html.twig");
+    }
+
+    /**
      * @Route("/front/services/categorie/services",name="services")
      */
     public function liste_services_par_categorie()

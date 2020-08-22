@@ -77,4 +77,12 @@ class ServicesBackController extends AbstractController
             'controller_name' => 'ServicesBackController',
         ]);
     }
+
+    /**
+     * @Route("/back/eservices/service/blog",name="blog")
+     */
+    public function afficher_blog()
+    {
+        return $this->render("backend/eservices/blog.html.twig");
+    }
 }

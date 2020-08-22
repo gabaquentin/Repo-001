@@ -1,0 +1,262 @@
+{% extends "backend/base/base.html.twig" %}
+
+{% block title %}Nouveau blog{% endblock %}
+
+{% block stylesheets %}
+    <link href="{{ asset('backend/libs/dropzone/dropzone.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('backend/libs/tablesaw/tablesaw.css') }}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block block_starter %}Gestion des blogs{% endblock %}
+
+{% block body %}
+    <!-- formulaire -->
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="header-title">Ajouter un Blog</h4>
+                <p class="sub-header"></p>
+                <form class="needs-validation" novalidate>
+                    <div class="fallback">
+                        <input name="file" type="file" multiple />
+                    </div>
+
+                    <div class="dz-message needsclick">
+                        <p class="h1 text-muted"><i class="mdi mdi-cloud-upload"></i></p>
+                        <h3>Déposez votre champs ici.</h3>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="validationCustom01">Titre du blog</label>
+                        <input type="text" class="form-control" id="validationCustom01" placeholder="First name" value="Mark" required>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="validationCustom02">Courte description</label>
+                        <input type="text" class="form-control" id="validationCustom02" placeholder="Last name" value="Otto" required>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="validationCustomUsername">Longue description</label>
+                        <div class="input-group">
+                            <textarea rows="3" cols="4"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="validationCustom03">City</label>
+                        <input type="text" class="form-control" id="validationCustom03" placeholder="City" required>
+                        <div class="invalid-feedback">
+                            Please provide a valid city.
+                        </div>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="validationCustom04">State</label>
+                        <input type="text" class="form-control" id="validationCustom04" placeholder="State" required>
+                        <div class="invalid-feedback">
+                            Please provide a valid state.
+                        </div>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="validationCustom05">Zip</label>
+                        <input type="text" class="form-control" id="validationCustom05" placeholder="Zip" required>
+                        <div class="invalid-feedback">
+                            Please provide a valid zip.
+                        </div>
+                    </div>
+                    <div class="form-group mb-3">
+                        <div class="custom-control custom-checkbox form-check">
+                            <input type="checkbox" class="custom-control-input" id="invalidCheck" required>
+                            <label class="custom-control-label" for="invalidCheck">Agree to terms and conditions</label>
+                            <div class="invalid-feedback">
+                                You must agree before submitting.
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" id="btn-save-category" class="btn btn-primary waves-effect waves-lightspinner-border-sm">
+                        <span class="spinner-border-sm" role="status" aria-hidden="true"></span>
+                        Sauvegarder
+                    </button>
+                </form>
+
+            </div> <!-- end card-body-->
+        </div> <!-- end card-->
+    </div>
+    <!-- //formulaire -->
+
+    <!-- liste -->
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card-box">
+
+                <h4 class="header-title">Stack Table</h4>
+                <p class="sub-header">
+                    The Stack Table stacks the table headers to a two column layout with headers on the left. Resize your viewport to across the 40em (640px) breakpoint to see the change.
+                </p>
+
+                <table class="tablesaw table mb-0" data-tablesaw-mode="stack">
+                    <thead>
+                    <tr>
+                        <th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="persist">Movie Title</th>
+                        <th scope="col" data-tablesaw-sortable-col data-tablesaw-sortable-default-col data-tablesaw-priority="3">Rank</th>
+                        <th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="2">Year</th>
+                        <th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="1">Rating</th>
+                        <th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="4">Gross</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Avatar</td>
+                        <td>1</td>
+                        <td>2009</td>
+                        <td>83%</td>
+                        <td>$2.7B</td>
+                    </tr>
+                    <tr>
+                        <td>Titanic</td>
+                        <td>2</td>
+                        <td>1997</td>
+                        <td>88%</td>
+                        <td>$2.1B</td>
+                    </tr>
+                    <tr>
+                        <td>The Avengers</td>
+                        <td>3</td>
+                        <td>2012</td>
+                        <td>92%</td>
+                        <td>$1.5B</td>
+                    </tr>
+                    <tr>
+                        <td>Harry Potter and the Deathly Hallows—Part 2</td>
+                        <td>4</td>
+                        <td>2011</td>
+                        <td>96%</td>
+                        <td>$1.3B</td>
+                    </tr>
+                    <tr>
+                        <td>Frozen</td>
+                        <td>5</td>
+                        <td>2013</td>
+                        <td>89%</td>
+                        <td>$1.2B</td>
+                    </tr>
+                    <tr>
+                        <td>Iron Man 3</td>
+                        <td>6</td>
+                        <td>2013</td>
+                        <td>78%</td>
+                        <td>$1.2B</td>
+                    </tr>
+                    <tr>
+                        <td>Transformers: Dark of the Moon</td>
+                        <td>7</td>
+                        <td>2011</td>
+                        <td>36%</td>
+                        <td>$1.1B</td>
+                    </tr>
+                    <tr>
+                        <td>The Lord of the Rings: The Return of the King</td>
+                        <td>8</td>
+                        <td>2003</td>
+                        <td>95%</td>
+                        <td>$1.1B</td>
+                    </tr>
+                    <tr>
+                        <td>Skyfall</td>
+                        <td>9</td>
+                        <td>2012</td>
+                        <td>92%</td>
+                        <td>$1.1B</td>
+                    </tr>
+                    <tr>
+                        <td>Transformers: Age of Extinction</td>
+                        <td>10</td>
+                        <td>2014</td>
+                        <td>18%</td>
+                        <td>$1.0B</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div> <!-- end card-box-->
+        </div> <!-- end col -->
+    </div>
+
+    <!-- //liste -->
+    <div class="card-deck">
+        <div class="card">
+            <img class="card-img-top" src="{{ asset('frontend/img/eservices/0004.jpg') }}" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">Card title</h5>
+                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+            </div>
+            <div class="card-footer">
+                <small class="text-muted">Last updated 3 mins ago</small>
+            </div>
+        </div>
+        <div class="card">
+            <img class="card-img-top" src="{{ asset('frontend/img/eservices/0004.jpg') }}" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">Card title</h5>
+                <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
+            </div>
+            <div class="card-footer">
+                <small class="text-muted">Last updated 3 mins ago</small>
+            </div>
+        </div>
+        <div class="card">
+            <img class="card-img-top" src="{{ asset('frontend/img/eservices/0004.jpg') }}" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">Card title</h5>
+                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
+            </div>
+            <div class="card-footer">
+                <small class="text-muted">Last updated 3 mins ago</small>
+            </div>
+        </div>
+    </div>
+    <!-- file preview template -->
+    <div class="d-none" id="uploadPreviewTemplate">
+        <div class="card mt-1 mb-0 shadow-none border">
+            <div class="p-2">
+                <div class="row align-items-center">
+                    <div class="col-auto">
+                        <img data-dz-thumbnail class="avatar-sm rounded bg-light" alt="">
+                    </div>
+                    <div class="col pl-0">
+                        <a href="javascript:void(0);" class="text-muted font-weight-bold" data-dz-name></a>
+                        <p class="mb-0" data-dz-size></p>
+                    </div>
+                    <div class="col-auto">
+                        <!-- Button -->
+                        <a href="" class="btn btn-link btn-lg text-muted" data-dz-remove>
+                            <i class="mdi mdi-close-circle"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+    {% block javascripts %}
+        {{ parent() }}
+        <!-- Plugins js-->
+        <script src="{{ asset('backend/libs/dropzone/dropzone.min.js') }}"></script>
+
+        <!-- Init js-->
+        <script src="{{ asset('backend/js/pages/form-fileuploads.init.js') }}"></script>
+
+        <!-- Vendor js -->
+        <script src="{{ asset('backend/js/vendor.min.js') }}"></script>
+
+        <!-- Tablesaw js -->
+        <script src="{{ asset('backend/libs/tablesaw/tablesaw.js') }}"></script>
+
+        <!-- Init js -->
+        <script src="{{ asset('backend/js/pages/tablesaw.init.js') }}"></script>
+
+        <!-- App js -->
+        <script src="{{ asset('backend/js/app.min.js') }}"></script>
+    {% endblock %}
