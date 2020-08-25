@@ -149,4 +149,12 @@ class ProduitFontController extends AbstractController
             "extraData" => $extraData
         ]);
     }
+
+    /**
+     * @Route("/mes-produits", name="mes_produits_front")
+     */
+    public function myProducts()
+    {
+        return $this->render('frontend/ecommerce/produit/show-produit.html.twig', []);
+    }
 }

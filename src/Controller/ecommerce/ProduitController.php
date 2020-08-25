@@ -113,6 +113,8 @@ class ProduitController extends AbstractController
      */
     public function save(Request $request,FileUploader $uploader,EntityManagerInterface $manager,Tools $tools,Produit $produit=null)
     {
+        if(!$request->isXmlHttpRequest())
+            die();
         if($produit==null)
             $produit = new Produit();
         $form = $this->createForm(ProduitType::class,$produit,[
