@@ -47,6 +47,11 @@ class Service
     private $CategorieService;
 
     /**
+     * @ORM\ManyToOne(targetEntity=User::class)
+     */
+    private $prestataire;
+
+    /**
      * @ORM\OneToMany(targetEntity=Demande::class, mappedBy="service")
      */
     private $demandes;

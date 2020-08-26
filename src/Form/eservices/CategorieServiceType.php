@@ -14,7 +14,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
 
-class CategorieServiceType extends AbstractType
+class   CategorieServiceType extends AbstractType
 {
     private $categorieRepo;
 

@@ -43,12 +43,12 @@ class Commandes
     private $statut;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Utilisateur::class)
+     * @ORM\ManyToOne(targetEntity=User::class)
      */
     private $client;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Utilisateur::class)
+     * @ORM\ManyToOne(targetEntity=User::class)
      */
     private $livreur;
 
@@ -122,24 +122,24 @@ class Commandes
         return $this;
     }
 
-    public function getClient(): ?Utilisateur
+    public function getClient(): ?User
     {
         return $this->client;
     }
 
-    public function setClient(?Utilisateur $client): self
+    public function setClient(?User $client): self
     {
         $this->client = $client;
 
         return $this;
     }
 
-    public function getLivreur(): ?Utilisateur
+    public function getLivreur(): ?User
     {
         return $this->livreur;
     }
 
-    public function setLivreur(?Utilisateur $livreur): self
+    public function setLivreur(?User $livreur): self
     {
         $this->livreur = $livreur;
 

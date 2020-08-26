@@ -1,0 +1,205 @@
+{% extends "/frontend/eservices/base.html.twig" %}
+
+{% block title %}Categorie X{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ asset('frontend/css/eservices/dropify.min.css') }}">
+
+{% endblock %}
+{% block body %}
+    <div class="section">
+        <!-- Container -->
+        <div class="container">
+
+            <!-- Elements Grid -->
+            <div class="columns category-header">
+                <div class="column is-12">
+                    <!-- Title -->
+                    <div class="category-title">
+                        <!-- Main Title -->
+                        <h2 id="elements-title" class="animated preFadeInUp fadeInUp is-hidden">ELEMENTS</h2>
+
+                        <!-- Elements Titles -->
+                        <h2 id="inputs-title" class="element-title is-hidden animated preFadeInUp fadeInUp">INPUTS</h2>
+                        <h2 id="selects-title" class="element-title is-hidden animated preFadeInUp fadeInUp">
+                            SELECTS</h2>
+                        <h2 id="autocompletes-title" class="element-title is-hidden animated preFadeInUp fadeInUp">
+                            AUTOCOMPLETE</h2>
+                        <h2 id="spinners-title" class="element-title is-hidden animated preFadeInUp fadeInUp">
+                            SPINNER</h2>
+                        <h2 id="datepicker-title" class="element-title is-hidden animated preFadeInUp fadeInUp">
+                            DATEPICKER</h2>
+                        <h2 id="cards-title" class="element-title animated preFadeInUp fadeInUp">Questions</h2>
+                        <h2 id="tabs-title" class="element-title is-hidden animated preFadeInUp fadeInUp">TABS</h2>
+                        <h2 id="buttons-title" class="element-title is-hidden animated preFadeInUp fadeInUp">
+                            BUTTONS</h2>
+
+                        <!-- Back to selection -->
+                        <a href="javascript:void(0);"
+                           class="button feather-button is-small primary-button raised elements-back animated preFadeInLeft fadeInLeft">Back</a>
+                        <!-- Filigrane logo -->
+                        <img class="brand-filigrane" src="assets/img/logo/nephos-greyscale.svg" alt="">
+                    </div>
+
+                    <div class="is-categories-grid">
+
+                        <!-- Cards -->
+                        <div id="cards" class="columns is-element animated preFadeInUp fadeInUp">
+                            <div class="column">
+                                <!-- Product card -->
+                                <div class="flat-card is-auto is-element-details has-overflow">
+                                    <div class="columns is-gapless is-vcentered">
+                                        <div class="column is-12 is-component is-grey">
+                                            <div id="questions" class="inner">
+                                                <div class="columns">
+                                                    <div class="column is-hidden-mobile"></div>
+                                                    <!-- Product card -->
+                                                    <div class="column is-12">
+                                                        <form id="quizz">
+                                                            <p class="lead">Complété à 0%</p>
+                                                            <div class="progress mb-3">
+                                                                <div class="progress-bar" role="progressbar">
+                                                                    <span class="sr-only">completé à 40%</span>
+                                                                </div>
+                                                            </div>
+                                                            <h3 id="question" class="mt-5 d-inline">
+                                                                Question
+                                                            </h3>
+
+                                                            <div id="options" class="form-group mt-3">
+                                                                <div class="custom-control custom-radio mt-2 mb-3">
+                                                                    <input type="radio" name="option"
+                                                                           class="custom-control-input"
+                                                                           id="customRadioInline1" number=0>
+                                                                    <label class="custom-control-label"
+                                                                           for="customRadioInline1">Check this custom
+                                                                        radio</label>
+                                                                </div>
+                                                                <div class="custom-control custom-radio mt-2 mb-3">
+                                                                    <input type="radio" name="option"
+                                                                           class="custom-control-input"
+                                                                           id="customRadioInline2" number=1>
+                                                                    <label class="custom-control-label"
+                                                                           for="customRadioInline2">Check this custom
+                                                                        radio</label>
+
+                                                                </div>
+                                                                <div class="custom-control custom-radio mt-2 mb-3">
+                                                                    <input type="radio" name="option"
+                                                                           class="custom-control-input"
+                                                                           id="customRadioInline3" number=2>
+                                                                    <label class="custom-control-label"
+                                                                           for="customRadioInline3">Check this custom
+                                                                        radio</label>
+
+                                                                </div>
+                                                                <div class="custom-control custom-radio mt-2 mb-3">
+                                                                    <input type="radio" name="option"
+                                                                           class="custom-control-input"
+                                                                           id="customRadioInline4" number=3>
+                                                                    <label class="custom-control-label"
+                                                                           for="customRadioInline4">Check this custom
+                                                                        radio</label>
+
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                        <div class="mt-5">
+                                                            <a href="javascript:void(0);" class="button feather-button primary-button raised animated preFadeInLeft fadeInLeft"
+                                                               id="prec">Précédent</a>
+                                                            <a class="button feather-button secondary-button raised btn-outlined animated preFadeInLeft fadeInLeft"
+                                                               id="suiv">Suivant</a>
+                                                        </div>
+
+                                                    </div>
+                                                    <!-- /Product card -->
+                                                    <div class="column is-hidden-mobile"></div>
+                                                </div>
+                                            </div>
+                                            <div id="informations" class="inner">
+                                                {{ form_start(form, {'action': path('demande_ajout',{'service':service_id}), 'method': 'post',"attr":{"id":"informations_2"}}) }}
+                                                <label>Code Postal</label>
+
+                                                <div id="success-input" class="control required ">
+                                                    {{ form_widget(form.localisation,{'attr':{'class':'input is-default' ,'placeholder': "Code Postale" } }) }}
+                                                </div>
+
+                                                <label>Description</label>
+                                                <div id="warning-input" class="control required ">
+                                                    {{ form_widget(form.description,{'attr':{'class':'input is-default' ,'placeholder': "Description" } }) }}
+                                                </div>
+
+                                                <label>Date</label>
+                                                <div class="control">
+                                                    {{ form_widget(form.date,{'attr':{'class':'input is-default' ,'placeholder': "Choisissez une date","type":"text","data-toggle":"datepicker" } }) }}
+
+                                                </div>
+                                                <label>Heure</label>
+                                                <div class="control">
+                                                    {{ form_widget(form.heure,{'attr':{'class':'input is-default' ,'placeholder': "Choisissez une heure","type":"time"} }) }}
+
+                                                </div>
+                                                <label>Photo</label>
+                                                <div class="control">
+                                                    <div class="columns">
+                                                        <div class="column is-3">
+                                                            {{ form_widget(form.photo1,{'attr':{'class':'dropify' ,"data-default-file":"","type":"file" ,"data-errors-position":"outside"} }) }}
+                                                        </div>
+                                                        <div class="column is-3">
+                                                            {{ form_widget(form.photo2,{'attr':{'class':'dropify' ,"data-default-file":"","type":"file" ,"data-errors-position":"outside"} }) }}
+                                                        </div>
+                                                        <div class="column is-3">
+                                                            {{ form_widget(form.photo3,{'attr':{'class':'dropify' ,"data-default-file":"","type":"file" ,"data-errors-position":"outside"} }) }}
+                                                        </div>
+                                                        <div class="column is-3">
+                                                            {{ form_widget(form.photo4,{'attr':{'class':'dropify' ,"data-default-file":"","type":"file" ,"data-errors-position":"outside"} }) }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <input type="submit"
+                                                       class=" button feather-button feather-button primary-button raised  animated preFadeInLeft fadeInLeft"
+                                                       value="Valider"></input>
+                                                {{ form_end(form) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- /User card -->
+
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                </div>
+            </div>
+            <!-- /Elements Grid -->
+
+        </div>
+        <!-- /Container -->
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script language="JavaScript" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src = "https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity = "sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin = "anonymous" > </script>
+    <script src="{{ asset('frontend/js/elements.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('frontend/js/pages/eservices/detail_service.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('frontend/js/pages/eservices/dropify.min.js') }}" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.1/dist/jquery.validate.js"></script>
+    <script>
+        let service_id={{ service_id }}
+        window.url_service_questions="{{ url('service_questions',{'service':service_id}) }}";
+        window.url_demande_ajout="{{ url('demande_ajout',{'service':service_id}) }}";
+        window.url_recuperer_reponses="{{ url('recuperer_reponses',{'service':service_id})  }}"
+    </script>
+
+{% endblock %}

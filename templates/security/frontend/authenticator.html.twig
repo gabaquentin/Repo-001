@@ -1,0 +1,469 @@
+{% extends '/security/frontend/base.html.twig' %}
+
+{% block title %}{{authentication}}{% endblock %}
+
+{% block body %}
+
+    <!-- Main wrapper -->
+    <div class="shop-wrapper">
+
+        <!-- Search overlay -->
+        <div class="search-overlay"></div>
+
+        <!-- Search input -->
+        <div class="search-input-wrapper is-desktop is-hidden">
+            <div class="field">
+                <div class="control">
+                    <input id="nephos-search" type="text" name="search" placeholder="Search a Product">
+                    <span id="clear-search" role="button"><i data-feather="x"></i></span>
+                    <span class="bar"></span>
+                </div>
+                <span class="search-help">Type the name of the product you are looking for</span>
+            </div>
+        </div>
+        <!-- Main section -->
+        <div id="shop-authentication" class="section">
+            <!-- Container -->
+            <div class="container">
+
+                <!-- Authentication Layout -->
+                <div class="columns account-header is-auth">
+                    <div class="column main-column is-tablet-landscape-padded">
+                        <!-- Title -->
+                        <div class="auth-title">
+                            <h2 id="auth-main-title">{{authentication}}</h2>
+                            <img class="brand-filigrane" src="{{ asset('frontend/img/logo/nephos-greyscale.svg') }}" alt="">
+                        </div>
+                        <!--Toggler-->
+                        <div class="auth-toggler">
+                            <input type="checkbox" {% if authentication == "register" %} checked {% endif %}>
+                            <div class="toggler-track">
+                                <div class="hexagon-wrap">
+                                    <div class="hexagon">
+                                        <i class="login-icon" data-feather="user"></i>
+                                        <i class="register-icon" data-feather="layers"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--New Login-->
+                        <div class="main-auth-wrapper">
+                            <!--Login wrapper-->
+                            <div class="login-form-wrapper {% if authentication == "register" %} is-hidden {% endif %}">
+                                <!--Login form-->
+                                <div class="login-form">
+                                    {% if authentication == "login" %}
+                                    <form id="login-form" method="post" action="{{ path('app_login') }}" >
+                                        <!--Field user-->
+                                        <div class="field">
+                                            <label>Email / Telephone</label>
+                                            <div class="control is-bigger has-icon">
+                                                <input id="login-email" type="text" name="user" value="{% if last_username is defined %}{{ last_username }}{% endif %}" class="input">
+                                                <div class="form-icon">
+                                                    <i data-feather="user"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--Field password-->
+                                        <div class="field has-flex-label has-validation">
+                                            <label>
+                                                <span>Password</span>
+                                                <span class="error">Minimum 8 caractéres</span>
+                                            </label>
+                                            <div class="control is-bigger has-icon">
+                                                <input id="login-password" type="password"  name="password" class="input">
+                                                <div class="form-icon">
+                                                    <i data-feather="lock"></i>
+                                                </div>
+                                                <div class="error-icon">
+                                                    <i data-feather="x"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--Field csrf token-->
+                                        <input type="hidden" name="_csrf_token"
+                                               value="{{ csrf_token('authenticate') }}"
+                                        >
+                                        <!--Field remember me-->
+                                        <div class="flex-field">
+                                            <label class="special-toggle">
+                                                <input type="checkbox" name="_remember_me">
+                                                <span class="toggler">
+                                                        <span class="active">
+                                                            <i data-feather="check"></i>
+                                                        </span>
+                                                <span class="inactive">
+                                                            <i data-feather="circle"></i>
+                                                        </span>
+                                                </span>
+                                            </label>
+                                            <div class="muted-text">Remember me?</div>
+                                        </div>
+                                        <!--Submit-->
+                                        <div class="button-wrap">
+                                            <button id="login-submit" type="submit" class="button primary-button upper-button raised is-fullwidth is-rounded">Login</button>
+                                        </div>
+                                        <!--Forgot-->
+                                        <div class="forgot-link has-text-centered">
+                                            <a>Forgot Password?</a>
+                                        </div>
+                                    </form>
+                                    {% elseif authentication == "register" %}
+                                        <form  id="login-form" >
+                                            <a class="button feather-button primary-button btn-outlined upper-button raised is-fullwidth" href="{{ path('app_login') }}">Connexion</a>
+                                        </form>
+                                    {% endif %}
+                                </div>
+                                <!--Reset form-->
+                                <div class="reset-form is-hidden">
+                                    <form>
+                                        <p class="form-description">Enter your email to be able to reset your password. We'll send you an email with the instructions to follow.</p>
+                                        <!--Field-->
+                                        <div class="field">
+                                            <label>Email</label>
+                                            <div class="control is-bigger has-icon">
+                                                <input type="text" class="input">
+                                                <div class="form-icon">
+                                                    <i data-feather="mail"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--Submit-->
+                                        <div class="button-wrap">
+                                            <button type="button" class="button primary-button upper-button raised is-fullwidth is-rounded">Reset Password</button>
+                                        </div>
+                                        <!--Back-->
+                                        <div class="back-link has-text-centered">
+                                            <a>Back To Login</a>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <!--Registration wrapper-->
+                            <div class="registration-form-wrapper {% if authentication == "login" %} is-hidden {% endif %}">
+                                <!--Registration form-->
+                                <div class="registration-form">
+                                    {% if authentication == "register" %}
+                                    <form  id="registration-form" method="post" action="{{ path('app_register', {'role': 'new_user'}) }}" >
+                                        <!--Field avatar-->
+                                        <div class="field">
+                                            <!-- Avatar form -->
+                                            <div id="avatar-upload" class="avatar-wrapper has-simple-popover" data-content="Change profile picture" data-placement="top">
+                                                <img class="profile-pic" id="imagesrc" src="{{ asset('frontend/img/avatars/avatar.png') }}" alt="">
+                                                <div class="upload-button modal-trigger" data-modal="upload-crop-modal">
+                                                    <i class="upload-icon" data-feather="plus" aria-hidden="true"></i>
+                                                </div>
+                                                <!-- input class="input" id="register-image"  type="file" accept="image/*" name="image" -->
+                                                <!-- input id="register-image" type="text" name="image" class="input" -->
+                                            </div>
+                                            <!-- /Avatar form -->
+                                        </div>
+                                        <!--Field email-->
+                                        <div class="field has-flex-label has-validation">
+                                            <label>
+                                                <span>Email</span>
+                                                <span class="error">Email incorrect</span>
+                                            </label>
+                                            <div class="control is-bigger has-icon">
+                                                <input id="register-email" type="text" name="email" class="input">
+                                                <div class="form-icon">
+                                                    <i data-feather="mail"></i>
+                                                </div>
+                                                <div class="error-icon">
+                                                    <i data-feather="x"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--Field nom-->
+                                        <div class="field has-flex-label has-validation">
+                                            <label>
+                                                <span>Nom</span>
+                                                <span class="error">Ne peut etre vide</span>
+                                            </label>
+                                            <div class="control is-bigger has-icon">
+                                                <input id="register-nom" type="text" name="nom" class="input">
+                                                <div class="form-icon">
+                                                    <i data-feather="user"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--Field prenom-->
+                                        <div class="field has-flex-label has-validation">
+                                            <label>
+                                                <span>Prenom</span>
+                                                <span class="error">Ne peut etre vide</span>
+                                            </label>
+                                            <div class="control is-bigger has-icon">
+                                                <input id="register-prenom" type="text" name="prenom" class="input">
+                                                <div class="form-icon">
+                                                    <i data-feather="user"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--Field telephone-->
+                                        <div class="field has-flex-label has-validation">
+                                            <label>
+                                                <span>Telephone</span>
+                                                <span class="error">telephone incorrect</span>
+                                            </label>
+                                            <div class="control is-bigger has-icon">
+                                                <select id="register-om" class="chosen-select input" name="register-om" data-placeholder="&emsp; Selectionnez votre operateur mobile">
+                                                    <option label="Selectionnez votre operateur mobile"></option>
+                                                    <option value="orange">&emsp; Orange</option>
+                                                    <option value="mtn">&emsp; MTN</option>
+                                                    <option value="camtel">&emsp; CAMTEL</option>
+                                                    <option value="nextel">&emsp; NEXTEL</option>
+                                                </select>
+                                                <div class="form-icon">
+                                                    <i data-feather="phone"></i>
+                                                </div>
+                                            </div>
+                                            <div class="control is-bigger has-icon">
+                                                <input id="register-tel" type="text" name="telephone" class="input hidden" placeholder="Ne pas entrer le prefixe +237">
+                                                <div class="form-icon">
+                                                    <i data-feather="phone"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--Field password-->
+                                        <div class="field has-flex-label has-validation">
+                                            <label>
+                                                <span>Mot de passe</span>
+                                                <span class="error">Incorrect</span>
+                                            </label>
+                                            <div class="control is-bigger has-icon">
+                                                <input id="register-password" type="password" name="password" class="input">
+                                                <div class="form-icon">
+                                                    <i data-feather="lock"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--Field confirm password-->
+                                        <div class="field has-flex-label has-validation">
+                                            <label>
+                                                <span>Confirmez</span>
+                                                <span class="error">Les mots de passe ne correspondent pas !!!</span>
+                                            </label>
+                                            <div class="control is-bigger has-icon">
+                                                <input id="register-confirm-password" type="password" class="input">
+                                                <div class="form-icon">
+                                                    <i data-feather="lock"></i>
+                                                </div>
+                                            </div>`
+                                        </div>
+                                        <!--Field local-->
+                                        <div class="field has-flex-label has-validation">
+                                            <label>
+                                                <span>Preference Langue</span>
+                                                <span class="error">Selectionnez une preference langue</span>
+                                            </label>
+                                            <div class="control is-bigger has-icon">
+                                                <select id="register-local" class="chosen-select input" name="local" data-placeholder="&emsp; Selectionnez une langue">
+                                                    <option label="Selectionnez une langue"></option>
+                                                    <option value="fr">&emsp; Francais</option>
+                                                    <option value="en">&emsp; Englais</option>
+                                                </select>
+                                                <div class="form-icon">
+                                                    <i data-feather="star"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--Field newsletter-->
+                                        <div class="flex-field">
+                                            <label class="special-toggle">
+                                                <input type="checkbox" name="newsletter">
+                                                <span class="toggler">
+                                                        <span class="active">
+                                                            <i data-feather="check"></i>
+                                                        </span>
+                                                <span class="inactive">
+                                                            <i data-feather="circle"></i>
+                                                        </span>
+                                                </span>
+                                            </label>
+                                            <div class="muted-text">S'inscrire au bullettin d'annonces ?</div>
+                                        </div>
+                                        <!--Submit-->
+                                        <div class="button-wrap">
+                                            <button id="register-submit" type="submit" class="button primary-button upper-button raised is-fullwidth is-rounded">Register</button>
+                                        </div>
+                                    </form>
+                                    {% elseif  authentication == "login" %}
+                                    <form  id="registration-form" >
+                                        <div class="button-wrap">
+                                            <a class="button feather-button primary-button btn-outlined upper-button raised is-fullwidth" href="{{ path('app_register', {'role': 'new_user'}) }}">Inscription</a>
+                                        </div>
+                                    </form>
+                                    {% endif %}
+                                    <form  id="check-email" class="is-hidden" >
+                                        <div class="flat-card profile-info-card is-auto is-dark is-achievement">
+                                            <div class="card-body">
+                                                <img src="{{ asset('frontend/img/logo/nephos-gold.svg') }}" alt="">
+                                                <div class="achievement-name">
+                                                    <span class="is-gold">Inscription effectué</span>
+                                                    <span>Un E-mail a été envoyé a l'adresse</span>
+                                                    <label id="user-email-label"></label>
+                                                    <span>Cet E-mail contient un lien de verification de votre adresse mail... </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <a class="button feather-button primary-button btn-outlined upper-button raised is-fullwidth" href="{{ path('app_login') }}">Connexion</a>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Authentication Layout -->
+            </div>
+            <!-- /Container -->
+        </div>
+        <!-- /Main section -->
+    </div>
+    <!-- /Main wrapper -->
+
+    <!-- file upload  -->
+    <div id="upload-crop-modal" class="modal upload-crop-modal">
+        <div class="modal-background"></div>
+        <div class="modal-content">
+            <div class="box">
+                <div class="box-header">
+                    <img src="{{ asset('frontend/img/logo/nephos-greyscale.svg') }}" alt="">
+                    <span>SOUMETRE UNE PHOTO DE PROFIL </span>
+                    <div class="modal-delete"><i data-feather="x"></i></div>
+                </div>
+                <div class="box-body">
+                    <label class="profile-uploader-box" for="upload-profile-picture">
+                        <span class="inner-modal-content">
+                            <img src="{{ asset('frontend/img/illustrations/profile.svg') }}" alt="">
+                                <span>Clickez ici <br>Televerser une photo de profil</span>
+                        </span>
+                        <input type="file" id="upload-profile-picture" accept="image/*" name="image">
+                    </label>
+                    <div class="upload-demo-wrap is-hidden">
+                        <div id="upload-profile"></div>
+                        <div class="upload-help buttons">
+                            <a id="profile-upload-reset" class="button feather-button primary-button is-rounded raised is-bold profile-reset is-hidden">Rafraichir</a>
+                            <button id="submit-profile-picture" class="button feather-button secondary-button is-rounded raised is-bold opaque is-disabled">
+                                Utiliser
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- login error message -->
+
+    {% if authentication == "login" %}
+    {% if error %}
+
+        <script>
+            setTimeout(function () {
+                $('#login-submit').removeClass('is-loading');
+                toasts.service.error('', 'fas fa-meh', " {{ error.messageKey|trans(error.messageData, 'security') }} ", 'bottomRight', 11200);
+            }, 800);
+        </script>
+
+    {% endif %}
+    {% endif %}
+
+
+    <!-- Asynch request for register submitting -->
+
+    <script>
+        $('#register-submit').on('click', function (event) {
+            var $this = $(this);
+
+        var form = $('#registration-form');
+
+        form.submit(function (e) {
+
+            e.preventDefault();
+
+            $.ajax({
+                type: "POST",
+                url: form.attr("{{ path('app_register', {'role': 'new_user'}) }}"),
+                data: {
+                    "nom": $('#register-nom').val(),
+                    "prenom": $('#register-prenom').val(),
+                    "email": $('#register-email').val(),
+                    "telephone": $('#register-tel').val(),
+                    "password": $('#register-password').val(),
+                    "local": $('#register-local').val(),
+                    "image": document.getElementById("imagesrc").src,
+                },
+                dataType: 'json',
+                success: function (data) {
+                    /*
+         * code 0 : if no prblems with registration
+         * code 100 : if email already exist in data base
+         * code 200 : if phone number already exist in data base
+         * code 300 : if phone number and email already exist in data base
+         * code 400 : if phone number and/or email is empty
+                    */
+                    if(data['code'] === 0)
+                    {
+                        $('#user-email-label').html(data['email']);
+                        $('#registration-form').addClass('is-hidden');
+                        $('#check-email').removeClass('is-hidden');
+
+                        var register = {
+                            isLoggedIn: true,
+                            firstName: data['nom'],
+                            lastName: data['prenom'],
+                            email: data['email'],
+                            phone: data['tel'],
+                            photoUrl: data['image'],
+                            wishlists: myWishlists,
+                            orders: myOrders,
+                            addresses: elieAddresses
+                        };
+
+                        localStorage.setItem('user', JSON.stringify(register));
+
+                        setTimeout(function () {
+                            $this.removeClass('is-loading');
+                            toasts.service.success('', 'fas fa-check', data['infos'], 'bottomRight', 11200);
+                        }, 1200);
+                    }
+                    else
+                    {
+                        setTimeout(function () {
+                            $this.removeClass('is-loading');
+                            toasts.service.info('', 'fas fa-meh', data['infos'], 'bottomRight', 11200);
+                        }, 1200);
+
+                        if(data['code'] === 100)
+                        {
+                            $('#register-email').closest('.field').addClass('has-error');
+                        }
+                        else if(data['code'] === 200)
+                        {
+                            $('#register-tel').closest('.field').addClass('has-error');
+                        }
+                        else if(data['code'] === 300)
+                        {
+                            $('#register-email').closest('.field').addClass('has-error');
+                            $('#register-tel').closest('.field').addClass('has-error');
+                        }
+
+                    }
+
+
+                },
+                error: function (data) {
+                    setTimeout(function () {
+                        $this.removeClass('is-loading');
+                        toasts.service.error('', 'fas fa-meh', " Erreur interne du server... Veuillez reesayer ", 'bottomRight', 2800);
+                    }, 800);
+
+                },
+            });
+        });
+        })
+
+    </script>
+
+{% endblock %}

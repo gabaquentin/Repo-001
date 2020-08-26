@@ -47,4 +47,10 @@ class QuestionServiceRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function findQuestions(){
+        return $this->createQueryBuilder("q")
+            ->getQuery()
+            ->getArrayResult();
+    }
+
 }
