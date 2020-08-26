@@ -79,6 +79,7 @@
         </div>
     </div>
     {{ form_end(form) }}
+    <button id="valc">valc</button>
 {% endblock %}
     {% block javascripts %}
         {{ parent() }}
@@ -91,7 +92,7 @@
         <script src="{{ asset('backend/js/pages/form-advanced.init.js') }}"></script>
 
         <script>
-            $('#categorie_service_typeCategorie').click(function (){
+            $('#nom').click(function (){
                 console.log("hiiiiiii")
                 if($('#typeCat').is(':checked')){
                     console.log("hiiiiiii")

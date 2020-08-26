@@ -7,6 +7,7 @@ use App\Entity\Service;
 use App\Form\eservices\CategorieServiceType;
 use App\Form\eservices\ServiceType;
 use App\Repository\CategorieServiceRepository;
+use App\Repository\ServiceRepository;
 use App\Services\FileUploader;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -42,13 +43,15 @@ class ServicesBackController extends AbstractController
      * @Route("/categorie/{id}", name="detail_categorie_back")
      * @param int $id
      * @param CategorieServiceRepository $repo
+     * @param ServiceRepository $repoService
      * @return Response
      */
-    public function categorie_detail(int $id, CategorieServiceRepository $repo)
+    public function categorie_detail(int $id, CategorieServiceRepository $repo, ServiceRepository $repoService)
     {
         return $this->render('backend/eservices/categorie_detail.html.twig', [
             'categorie' => $repo->findOneBy(['id' => $id]),
             'categories' => $repo->findAll(),
+            'services' => $repoService->findBy(['CategorieService'=>$id]),
             'controller_name' => 'ServicesBackController',
         ]);
     }

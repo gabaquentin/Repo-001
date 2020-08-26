@@ -104,7 +104,7 @@ class Service
     /**
      * @return string
      */
-    public function getImg(): string
+    public function getImg(): ?string
     {
         return $this -> img;
     }

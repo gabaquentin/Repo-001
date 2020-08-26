@@ -36,6 +36,7 @@ class CategorieServiceType extends AbstractType
                             'image/jpg',
                             'image/jpeg',
                             'image/png',
+                            'image/gif',
                         ],
                         'mimeTypesMessage' => 'SVP insérer une image valide (format jpg, jpeg et png)',
                     ])

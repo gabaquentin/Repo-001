@@ -6,9 +6,11 @@ use App\Entity\QuestionService;
 use App\Entity\Service;
 use App\Form\eservices\ServiceType;
 use App\Repository\ServiceRepository;
+use App\Services\ecommerce\Tools;
 use App\Services\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -37,49 +39,70 @@ class ServiceController extends AbstractController
      * @Route("/service/nouveau", name="nouveau_service")
      * editer un service
      * @Route("/service/edit/{service}", name="edit_service")
-     * @param Request $request
-     * @param FileUploader $uploader
-     * @param EntityManagerInterface $em
      * @param Service|null $service
      * @return Response
      */
-    public function ajouter_service(Request $request, FileUploader $uploader, EntityManagerInterface $em, Service $service=null)
+    public function ajouter_service(Service $service=null)
     {
         if($service == null)
             $service = new Service();
 
-        $form = $this->createForm(ServiceType::class, $service/*, [
-            "action"=>$this->generateUrl("edit_categorie", ["categorie"=> $categorie->getId()])
-        ]*/);
-
-        $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid())
-        {
-            $service->setNom($form->get('nom')->getData());
-            $service->setCategorieService($form->get('categorieService')->getData());
-            $service->setDescription($form->get('description')->getData());
-            $service->setNbreQuestions($form->get('nbreQuestions')->getData());
-            //$imageFile = $request->files->get('files',[]);
-            $imageName = $uploader->upload($form->get('imgfile')->getData(),"service",$service->getNom());
-            $service->setImg($imageName);
-            /*if($categorie->getId() == null){
-
-            }*/
-            $em->persist($service);
-            $em->flush();
-
-            return $this->redirectToRoute('ajouter_questions', ['service'=>$service->getId()]);
-        }
+        $form = $this->createForm(ServiceType::class, $service, [
+            "action"=>$this->generateUrl("save_service", ["service"=> $service->getId()])
+        ]);
 
         return $this->render('backend/eservices/add-service.html.twig', [
             'form'=> $form->createView(),
             'controller_name' => 'ServicesBackController',
         ]);
+
+    }
+
+    /**
+     *@Route("/save/{service}", name="save_service")
+     * @param Request $request
+     * @param FileUploader $uploader
+     * @param EntityManagerInterface $em
+     * @param Tools $tools
+     * @param Service|null $service
+     * @return JsonResponse
+     */
+    public function save_service(Request $request,FileUploader $uploader,EntityManagerInterface $em,Tools $tools,Service $service=null)
+    {
+        if($service == null)
+            $service = new Service();
+
+        $form = $this->createForm(ServiceType::class, $service, [
+            "action"=>$this->generateUrl("save_service", ["service"=> $service->getId()])
+        ]);
+
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid())
+        {
+            dump($form);
+            $service->setNom($form->get('nom')->getData());
+            $service->setCategorieService($form->get('categorieService')->getData());
+            $service->setDescription($form->get('description')->getData());
+            $service->setNbreQuestions($form->get('nbreQuestions')->getData());
+            //$imageFile = $request->files->get('files',[]);
+            if(!(!empty($service->getImg()) && empty($form->get('imgfile')->getData())))
+            {
+                $imageName = $uploader->upload($form->get('imgfile')->getData(),"service",$service->getNom());
+                $service->setImg($imageName);
+            }
+            $em->persist($service);
+            $em->flush();
+
+            return $this->json(['success'=>["Sauvegardé"]]);
+            //return $this->redirectToRoute('ajouter_questions', ['service'=>$service->getId()]);
+        }
+
+        return $this->json(['errors'=>$tools->getFormErrorsTree($form)]);
     }
 
     /**
      * ajouter des questions à un service passé en paramètre
-     * @Route("service/nouveau/questions/{service}", name="ajouter_questions")
+     * @Route("/service/nouveau/questions/{service}", name="ajouter_questions")
      * nbre => nombre de question service => id du service
      * @param int $service
      * @param ServiceRepository $repo
