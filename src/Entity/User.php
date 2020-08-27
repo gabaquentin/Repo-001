@@ -98,6 +98,11 @@ class User implements UserInterface
      */
     private $ExtraInfo;
 
+    /**
+     * @ORM\OneToOne(targetEntity=Pack::class, inversedBy="user", cascade={"persist", "remove"})
+     */
+    private $pack;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -142,6 +147,14 @@ class User implements UserInterface
         $this->roles = $roles;
 
         return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isAdmin()
+    {
+        return in_array("ROLE_ADMIN",$this->getRoles());
     }
 
     /**
@@ -329,6 +342,18 @@ class User implements UserInterface
     public function setExtraInfo($ExtraInfo)
     {
         $this->ExtraInfo = $ExtraInfo;
+        return $this;
+    }
+
+    public function getPack(): ?Pack
+    {
+        return $this->pack;
+    }
+
+    public function setPack(?Pack $pack): self
+    {
+        $this->pack = $pack;
+
         return $this;
     }
 

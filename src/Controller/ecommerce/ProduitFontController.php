@@ -6,6 +6,7 @@ use App\Entity\Attribut;
 use App\Entity\CategorieProd;
 use App\Entity\Date;
 use App\Entity\Produit;
+use App\Entity\User;
 use App\Entity\Ville;
 use App\Form\ecommerce\ProduitType;
 use App\Repository\AvisRepository;
@@ -57,6 +58,9 @@ class ProduitFontController extends AbstractController
      */
     public function getProducts(Request $request,ProduitRepository $repo,Tools $tools)
     {
+        if(!$request->isXmlHttpRequest())
+            die();
+
         $start = $request->get("start");
 
         $produits = $repo->showProductsFront($request);
@@ -89,6 +93,9 @@ class ProduitFontController extends AbstractController
      */
     public function showSingleProduct(Request $request,EntityManagerInterface $em, AvisRepository $repoAvis, Produit $produit=null)
     {
+        if(!$request->isXmlHttpRequest())
+            die();
+
         if($produit==null)
             die("404");
         $produitAssocices = [];
@@ -137,6 +144,10 @@ class ProduitFontController extends AbstractController
         $extraData = [];
         $extraData["images"] = $produit->getImages();
         if ($produit->getId() != null) {
+
+            if($produit->getClient()!=$this->getUser())
+                die("vous ne pouvez pas acceder à cette page");
+
             $extraData["pa"] = implode(",", $produit->getProduitsAssocies());
             $extraData["attr"] = implode(",", $produit->getAttributs());
             $extraData["desc"] = $produit->getDescription();
@@ -156,5 +167,43 @@ class ProduitFontController extends AbstractController
     public function myProducts()
     {
         return $this->render('frontend/ecommerce/produit/show-produit.html.twig', []);
+    }
+
+    /**
+     * @Route("/get-user-produits", name="get_products_user_front")
+     * @param ProduitRepository $rep
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function userProducts(ProduitRepository $rep,Request $request)
+    {
+        if(!$request->isXmlHttpRequest())
+            die();
+
+        /** @var User $user */
+        $user = $this->getUser();
+        if(!$user)
+            die();
+
+        $start = $request->get("start");
+        $max = $request->get("max");
+
+        $produits = $rep->findBy(["Client"=>$user->getId()],null,$max,$start);
+        $show = $start + count($produits);
+        $itemsMax = $rep->count(["Client"=>$user->getId()]);
+
+        $data = [
+            "itemsMax"=>$itemsMax,
+            "itemsShow"=>$show,
+            "data" => $produits,
+            "showMore"=> (($itemsMax-$show)==0)?false:true,
+        ];
+
+        return $this->json($data, 200, [], [
+            "groups"=>"show_list",
+            ObjectNormalizer::CIRCULAR_REFERENCE_HANDLER => function ($object) {
+                return $object->getId();
+            },
+        ]);
     }
 }
