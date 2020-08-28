@@ -2,7 +2,7 @@
 <div class="tabs account-tabs">
     <ul>
         <li class="{{ (account|default()) }}" ><a href="{{ path('app_account') }}">Account</a></li>
-        <li class="{{ (myProducts|default()) }}" ><a href="{{ path('mes_produits_front') }}">Mes Produits</a></li>
+        <li class="{{ (myProducts|default()) }}" ><a href="{{ path('my_products_front') }}">Mes Produits</a></li>
         <li class="{{ (wishlist|default()) }}" ><a href="{{ path('app_whishlist') }}">Wishlist</a></li>
         <li class="{{ (cart|default()) }}" ><a href="{{ path('app_cart') }}">Cart</a></li>
         <li class="{{ (orders|default()) }}" ><a href="{{ path('app_orders') }}">Orders</a></li>

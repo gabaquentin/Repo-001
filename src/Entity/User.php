@@ -72,7 +72,7 @@ class User implements UserInterface
     private $local;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="datetime", length=255)
      */
     private $creation;
 
@@ -102,6 +102,11 @@ class User implements UserInterface
      * @ORM\OneToOne(targetEntity=Pack::class, inversedBy="user", cascade={"persist", "remove"})
      */
     private $pack;
+
+    public function __construct()
+    {
+        $this->creation = new \DateTime();
+    }
 
     public function getId(): ?int
     {
@@ -273,12 +278,12 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getCreation(): ?string
+    public function getCreation(): ?\DateTimeInterface
     {
         return $this->creation;
     }
 
-    public function setCreation(string $creation): self
+    public function setCreation(\DateTimeInterface $creation): self
     {
         $this->creation = $creation;
 

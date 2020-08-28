@@ -30,3 +30,9 @@ function truncateString(str, num) {
     }
     return str.slice(0, num) + '...';
 }
+
+function isExpired(dateP) {
+    let interval = (new Date()).getTime() - (new Date(dateP)).getTime();
+    let days = (interval / (3600 * 24 * 1000));
+    return days > 60 ;
+}

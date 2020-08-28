@@ -22,7 +22,6 @@ function initProductPageUI() {
 }
 
 $(document).ready(function () {
-
     initProductPageUI();
 
     $('.fullscreen-slick').slick({

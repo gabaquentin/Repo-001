@@ -172,11 +172,12 @@
                             <div class="flat-card profile-card is-auto">
                                 <div class="card-body">
                                     <div class="profile-image">
-                                        <img src="http://via.placeholder.com/250x250" alt="">
+                                        {# {% if produit.client.image==false %} http://via.placeholder.com/250x250{% else %}data:image/base64,{{ (produit.client.image)}} {% endif %} #}
+                                        <img src="{{ (produit.client.image) }}" alt="">
                                     </div>
                                     <div class="username has-text-centered">
-                                        <span>Elie Daniels</span>
-                                        <small>Member since Sep 23 2017</small>
+                                        <span>{{ produit.client.nom }}  {{ produit.client.prenom }}</span>
+                                        <small>Membre depuis {{ dateToday(produit.client.creation) }}</small>
                                     </div>
                                 </div>
                             </div>

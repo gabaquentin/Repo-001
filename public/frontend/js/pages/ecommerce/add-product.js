@@ -90,6 +90,31 @@ function addEvent() {
         let id = $(this).parents(".product-container").first().attr("data-product-id");
         ajaxDeleteProduct(id,$(this).parents(".product-container").first());
     })
+    $(document).on("click",".refresh",function (e){
+        e.preventDefault();
+        let id = $(this).parents(".product-container").first().attr("data-product-id");
+        $.ajax({
+            type: "POST",
+            url: refreshProductRoute+"/"+id,
+            async: true,
+            dataType: "JSON",
+            beforeSend: () => {
+                $('.account-loader').addClass('is-active');
+            },
+            success: (data) => {
+                if(data["success"]&&data["success"].length!==0)
+                {
+                    $(this).remove();
+                }
+
+                $('.account-loader').removeClass('is-active');
+            },
+            error: () => {
+                $('.account-loader').removeClass('is-active');
+                toasts.service.error('', 'fas fa-plus', 'Problèmes de connexion avec le serveur', 'bottomRight', 2500);
+            }
+        });
+    })
 }
 
 function addSingleProduct(p)
@@ -98,14 +123,17 @@ function addSingleProduct(p)
     if(prix.indexOf('.')!==-1)
         prix = prix.slice(0,prix.indexOf('.')+2);
     prix += (" " + "F CFA");
+
     const nom = truncateString(p.nom.toUpperCase(),30);
     let image = "http://via.placeholder.com/500x500/ffffff/999999";
+
     if(p.images.length)image = p.images[0];
     return `
         <div class="column is-3 product-container" data-product-id="${p.id}">
             <div class="flat-card">
-                <div class="image" >
+                <div class="image" style="margin-bottom: 5px !important;">
                     <img src="${imageProdPath+image}" style="width: 100px;height: 100px" data-action="zoom" alt="" class="" >
+                    `+(isExpired(p.date.dateModification)?`<a class="button feather-button secondary-button is-bold refresh">Expiré</a>`:"")+ `
                 </div>
                 <div class="product-info has-text-centered">
                     <p class="product-price">

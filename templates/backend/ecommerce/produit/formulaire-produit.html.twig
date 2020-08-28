@@ -24,12 +24,14 @@
             <div class="col-sm-9">
                 {{ form_widget(form.ville, {'attr': {'class': 'form-control'}}) }}
             </div>
-            <div class="col-sm-3">
-                <button type="button" id="btn-add-ville" class="btn btn-primary waves-lightspinner-border-sm" data-toggle="modal" data-target="#con-close-modal">
-                    <span class="spinner-border-sm" role="status" aria-hidden="true"></span>
-                    Ajouter
-                </button>
-            </div>
+            {% if is_granted('ROLE_ADMIN') %}
+                <div class="col-sm-3">
+                    <button type="button" id="btn-add-ville" class="btn btn-primary waves-lightspinner-border-sm" data-toggle="modal" data-target="#con-close-modal">
+                        <span class="spinner-border-sm" role="status" aria-hidden="true"></span>
+                        Ajouter
+                    </button>
+                </div>
+            {% endif %}
         </div>
     </div>
 </div>
@@ -45,6 +47,7 @@
         {{ form_widget(form.prixPromo, {'attr': {'class': 'form-control'}}) }}
     </div>
 </div>
+{% if is_granted('ROLE_ADMIN') %}
 <div class="form-group row">
     <label class="col-sm-3 col-form-label" ></label>
     <div class="col-sm-9">
@@ -54,6 +57,7 @@
         </div>
     </div>
 </div>
+{% endif %}
 <div class="form-group row">
     <label class="col-sm-3 col-form-label" for="{{ form.localisation.vars.id }}">Localisation</label>
     <div class="col-sm-9">
@@ -170,6 +174,7 @@
         </select>
     </div>
 </div>
+{#  #}
 <div class="form-group row">
     <label class="col-sm-3 col-form-label" for="">Attributs</label>
     <div class="col-sm-9">
@@ -197,6 +202,7 @@
     </div>
 </div>
 {% do form.meuble.setRendered %}
+{% do form.visiblite.setRendered %}
 {% do form.dureeSejour.setRendered %}
 {% do form.caracteristique.setRendered %}
 {{ form_end(form) }}

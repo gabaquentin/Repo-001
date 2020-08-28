@@ -100,8 +100,9 @@
 {% block js %}
     <script>
         const showProductsRoute = "{{ path('get_products_user_front') }}";
-        const modifyProductRoute = "{{ path('modify_produit_front') }}"
+        const modifyProductRoute = "{{ path('modify_product_front') }}"
         const deleteProductRoute = "{{ path('delete_produit') }}"
+        const refreshProductRoute = "{{ path('refresh_product_date') }}"
     </script>
     <script src="{{ asset('frontend/js/pages/ecommerce/add-product.js') }}"></script>
 {% endblock %}

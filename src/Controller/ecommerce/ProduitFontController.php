@@ -32,7 +32,7 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 class ProduitFontController extends AbstractController
 {
     /**
-     * @Route("/", name="produit_font")
+     * @Route("/", name="show_products_front")
      * @param EntityManagerInterface $em
      * @param Tools $tools
      * @return Response
@@ -50,7 +50,7 @@ class ProduitFontController extends AbstractController
     }
 
     /**
-     * @Route("/show_products_front", name="show_products_front")
+     * @Route("/show_products_front", name="get_products_front")
      * @param Request $request
      * @param ProduitRepository $repo
      * @param Tools $tools
@@ -93,9 +93,6 @@ class ProduitFontController extends AbstractController
      */
     public function showSingleProduct(Request $request,EntityManagerInterface $em, AvisRepository $repoAvis, Produit $produit=null)
     {
-        if(!$request->isXmlHttpRequest())
-            die();
-
         if($produit==null)
             die("404");
         $produitAssocices = [];
@@ -127,7 +124,7 @@ class ProduitFontController extends AbstractController
 
     /**
      * @Route("/add" , name="add_product_front")
-     * @Route("/modif/{produit}",name="modify_produit_front")
+     * @Route("/modif/{produit}",name="modify_product_front")
      * @param EntityManagerInterface $manager
      * @param Produit|null $produit
      * @return Response
@@ -162,7 +159,7 @@ class ProduitFontController extends AbstractController
     }
 
     /**
-     * @Route("/mes-produits", name="mes_produits_front")
+     * @Route("/mes-produits", name="my_products_front")
      */
     public function myProducts()
     {
@@ -178,7 +175,7 @@ class ProduitFontController extends AbstractController
     public function userProducts(ProduitRepository $rep,Request $request)
     {
         if(!$request->isXmlHttpRequest())
-            die();
+            die("dd");
 
         /** @var User $user */
         $user = $this->getUser();
@@ -205,5 +202,26 @@ class ProduitFontController extends AbstractController
                 return $object->getId();
             },
         ]);
+    }
+
+    /**
+     * @Route("/refresh-product-date/{product}",name="refresh_product_date")
+     * @param Request $request
+     * @param Produit|null $product
+     * @param EntityManagerInterface $em
+     * @return JsonResponse
+     */
+    public function refreshProduct(Request $request,EntityManagerInterface $em,Produit $product=null)
+    {
+        if(!$request->isXmlHttpRequest())
+            die("");
+        if(!$product)
+            die();
+
+        $product->getDate()->setDateModification(new \DateTime());
+        $em->persist($product);
+        $em->flush();
+
+        return $this->json(["success"=>"mise à jour"]);
     }
 }

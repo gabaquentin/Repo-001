@@ -181,6 +181,9 @@ class ProduitController extends AbstractController
             }
             $produit->getDate()->setDateModification(new \DateTime());
 
+            if(is_null($produit->getClient()))
+                $produit->setClient($this->getUser());
+
             $produit
                 ->setImages($imageNames)
                 ->setDescription($description)

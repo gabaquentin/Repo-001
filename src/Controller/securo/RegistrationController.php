@@ -73,7 +73,7 @@ class RegistrationController extends AbstractController
                 $user->setTelephone($tel);
                 $user->setLocal($local);
                 $user->setImage($image);
-                $user->setCreation(date('d/m/Y H:i:s',time()));
+                $user->setCreation(new \DateTime());
                 // encode the plain password
                 $user->setPassword(
                     $passwordEncoder->encodePassword(

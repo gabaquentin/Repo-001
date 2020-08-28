@@ -6,7 +6,7 @@
 <nav class="navbar mobile-navbar is-hidden-desktop is-hidden-tablet" aria-label="main navigation">
     <!-- Brand -->
     <div class="navbar-brand">
-        <a class="navbar-item" href="home.html">
+        <a class="navbar-item" href="{{ path('app') }}">
             <img src="{{ asset('frontend/img/logo/nephos.svg') }}" alt="">
         </a>
 
@@ -142,8 +142,8 @@
                 </a>
             </li>
             <li>
-                <a href="products.html">
-                    <span>All Products</span>
+                <a href="{{ path('show_products_front') }}">
+                    <span>Tous les produits</span>
                     <i data-feather="box"></i>
                 </a>
             </li>
