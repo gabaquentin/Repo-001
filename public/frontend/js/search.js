@@ -27,7 +27,7 @@ function getSearchResults() {
   var cartIcon = feather.icons['shopping-cart'].toSvg();
   $('#search-results-list .flat-card').remove();
   $.ajax({
-    url: 'frontend/data/search.json',
+    url: '/frontend/data/search.json',
     async: true,
     dataType: 'json',
     success: function success(data) {
@@ -132,7 +132,7 @@ $(document).ready(function () {
 
   var searchIcon = feather.icons.search.toSvg();
   var searchOptions = {
-    url: "frontend/data/products.json",
+    url: "/frontend/data/products.json",
     getValue: "name",
     template: {
       type: "custom",

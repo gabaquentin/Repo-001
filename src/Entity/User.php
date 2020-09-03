@@ -116,6 +116,18 @@ class User implements UserInterface
      */
     private $note;
 
+    /**
+     * @var InfoUser
+     * @ORM\OneToOne(targetEntity=InfoUser::class, cascade={"persist", "remove"})
+     */
+    private $infoUser;
+
+    /**
+     * @var ExtraInfo
+     * @ORM\OneToOne(targetEntity=ExtraInfo::class, cascade={"persist", "remove"})
+     */
+    private $ExtraInfo;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -140,7 +152,7 @@ class User implements UserInterface
      */
     public function getUsername(): string
     {
-        return (string) $this->email;
+        return (string)$this->email;
     }
 
     /**
@@ -167,7 +179,7 @@ class User implements UserInterface
      */
     public function getPassword(): string
     {
-        return (string) $this->password;
+        return (string)$this->password;
     }
 
     public function setPassword(string $password): self
@@ -314,6 +326,7 @@ class User implements UserInterface
         return $this;
     }
 
+
     public function getLogo()
     {
         return $this->logo;
@@ -385,4 +398,41 @@ class User implements UserInterface
 
         return $this;
     }
+
+    /**
+     * @return InfoUser
+     */
+    public function getInfoUser()
+    {
+        return $this->infoUser;
+    }
+
+    /**
+     * @param InfoUser $infoUser
+     * @return User
+     */
+    public function setInfoUser($infoUser)
+    {
+        $this->infoUser = $infoUser;
+        return $this;
+    }
+
+    /**
+     * @return ExtraInfo
+     */
+    public function getExtraInfo()
+    {
+        return $this->ExtraInfo;
+    }
+
+    /**
+     * @param ExtraInfo $ExtraInfo
+     * @return User
+     */
+    public function setExtraInfo($ExtraInfo)
+    {
+        $this->ExtraInfo = $ExtraInfo;
+        return $this;
+    }
+
 }

@@ -33,7 +33,7 @@ class Terrain
     private $photos;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Utilisateur::class)
+     * @ORM\ManyToOne(targetEntity=User::class)
      */
     private $proprietaire;
 
@@ -83,12 +83,12 @@ class Terrain
         return $this;
     }
 
-    public function getProprietaire(): ?Utilisateur
+    public function getProprietaire(): ?User
     {
         return $this->proprietaire;
     }
 
-    public function setProprietaire(?Utilisateur $proprietaire): self
+    public function setProprietaire(?User $proprietaire): self
     {
         $this->proprietaire = $proprietaire;
 
