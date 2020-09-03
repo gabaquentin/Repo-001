@@ -3,7 +3,6 @@
 namespace App\Controller\securo;
 
 use App\Entity\User;
-use App\Form\RegistrationFormType;
 use App\Security\EmailVerifier;
 use App\Security\LoginFormAuthenticator;
 use App\Services\securo\RegistrationCheck;
@@ -40,7 +39,7 @@ class RegistrationController extends AbstractController
      * @param $role
      * @return Response
      */
-    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, LoginFormAuthenticator $authenticator, AuthenticationUtils $authenticationUtils, RegistrationCheck $registrationCheck ,SluggerInterface $slugger, $role): Response
+    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, LoginFormAuthenticator $authenticator, AuthenticationUtils $authenticationUtils, RegistrationCheck $registrationCheck, $role): Response
     {
         if($request->isXMLHttpRequest()) {
 
@@ -73,7 +72,7 @@ class RegistrationController extends AbstractController
                 $user->setTelephone($tel);
                 $user->setLocal($local);
                 $user->setImage($image);
-                $user->setCreation(date('d/m/Y H:i:s',time()));
+                $user->setCreation(date('Y/m/d H:i:s',time()));
                 // encode the plain password
                 $user->setPassword(
                     $passwordEncoder->encodePassword(
@@ -87,6 +86,7 @@ class RegistrationController extends AbstractController
                     $user->setRoles((array)'ROLE_USER');
                 else if($role == "new_admin")
                     $user->setRoles((array)'ROLE_ADMIN');
+
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($user);
                 $entityManager->flush();

@@ -25,7 +25,6 @@
         <div id="account-page" class="section">
             <!-- Container -->
             <div class="container">
-
                 <!-- Account Layout -->
                 <div class="columns account-header">
                     <div class="column main-column is-tablet-landscape-padded">
@@ -85,7 +84,7 @@
                                 <!-- Gold Customer card -->
                                 <div class="flat-card profile-info-card is-auto is-dark is-achievement">
                                     <div class="card-body">
-                                        <img src="assets/img/logo/nephos-gold.svg" alt="">
+                                        <img src="{{ asset('frontend/img/logo/nephos-gold.svg') }}" alt="">
                                         <div class="achievement-name">
                                             <span class="is-gold">Nephos Gold Customer</span>
                                             <span>As a Gold Customer, you have a permanent 10% discount on all your purchases.</span>
@@ -95,7 +94,7 @@
                                 <!-- Referal card -->
                                 <div class="flat-card profile-info-card is-auto is-dark is-achievement">
                                     <div class="card-body">
-                                        <img src="assets/img/logo/nephos-referral.svg" alt="">
+                                        <img src="{{ asset('frontend/img/logo/nephos-referral.svg') }}" alt="">
                                         <div class="achievement-name">
                                             <span class="is-green">Nephos Referer</span>
                                             <span>You have referred <b>30+</b> customers. You get a 2.5% discount on all your purchases.</span>
@@ -110,9 +109,8 @@
                                     <!-- Title -->
                                     <div class="card-title">
                                         <h3>Account details</h3>
-
                                         <div class="edit-account has-simple-popover popover-hidden-mobile" data-content="Edit Account" data-placement="top">
-                                            <a href="{{path('app_account_edit')}}"><i class="feather-icons" data-feather="settings"></i></a>
+                                            <a id="account-edit-front-alert" href="#"><i class="feather-icons" data-feather="settings"></i></a>
                                         </div>
                                     </div>
                                     <!-- Contact Info -->
@@ -144,7 +142,7 @@
                                         </div>
                                     </div>
                                     <!-- Background Nephos Icon -->
-                                    <img class="card-bg" src="assets/img/logo/nephos-greyscale.svg" alt="">
+                                    <img class="card-bg" src="{{ asset('frontend/img/logo/nephos-greyscale.svg') }}" alt="">
                                 </div>
 
                                 <!-- Billing Address -->
@@ -154,7 +152,7 @@
                                         <h3>Billing address</h3>
                                         <!-- Cog Button -->
                                         <div class="edit-account is-vhidden">
-                                            <a href="account-edit.html"><i class="feather-icons" data-feather="settings"></i></a>
+                                            <a href="{{ path('app_account_edit') }}"><i class="feather-icons" data-feather="settings"></i></a>
                                         </div>
 
                                     </div>
