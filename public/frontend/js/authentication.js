@@ -2,6 +2,7 @@
 
 var user = {
   isLoggedIn: false,
+  ableToEdit: false,
   firstName: null,
   lastName: null,
   email: null,
@@ -14,10 +15,13 @@ var prenom = $('.js-user-last-name').data('prenom');
 var email = $('.js-user-email').data('email');
 var phone = $('.js-user-phone').data('phone');
 var image = $('.js-user-image').data('image');
+var ableToEdit = $('.js-user-able-to-edit').data('ableToEdit');
+console.log(ableToEdit);
 if(isAuthenticated)
 {
   var login = {
     isLoggedIn: true,
+    ableToEdit: ableToEdit,
     firstName: nom,
     lastName: prenom,
     email: email,
@@ -681,6 +685,192 @@ function Reset() {
     }
   })
 
+}//partenariat function
+
+function Partenariat() {
+
+  $('#partenariatB-nom').on('change', function () {
+    var $this = $(this);
+    var nom = $this.val();
+    if (nom === "") {
+      $('#partenariat-boutique-submit').addClass('is-disabled');
+      $this.closest('.field').addClass('has-error');
+    } else {
+      $('#partenariat-boutique-submit').removeClass('is-disabled');
+      $this.closest('.field').removeClass('has-error');
+    }
+  });
+  $('#partenariatS-cin').on('change', function () {
+    var $this = $(this);
+    var cin = $this.val();
+    if (cin === "") {
+      $('#partenariat-services-submit').addClass('is-disabled');
+      $this.closest('.field').addClass('has-error');
+    } else {
+      $('#partenariat-services-submit').removeClass('is-disabled');
+      $this.closest('.field').removeClass('has-error');
+    }
+  });
+  $('#partenariatB-desc').on('change', function () {
+    var $this = $(this);
+    var desc = $this.val().trim();
+
+    if (!ValidateLength(desc, 10)) {
+      $('#partenariat-boutique-submit').addClass('is-disabled');
+      $this.closest('.field').addClass('has-error');
+    } else {
+      $('#partenariat-boutique-submit').removeClass('is-disabled');
+      $this.closest('.field').removeClass('has-error');
+    }
+  });
+  $('#partenariatS-desc').on('change', function () {
+    var $this = $(this);
+    var desc = $this.val().trim();
+
+    if (!ValidateLength(desc, 10)) {
+      $('#partenariat-services-submit').addClass('is-disabled');
+      $this.closest('.field').addClass('has-error');
+    } else {
+      $('#partenariat-services-submit').removeClass('is-disabled');
+      $this.closest('.field').removeClass('has-error');
+    }
+  });
+  $('#partenariatB-domaine').on('change', function () {
+    var $this = $(this);
+    var domaine = document.querySelector("#partenariatB-domaine").selectedOptions.length;
+
+    if(!domaine)
+    {
+      $('#partenariat-boutique-submit').removeClass('is-disabled');
+      $this.closest('.field').addClass('has-error');
+    }
+    else
+    {
+      $('#partenariat-boutique-submit').addClass('is-disabled');
+      $this.closest('.field').removeClass('has-error');
+    }
+  });
+  $('#partenariatS-domaine').on('change', function () {
+    var $this = $(this);
+    var domaine = document.querySelector("#partenariatS-domaine").selectedOptions.length;
+
+    if(!domaine)
+    {
+      $('#partenariat-services-submit').removeClass('is-disabled');
+      $this.closest('.field').addClass('has-error');
+    }
+    else
+    {
+      $('#partenariat-services-submit').addClass('is-disabled');
+      $this.closest('.field').removeClass('has-error');
+    }
+  });
+
+  $('#partenariat-boutique-submit').on('click', function (event) {
+
+    var erreur = 1;
+
+    var nom =  $('#partenariatB-nom').val();
+    var desc =  $('#partenariatB-desc').val();
+    var domaine =  document.querySelector("#partenariatB-domaine").selectedOptions.length;
+
+    if (nom === "") {
+      event.preventDefault();
+      $('#partenariat-boutique-submit').addClass('is-disabled');
+      $('#partenariatB-nom').closest('.field').addClass('has-error');
+    } else {
+      erreur = -2;
+      $('#partenariat-boutique-submit').removeClass('is-disabled');
+      $('#partenariatB-nom').closest('.field').removeClass('has-error');
+    }
+
+    if (!ValidateLength(desc, 10)) {
+      event.preventDefault();
+      $('#partenariat-boutique-submit').addClass('is-disabled');
+      $('#partenariatB-desc').closest('.field').addClass('has-error');
+    } else {
+      erreur -= -1;
+      $('#partenariat-boutique-submit').removeClass('is-disabled');
+      $('#partenariatB-desc').closest('.field').removeClass('has-error');
+    }
+
+    if(!domaine) {
+      event.preventDefault();
+      $('#partenariat-boutique-submit').removeClass('is-disabled');
+      $('#partenariatB-domaine').closest('.field').addClass('has-error');
+    } else {
+      erreur -= -1;
+      $('#partenariat-boutique-submit').addClass('is-disabled');
+      $('#partenariatB-domaine').closest('.field').removeClass('has-error');
+    }
+
+    // si auccune erreur
+    if (erreur === 0)
+    {
+      var $this = $(this);
+      $this.addClass('is-loading');
+    }
+    else
+    {
+      setTimeout(function () {
+        toasts.service.error('', 'fas fa-dizzy', 'Le formulaire présente des problémes veuillez vérifier vos entrées', 'bottomRight', 11200);
+      }, 1200);
+      $('#partenariat-boutique-submit').addClass('is-disabled');
+    }
+  });
+  $('#partenariat-services-submit').on('click', function (event) {
+
+    var erreur = 1;
+
+    var cin =  $('#partenariatS-cin').val();
+    var desc =  $('#partenariatS-desc').val();
+    var domaine =  document.querySelector("#partenariatS-domaine").selectedOptions.length;
+
+    if (cin === "") {
+      event.preventDefault();
+      $('#partenariat-services-submit').addClass('is-disabled');
+      $('#partenariatS-cin').closest('.field').addClass('has-error');
+    } else {
+      erreur = -2;
+      $('#partenariat-services-submit').removeClass('is-disabled');
+      $('#partenariatS-nom').closest('.field').removeClass('has-error');
+    }
+
+    if (!ValidateLength(desc, 10)) {
+      event.preventDefault();
+      $('#partenariat-services-submit').addClass('is-disabled');
+      $('#partenariatS-desc').closest('.field').addClass('has-error');
+    } else {
+      erreur -= -1;
+      $('#partenariat-services-submit').removeClass('is-disabled');
+      $('#partenariatS-desc').closest('.field').removeClass('has-error');
+    }
+
+    if(!domaine) {
+      event.preventDefault();
+      $('#partenariat-services-submit').removeClass('is-disabled');
+      $('#partenariatS-domaine').closest('.field').addClass('has-error');
+    } else {
+      erreur -= -1;
+      $('#partenariat-services-submit').addClass('is-disabled');
+      $('#partenariatS-domaine').closest('.field').removeClass('has-error');
+    }
+
+    // si auccune erreur
+    if (erreur === 0)
+    {
+      var $this = $(this);
+      $this.addClass('is-loading');
+    }
+    else
+    {
+      setTimeout(function () {
+        toasts.service.error('', 'fas fa-dizzy', 'Le formulaire présente des problémes veuillez vérifier vos entrées', 'bottomRight', 11200);
+      }, 1200);
+      $('#partenariat-services-submit').addClass('is-disabled');
+    }
+  });
+
 }//Logout function
 
 function Logout() {
@@ -690,9 +880,6 @@ function Logout() {
     setTimeout(function () {
       toasts.service.success('', 'fas fa-check', 'Successfully logged out', 'bottomRight', 2000);
     }, 600);
-    setTimeout(function () {
-      window.location.href = '/logout';
-    }, 2600);
   });
 } //Accounts panel (Demo: do not use in production)
 
@@ -725,8 +912,62 @@ $(window).on('load', function () {
     if (userData.isLoggedIn) {
       window.location.href = '/';
     }
+  }else if (url.indexOf("/editaccount") > -1) {
+    //If not able to edit, redirect
+    if (!userData.ableToEdit) {
+      if(userData.isLoggedIn)
+      {
+        Swal.fire({
+          title: "Entrez votre mot de passe",
+          input: "password",
+          inputAttributes: {autocapitalize: "off"},
+          showCancelButton: !0,
+          confirmButtonText: "Verifier",
+          showLoaderOnConfirm: !0,
+          preConfirm: function (t) {
+            return fetch("/validatePassword/" + t).then(function (t) {
+              if (!t.ok) throw new Error(t.statusText);
+              return t.json()
+            }).catch(function (t) {
+              Swal.showValidationMessage("Mot de passe incorrect")
+            })
+          },
+          allowOutsideClick: function () {
+            Swal.isLoading()
+          }
+        }).then(function (t) {
+          if(t.value)
+          {
+            var login = {
+              isLoggedIn: true,
+              ableToEdit: true,
+              firstName: userData.firstName,
+              lastName: userData.lastName,
+              email: userData.email,
+              phone: userData.phone,
+              photoUrl: userData.photoUrl,
+              wishlists: myWishlists,
+              orders: myOrders,
+              addresses: myAddresses
+            };
+
+            localStorage.setItem('user', JSON.stringify(login));
+          }
+          else
+          {
+            window.location.href = '/account';
+          }
+          t.value&&Swal.fire({title:"Mot de passe correct" , text:"Vous pouvez modifier vos informations personnelles"})
+        })
+      }
+
+    }
+    else
+    {
+      console.log(userData.ableToEdit);
+    }
   } else {
-    console.log('something');
+    console.log(url.toString());
   }
 });
 
@@ -736,6 +977,7 @@ $(document).ready(function () {
   Login();
   Register();
   Reset();
+  Partenariat();
   uploadProfilePicture();
   Logout();
   fakeAccountsPanel();

@@ -67,7 +67,7 @@
                                     <div class="card-body">
                                         <!-- Avatar form -->
                                         <div id="avatar-upload" class="avatar-wrapper has-simple-popover" data-content="Change profile picture" data-placement="top">
-                                            <img class="profile-pic" src="http://via.placeholder.com/250x250" data-demo-src="assets/img/avatars/elie.jpg" alt="">
+                                            <img class="profile-pic" src="{{ asset('frontend/img/avatars/avatar.png') }}" alt="">
                                             <div class="upload-button modal-trigger" data-modal="upload-crop-modal">
                                                 <i class="upload-icon" data-feather="plus" aria-hidden="true"></i>
                                             </div>
@@ -164,7 +164,7 @@
                                 <div class="flat-card profile-info-card is-auto has-overflow is-billing">
                                     <!-- Title -->
                                     <div class="card-title">
-                                        <h3>Billing Address</h3>
+                                        <h3>Addresse de Paiement</h3>
 
                                         <div class="confirm-button is-vhidden">
                                             <a href="javascript:void(0);" role="button" class="has-simple-popover" data-content="Save Addresses" data-placement="top"><i class="feather-icons" data-feather="check"></i></a>
@@ -176,20 +176,7 @@
                                                 <!-- Form group -->
                                                 <div class="field info-block has-flex-label has-validation">
                                                     <label class="label-text">
-                                                        <span>Number</span>
-                                                        <span class="error">Minimum 2 characters</span>
-                                                    </label>
-                                                    <div class="control">
-                                                        <input id="billing-edit-address1" type="text" class="input is-default fake-validation" value="23, Block C2">
-                                                        <div class="error-icon">
-                                                            <i data-feather="x"></i>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- Form group -->
-                                                <div class="field info-block has-flex-label has-validation">
-                                                    <label class="label-text">
-                                                        <span>City</span>
+                                                        <span>Quartier</span>
                                                         <span class="error">Minimum 2 characters</span>
                                                     </label>
                                                     <div class="control">
@@ -202,7 +189,7 @@
                                                 <!-- Form group -->
                                                 <div class="field info-block has-flex-label has-validation">
                                                     <label class="label-text">
-                                                        <span>State</span>
+                                                        <span>Adresse</span>
                                                         <span class="error">Minimum 2 characters</span>
                                                     </label>
                                                     <div class="control">
@@ -218,7 +205,7 @@
                                                 <!-- Form group -->
                                                 <div class="field info-block has-flex-label has-validation">
                                                     <label class="label-text">
-                                                        <span>Street</span>
+                                                        <span>Ville</span>
                                                         <span class="error">Minimum 2 characters</span>
                                                     </label>
                                                     <div class="control">
@@ -231,7 +218,7 @@
                                                 <!-- Form group -->
                                                 <div class="field info-block has-flex-label has-validation">
                                                     <label class="label-text">
-                                                        <span>Postal Code</span>
+                                                        <span>Code Postal</span>
                                                         <span class="error">Minimum 2 characters</span>
                                                     </label>
                                                     <div class="control">
@@ -244,7 +231,7 @@
                                                 <!-- Select -->
                                                 <div class="field info-block has-flex-label has-validation">
                                                     <label class="label-text">
-                                                        <span>Country</span>
+                                                        <span>Pays</span>
                                                         <span class="error">Minimum 2 characters</span>
                                                     </label>
                                                     <div class="control has-rounded-autocpl">
@@ -263,7 +250,7 @@
                                 <!-- Edit Shipping Address -->
                                 <div class="flat-card profile-info-card is-auto has-overflow is-shipping">
                                     <div class="card-title">
-                                        <h3>Shipping Address</h3>
+                                        <h3>Adresse de Livraison</h3>
 
                                         <div class="switch-wrapper has-simple-popover" data-content="Enable if you need a different shipping address" data-placement="top">
                                             <label class="form-switch">
@@ -278,20 +265,7 @@
                                                 <!-- Form group -->
                                                 <div class="field info-block has-flex-label has-validation">
                                                     <label class="label-text">
-                                                        <span>Number</span>
-                                                        <span class="error">Minimum 2 characters</span>
-                                                    </label>
-                                                    <div class="control">
-                                                        <input id="shipping-edit-address1" type="text" class="input is-default fake-validation" value="">
-                                                        <div class="error-icon">
-                                                            <i data-feather="x"></i>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- Form group -->
-                                                <div class="field info-block has-flex-label has-validation">
-                                                    <label class="label-text">
-                                                        <span>City</span>
+                                                        <span>Quartier</span>
                                                         <span class="error">Minimum 2 characters</span>
                                                     </label>
                                                     <div class="control">
@@ -304,7 +278,7 @@
                                                 <!-- Form group -->
                                                 <div class="field info-block has-flex-label has-validation">
                                                     <label class="label-text">
-                                                        <span>State</span>
+                                                        <span>Adresse</span>
                                                         <span class="error">Minimum 2 characters</span>
                                                     </label>
                                                     <div class="control">
@@ -320,7 +294,7 @@
                                                 <!-- Form group -->
                                                 <div class="field info-block has-flex-label has-validation">
                                                     <label class="label-text">
-                                                        <span>Street</span>
+                                                        <span>Ville</span>
                                                         <span class="error">Minimum 2 characters</span>
                                                     </label>
                                                     <div class="control">
@@ -333,7 +307,7 @@
                                                 <!-- Form group -->
                                                 <div class="field info-block has-flex-label has-validation">
                                                     <label class="label-text">
-                                                        <span>Postal Code</span>
+                                                        <span>Code Postal</span>
                                                         <span class="error">Minimum 2 characters</span>
                                                     </label>
                                                     <div class="control">
@@ -346,7 +320,7 @@
                                                 <!-- Form group -->
                                                 <div class="field info-block has-flex-label has-validation">
                                                     <label class="label-text">
-                                                        <span>Country</span>
+                                                        <span>Pays</span>
                                                         <span class="error">Minimum 2 characters</span>
                                                     </label>
                                                     <div class="control has-rounded-autocpl">
@@ -377,14 +351,14 @@
         <div class="modal-content">
             <div class="box">
                 <div class="box-header">
-                    <img src="assets/img/logo/nephos-greyscale.svg" alt="">
+                        <img src="{{ asset('frontend/img/logo/nephos-greyscale.svg') }}" alt="">
                     <span>UPLOAD PICTURE</span>
                     <div class="modal-delete"><i data-feather="x"></i></div>
                 </div>
                 <div class="box-body">
                     <label class="profile-uploader-box" for="upload-profile-picture">
                         <span class="inner-modal-content">
-                                <img src="assets/img/illustrations/profile.svg" alt="">
+                                <img src="{{ asset('frontend/img/illustrations/profile.svg') }}" alt="">
                                 <span>Click here to <br>upload a profile picture</span>
                         </span>
                         <input type="file" id="upload-profile-picture" accept="image/*">
