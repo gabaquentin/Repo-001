@@ -1,194 +1,194 @@
 <div id="ratings-view" class="translateLeft is-hidden">
-        <div class="product-ratings">
-                <div class="main-rating">
+    <div class="product-ratings">
+        <div class="main-rating">
 
-                        <!-- Average Rating -->
-                        {% set notes = noteGlobale|round(1, 'floor') %}
-                        <h3>Notes et Avis</h3>
-                        <div class="stars">
-                                {% if notes == 5 %}
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                {% elseif notes >= 4.5 %}
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star-half-o"></i>
-                                {% elseif notes >= 4 %}
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star-o"></i>
-                                {% elseif notes >= 3.5 %}
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star-half-o"></i>
-                                    <i class="fa fa-star-o"></i>
-                                {% elseif notes >= 3 %}
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star-o"></i>
-                                    <i class="fa fa-star-o"></i>
-                                {% elseif notes >= 2.5 %}
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star-half-o"></i>
-                                    <i class="fa fa-star-o"></i>
-                                    <i class="fa fa-star-o"></i>
-                                {% elseif notes >= 2 %}
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star-o"></i>
-                                    <i class="fa fa-star-o"></i>
-                                    <i class="fa fa-star-o"></i>
-                                {% elseif notes >= 1.5 %}
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star-half-o"></i>
-                                    <i class="fa fa-star-o"></i>
-                                    <i class="fa fa-star-o"></i>
-                                    <i class="fa fa-star-o"></i>
-                                {% elseif notes >= 1 %}
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star-o"></i>
-                                    <i class="fa fa-star-o"></i>
-                                    <i class="fa fa-star-o"></i>
-                                    <i class="fa fa-star-o"></i>
-                                {% elseif notes >= 0.5 %}
-                                    <i class="fa fa-star-half-o"></i>
-                                    <i class="fa fa-star-o"></i>
-                                    <i class="fa fa-star-o"></i>
-                                    <i class="fa fa-star-o"></i>
-                                    <i class="fa fa-star-o"></i>
-                                {% elseif notes >= 0 %}
-                                    <i class="fa fa-star-o"></i>
-                                    <i class="fa fa-star-o"></i>
-                                    <i class="fa fa-star-o"></i>
-                                    <i class="fa fa-star-o"></i>
-                                    <i class="fa fa-star-o"></i>
-                                {% else %}
-                                        error
-                                {% endif %}
-                        </div>
-                        <span>Noté <small>{{ notes }}/5</small> sur <small>{{ avis|length }}</small> Avis</span>
-                        <span class="add-review modal-trigger" data-modal="review-modal"><i data-feather="plus"></i> Rédiger un
+            <!-- Average Rating -->
+            {% set notes = noteGlobale|round(1, 'floor') %}
+            <h3>Notes et Avis</h3>
+            <div class="stars">
+                {% if notes == 5 %}
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                {% elseif notes >= 4.5 %}
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star-half-o"></i>
+                {% elseif notes >= 4 %}
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star-o"></i>
+                {% elseif notes >= 3.5 %}
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star-half-o"></i>
+                    <i class="fa fa-star-o"></i>
+                {% elseif notes >= 3 %}
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star-o"></i>
+                    <i class="fa fa-star-o"></i>
+                {% elseif notes >= 2.5 %}
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star-half-o"></i>
+                    <i class="fa fa-star-o"></i>
+                    <i class="fa fa-star-o"></i>
+                {% elseif notes >= 2 %}
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star-o"></i>
+                    <i class="fa fa-star-o"></i>
+                    <i class="fa fa-star-o"></i>
+                {% elseif notes >= 1.5 %}
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star-half-o"></i>
+                    <i class="fa fa-star-o"></i>
+                    <i class="fa fa-star-o"></i>
+                    <i class="fa fa-star-o"></i>
+                {% elseif notes >= 1 %}
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star-o"></i>
+                    <i class="fa fa-star-o"></i>
+                    <i class="fa fa-star-o"></i>
+                    <i class="fa fa-star-o"></i>
+                {% elseif notes >= 0.5 %}
+                    <i class="fa fa-star-half-o"></i>
+                    <i class="fa fa-star-o"></i>
+                    <i class="fa fa-star-o"></i>
+                    <i class="fa fa-star-o"></i>
+                    <i class="fa fa-star-o"></i>
+                {% elseif notes >= 0 %}
+                    <i class="fa fa-star-o"></i>
+                    <i class="fa fa-star-o"></i>
+                    <i class="fa fa-star-o"></i>
+                    <i class="fa fa-star-o"></i>
+                    <i class="fa fa-star-o"></i>
+                {% else %}
+                    error
+                {% endif %}
+            </div>
+            <span>Noté <small>{{ notes }}/5</small> sur <small>{{ avis|length }}</small> Avis</span>
+            <span class="add-review modal-trigger" data-modal="review-modal"><i data-feather="plus"></i> Rédiger un
                 avis</span>
-                </div>
-
-                <div id="rating-list">
-                        {% for a in avis %}
-                            <!--enregistrer le commentaire et la note du client connecte enfin de l afficher lors d une possible modification-->
-                            {% if(a.client.id == 1)%}
-                                {% set comment = a.commentaire %}
-                                {% set note = a.note %}
-                            {% endif %}
-
-
-                                <!-- Customer reviews -->
-                                <div class="customer-ratings">
-                                        <!-- Product review -->
-                                        <div class="media">
-                                                <div class="media-left">
-                                                        <figure class="image is-32x32">
-                                                                <img src="http://via.placeholder.com/250x250" data-demo-src="assets/img/avatars/elie.jpg"
-                                                                     alt="">
-                                                        </figure>
-                                                </div>
-                                                <div class="media-content">
-                                                        <p>
-                                                                <span>{{ a.client.nom }}</span>
-                                                                <small>
-                                                                        {% if a.note == 0 %}
-                                                                                <i class="fa fa-star-o"></i>
-                                                                                <i class="fa fa-star-o"></i>
-                                                                                <i class="fa fa-star-o"></i>
-                                                                                <i class="fa fa-star-o"></i>
-                                                                                <i class="fa fa-star-o"></i>
-                                                                        {% elseif a.note == 0.5 %}
-                                                                                <i class="fa fa-star-half-o"></i>
-                                                                            <i class="fa fa-star-o"></i>
-                                                                            <i class="fa fa-star-o"></i>
-                                                                            <i class="fa fa-star-o"></i>
-                                                                            <i class="fa fa-star-o"></i>
-                                                                        {% elseif a.note == 1 %}
-                                                                                <i class="fa fa-star"></i>
-                                                                            <i class="fa fa-star-o"></i>
-                                                                            <i class="fa fa-star-o"></i>
-                                                                            <i class="fa fa-star-o"></i>
-                                                                            <i class="fa fa-star-o"></i>
-                                                                        {% elseif a.note == 1.5 %}
-                                                                                <i class="fa fa-star"></i>
-                                                                                <i class="fa fa-star-half-o"></i>
-                                                                            <i class="fa fa-star-o"></i>
-                                                                            <i class="fa fa-star-o"></i>
-                                                                            <i class="fa fa-star-o"></i>
-                                                                        {% elseif a.note == 2 %}
-                                                                                <i class="fa fa-star"></i>
-                                                                                <i class="fa fa-star"></i>
-                                                                            <i class="fa fa-star-o"></i>
-                                                                            <i class="fa fa-star-o"></i>
-                                                                            <i class="fa fa-star-o"></i>
-                                                                        {% elseif a.note == 2.5 %}
-                                                                                <i class="fa fa-star"></i>
-                                                                                <i class="fa fa-star"></i>
-                                                                                <i class="fa fa-star-half-o"></i>
-                                                                            <i class="fa fa-star-o"></i>
-                                                                            <i class="fa fa-star-o"></i>
-                                                                        {% elseif a.note == 3 %}
-                                                                                <i class="fa fa-star"></i>
-                                                                                <i class="fa fa-star"></i>
-                                                                                <i class="fa fa-star"></i>
-                                                                            <i class="fa fa-star-o"></i>
-                                                                            <i class="fa fa-star-o"></i>
-                                                                        {% elseif a.note == 3.5 %}
-                                                                                <i class="fa fa-star"></i>
-                                                                                <i class="fa fa-star"></i>
-                                                                                <i class="fa fa-star"></i>
-                                                                                <i class="fa fa-star-half-o"></i>
-                                                                            <i class="fa fa-star-o"></i>
-                                                                        {% elseif a.note == 4 %}
-                                                                                <i class="fa fa-star"></i>
-                                                                                <i class="fa fa-star"></i>
-                                                                                <i class="fa fa-star"></i>
-                                                                                <i class="fa fa-star"></i>
-                                                                            <i class="fa fa-star-o"></i>
-                                                                        {% elseif a.note == 4.5 %}
-                                                                                <i class="fa fa-star"></i>
-                                                                                <i class="fa fa-star"></i>
-                                                                                <i class="fa fa-star"></i>
-                                                                                <i class="fa fa-star"></i>
-                                                                                <i class="fa fa-star-half-o"></i>
-                                                                        {% elseif a.note == 5 %}
-                                                                                <i class="fa fa-star"></i>
-                                                                                <i class="fa fa-star"></i>
-                                                                                <i class="fa fa-star"></i>
-                                                                                <i class="fa fa-star"></i>
-                                                                                <i class="fa fa-star"></i>
-                                                                        {% else %}
-                                                                                <i class="fa fa-star is-empty"></i>
-                                                                                <i class="fa fa-star is-empty"></i>
-                                                                                <i class="fa fa-star is-empty"></i>
-                                                                                <i class="fa fa-star is-empty"></i>
-                                                                                <i class="fa fa-star is-empty"></i>
-                                                                        {% endif %}
-                                                                </small>
-                                                                <br>
-                                                                <span class="rating-content">{{ a.commentaire }}</span>
-                                                        </p>
-                                                </div>
-                                                <div class="media-right">
-                                                    <a href="#" id="edit-rating" class="add-review modal-trigger" data-modal="review-modal"><i class="fa fa-edit"></i></a>
-                                                    <a href="#" id="delete-rating"><i class="fa fa-remove"></i></a>
-                                                </div>
-                                        </div>
-                                </div>
-                        {% endfor %}
-                </div>
         </div>
+
+        <div id="rating-list">
+            {% for a in avis %}
+                <!--enregistrer le commentaire et la note du client connecte enfin de l afficher lors d une possible modification-->
+                {% if(a.client.id == app.user.id)%}
+                    {% set comment = a.commentaire %}
+                    {% set note = a.note %}
+                {% endif %}
+
+
+                <!-- Customer reviews -->
+                <div class="customer-ratings" id="rating-{{ a.client.id }}">
+                    <!-- Product review -->
+                    <div class="media">
+                        <div class="media-left">
+                            <figure class="image is-32x32">
+                                <img src="http://via.placeholder.com/250x250" data-demo-src="assets/img/avatars/elie.jpg"
+                                     alt="">
+                            </figure>
+                        </div>
+                        <div class="media-content">
+                            <p>
+                                <span>{{ a.client.nom~" "~a.client.prenom }}</span>
+                                <small>
+                                    {% if a.note == 0 %}
+                                        <i class="fa fa-star-o"></i>
+                                        <i class="fa fa-star-o"></i>
+                                        <i class="fa fa-star-o"></i>
+                                        <i class="fa fa-star-o"></i>
+                                        <i class="fa fa-star-o"></i>
+                                    {% elseif a.note == 0.5 %}
+                                        <i class="fa fa-star-half-o"></i>
+                                        <i class="fa fa-star-o"></i>
+                                        <i class="fa fa-star-o"></i>
+                                        <i class="fa fa-star-o"></i>
+                                        <i class="fa fa-star-o"></i>
+                                    {% elseif a.note == 1 %}
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star-o"></i>
+                                        <i class="fa fa-star-o"></i>
+                                        <i class="fa fa-star-o"></i>
+                                        <i class="fa fa-star-o"></i>
+                                    {% elseif a.note == 1.5 %}
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star-half-o"></i>
+                                        <i class="fa fa-star-o"></i>
+                                        <i class="fa fa-star-o"></i>
+                                        <i class="fa fa-star-o"></i>
+                                    {% elseif a.note == 2 %}
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star-o"></i>
+                                        <i class="fa fa-star-o"></i>
+                                        <i class="fa fa-star-o"></i>
+                                    {% elseif a.note == 2.5 %}
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star-half-o"></i>
+                                        <i class="fa fa-star-o"></i>
+                                        <i class="fa fa-star-o"></i>
+                                    {% elseif a.note == 3 %}
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star-o"></i>
+                                        <i class="fa fa-star-o"></i>
+                                    {% elseif a.note == 3.5 %}
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star-half-o"></i>
+                                        <i class="fa fa-star-o"></i>
+                                    {% elseif a.note == 4 %}
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star-o"></i>
+                                    {% elseif a.note == 4.5 %}
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star-half-o"></i>
+                                    {% elseif a.note == 5 %}
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                    {% else %}
+                                        <i class="fa fa-star is-empty"></i>
+                                        <i class="fa fa-star is-empty"></i>
+                                        <i class="fa fa-star is-empty"></i>
+                                        <i class="fa fa-star is-empty"></i>
+                                        <i class="fa fa-star is-empty"></i>
+                                    {% endif %}
+                                </small>
+                                <br>
+                                <span class="rating-content">{{ a.commentaire }}</span>
+                            </p>
+                        </div>
+                        <div class="media-right">
+                            <a href="#" id="edit-rating" class="add-review modal-trigger" data-modal="review-modal"><i class="fa fa-edit"></i></a>
+                            <a href="#" id="delete-rating"><i class="fa fa-remove"></i></a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
 </div>
