@@ -72,7 +72,7 @@ class User implements UserInterface
     private $local;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="datetime", length=255)
      */
     private $creation;
 
@@ -115,6 +115,16 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $note;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Pack::class, inversedBy="user", cascade={"persist", "remove"})
+     */
+    private $pack;
+
+    public function __construct()
+    {
+        $this->creation = new \DateTime();
+    }
 
     public function getId(): ?int
     {
@@ -160,6 +170,14 @@ class User implements UserInterface
         $this->roles = $roles;
 
         return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isAdmin()
+    {
+        return in_array("ROLE_ADMIN",$this->getRoles());
     }
 
     /**
@@ -278,12 +296,12 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getCreation(): ?string
+    public function getCreation(): ?\DateTimeInterface
     {
         return $this->creation;
     }
 
-    public function setCreation(string $creation): self
+    public function setCreation(\DateTimeInterface $creation): self
     {
         $this->creation = $creation;
 
@@ -383,6 +401,18 @@ class User implements UserInterface
     public function setNote(?string $note): self
     {
         $this->note = $note;
+
+        return $this;
+    }
+
+    public function getPack(): ?Pack
+    {
+        return $this->pack;
+    }
+
+    public function setPack(?Pack $pack): self
+    {
+        $this->pack = $pack;
 
         return $this;
     }

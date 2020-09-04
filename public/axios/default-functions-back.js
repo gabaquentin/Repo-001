@@ -1,6 +1,6 @@
-const timeShow = 5e3;
-const maxImage = 4;
-const devise = "F CFA"
+let timeShow = 5e3;
+let maxImage = 4;
+let devise = "F CFA";
 
 function displayMessage(data) {
     if(data['errors'] && data['errors'].length!==0)

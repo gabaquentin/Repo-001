@@ -7,6 +7,7 @@ use App\Entity\Caracteristiques;
 use App\Entity\CategorieProd;
 use App\Entity\Date;
 use App\Entity\Produit;
+use App\Entity\User;
 use App\Form\ecommerce\ProduitType;
 use App\Repository\CategorieProdRepository;
 use App\Repository\ProduitRepository;
@@ -113,6 +114,8 @@ class ProduitController extends AbstractController
      */
     public function save(Request $request,FileUploader $uploader,EntityManagerInterface $manager,Tools $tools,Produit $produit=null)
     {
+        if(!$request->isXmlHttpRequest())
+            die();
         if($produit==null)
             $produit = new Produit();
         $form = $this->createForm(ProduitType::class,$produit,[
@@ -178,12 +181,17 @@ class ProduitController extends AbstractController
             }
             $produit->getDate()->setDateModification(new \DateTime());
 
+            if(is_null($produit->getClient()))
+                $produit->setClient($this->getUser());
+
             $produit
                 ->setImages($imageNames)
                 ->setDescription($description)
                 ->setAttributs(explode(",",$attributs))
                 ->setProduitsAssocies(explode(",",$produitsAssocies))
             ;
+
+            if(is_null($produit->getPrixPromo()))$produit->setPrixPromo(0);
 
             if($tools->isCaracteristiquesPersistable($produit->getCaracteristique()))
                 $manager->persist($produit->getCaracteristique());
@@ -244,12 +252,19 @@ class ProduitController extends AbstractController
     public function delete(Request $request,EntityManagerInterface $manager,FileUploader $uploader)
     {
         $id = $request->get("idProduit");
+
         /** @var Produit $produit */
         $produit = $manager->getRepository(Produit::class)->findOneBy(["id"=>$id]);
         if(!$produit)
             die();
 
-        foreach ($produit->getImages() as $imgeName)
+        /** @var User $user */
+        $user = $this->getUser();
+        if(!$user->isAdmin())
+            if($produit->getClient() !== $user)
+                die("vous ne pouvez pas acceder à cette page");
+
+        /*foreach ($produit->getImages() as $imgeName)
             $uploader->deleteFile($imgeName,"produit");
 
         $manager->remove($produit);
@@ -259,7 +274,7 @@ class ProduitController extends AbstractController
         foreach ($produit->getAvis() as $avis)
             $manager->remove($avis);
 
-        $manager->flush();
+        $manager->flush();*/
 
         return $this->json(["success"=>["produit supprimé"]]);
     }

@@ -1,9 +1,14 @@
 {% extends 'frontend/ecommerce/base.html.twig' %}
 
 {% block stylesheets %}
+    <style>
+        .select{
+            width: 100%;
+        }
+    </style>
 {% endblock %}
 
-{% block title %}Services{% endblock %}
+{% block title %}Produits{% endblock %}
 
 {% block body %}
 
@@ -65,7 +70,8 @@
                         <!-- /Controls -->
 
                         <!-- Product grid -->
-                        <div class="columns is-search-grid is-multiline">
+                        <div class="columns is-account-grid is-multiline">
+
                             <div class="column is-3">
                                 <div class="filter-card">
                                     <h3 class="block-title">Categories</h3>
@@ -88,26 +94,80 @@
                                     {% endfor %}
                                 </div>
                                 <div class="filter-card">
-                                    <h3 class="block-title">Prix</h3>
+
+                                    <div class="filter-block">
+                                        <label>Villes <i class="fa fa-globe"></i></label>
+                                        <div class="control">
+                                            <select class="native" style="width: 100%" id="ville-filtre">
+                                                <option value=""></option>
+                                                {% for ville in villes %}
+                                                    <option value="{{ ville.id }}">{{ ville.villes }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <label  >Type de transction</i></label>
+                                    <div class="filter-block control">
+                                        <select class="native"  id="type-tansaction-filtre">
+                                            <option value="">Tout</option>
+                                            {% for id,val in typeTransaction %}
+                                                <option value="{{ id }}">{{ val }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+
+
+                                    <h3>Prix</h3>
                                     <!--Filter block-->
                                     <div class="filter-block">
                                         <div class="price-range-wrapper">
                                             <div class="price-limit">0</div>
                                             <div class="range-slider">
-                                                <input class="input-range" type="range" value="1500" min="1" max="1500">
+                                                <input id="prix-filtre" class="input-range" type="range" value="{{ prixMax }}" min="1" max="{{ prixMax }}">
                                                 <div class="slider-output">
-                                                    <small>Show between</small><span class="range-value"></span>
+                                                    <small>Voir entre</small><span class="range-value"></span>
                                                 </div>
                                             </div>
-                                            <div class="price-limit">1500</div>
+                                            <div class="price-limit">{{ prixMax }}</div>
                                         </div>
                                     </div>
+
+
+                                    <div class="filter-block control">
+                                        <label>Meublé</label>
+                                        <input id="meuble-filtre" type="checkbox">
+                                    </div>
+
+                                    <label>Nbre de chambres</label>
+                                    <div class="filter-block control">
+                                        <input id="chambre-filtre" class="input is-default basic-spinner" type="number">
+                                    </div>
+
+                                    <label>Nbre de salles de bain</label>
+                                    <div class="filter-block control">
+                                        <input id="salle-bain-filtre" class="input is-default basic-spinner" type="number">
+                                    </div>
+
+                                    <label>Longueur</label>
+                                    <div class="filter-block control">
+                                        <input id="longueur-filtre" class="input is-default basic-spinner" type="number">
+                                    </div>
+
+                                    <label>Largeur</label>
+                                    <div class="filter-block control">
+                                        <input id="largeur-filtre" class="input is-default basic-spinner" type="number">
+                                    </div>
+                                    <div class="has-text-centered">
+                                        <a id="filtrer-btn" href="#" class="button feather-button primary-button is-bold">Filtrer</a>
+                                    </div>
+
                                 </div>
 
                             </div>
 
                             <div  class="column is-9">
-                                <div class="columns is-product-grid is-multiline products" data-show="0" data-max="30">
+                                <div class="columns is-product-grid is-multiline products" data-show="0" data-max="32">
                                     <!-- Product card -->
 
                                     <!-- /Product card -->
@@ -127,7 +187,7 @@
 
 {% block js %}
     <script>
-        const showProductsRoute = "{{ path('show_products_front') }}";
+        const showProductsRoute = "{{ path('get_products_front') }}";
         const detailProductRoute = "{{ path('show_single_product_front') }}"
     </script>
     <script src="{{ asset('frontend/js/product-page.js') }}" type="text/javascript"></script>

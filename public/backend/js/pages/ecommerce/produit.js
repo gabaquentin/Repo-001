@@ -286,7 +286,9 @@ $(document).ready(function () {
                 if(data["success"]&&data["success"].length!==0)
                 {
                     if(getOrdreImg().length===0)
-                        document.location.reload();
+                        setTimeout(function (){
+                            document.location.reload();
+                        },500);
                 }
             },
             error: () => {

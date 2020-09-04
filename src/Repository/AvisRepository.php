@@ -4,6 +4,8 @@ namespace App\Repository;
 
 use App\Entity\Avis;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -17,6 +19,19 @@ class AvisRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Avis::class);
+    }
+
+    /**
+     *
+     */
+    public function moyenneDesAvis()
+    {
+        $query = $this->getEntityManager()->createQuery('select AVG(a.note) from App\Entity\Avis a ');
+        try {
+            return $query -> getSingleScalarResult();
+        } catch (NoResultException $e) {
+        } catch (NonUniqueResultException $e) {
+        }
     }
 
     // /**

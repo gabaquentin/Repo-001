@@ -1,6 +1,3 @@
-const timeShow = 5e3;
-const maxImage = 4;
-const devise = "F CFA"
 
 function formatPhpDate(date,withTime = false) {
     let today = new Date(date);
@@ -25,4 +22,17 @@ function formatPhpDate(date,withTime = false) {
     if (withTime)
         toDay += (" " + heures +":"+minutes);
     return toDay;
+}
+
+function truncateString(str, num) {
+    if (str.length <= num) {
+        return str;
+    }
+    return str.slice(0, num) + '...';
+}
+
+function isExpired(dateP) {
+    let interval = (new Date()).getTime() - (new Date(dateP)).getTime();
+    let days = (interval / (3600 * 24 * 1000));
+    return days > 60 ;
 }

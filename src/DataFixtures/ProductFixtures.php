@@ -9,23 +9,26 @@ use App\Entity\CategorieProd;
 use App\Entity\Date;
 use App\Entity\Dimension;
 use App\Entity\Produit;
+use App\Entity\User;
 use App\Entity\Ville;
 use App\Services\ecommerce\Tools;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class ProductFixtures extends Fixture
 {
     private $tools;
-    function __construct(Tools $tools)
+    private $encoder;
+    function __construct(Tools $tools,UserPasswordEncoderInterface $passwordEncoder)
     {
         $this->tools = $tools;
+        $this->encoder = $passwordEncoder;
     }
 
     /**
      * @param ObjectManager $manager
-     * @return mixed
      */
     public function load(ObjectManager $manager)
     {
@@ -33,6 +36,7 @@ class ProductFixtures extends Fixture
 
         $cats = [];
         $villes = [];
+        $users = [];
         $typeProduit = $this->tools->getTypeProduit();
         for ($i=0 ;$i<4;$i++)
         {
@@ -45,6 +49,29 @@ class ProductFixtures extends Fixture
             $manager->persist($cat);
             $cats[] = $cat;
         }
+
+
+        for ($i=0;$i<100;$i++)
+        {
+            $user = (new User())
+                ->setNom($f->firstName())
+                ->setPrenom($f->firstName())
+                ->setEmail($f->email)
+                ->setTelephone($f->phoneNumber)
+                ->setLocal(["fr","en"][$f->numberBetween(0,1)])
+                ->setCreation(date('d/m/Y H:i:s',time()))
+                ->setRoles((array)'ROLE_USER')
+                ->setImage("/images/produits/maison au bord de la plage-5f2594ac3b773.jpeg")
+            ;
+            $user->setPassword($this->encoder->encodePassword(
+                $user,
+                "Esprit2020"
+            ));
+            $manager->persist($user);
+            $users[] = $user;
+        }
+        //$user = $manager->getRepository(User::class)->findOneBy(['email'=>"tabouaf@gmail.com"]);
+        //$users[] = $user;
 
         for ($i=0;$i<10;$i++)
         {
@@ -82,7 +109,7 @@ class ProductFixtures extends Fixture
                 ->setCategorieProd($catP)
                 ->setDimension($dimension)
                 ->setPrix($f->numberBetween(100,100000000))
-                ->setPrixPromo([$f->numberBetween(0,100),null][$f->numberBetween(0,1)])
+                ->setPrixPromo([$f->numberBetween(0,100),0][$f->numberBetween(0,1)])
                 ->setNbreConsultations($f->numberBetween(0,3000000))
                 ->setPriorite($f->numberBetween(1,1000))
                 ->setLocalisation([$f->address,null][$f->numberBetween(0,1)])
@@ -91,6 +118,7 @@ class ProductFixtures extends Fixture
                 ->setImages($images)
                 ->setTypeTransaction(["vente","location"][$f->numberBetween(0,1)])
                 ->setDate($date)
+                ->setClient((!empty($users))?$users[$f->numberBetween(0,count($users)-1)]:null)
             ;
 
 
