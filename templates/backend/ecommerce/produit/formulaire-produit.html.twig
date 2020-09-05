@@ -164,7 +164,7 @@
         <select id="produits-associes" class="select2 select2-multiple" multiple="multiple" data-value="{{ extraData.pa is defined?extraData.pa:""  }}" multiple data-placeholder="Choose ...">
             {% for categorie in categories %}
                 {% if categorie.produits is not empty %}
-                    <optgroup label="{{ categorie.nomCategorie }}">
+                    <optgroup label="{{ categorie.categorie.nomCategorie }}">
                         {% for produit in categorie.produits %}
                             <option value="{{ produit.id }}">{{ produit.nom }}</option>
                         {% endfor %}

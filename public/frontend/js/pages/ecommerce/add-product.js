@@ -1,166 +1,204 @@
-let container = $("#my-products-container .products");
-
-function ajaxShowProducts() {
-    const showMore = $(".show-more");
-
-    $.ajax({
-        type: "GET",
-        url: showProductsRoute,
-        data: {
-            "max": container.attr("data-max"),
-            "start":container.attr("data-show"),
-        },
-        async: true,
-        dataType: "JSON",
-        beforeSend: () => {
-            // spinner sur le button showmore
-            showMore.find("a").addClass("is-loading")
-        },
-        success: (data) => {
-            // suppime le spinner sur le button showmore
-            showMore.find("a").removeClass("is-loading")
-            //console.log(data);
-            const l = $(".products .product-container:last-child");
-            // cache le button showMore s'il n'y a pas de nouvaux produits
-            if (!data["data"].length)
-                showMore.hide();
-            // ajout des produit dans la div reservée à cette effet
-            data["data"].forEach(product=>{
-                container.append(addSingleProduct(product));
-            });
-            // mise à jour du nouveau nombre d'elements affichés
-            container.attr("data-show",data["itemsShow"]);
-            // cache le button showMore s'il n'y a pas de produits à afficher après
-            if(data["showMore"])showMore.show();else showMore.hide();
-            // maintient de du scroll de la souris dans la zone du dernier produit vu
-            if(l.position())$(window).scrollTop(l.position().top);
-            // message d'alert s'il n'y aucun produit trouvé
-            if(container.attr("data-show")==="0")
-                toasts.service.error('', 'fas fa-plus', 'Aucun produit trouvé', 'bottomRight', 2500);
-
-            $('.account-loader').removeClass('is-active');
-            if(container.attr("data-show")==="0")
-                $("#my-products-empty-placeholder").removeClass("is-hidden")
-            else
-                $("#my-products-empty-placeholder").addClass("is-hidden")
-        },
-        error: () => {
-            showMore.find("a").removeClass("is-loading")
-            toasts.service.error('', 'fas fa-plus', 'Problèmes de connexion avec le serveur', 'bottomRight', 2500);
-        }
-    });
-}
-
-function ajaxDeleteProduct(idProduct,productContainer) {
-    $.ajax({
-        type: "POST",
-        url: deleteProductRoute,
-        data: {
-            "idProduit": idProduct,
-        },
-        async: true,
-        dataType: "JSON",
-        beforeSend: () => {
-            $('.account-loader').addClass('is-active');
-        },
-        success: (data) => {
-            let show = parseInt(container.attr("data-show"));
-
-            toasts.service.success('', 'fas fa-plus', data["success"], 'bottomRight', 2500);
-
-            productContainer.remove();
-            container.attr("data-show",(show>1)?show-1:show)
-
-            $('.account-loader').removeClass('is-active');
-        },
-        error: () => {
-            $('.account-loader').removeClass('is-active');
-            toasts.service.error('', 'fas fa-plus', 'Problèmes de connexion avec le serveur', 'bottomRight', 2500);
-        }
-    });
-}
-
-function addEvent() {
-    $(document).on("click",".add",function (){
-        let id = $(this).parents(".product-container").first().attr("data-product-id");
-
-        window.location.href = modifyProductRoute+"/"+id;
-    })
-    $(document).on("click",".like",function (){
-        let id = $(this).parents(".product-container").first().attr("data-product-id");
-        ajaxDeleteProduct(id,$(this).parents(".product-container").first());
-    })
-    $(document).on("click",".refresh",function (e){
-        e.preventDefault();
-        let id = $(this).parents(".product-container").first().attr("data-product-id");
-        $.ajax({
-            type: "POST",
-            url: refreshProductRoute+"/"+id,
-            async: true,
-            dataType: "JSON",
-            beforeSend: () => {
-                $('.account-loader').addClass('is-active');
-            },
-            success: (data) => {
-                if(data["success"]&&data["success"].length!==0)
-                {
-                    $(this).remove();
-                }
-
-                $('.account-loader').removeClass('is-active');
-            },
-            error: () => {
-                $('.account-loader').removeClass('is-active');
-                toasts.service.error('', 'fas fa-plus', 'Problèmes de connexion avec le serveur', 'bottomRight', 2500);
-            }
-        });
-    })
-}
-
-function addSingleProduct(p)
-{
-    let prix = (p.prix*(1-(p.prixPromo/100))).toString();
-    if(prix.indexOf('.')!==-1)
-        prix = prix.slice(0,prix.indexOf('.')+2);
-    prix += (" " + "F CFA");
-
-    const nom = truncateString(p.nom.toUpperCase(),30);
-    let image = "http://via.placeholder.com/500x500/ffffff/999999";
-
-    if(p.images.length)image = p.images[0];
-    return `
-        <div class="column is-3 product-container" data-product-id="${p.id}">
-            <div class="flat-card">
-                <div class="image" style="margin-bottom: 5px !important;">
-                    <img src="${imageProdPath+image}" style="width: 100px;height: 100px" data-action="zoom" alt="" class="" >
-                    `+(isExpired(p.date.dateModification)?`<a class="button feather-button secondary-button is-bold refresh">Expiré</a>`:"")+ `
-                </div>
-                <div class="product-info has-text-centered">
-                    <p class="product-price">
-                        ${prix}
-                    </p>
-                    <a href="${modifyProductRoute}/${p.id}"><h3 class="product-name">${nom}</h3></a>
-                </div>
-                <div class="actions">
-                    <div class="like">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
-                    </div>
-                    <div class="add">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>                    </div>
-                    </div>
-            </div>
-        </div>
-    `;
-}
 
 $(document).ready(function () {
+    let quill ;
+    const extendForm = $("#extend-form");
+    const selectCatgorie = $("#produit_categorie .options li");
+    let produitAssocies = $("#produits-associes");
+    const btnSubmit = $("#btn-submit");
+    const btnReset = $("#btn-reset");
+    const form = $("#form-produit");
+    const btnRemoveImg = $(".uploaded-image [data-dz-remove]");
 
-    ajaxShowProducts();
+    /**
+     * initialisation des données
+     */
+    initProductPage();
 
-    addEvent();
 
-    $(".show-more").on("click",function (e) {
+    /**
+     * initialiastion de l imput pour les images
+     */
+    form.data("previewsContainer");
+    const temp = form.data("uploadPreviewTemplate");
+    let myDropzone = new Dropzone('#form-produit', {
+        paramName: "files",
+        autoDiscover : false,
+        previewsContainer : form.data("previewsContainer"),
+        previewTemplate : $(temp).html(),
+        url : form.attr("action"),
+        sending: function(file, xhr, formData) {
+            formData.append("produitAssocies", produitAssocies.val());
+            formData.append("description", quill.root.innerHTML);
+            formData.append("ordre", getOrdreImg());
+        },
+        dictMaxFilesExceeded : "maximun "+maxImage+" photos",
+        dictResponseError : "échec de la connexion avec le serveur",
+        dictInvalidFileType : "extension acceptées .jpg,.jpeg,.png",
+        dictFileSizeUnits : "image trop lourde",
+        acceptedFiles : ".jpg,.jpeg,.png",
+        maxFiles: maxImage,
+        parallelUploads: maxImage,
+        uploadMultiple: true,
+        autoProcessQueue: false,
+        clickable : ".click",
+    });
+    /**
+     * En cas de succès on recharge les images
+     */
+    myDropzone.on("success",(file,data)=>{
+        myDropzone.removeFile(file);
+        file.status = undefined;
+        file.accepted = undefined
+        myDropzone.addFile(file);
+        ableButton(btnSubmit);
+        displayMessage(data);
+        if(data["success"]&&data["success"].length!==0)
+        {
+            if(getOrdreImg().length===0)
+                document.location.reload();
+        }
+    });
+    /**
+     * En cas d'ajout d'une image sur un produit éxistant on vérifie les images déjà upload
+     */
+    myDropzone.on("addedfile",(file)=>{
+        const ordre = getOrdreImg();
+        if (myDropzone.files.length>(maxImage - ordre.length)) {
+            displayMessageNotify(myDropzone.options.dictMaxFilesExceeded,"warning");
+            myDropzone.removeFile(file);
+        }
+    });
+
+    /**
+     * affichage des erreurs
+     */
+    myDropzone.on("error", (file, message)=> {
+        displayMessageNotify(message,"warning");
+        myDropzone.removeFile(file);
+    });
+
+    btnRemoveImg.on("click",function(e){
         e.preventDefault();
-        ajaxShowProducts();
+        $(this).parents(".uploaded-image").remove();
     })
-});
+
+    /**
+     * button de soumission du formulaire
+     */
+    btnSubmit.on("click",(e)=>{
+        disableButton(btnSubmit);
+        e.preventDefault();
+        if(myDropzone.files.length!==0)
+            myDropzone.processQueue();
+        else
+            ajaxSaveProduit(form,btnSubmit,form.serialize()+"&produitAssocies="+produitAssocies.val() +"&description="+ quill.root.innerHTML+"&ordre="+getOrdreImg());
+    });
+
+    btnReset.on("click",(e)=>{
+        e.preventDefault();
+        document.location.reload();
+    });
+
+    /**
+     * recuperation du formulaire du produit en fonction de la catagorie du produit
+     */
+    selectCatgorie.on("click",function () {
+        ajaxGetExtendFormCat($(this).attr("rel"),extendForm);
+    })
+
+    /**
+     * initialition des input number en cas d'ajout de l'extention du formulaire
+     */
+    function initProductFormImmobilier() {
+        initSpinner(true);
+    }
+
+    function initProductPage()
+    {
+        ajaxGetExtendFormCat($("#produit_categorieProd").val(),extendForm);
+
+        /**
+         * input pour la description
+         * @type {Quill}
+         */
+        quill = new Quill("#snow-editor", {
+            theme: "snow",
+            modules: {
+                toolbar: [
+                    [{ font: [] }, { size: [] }],
+                    ["bold", "italic", "underline", "strike"],
+                    [{ color: [] }, { background: [] }],
+                    [{ script: "super" }, { script: "sub" }],
+                    [{ header: [!1, 1, 2, 3, 4, 5, 6] }, "blockquote", "code-block"],
+                    [{ list: "ordered" }, { list: "bullet" }, { indent: "-1" }, { indent: "+1" }],
+                    ["direction", { align: [] }],
+                    ["link"],
+                    ["clean"],
+                ],
+            },
+        });
+
+    }
+
+    function getOrdreImg()
+    {
+        let ordre = [];
+        $(".uploaded-image img").each(function(i){
+            ordre.push($(this).data("order"))
+        })
+        return ordre;
+    }
+    /**
+     *  recupere le formualaire en donction de la categorie du produit
+     */
+    function ajaxGetExtendFormCat(idCategorie,extendForm) {
+        $.ajax({
+            type: "GET",
+            url: GetCategorieFormRoute,
+            data : {
+                "idCategorie" : idCategorie,
+                "forFront" : true
+            },
+            dataType: "JSON",
+            beforeSend : () => {
+            },
+            success: (data) => {
+                displayMessage(data);
+                extendForm.html(data);
+                initProductFormImmobilier();
+            },
+            error: () => {
+                messageErrorServer();
+            }
+        });
+    }
+
+    function ajaxSaveProduit(form,button,data) {
+        $.ajax({
+            type: form.attr("method"),
+            url: form.attr("action"),
+            data: data,
+            dataType: "JSON",
+            beforeSend : () => {
+                disableButton(button)
+            },
+            success: (data) => {
+                displayMessage(data);
+                ableButton(button);
+                if(data["success"]&&data["success"].length!==0)
+                {
+                    if(getOrdreImg().length===0)
+                        setTimeout(function (){
+                            document.location.reload();
+                        },1000);
+                }
+            },
+            error: () => {
+                messageErrorServer()
+                ableButton(button)
+            }
+        });
+    }
+
+})
+

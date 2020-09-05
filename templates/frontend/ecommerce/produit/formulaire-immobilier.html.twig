@@ -1,0 +1,38 @@
+<div class="control">
+    <label class="" ></label>
+    <div class="">
+        <div class="control">
+            {{ form_widget(form.meuble, {'attr': {'class': ''}}) }}
+            <label class="" for="{{ form.meuble.vars.id }}">Meublé ?</label>
+        </div>
+    </div>
+</div>
+<div class="control">
+    <label class="" for="{{ form.dureeSejour.vars.id }}">Durée du Séjour</label>
+    <div class="control">
+        {{ form_widget(form.dureeSejour, {'attr': {'class': 'input is-default basic-spinner im'}}) }}
+    </div>
+</div>
+<div class="control">
+    <div class=""><label for="">Caracteristiques </label></div>
+    <div style="padding-left: 20%">
+        <div class="control">
+            <label class="" for="{{ form.caracteristique.nbreChambres.vars.id }}">Nombre de Chambres</label>
+            <div class="control">
+                {{ form_widget(form.caracteristique.nbreChambres, {'attr': {'class': 'input is-default basic-spinner im'}}) }}
+            </div>
+        </div>
+        <div class="control">
+            <label class="" for="{{ form.caracteristique.nbreSalleBain.vars.id }}">Nombre de salles de bain</label>
+            <div class="control">
+                {{ form_widget(form.caracteristique.nbreSalleBain, {'attr': {'class': 'input is-default basic-spinner im'}}) }}
+            </div>
+        </div>
+        <div class="control">
+            <label class="" for="{{ form.caracteristique.nbreParking.vars.id }}">Nombre de parking</label>
+            <div class="control">
+                {{ form_widget(form.caracteristique.nbreParking, {'attr': {'class': 'input is-default basic-spinner im'}}) }}
+            </div>
+        </div>
+    </div>
+</div>

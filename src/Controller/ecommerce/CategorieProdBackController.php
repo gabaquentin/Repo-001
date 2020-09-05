@@ -3,9 +3,11 @@
 namespace App\Controller\ecommerce;
 
 use App\Entity\CategorieProd;
+use App\Entity\Produit;
 use App\Form\ecommerce\CategorieProdType;
 use App\Repository\CategorieProdRepository;
 use App\Services\ecommerce\Tools;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -67,7 +69,7 @@ class CategorieProdBackController extends AbstractController
          */
         $categories = $request->get("categories");
 
-        if ($categories != null && !empty($categories)) {
+        if ($categories != null) {
             $i = 1;
             foreach ($categories as $cat) {
                 $catId = $cat["id"];
@@ -177,11 +179,12 @@ class CategorieProdBackController extends AbstractController
 
     /**
      * @Route("/delete_category", name="delete_category")
+     * @param EntityManagerInterface $em
      * @param Request $request
      * @param CategorieProdRepository $repository
      * @return JsonResponse
      */
-    public function DeleteCategorie(Request $request, CategorieProdRepository $repository)
+    public function DeleteCategorie(EntityManagerInterface $em,Request $request, CategorieProdRepository $repository)
     {
         $data = [
             "errors" => []
@@ -193,11 +196,10 @@ class CategorieProdBackController extends AbstractController
         if (!$category)
             die();
 
-        if(!$category->getProduits()->isEmpty())
+        if($em->getRepository(Produit::class)->count(["categorieProd"=>$category->getId()])>0)
             $data["errors"] = ["vous devez supprimer tous les produits de cette catégorie"];
         else
         {
-            $em = $this->getDoctrine()->getManager();
             $em->remove($category);
             $em->flush();
         }

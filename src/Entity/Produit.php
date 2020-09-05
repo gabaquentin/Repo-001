@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ProduitRepository;
+use App\Services\ecommerce\Tools;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -38,7 +39,8 @@ class Produit
     private $typeTransaction;
 
     /**
-     * @Assert\GreaterThan(value = 0,message="la valeur du prix doit être supérieure à zèro")
+     * @Assert\GreaterThan(value = -1,message="la valeur du prix doit être supérieure à zèro")
+     * @Assert\NotBlank(message="Vous devez donner un prix au produit")
      * @Groups({"show_list"})
      * @ORM\Column(type="float")
      */
@@ -135,7 +137,7 @@ class Produit
     private $avis;
 
     /**
-     * @ORM\ManyToOne(targetEntity=CategorieProd::class, inversedBy="produits")
+     * @ORM\ManyToOne(targetEntity=CategorieProd::class)
      */
     private $categorieProd;
 
@@ -154,12 +156,21 @@ class Produit
         return $this->id;
     }
 
+    /**
+     * @param $nbJours
+     * @return bool
+     */
+    public function isValide($nbJours = 60)
+    {
+        return (($this->getDate()->getDateModification()->diff(new \DateTime())->d) < $nbJours);
+    }
+
     public function getNom(): ?string
     {
         return $this->nom;
     }
 
-    public function setNom(string $nom): self
+    public function setNom(?string $nom): self
     {
         $this->nom = strtolower($nom);
 
@@ -183,7 +194,7 @@ class Produit
         return $this->prix;
     }
 
-    public function setPrix(float $prix): self
+    public function setPrix(?float $prix): self
     {
         $this->prix = $prix;
 
@@ -207,7 +218,7 @@ class Produit
         return unserialize($this->images);
     }
 
-    public function setImages(array $images): self
+    public function setImages(?array $images): self
     {
         $this->images = serialize($images);
 

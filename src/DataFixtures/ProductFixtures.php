@@ -59,7 +59,7 @@ class ProductFixtures extends Fixture
                 ->setEmail($f->email)
                 ->setTelephone($f->phoneNumber)
                 ->setLocal(["fr","en"][$f->numberBetween(0,1)])
-                ->setCreation(date('d/m/Y H:i:s',time()))
+                ->setCreation(new \DateTime())
                 ->setRoles((array)'ROLE_USER')
                 ->setImage("/images/produits/maison au bord de la plage-5f2594ac3b773.jpeg")
             ;

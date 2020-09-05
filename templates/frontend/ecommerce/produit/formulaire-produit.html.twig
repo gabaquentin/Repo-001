@@ -1,0 +1,174 @@
+{{ form_start(form,{'attr':{'novalidate':'novalidate','id':'form-produit','class':'form-horizontal','data-plugin':'dropzone','data-previews-container':'#file-previews','data-upload-preview-template':'#uploadPreviewTemplate','enctype':'multipart/form-data'}}) }}
+<div class="control">
+    <label class="" for="{{ form.nom.vars.id }}">Nom du produit</label>
+    <div class="">
+        {{ form_widget(form.nom, {'attr': {'class': 'input is-default'}}) }}
+    </div>
+</div>
+<div class="control">
+    <label class="" for="{{ form.categorieProd.vars.id }}">Categorie du produit</label>
+    <div class="control" id="produit_categorie">
+        {{ form_widget(form.categorieProd, {'attr': {'class': 'native'}}) }}
+    </div>
+</div>
+<div class="control">
+    <label class="" for="{{ form.typeTransaction.vars.id }}">Type de transaction</label>
+    <div class="control">
+        {{ form_widget(form.typeTransaction, {'attr': {'class': 'native'}}) }}
+    </div>
+</div>
+<div class="control">
+    <label class="" for="{{ form.ville.vars.id }}">Ville</label>
+    <div class="">
+        <div class="">
+            <div class="control">
+                {{ form_widget(form.ville, {'attr': {'class': 'native'}}) }}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="control">
+    <label class="" for="{{ form.prix.vars.id }}">Prix (F CFA)</label>
+    <div class="control">
+        {{ form_widget(form.prix, {'attr': {'class': 'input is-default basic-spinner'}}) }}
+    </div>
+</div>
+<div class="control">
+    <label class="" for="{{ form.prixPromo.vars.id }}">Promotion (%)</label>
+    <div class="control">
+        {{ form_widget(form.prixPromo, {'attr': {'class': 'input is-default basic-spinner'}}) }}
+    </div>
+</div>
+
+<div class="control">
+    <label class="" for="{{ form.localisation.vars.id }}">Localisation</label>
+    <div class="control">
+        {{ form_widget(form.localisation, {'attr': {'class': 'input is-default'}}) }}
+    </div>
+</div>
+
+<div id="extend-form"></div>
+
+<div class="control">
+    <div class=""><label for="">Dimensions </label></div>
+    <div style="margin-left: 20%">
+        <div class="control">
+            <label class="" for="{{ form.dimension.longueur.vars.id }}">Longueur (Mètre)</label>
+            <div class="control">
+                {{ form_widget(form.dimension.longueur, {'attr': {'class': 'input is-default basic-spinner'}}) }}
+            </div>
+        </div>
+        <div class="control">
+            <label class="" for="{{ form.dimension.largeur.vars.id }}">Largeur (Mètre)</label>
+            <div class="control">
+                {{ form_widget(form.dimension.largeur, {'attr': {'class': 'input is-default basic-spinner'}}) }}
+            </div>
+        </div>
+        <div class="control">
+            <label class="" for="{{ form.dimension.hauteur.vars.id }}">Hauteur (Mètre)</label>
+            <div class="control">
+                {{ form_widget(form.dimension.hauteur, {'attr': {'class': 'input is-default basic-spinner'}}) }}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="control">
+    <div class="dropzone click">
+        <div class="fallback">
+            <input id="inp" name="file" type="file" multiple />
+        </div>
+
+        <div class="dz-message needsclick">
+            <p class="h1 text-muted"><i class="mdi mdi-cloud-upload"></i></p>
+            <h3>Déposez vos images ici ou cliquez pour upload.</h3>
+        </div>
+    </div>
+    <div class="dropzone-previews " id="file-previews" style="margin-top: 15px;">
+        {% for ordre,image in extraData.images %}
+            <div class="card mt-1 mb-0 shadow-none border dz-image-preview uploaded-image" style="margin-top: 5px" >
+                <div class="p-2" >
+                    <div class="row align-items-center" >
+                        <div class="col-auto">
+                            <img data-dz-thumbnail src="/images/produits/{{ image }}" data-order="{{ ordre }}" class="avatar-sm rounded bg-light" alt="">
+                        </div>
+                        <div class="col pl-0" style="flex-grow: 1;max-width: 100%;">
+                            <a href="javascript:void(0);" class="text-muted font-weight-bold" data-dz-name>{{ image }}</a>
+                            <p class="mb-0" data-dz-size></p>
+                        </div>
+                        <div class="col-auto remove-img">
+                            <!-- Button -->
+                            <a href="javascript:void(0);" class="btn btn-link btn-lg text-muted" data-dz-remove>
+                                <i class="mdi mdi-close-circle"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- file preview template -->
+<div class="is-hidden" id="uploadPreviewTemplate">
+    <div class="card mt-1 mb-0 shadow-none border" style="margin-top: 5px;">
+        <div class="p-2">
+            <div class="row align-items-center">
+                <div class="col-auto">
+                    <img data-dz-thumbnail class="avatar-sm rounded bg-light" alt="">
+                </div>
+                <div class="col pl-0" style="flex-grow: 1;max-width: 100%;">
+                    <a href="javascript:void(0);" class="text-muted font-weight-bold" data-dz-name></a>
+
+                </div>
+                <div class="col-auto remove-img">
+                    <!-- Button -->
+                    <a href="" class="btn btn-link btn-lg text-muted" data-dz-remove >
+                        <i class="mdi mdi-close-circle"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="control" >
+    <label class="" for="">Description </label>
+    <div class="control">
+        <div id="snow-editor" style="height: 100px;" >
+            {{ extraData.desc is defined?(extraData.desc|raw):"" }}
+        </div> <!-- end Snow-editor-->
+    </div>
+</div>
+<div class="control">
+    <label class="" for="">Produits associés</label>
+    <div class="control">
+        <select id="produits-associes" class="chosen-select is-multiple" multiple="multiple"  multiple data-placeholder="Liste des produits associés">
+            {% for categorie in categories %}
+                {% if categorie.produits is not empty %}
+                    <optgroup label="{{ categorie.categorie.nomCategorie }}">
+                        {% for produit in categorie.produits %}
+                            <option value="{{ produit.id }}" {% if  extraData.pa is defined and produit.id in extraData.pa %} selected="selected" {% endif %}>{{ produit.nom }}</option>
+                        {% endfor %}
+                    </optgroup>
+                {% endif %}
+            {% endfor %}
+        </select>
+    </div>
+</div>
+
+<div class="control">
+    <div class="control" style="display: flex; justify-content: start">
+        <button type="submit" id="btn-submit" class="button feather-button primary-button raised is-bold" style="margin-right: 5px">
+            Sauvegarder
+        </button>
+        <button type="submit" id="btn-reset" class="button feather-button secondary-button raised">
+            Reset
+        </button>
+    </div>
+</div>
+{% do form.meuble.setRendered %}
+{% do form.visiblite.setRendered %}
+{% do form.dureeSejour.setRendered %}
+{% do form.caracteristique.setRendered %}
+{{ form_end(form) }}

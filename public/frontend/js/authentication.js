@@ -721,10 +721,7 @@ $(window).on('load', function () {
   var userData = JSON.parse(localStorage.getItem('user'));
 
   if (url.indexOf("/login") > -1) {
-    //If logged in, redirect
-    if (userData.isLoggedIn) {
-      window.location.href = '/';
-    }
+
   } else {
     console.log('something');
   }

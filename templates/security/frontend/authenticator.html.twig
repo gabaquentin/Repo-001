@@ -433,13 +433,14 @@
 
     <script>
         $('#register-submit').on('click', function (event) {
+            event.preventDefault();
             var $this = $(this);
 
             var form = $('#registration-form');
 
-            form.submit(function (e) {
+            //form.submit(function (e) {
 
-                e.preventDefault();
+               // e.preventDefault();
 
                 $.ajax({
                     type: "POST",
@@ -521,7 +522,7 @@
 
                     },
                 });
-            });
+            //});
         })
 
     </script>

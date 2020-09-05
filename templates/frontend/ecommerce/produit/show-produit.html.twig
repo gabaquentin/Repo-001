@@ -66,6 +66,15 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="flat-card is-auto menu-card">
+                                    <div class="card-title">
+                                        <h3>Acheter un pack</h3>
+
+                                        <div class="edit-account">
+                                            <a href="{{ path('add_product_front') }}" class="modal-trigger has-simple-popover"><i class="feather-icons" data-feather="package"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
                             <div id="my-products-container" class="column is-9">
@@ -99,10 +108,11 @@
 
 {% block js %}
     <script>
+        const canPost = true;
         const showProductsRoute = "{{ path('get_products_user_front') }}";
         const modifyProductRoute = "{{ path('modify_product_front') }}"
         const deleteProductRoute = "{{ path('delete_produit') }}"
         const refreshProductRoute = "{{ path('refresh_product_date') }}"
     </script>
-    <script src="{{ asset('frontend/js/pages/ecommerce/add-product.js') }}"></script>
+    <script src="{{ asset('frontend/js/pages/ecommerce/my-products.js') }}"></script>
 {% endblock %}

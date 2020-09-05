@@ -76,19 +76,20 @@
                                 <div class="filter-card">
                                     <h3 class="block-title">Categories</h3>
                                     <!--Filter block-->
-                                    {% for categorie in categories %}
-                                        <div class="filter-block category-block" data-id="{{ categorie.id }}">
+                                    {% for data in categories %}
+
+                                    <div class="filter-block category-block" data-id="{{ data.categorie.id }}">
                                             <div class="field">
                                                 <div class="control">
                                                     <label class="checkbox-wrap is-small">
                                                         <input type="checkbox" class="d-checkbox">
                                                         <span></span>
-                                                        <span class="filter-label">{{ categorie.nomCategorie }}</span>
+                                                        <span class="filter-label">{{ data.categorie.nomCategorie }}</span>
                                                     </label>
                                                 </div>
                                             </div>
                                             <div class="filter-count">
-                                                <span>{{ categorie.produits|length }}</span>
+                                                <span>{{ data.nbreProduits }}</span>
                                             </div>
                                         </div>
                                     {% endfor %}
