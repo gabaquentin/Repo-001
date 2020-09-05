@@ -3,6 +3,18 @@
 <div class="js-user-rating is-hidden" data-is-authenticated="{{ app.user ? 'true' : 'false' }}">
     <!--get if user is authenticated-->
 </div>
+{% if app.user %}
+{% if date(app.user.lastLogin) < date('-30 minutes') %}
+    <div class="js-user-able-to-edit is-hidden" data-able-to-edit="{{ app.user ? 'false' }}">
+        <!--get if user is abletoedit-->
+    </div>
+{% else %}
+    <div class="js-user-able-to-edit is-hidden" data-able-to-edit="{{ app.user ? 'true' }}">
+        <!--get if user is abletoedit-->
+    </div>
+{% endif %}
+{% endif %}
+
 <div class="js-user-first-name is-hidden" data-nom="{{ app.user ? app.user.nom }}">
     <!--get firstName-->
 </div>

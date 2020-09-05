@@ -7,6 +7,7 @@ function getAccountInfo() {
 
   if (!userData.isLoggedIn) {
     $('#account-main, #account-main-placeholder').toggleClass('is-hidden');
+    $('#elements-selection, #account-main-placeholder').toggleClass('is-hidden');
   } //Load account info
   else {
       //Photo
@@ -52,7 +53,7 @@ function getAccountInfo() {
 function getEditAccountInfo() {
   var userData = JSON.parse(localStorage.getItem('user')); //If not logged in, hide account
 
-  if (!userData.isLoggedIn) {
+  if (!userData.isLoggedIn && !userData.ableToEdit) {
     $('#account-edit-main, #account-edit-main-placeholder').toggleClass('is-hidden');
   } //Load account edit info
   else {
@@ -281,6 +282,10 @@ $(document).ready(function () {
     getAccountInfo();
   } //If account edit page
 
+  console.log("account");
+  console.log($('#account-page').length);
+  console.log("edit account");
+  console.log($('#edit-account-page').length);
 
   if ($('#edit-account-page').length) {
     getEditAccountInfo();
@@ -293,7 +298,7 @@ $(document).ready(function () {
     $('#shipping-switch').on('change', function () {
       var userData = JSON.parse(localStorage.getItem('user'));
       $(this).closest('.flat-card').find('.card-body').toggleClass('is-disabled');
-      enableShippingAddress = !enableShippingAddress;
+      //enableShippingAddress = !enableShippingAddress;
       console.log(enableShippingAddress);
 
       if (enableShippingAddress) {
