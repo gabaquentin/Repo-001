@@ -87,16 +87,34 @@ class User implements UserInterface
     private $isVerified = false;
 
     /**
-     * @var InfoUser
-     * @ORM\OneToOne(targetEntity=InfoUser::class, cascade={"persist", "remove"})
+     * @ORM\Column(type="blob", nullable=true)
      */
-    private $infoUser;
+    private $logo;
 
     /**
-     * @var ExtraInfo
-     * @ORM\OneToOne(targetEntity=ExtraInfo::class, cascade={"persist", "remove"})
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $ExtraInfo;
+    private $boutique;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $description;
+
+    /**
+     * @ORM\Column(type="json", nullable=true)
+     */
+    private $domaine = [];
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $cin;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $note;
 
     /**
      * @ORM\OneToOne(targetEntity=Pack::class, inversedBy="user", cascade={"persist", "remove"})
@@ -132,7 +150,7 @@ class User implements UserInterface
      */
     public function getUsername(): string
     {
-        return (string) $this->email;
+        return (string)$this->email;
     }
 
     /**
@@ -167,7 +185,7 @@ class User implements UserInterface
      */
     public function getPassword(): string
     {
-        return (string) $this->password;
+        return (string)$this->password;
     }
 
     public function setPassword(string $password): self
@@ -314,39 +332,76 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * @return InfoUser
-     */
-    public function getInfoUser()
+
+    public function getLogo()
     {
-        return $this->infoUser;
+        return $this->logo;
     }
 
-    /**
-     * @param InfoUser $infoUser
-     * @return User
-     */
-    public function setInfoUser($infoUser)
+    public function setLogo($logo): self
     {
-        $this->infoUser = $infoUser;
+        $this->logo = $logo;
+
         return $this;
     }
 
-    /**
-     * @return ExtraInfo
-     */
-    public function getExtraInfo()
+    public function getBoutique(): ?string
     {
-        return $this->ExtraInfo;
+        return $this->boutique;
     }
 
-    /**
-     * @param ExtraInfo $ExtraInfo
-     * @return User
-     */
-    public function setExtraInfo($ExtraInfo)
+    public function setBoutique(?string $boutique): self
     {
-        $this->ExtraInfo = $ExtraInfo;
+        $this->boutique = $boutique;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getDomaine(): ?array
+    {
+        return $this->domaine;
+    }
+
+    public function setDomaine(?array $domaine): self
+    {
+        $this->domaine = $domaine;
+
+        return $this;
+    }
+
+    public function getCin(): ?string
+    {
+        return $this->cin;
+    }
+
+    public function setCin(?string $cin): self
+    {
+        $this->cin = $cin;
+
+        return $this;
+    }
+
+    public function getNote(): ?string
+    {
+        return $this->note;
+    }
+
+    public function setNote(?string $note): self
+    {
+        $this->note = $note;
+
         return $this;
     }
 
