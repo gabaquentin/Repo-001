@@ -37,7 +37,8 @@
                         </div>
 
                         <!-- Account tabs -->
-                        {% include 'security/frontend/menu.html.twig' %}
+
+                        {% include 'frontend/menu-account.html.twig' with { "wishlist":"is-active" } %}
 
                         <div id="account-edit-main-placeholder" class="main-placeholder is-hidden">
                             <div class="placeholder-content">

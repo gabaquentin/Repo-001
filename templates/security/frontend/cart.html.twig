@@ -35,7 +35,8 @@
                         </div>
 
                         <!-- Account tabs -->
-                        {% include 'security/frontend/menu.html.twig' %}
+
+                        {% include 'frontend/menu-account.html.twig' with { "cart":"is-active" } %}
 
                         <div id="cart-main-placeholder" class="main-placeholder is-hidden">
                             <div class="placeholder-content">

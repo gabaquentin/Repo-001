@@ -35,7 +35,20 @@
                         </div>
 
                         <!-- Account tabs -->
-                        {% include 'security/frontend/menu.html.twig' %}
+
+                        {% include 'frontend/menu-account.html.twig' with { "account":"is-active" } %}
+
+                        <div id="account-main-placeholder" class="main-placeholder is-hidden">
+                            <div class="placeholder-content">
+                                <img src="{{ asset('frontend/img/illustrations/profile.svg') }}" alt="">
+                                <h3>Welcome, Guest</h3>
+                                <p>Guest users don't have accounts. Please login or register to view your account.</p>
+                                <div class="button-wrap">
+                                    <a href="{{path('app_login')}}" class="button big-button primary-button rounded raised">Log In</a>
+                                </div>
+                                <a href="{{ path('app_register', {'role': 'new_user'}) }}">Don't have an account?</a>
+                            </div>
+                        </div>
 
                         <!-- Account layout -->
                         <div id="account-main" class="columns is-account-grid is-multiline">

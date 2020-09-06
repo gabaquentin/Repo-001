@@ -6,7 +6,7 @@ var user = {
   firstName: null,
   lastName: null,
   email: null,
-  photoUrl: 'frontend/img/avatars/altvatar.png'
+  photoUrl: '/frontend/img/avatars/altvatar.png'
 }; // set user local
 
 var isAuthenticated = $('.js-user-rating').data('isAuthenticated');

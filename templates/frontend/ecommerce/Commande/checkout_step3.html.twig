@@ -1,0 +1,411 @@
+{% extends 'security/frontend/base.html.twig' %}
+
+{% block stylesheets %}
+    <style>
+        .select{
+            width: 100%;
+        }
+    </style>
+{% endblock %}
+
+{% block title %}Checkout{% endblock %}
+
+{% block body %}
+    <!-- Action Bar -->
+    <div class="action-bar is-centered">
+        <div class="steps-wrapper">
+            <ol class="step-list">
+                <li class="active"></li>
+                <li class="active"></li>
+                <li class="active"></li>
+                <li></li>
+            </ol>
+        </div>
+    </div>
+
+    <!-- Main wrapper -->
+    <div class="shop-wrapper">
+
+        <!-- Search overlay -->
+        <div class="search-overlay"></div>
+
+        <!-- Search input -->
+        <div class="search-input-wrapper is-desktop is-hidden">
+            <div class="field">
+                <div class="control">
+                    <input id="nephos-search" type="text" name="search" placeholder="Search a Product">
+                    <span id="clear-search" role="button"><i data-feather="x"></i></span>
+                    <span class="bar"></span>
+                </div>
+                <span class="search-help">Type the name of the product you are looking for</span>
+            </div>
+        </div>
+        <!-- Main section -->
+        <div id="checkout-3" class="section no-padding">
+
+            <div class="checkout-wrapper" data-checkout-step="3">
+
+                <!--Checkout step 3-->
+                <div class="checkout-main">
+                    <div class="checkout-container">
+                        <!--Selection-->
+                        <div id="payment-methods-main" class="checkout-payment-methods">
+                            <h2>Payment Method</h2>
+                            <p>Choose one of the above shipping methods to continue checkout.</p>
+
+                            <div class="payment-methods-grid">
+                                <div class="columns is-multiline">
+                                    <!--Payment Method-->
+                                    <div class="column is-6">
+                                        <div class="method-card">
+                                            <input id="paypal" type="radio" name="payment_methods" data-value-id="paypal">
+                                            <div class="method-card-inner">
+                                                <div class="icon-container">
+                                                    <img src="{{ asset('frontend/img/icons/checkout/paypal.svg') }}" alt="">
+                                                    <div class="indicator gelatine">
+                                                        <i data-feather="check"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="meta">
+                                                    <h3>Paypal</h3>
+                                                    <p>Effectuez votre achat grâce à un compte Paypal</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--Payment Method-->
+                                    <!--
+                                    <div class="column is-6">
+                                        <div class="method-card">
+                                            <input id="visa" type="radio" name="payment_methods" data-value-id="credit-card">
+                                            <div class="method-card-inner">
+                                                <div class="icon-container">
+                                                    <img src="{{ asset('frontend/img/icons/checkout/visa.svg') }}" alt="">
+                                                    <div class="indicator gelatine">
+                                                        <i data-feather="check"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="meta">
+                                                    <h3>Visa</h3>
+                                                    <p>Effectuez votre achat à partir d'une carte VISA</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    -->
+                                    <!--Payment Method-->
+                                    <!--
+                                    <div class="column is-6">
+                                        <div class="method-card">
+                                            <input id="mastercard" type="radio" name="payment_methods" data-value-id="credit-card">
+                                            <div class="method-card-inner">
+                                                <div class="icon-container">
+                                                    <img src="{{ asset('frontend/img/icons/checkout/mastercard.svg') }}" alt="">
+                                                    <div class="indicator gelatine">
+                                                        <i data-feather="check"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="meta">
+                                                    <h3>Mastercard</h3>
+                                                    <p>Utiliser votre carte mastercard pour acheter vos produits </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    -->
+                                    <!--Payment Method-->
+                                    <div class="column is-6">
+                                        <div class="method-card">
+                                            <input id="cod" type="radio" name="payment_methods" data-value-id="cod">
+                                            <div class="method-card-inner">
+                                                <div class="icon-container">
+                                                    <img src="{{ asset('frontend/img/icons/checkout/cash.svg') }}" alt="">
+                                                    <div class="indicator gelatine">
+                                                        <i data-feather="check"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="meta">
+                                                    <h3>Orange Money</h3>
+                                                    <p>Faites vos courses failement en passant par Orange Money</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--Payment Method-->
+                                    <div class="column is-6">
+                                        <div class="method-card">
+                                            <input id="bank-transfer" type="radio" name="payment_methods" data-value-id="bank-transfer">
+                                            <div class="method-card-inner">
+                                                <div class="icon-container">
+                                                    <img src="{{ asset('frontend/img/icons/checkout/bank.svg') }}" alt="">
+                                                    <div class="indicator gelatine">
+                                                        <i data-feather="check"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="meta">
+                                                    <h3>En Espèce</h3>
+                                                    <p>Acheter vos arcticles lors de la livraison de la livraison</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Paypal-->
+                        <div id="payment-methods-paypal" class="checkout-payment-methods is-hidden">
+                            <div class="title-wrap">
+                                <a class="payment-back">
+                                    <i data-feather="chevron-left"></i>
+                                </a>
+                                <h2>Paypal</h2>
+                            </div>
+                            <p>Commander en utilisant nos services intégrés paypal.</p>
+
+                            <div class="checkout-form">
+                                <div class="columns">
+                                    <div class="column is-7">
+                                        <div class="field">
+                                            <label>Paypal Email</label>
+                                            <div class="control has-icon is-bigger">
+                                                <input type="text" class="input is-default" value="{{ app.user.email }}">
+                                                <div class="form-icon">
+                                                    <i data-feather="mail"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="field">
+                                            <label>Mot de Passe Paypal</label>
+                                            <div class="control has-icon is-bigger">
+                                                <input type="password" class="input is-default" value="">
+                                                <div class="form-icon">
+                                                    <i data-feather="lock"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="field">
+                                            <label>Confirmer Mot de passe</label>
+                                            <div class="control has-icon is-bigger">
+                                                <input type="password" class="input is-default" value="">
+                                                <div class="form-icon">
+                                                    <i data-feather="lock"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="column is-5">
+                                        <div class="payment-disclaimer">
+                                            <div class="title-wrap">
+                                                <img src="{{ asset('frontend/img/icons/checkout/paypal.svg') }}" alt="">
+                                                <h3>
+                                                    AVERTISSEMENT</h3>
+                                            </div>
+
+                                            <p>En cliquant sur "Confirmer et payer", j'accepte les <a>conditions d'utilisation</a> et la <a>politique d'achat </a>.</p>
+                                            <p>Ce faisant, j'accepte également les <a>conditions de service de Paypal</a>.</p>
+
+                                            <div class="agree-block">
+                                                <!-- Animated checkbox-->
+                                                <div class="animated-checkbox">
+                                                    <input type="checkbox">
+                                                    <div class="checkmark-wrap">
+                                                        <div class="shadow-circle"></div>
+                                                        <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                                                            <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none" />
+                                                            <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
+                                                        </svg>
+                                                    </div>
+                                                </div>
+                                                <span>J'accepte</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Cash on delivery-->
+                        <div id="payment-methods-cod" class="checkout-payment-methods is-hidden">
+                            <div class="title-wrap">
+                                <a class="payment-back">
+                                    <i data-feather="chevron-left"></i>
+                                </a>
+                                <h2>Orange Money</h2>
+                            </div>
+                            <p>Commander en utilisant nos services intégrés Orange Money.</p>
+                            <div class="checkout-form">
+                                <div class="columns">
+                                    <div class="column is-7">
+
+                                        <img class="form-image" src="{{ asset('frontend/img/icons/checkout/cash.svg') }}" alt="">
+
+                                        <div class="field">
+                                            <label>Numéro de Téléphone </label>
+                                            <div class="control has-icon is-bigger">
+                                                <input type="text" class="input is-default" placeholder="Numéro du compte orange money " value="{{ app.user.telephone }}">
+                                                <div class="form-icon">
+                                                    <i data-feather="phone"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <p class="form-text">Saisissez lz numéro de téléphone de l'expéditeur afin de faire la transaction Orange Money </p>
+                                    </div>
+
+                                    <div class="column is-5">
+                                        <div class="payment-disclaimer">
+                                            <div class="title-wrap">
+                                                <img src="{{ asset('frontend/img/icons/checkout/cash.svg') }}" alt="">
+                                                <h3>
+                                                    AVERTISSEMENT</h3>
+                                            </div>
+
+                                            <p>En cliquant sur "Confirmer et payer", j'accepte les <a>conditions d'utilisation</a> et la <a>politique d'achat </a>.</p>
+                                            <p>Ce faisant, j'accepte également les <a>conditions de service d'orange money</a>.</p>
+
+                                            <div class="agree-block">
+                                                <!-- Animated checkbox-->
+                                                <div class="animated-checkbox">
+                                                    <input type="checkbox">
+                                                    <div class="checkmark-wrap">
+                                                        <div class="shadow-circle"></div>
+                                                        <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                                                            <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none" />
+                                                            <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
+                                                        </svg>
+                                                    </div>
+                                                </div>
+                                                <span>J'accepte</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Bank Transfer-->
+                        <div id="payment-methods-bank-transfer" class="checkout-payment-methods is-hidden">
+                            <div class="title-wrap">
+                                <a class="payment-back">
+                                    <i data-feather="chevron-left"></i>
+                                </a>
+                                <h2>En Espèce</h2>
+                            </div>
+                            <p>Commander en Payant à la livraison</p>
+                            <div class="checkout-form">
+                                <div class="columns">
+                                    <div class="column is-7">
+
+                                        <img class="form-image" src="{{ asset('frontend/img/icons/checkout/bank.svg') }}" alt="">
+
+                                        <div class="field">
+                                            <label>Numéro de Téléphone</label>
+                                            <div class="control has-icon is-bigger">
+                                                <input type="text" class="input is-default" placeholder="Saisissez le numéro de téléphone">
+                                                <div class="form-icon">
+                                                    <i data-feather="phone"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <p class="form-text">Entrer un nuléro de téléphone orange afin de faire la transaction.</p>
+                                    </div>
+
+                                    <div class="column is-5">
+                                        <div class="payment-disclaimer">
+                                            <div class="title-wrap">
+                                                <img src="{{ asset('frontend/img/icons/checkout/bank.svg') }}" alt="">
+                                                <h3>
+                                                    AVERTISSEMENT</h3>
+                                            </div>
+
+                                            <p>En cliquant sur "Confirmer et payer", j'accepte les <a>conditions d'utilisation</a> et la <a>politique d'achat </a>.</p>
+                                            <p>Ce faisant, j'accepte également les <a>conditions de service de payement en cash</a>.</p>
+
+                                            <div class="agree-block">
+                                                <!-- Animated checkbox-->
+                                                <div class="animated-checkbox">
+                                                    <input type="checkbox">
+                                                    <div class="checkmark-wrap">
+                                                        <div class="shadow-circle"></div>
+                                                        <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                                                            <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none" />
+                                                            <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
+                                                        </svg>
+                                                    </div>
+                                                </div>
+                                                <span>J'accepte</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="checkout-side">
+                    <div class="side-header">
+                        <h2 class="side-title">Checkout</h2>
+                        <a class="button is-rounded checkout-back" data-checkout-step="3">Previous</a>
+                    </div>
+                    <div class="side-inner has-slimscroll">
+                        <div class="side-card user-card">
+                            <div class="avatar-container">
+                                <img id="checkout-avatar" src="http://via.placeholder.com/250x250" data-demo-src="assets/img/avatars/elie.jpg" alt="">
+                            </div>
+                            <div class="meta">
+                                <span>Checkout as</span>
+                                <span id="checkout-username">Elie Daniels</span>
+                            </div>
+                        </div>
+
+                        <div class="side-card is-address">
+                            <label class="form-switch is-vhidden">
+                                <input id="shipping-switch" type="checkbox" class="is-switch">
+                                <i></i>
+                            </label>
+                            <h3 class="address-title">Shipping Address</h3>
+                            <p class="address">
+                                <var id="shipping-address1">463 San Bernardo Ave</var>, <var id="shipping-address2">Crimson Road</var>
+                                <br><var id="shipping-city">Long Beach</var>, <var id="shipping-state">CA</var> <var id="shipping-postalCode">90808</var>
+                                <br><var id="shipping-country">United States</var>
+                            </p>
+                        </div>
+
+                        <div class="side-card is-totals">
+                            <h3 class="info-title">Payment Information</h3>
+                            <div class="payment-block">
+                                <span>Order subtotal</span>
+                                <span id="checkout-subtotal-value" class="has-price">200.37</span>
+                            </div>
+                            <div class="payment-block">
+                                <span>Order shipping</span>
+                                <span id="checkout-shipping-value" class="has-price">0.00</span>
+                            </div>
+                            <div class="payment-block">
+                                <span>Order tax</span>
+                                <span id="checkout-tax-value" class="has-price">7.82</span>
+                            </div>
+                            <div class="payment-block">
+                                <span class="is-bold">Order total</span>
+                                <span id="checkout-grandtotal-value" class="has-price is-bold">208.09</span>
+                            </div>
+                        </div>
+
+                        <div class="side-action">
+                            <button id="checkout-next" class="button primary-button raised is-fullwidth is-rounded no-click">Continue</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Main section -->
+    </div>
+{% endblock %}
+{% block js %}
+    <script>
+        const current= "{{ path('checkout_step3') }}";
+        const next= "{{ path('checkout_step4') }}";
+        const prev= "{{ path('checkout_step2') }}";
+    </script>
+{% endblock %}

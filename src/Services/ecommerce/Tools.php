@@ -18,26 +18,34 @@ class Tools
         return ["immobilier"=>"immobilier","fourniture"=>"fourniture"];
     }
 
+    function getDayMaxProduct()
+    {
+        return 60;
+    }
+
     /**
      * @return int[]
      */
     function getOrdreImage()
     {
-        return [0,1,2,3];
+        $tab = [];
+        for ($i=0;$i<10;$i++)
+            $tab[] = $i;
+        return $tab;
     }
 
     /**
      * @param string $val
      * @return string[]
      */
-    function getOrderColumnProd(string $val)
+    function getOrderColumnProd($val)
     {
         $tab = [
             "Plus récent"=>[
                 "dateModification","desc","d"
             ],
             "Prix élévé"=>[
-                "prix","desc","p"
+                "prix*(1-(p.prixPromo/100))","desc","p"
             ],
             "Prix bas"=>[
                 "prix","asc","p"
@@ -62,7 +70,7 @@ class Tools
      * @param int $col
      * @return string
      */
-    function getColumnName(int $col)
+    function getColumnName($col)
     {
         $cols = $this->getColumnsName(null);
         return (array_key_exists($col,$cols))?$cols[$col]:$cols[2];
@@ -80,7 +88,7 @@ class Tools
      * @param Caracteristiques|null $caracteristiques
      * @return bool
      */
-    public function isCaracteristiquesPersistable(?Caracteristiques $caracteristiques)
+    public function isCaracteristiquesPersistable($caracteristiques)
     {
         if($caracteristiques==null)
             return false;
@@ -92,7 +100,7 @@ class Tools
      * @param Dimension|null $dimension
      * @return bool
      */
-    public function isDimensionPersistable(?Dimension $dimension)
+    public function isDimensionPersistable($dimension)
     {
         if($dimension==null)
             return false;

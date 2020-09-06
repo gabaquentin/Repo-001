@@ -22,6 +22,7 @@ $(document).ready(function () {
   initBackgroundImages();
   initFileInputs(); //Check viewport size
 
+
   if (!mobileTrue) {
     initPopovers();
   }

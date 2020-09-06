@@ -1,0 +1,40 @@
+{% extends 'backend/base/base.html.twig' %}
+
+{% block title %}Statistique - Produit{% endblock %}
+
+{% block stylesheets %}
+
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-xl-6">
+            <!-- Portlet card -->
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-widgets">
+                        <a href="javascript: void(0);" data-toggle="reload"><i class="mdi mdi-refresh"></i></a>
+                        <a data-toggle="collapse" href="#cardCollpase4" role="button" aria-expanded="false" aria-controls="cardCollpase4"><i class="mdi mdi-minus"></i></a>
+                        <a href="javascript: void(0);" data-toggle="remove"><i class="mdi mdi-close"></i></a>
+                    </div>
+                    <h4 class="header-title mb-0">Table</h4>
+
+                    <div id="cardCollpase4" class="collapse pt-3 show" dir="ltr">
+                        <div id="apex-area" class="apex-charts"></div>
+                    </div> <!-- collapsed end -->
+                </div> <!-- end card-body -->
+            </div> <!-- end card-->
+        </div> <!-- end col-->
+    </div>
+    <!-- end row -->
+{% endblock %}
+
+{% block javascripts %}
+    <!-- Third Party js-->
+    <script src="{{ asset('backend/libs/apexcharts/apexcharts.min.js') }}"></script>
+    <script src="https://apexcharts.com/samples/assets/irregular-data-series.js"></script>
+    <script src="https://apexcharts.com/samples/assets/ohlc.js"></script>
+
+    <!-- init js -->
+    <script src="{{ asset('backend/js/pages/ecommerce/apexchart-produit.js') }}"></script>
+{% endblock %}

@@ -411,7 +411,8 @@
             </div>
         </div>
     </div>
-
+{% endblock %}
+{% block javascript %}
     <!-- login error message -->
 
     {% if authentication == "login" %}
@@ -515,7 +516,6 @@
 
                     },
                 });
-
         })
 
     </script>

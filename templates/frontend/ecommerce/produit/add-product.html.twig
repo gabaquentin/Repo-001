@@ -1,0 +1,235 @@
+{% extends 'frontend/ecommerce/base.html.twig' %}
+
+{% block stylesheets %}
+
+    <link href="{{ asset('backend/libs/quill/quill.core.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('backend/libs/quill/quill.bubble.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('backend/libs/quill/quill.snow.css') }}" rel="stylesheet" type="text/css" />
+
+    <link href="{{ asset('backend/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('backend/css/app.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('backend/libs/dropzone/dropzone.min.css') }}" rel="stylesheet" />
+    <style>
+        .select{
+            width: 100%;
+        }
+        .control{
+            margin-bottom: 15px !important;
+        }
+        .spinner-control .form-control{
+            width: 100%;
+            text-align: left !important;
+            padding-left: 10px;
+        }
+
+        div {
+            display: block;
+        }
+        .border {
+            border: 1px solid #dee2e6!important;
+        }
+        .shadow-none {
+            -webkit-box-shadow: none!important;
+            box-shadow: none!important;
+        }
+        .card {
+            position: relative;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-orient: vertical;
+            -webkit-box-direction: normal;
+            -ms-flex-direction: column;
+            flex-direction: column;
+            min-width: 0;
+            word-wrap: break-word;
+            background-color: #fff;
+            background-clip: border-box;
+            border: 0 solid transparent;
+            border-radius: 3px;
+        }
+        .card {
+            background-color: #fff;
+            -webkit-box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1), 0 0px 0 1px rgba(10, 10, 10, 0.02);
+            box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1), 0 0px 0 1px rgba(10, 10, 10, 0.02);
+            color: #4a4a4a;
+            max-width: 100%;
+            position: relative;
+        }
+        .p-2 {
+            padding: .75rem!important;
+        }
+        .align-items-center {
+            -webkit-box-align: center!important;
+            -ms-flex-align: center!important;
+            align-items: center!important;
+        }
+        .row {
+
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+        }
+        .col, .col-1, .col-10, .col-11, .col-12, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-auto, .col-lg, .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-auto, .col-md, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-auto, .col-sm, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-auto, .col-xl, .col-xl-1, .col-xl-10, .col-xl-11, .col-xl-12, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xl-auto {
+            position: relative;
+
+            padding-right: 12px;
+            padding-left: 12px;
+        }
+
+        .col-auto {
+            -webkit-box-flex: 0;
+            -ms-flex: 0 0 auto;
+            flex: 0 0 auto;
+            width: auto;
+            max-width: 100%;
+        }
+        .avatar-sm {
+            height: 2.25rem;
+            width: 2.25rem;
+        }
+        .rounded {
+            border-radius: 2px!important;
+        }
+        .bg-light {
+            background-color: #f6f6f6!important;
+        }
+        img {
+            vertical-align: middle;
+            border-style: none;
+        }
+        .text-muted {
+            color: #98a6ad!important;
+        }
+        .font-weight-bold {
+            font-weight: 700!important;
+        }
+        a {
+            color: #3f51b5;
+            text-decoration: none;
+            background-color: transparent;
+        }
+        .col-auto {
+            -webkit-box-flex: 0;
+            -ms-flex: 0 0 auto;
+            flex: 0 0 auto;
+            width: auto;
+            max-width: 100%;
+        }
+        .btn-link {
+            font-weight: 400;
+            color: #3f51b5;
+            background-color: transparent;
+        }
+        .btn {
+            color: #fff;
+            -webkit-box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
+            box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
+        }
+        .btn {
+            display: inline-block;
+            font-weight: 400;
+            color: #6c757d;
+            text-align: center;
+            vertical-align: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            background-color: transparent;
+            border: 1px solid transparent;
+            padding: .45rem .9rem;
+            font-size: .9rem;
+            line-height: 1.5;
+            border-radius: .15rem;
+            -webkit-transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,-webkit-box-shadow .15s ease-in-out;
+            transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,-webkit-box-shadow .15s ease-in-out;
+            transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+            transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out,-webkit-box-shadow .15s ease-in-out;
+        }
+        .input-group-append .btn,.input-group-prepend .btn,.remove-img a{
+            background-color: blue !important;
+            color: white;
+        }
+        .remove-img i {
+            color: white;
+        }
+    </style>
+{% endblock %}
+
+{% block title %}Services{% endblock %}
+
+{% block body %}
+
+
+    <div class="shop-wrapper has-background-image">
+
+        <!-- Search overlay -->
+        <div class="search-overlay"></div>
+
+        <!-- Search input -->
+        <div class="search-input-wrapper is-desktop is-hidden">
+            <div class="field">
+                <div class="control">
+                    <input id="nephos-search" type="text" name="search" placeholder="Search a Product">
+                    <span id="clear-search" role="button"><i data-feather="x"></i></span>
+                    <span class="bar"></span>
+                </div>
+                <span class="search-help">Type the name of the product you are looking for</span>
+            </div>
+        </div>
+
+        <!-- Main section -->
+        <div id="products-list" class="section">
+            <!-- Container -->
+            <div class="container">
+
+                <!-- House products -->
+                <div class="columns category-header">
+                    <div class="column main-column is-tablet-landscape-padded">
+                        <!-- Title -->
+                        <div class="category-title is-product-category">
+                            <h2>{{ (form.vars.value.id is null)?"Ajouter":"Modifier" }} un produit</h2>
+                            <a href="{{ path('my_products_front') }}" class="button feather-button primary-button raised elements-back animated fadeInLeft">Retour</a>
+                        </div>
+
+                        <!-- Product grid -->
+                        <div class="columns is-search-grid is-multiline">
+                            <div  class="column is-12">
+                                <div class="container-fluid">
+                                    <div class="filter-card">
+                                        <div class="col-md-12">
+                                            {% include "frontend/ecommerce/produit/formulaire-produit.html.twig" with {"form":form} %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+{% endblock %}
+
+{% block js %}
+    <script>
+        const GetCategorieFormRoute = "{{ path('get_form_extend_prod',{"produit":form.vars.value.id}) }}"
+        const GetVilleFormRoute = "{{ path('get_ville_form') }}"
+    </script>
+
+    <script src="{{ asset('axios/default-functions-front.js') }}"></script>
+    <script src="{{ asset('frontend/js/elements.js') }}"></script>
+
+    <script src="{{ asset('backend/libs/quill/quill.min.js') }}"></script>
+    <script src="{{ asset('backend/libs/dropzone/dropzone.min.js') }}"></script>
+
+    <script src="{{ asset('frontend/js/pages/ecommerce/add-product.js') }}" type="text/javascript"></script>
+
+
+{% endblock %}

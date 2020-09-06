@@ -2,10 +2,16 @@
 
 namespace App\Repository;
 
+use App\Entity\Caracteristiques;
 use App\Entity\Date;
+use App\Entity\Dimension;
 use App\Entity\Produit;
 use App\Services\ecommerce\Tools;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
+use Doctrine\ORM\Query\AST\Functions\DateDiffFunction;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -24,11 +30,33 @@ class ProduitRepository extends ServiceEntityRepository
         $this->tools = $tools;
     }
 
+    /**
+     * @return int|mixed|string
+     * @throws NoResultException
+     * @throws NonUniqueResultException
+     */
+    public function getMaxPrice()
+    {
+        return $this->createQueryBuilder("p")
+            ->select("max(p.prix*(1-(p.prixPromo/100)))")
+            ->innerJoin(Date::class,"d","WITH","d.id=p.date")
+            ->andWhere("DATE_DIFF(CURRENT_TIMESTAMP(),d.dateModification)<:maxJour")
+            ->setParameter(":maxJour",$this->tools->getDayMaxProduct())
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    /**
+     * filtre des produits pour le backend
+     *
+     * @param Request $request
+     * @return int|mixed|string
+     */
     public function dataTableProduits(Request $request)
     {
-        $start = $request->get("start");
-        $length = $request->get("length");
-        $search = $request->get("search");
+        $start = $request->get("start",0);
+        $length = $request->get("length",0);
+        $search = $request->get("search","");
         $order = $request->get("order");
 
         $valueSearch = $search["value"];
@@ -40,6 +68,7 @@ class ProduitRepository extends ServiceEntityRepository
             ->setMaxResults($length)
             ->orderBy("p.".$columnOrder,$dirOrder)
         ;
+
         if($valueSearch!="")
         {
             $qb->andWhere('p.nom like :value');
@@ -52,6 +81,12 @@ class ProduitRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
+    /**
+     * QueryBuilder pour les produits du front
+     *
+     * @param Request $request
+     * @return QueryBuilder
+     */
     public function qbShowProductFront(Request $request)
     {
         $max = $request->get("max");
@@ -60,15 +95,59 @@ class ProduitRepository extends ServiceEntityRepository
         $idCategories = $request->get("idCategories",[]);
         $order = $this->tools->getOrderColumnProd($request->get("order",""));
 
+        $ville = $request->get("ville","");
+        $typeTrans = $request->get("typeTransaction","");
+        $prix = $request->get("prix",0);
+        $meuble = $request->get("meuble",0);
+        $nbreChambres = $request->get("nbreChambres",0);
+        $nbreSalleBain = $request->get("nbresalleBain",0);
+        $longueur = $request->get("longueur",0);
+        $largeur = $request->get("largeur",0);
+
         $qb = $this->createQueryBuilder("p")
             ->innerJoin(Date::class,"d","WITH","d.id=p.date")
             ->setFirstResult($start)
             ->setMaxResults($max)
             ->andWhere("p.visiblite=:visibilite")
             ->setParameter(":visibilite",1)
+            ->andWhere("DATE_DIFF(CURRENT_TIMESTAMP(),d.dateModification)<:maxJour")
+            ->setParameter(":maxJour",$this->tools->getDayMaxProduct())
             ->orderBy($order[2].".".$order[0],$order[1])
 
         ;
+
+        if($ville!="")$qb->andWhere("p.ville=:ville")->setParameter(":ville",$ville);
+
+        if($typeTrans!="")$qb->andWhere("p.typeTransaction=:typeTrans")->setParameter(":typeTrans",$typeTrans);;
+
+        if($prix>0)$qb->andWhere("(p.prix*(1-p.prixPromo))<=:prix")->setParameter(":prix",$prix);;
+
+        if($meuble>0 )$qb->andWhere("p.meuble=:meuble")->setParameter(":meuble",$meuble);
+
+        if($longueur>0 || $largeur>0)$qb->innerJoin(Dimension::class,"di","WITH","di.id=p.dimension");
+
+        if($nbreSalleBain>0 || $nbreChambres>0)$qb->innerJoin(Caracteristiques::class,"c","WITH","c.id=p.caracteristique");
+
+        if($nbreChambres>0)
+            $qb->andWhere("c.nbreChambres <=:nbreChambres")
+                ->setParameter(":nbreChambres",$nbreChambres)
+            ;
+
+        if($nbreSalleBain>0)
+            $qb->andWhere("c.nbreSalleBain <=:nbreSalleBain")
+                ->setParameter(":nbreSalleBain",$nbreSalleBain)
+            ;
+
+        if($longueur>0)
+            $qb->andWhere("di.longueur <=:longueur")
+                ->setParameter(":longueur",$longueur)
+            ;
+
+        if($largeur>0)
+            $qb->andWhere("di.largeur <=:largeur")
+                ->setParameter(":largeur",$largeur)
+            ;
+
         if(!empty($idCategories))
         {
             $qb->andWhere($qb->expr()->in("p.categorieProd",$idCategories));
@@ -81,17 +160,68 @@ class ProduitRepository extends ServiceEntityRepository
         return $qb;
     }
 
+    /**
+     * affichage des produits pour le front
+     *
+     * @param Request $request
+     * @return int|mixed|string
+     */
     public function showProductsFront(Request $request)
     {
         return $this->qbShowProductFront($request)->getQuery()->getResult();
     }
 
+    /**
+     * nombre totoal de produits qui sont affichés dans le front
+     *
+     * @param Request $request
+     * @return int|mixed|string
+     * @throws NoResultException
+     * @throws NonUniqueResultException
+     */
     public function countProductsFront(Request $request)
     {
         return ($this->qbShowProductFront($request)
             ->select("count(p.id)")
             ->setMaxResults(null)->setFirstResult(null)
             ->getQuery()->getSingleScalarResult());
+    }
+
+    public function qbProductsValid($idCategory)
+    {
+        return $this->createQueryBuilder("p")
+            ->innerJoin(Date::class,"d","WITH","d.id=p.date")
+            ->andWhere("p.visiblite=:visibilite")
+            ->setParameter(":visibilite",1)
+            ->andWhere("DATE_DIFF(CURRENT_TIMESTAMP(),d.dateModification)<:maxJour")
+            ->setParameter(":maxJour",$this->tools->getDayMaxProduct())
+            ->andWhere("p.categorieProd=:cat")
+            ->setParameter(":cat",$idCategory);
+    }
+
+    /**
+     * compte les produits visible et donc la date d'expiration n'est pas encore atteinte
+     * @param $idCategory
+     * @return int|mixed|string
+     * @throws NoResultException
+     * @throws NonUniqueResultException
+     */
+    public function countProductsFrontValid($idCategory)
+    {
+        return $this->qbProductsValid($idCategory)
+            ->select("count(p.id)")
+            ->getQuery()->getSingleScalarResult();
+    }
+
+    /**
+     * récupère les produits visible et donc la date d'expiration n'est pas encore atteinte
+     * @param $idCategory
+     * @return int|mixed|string
+     */
+    public function FindValidProducts($idCategory)
+    {
+        return $this->qbProductsValid($idCategory)
+            ->getQuery()->getResult();
     }
 
     // /**
