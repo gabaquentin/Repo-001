@@ -112,25 +112,12 @@
         </ul>
     </div>
 </div>
-<!-- FAB -->
-<div id="quickview-trigger" class="menu-fab is-hidden-mobile">
-    <a class="hamburger-btn" href="javascript:void(0);">
-        <span class="menu-toggle">
-            <span class="icon-box-toggle">
-                <span class="rotate">
-                    <i class="icon-line-top"></i>
-                    <i class="icon-line-center"></i>
-                    <i class="icon-line-bottom"></i>
-                </span>
-            </span>
-        </span>
-    </a>
-</div>
+
 <!-- Categories Right quickview -->
 {% include 'frontend/rigthmenu.html.twig' %}
 
 <!-- Shop quickview -->
-<div class="shop-quickview has-background-image" data-background="http://via.placeholder.com/1280x853" data-demo-background="{{ asset('frontend/img/ui/sidebar.png') }}">
+<div class="shop-quickview has-background-image" data-background="http://via.placeholder.com/1280x853" data-demo-background="{{ asset('frontend/img/bg/sidebar.jpeg') }}">
     <div class="inner">
         <!-- Header -->
         <div class="quickview-header">
@@ -152,7 +139,7 @@
                 </a>
             </li>
             <li>
-                <a href="{{ path('app_account') }}">
+                <a href="account.html">
                     <span>My Account</span>
                     <i data-feather="user"></i>
                 </a>
@@ -223,7 +210,7 @@
             <ul class="shopping-cart-items">
                 <!-- Item -->
                 <li class="clearfix">
-                    <img src="http://via.placeholder.com/250x250" data-demo-src="{{ asset('frontend/img/icons/categories/office.svg') }}" alt="" />
+                    <img src="http://via.placeholder.com/250x250" data-demo-src="{{ asset('frontend/img/products/office5.jpg') }}" alt="" />
                     <span class="item-meta">
                         <span class="item-name">Cosy Chair</span>
                         <span class="item-price"> <var>88.00</var> x <span>1</span> </span>

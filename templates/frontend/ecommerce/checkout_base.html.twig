@@ -27,16 +27,17 @@
 
 <body>
 
-{% include 'frontend/ecommerce/leftmenu.html.twig' %}
+{% include 'frontend/ecommerce/checkout_leftmenu.html.twig' %}
 
-{% include 'security/frontend/getuser.html.twig' %}
+
 <!-- Content Wrapper -->
 {% block body %}{% endblock %}
 <!-- /Content Wrapper -->
-
+{% include 'security/frontend/getuser.html.twig' %}
 <script>
     const imageProdPath = "/images/produits/";
 </script>
+
 <!-- Concatenated plugins -->
 <script src="{{ asset('frontend/js/app.js') }}"></script>
 
@@ -53,16 +54,13 @@
 
 <!--Pages-->
 <script src="{{ asset('frontend/js/account.js') }}"></script>
-{#<script src="{{ asset('frontend/js/wishlist.js') }}"></script>
-{#<script src="{{ asset('frontend/js/product.js') }}"></script>#}
+<script src="{{ asset('frontend/js/wishlist.js') }}"></script>
+<script src="{{ asset('frontend/js/product.js') }}"></script>
 <script src="{{ asset('frontend/js/orders.js') }}"></script>
 <script src="{{ asset('frontend/js/order.js') }}"></script>
 <script src="{{ asset('frontend/js/checkout.js') }}"></script>
-
-<script src="{{ asset('axios/constants.js') }}"></script>
 <script src="{{ asset('axios/default-functions-front.js') }}"></script>
-
-{#<script src="{{ asset('frontend/js/search.js') }}"></script>#}
+<script src="{{ asset('frontend/js/search.js') }}"></script>
 
 
 {% block js %}

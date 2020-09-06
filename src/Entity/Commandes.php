@@ -6,7 +6,7 @@ use App\Repository\CommandesRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=CommandesRepository::class)
+ * @ORM\Entity(repositoryClass="App\Repository\CommandesRepository", repositoryClass=CommandesRepository::class)
  */
 class Commandes
 {
@@ -17,6 +17,28 @@ class Commandes
      */
     private $id;
 
+    /**
+     * @return mixed
+     */
+    public function getNumero()
+    {
+        return $this->numero;
+    }
+
+    /**
+     * @param mixed $numero
+     * @return Commandes
+     */
+    public function setNumero($numero)
+    {
+        $this->numero = $numero;
+        return $this;
+    }
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $numero;
     /**
      * @ORM\Column(type="datetime")
      */
@@ -33,14 +55,19 @@ class Commandes
     private $modePaiement;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=true)
      */
-    private $panier;
+    private $panier="a:0:{}";
 
     /**
      * @ORM\Column(type="string", length=255)
      */
     private $statut;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $modeLivraison;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class)
@@ -61,6 +88,25 @@ class Commandes
     {
         return $this->id;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getModeLivraison()
+    {
+        return $this->modeLivraison;
+    }
+
+    /**
+     * @param mixed $modeLivraison
+     * @return Commandes
+     */
+    public function setModeLivraison($modeLivraison)
+    {
+        $this->modeLivraison = $modeLivraison;
+        return $this;
+    }
+
 
     public function getDateCom(): ?\DateTimeInterface
     {
@@ -98,14 +144,14 @@ class Commandes
         return $this;
     }
 
-    public function getPanier(): ?string
+    public function getPanier(): ?array
     {
-        return $this->panier;
+        return unserialize($this->panier);
     }
 
-    public function setPanier(string $panier): self
+    public function setPanier(array $panier): self
     {
-        $this->panier = $panier;
+        $this->panier = serialize($panier);
 
         return $this;
     }

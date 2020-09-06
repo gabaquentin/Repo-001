@@ -7,7 +7,6 @@ function getCheckoutSidebar() {
   $('#checkout-avatar').attr('src', 'http://via.placeholder.com/250x250');
   $('#checkout-avatar').attr('data-demo-src', checkout.avatar);
   $('#checkout-username').html(checkout.username); //Shipping address
-
   if (!userData.addresses[1].disabled) {
     $('#shipping-address1').html(userData.addresses[1].address1);
     $('#shipping-address2').html(userData.addresses[1].address2);
@@ -48,13 +47,13 @@ function getCheckoutStep2() {
   var userData = JSON.parse(localStorage.getItem('user')); //Disable address toggle if no shipping address is configured
 
   if (userData.addresses[1].disabled === true) {
-    $('#shipping-switch').closest('label').addClass('is-vhidden');
+    $('#shipping-switch').closest('label').addClass('is-hidden');
   }
 } //Get step 4 info
 
 
 function getCheckoutStep4() {
-  var checkout = JSON.parse(localStorage.getItem('checkout')); //Shipping
+  let checkout = JSON.parse(localStorage.getItem('checkout')); //Shipping
 
   $('#summary-shipping-icon').attr('src', checkout.shippingMethod.icon);
   $('#summary-shipping-name').html(checkout.shippingMethod.name);
@@ -65,22 +64,21 @@ function getCheckoutStep4() {
   $('#summary-payment-description').html(checkout.paymentMethod.description);
 } //Finalize checkout and convert to order
 
-
 function convertCheckoutToOrder() {
-  var userData = JSON.parse(localStorage.getItem('user'));
-  var checkout = JSON.parse(localStorage.getItem('checkout'));
-  var orderProducts = [];
+  let userData = JSON.parse(localStorage.getItem('user'));
+  let checkout = JSON.parse(localStorage.getItem('checkout'));
+  let orderProducts = [];
 
   function formatDate(date) {
-    var monthsList = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    let monthsList = ["Jan", "Fev", "Mar", "Avr", "Mai", "Juin", "Juil", "Aout", "Sept", "Oct", "Nov", "Dec"];
     return monthsList[date.getMonth()] + ' ' + date.getDate() + ' ' + date.getFullYear();
   }
 
   ;
-  var orderDate = formatDate(new Date());
+  let orderDate = formatDate(new Date());
 
-  for (var p = 0; p < checkout.items.length; p++) {
-    var orderItem = {
+  for (let p = 0; p < checkout.items.length; p++) {
+    let orderItem = {
       id: checkout.items[p].id,
       name: checkout.items[p].name,
       price: checkout.items[p].price,
@@ -90,7 +88,7 @@ function convertCheckoutToOrder() {
     orderProducts.push(orderItem);
   }
 
-  var newOrder = {
+  let newOrder = {
     id: parseInt(userData.orders[0].id) + 1,
     total: checkout.total,
     date: orderDate,
@@ -107,12 +105,142 @@ function convertCheckoutToOrder() {
     products: orderProducts,
     contact: {
       name: 'Janet Smith',
-      photoUrl: 'frontend/img/avatars/janet.jpg'
+      photoUrl: 'assets/img/avatars/janet.jpg'
     }
   };
   userData.orders.unshift(newOrder);
   localStorage.setItem('user', JSON.stringify(userData));
-  localStorage.removeItem('checkout');
+  //localStorage.removeItem('checkout');
+}
+
+//Fonction qui permet de vérifer le code coupon saisie
+function checkCoupon() {
+  let checkout = JSON.parse(localStorage.getItem('checkout'));
+  let code= $(".input").val();
+  if(code !==""){
+      $.ajax({
+        type: "GET",
+        url: check_couponRoute,
+        data:{
+          "coupon":code
+        },
+        async: true,
+        dataType: "JSON",
+        beforeSend: () => {
+          $('.coupon-button').addClass('is-loading')
+        },
+        success: (data) =>{
+          let Reduc=data["remise"];
+          checkout.coupon = data["id"];
+          checkout.taxes= (checkout.subtotal*Reduc ) /100 ;
+          checkout.remise=Reduc;
+          checkout.total = checkout.subtotal-checkout.taxes;
+          checkout.taxes =parseFloat(checkout.taxes).toFixed(2);
+          checkout.total =parseFloat(checkout.total).toFixed(2);
+          localStorage.setItem('checkout', JSON.stringify(checkout));
+          $('#checkout-tax-value').html(checkout.taxes);
+          $('#checkout-grandtotal-value').html(checkout.total);
+          $('.coupon-button').removeClass('is-loading');
+          toasts.service.error('', 'fa fa-close', 'Votre code coupon a été pris en compte  ', 'bottomRight', 2500);
+
+        },
+        error: () => {
+          $('.coupon-button').removeClass('is-loading');
+          toasts.service.error('', 'fa fa-close', 'Vous avez saisi un mauvais code ', 'bottomRight', 2500);
+        }
+     })
+  }
+  else {
+    toasts.service.error('', 'fa fa-close', "Vous avez oublié d'entrer un code coupon", 'bottomRight', 2500);
+  }
+
+}
+
+function getOrderInfo() {
+  let checkout = JSON.parse(localStorage.getItem('checkout'));
+  $("#payment-mode").html(checkout.paymentMethod.name);
+  $("#numero_order").html(checkout.id);
+  $("#shipping-mode").html(checkout.shippingMethod.name);
+  $("#statut").html("En cours de Livraison");
+  $('#contact').html(checkout.username);
+  $('.flex-table .flex-table-item').remove();
+  for (let p = 0; p < checkout.items.length; p++) {
+    let priceProduct = checkout.items[p].price * checkout.items[p].quantity;
+    let remise = (priceProduct * checkout.remise / 100).toFixed(2);
+    let template = "\n            <div class=\"flex-table-item product-container\" data-product-id=\"" + checkout.items[p].id + "\">\n    " +
+        " <div class=\"product\">\n                  " +
+        " <img src=\"http://via.placeholder.com/250x250\" data-demo-src=\"" + checkout.items[p].images[0].url + "\" alt=\"\">\n       " +
+        "<a class=\"product-name\">" + checkout.items[p].name + "</a>\n              " +
+        "</div>\n   " +
+        " <div class=\"quantity\">\n  <span>" + checkout.items[p].quantity + "</span>\n     </div>\n  " +
+        " <div class=\"price\">\n       <span class=\"has-price\">" + checkout.items[p].price.toFixed(2) + "</span>\n   </div>\n     " +
+        " <div class=\"discount\">\n    <span class=\"has-price\"> "+ remise +"</span>\n     </div>\n           " +
+        " <div class=\"total\">\n       <span class=\"has-price\">" + (priceProduct - remise).toFixed(2) + "</span>\n   </div>\n  " +
+        " </div>\n        ";
+    $.when($('.flex-table').append(template)).done(function () {});
+  }
+  $("#subtotal-value").html(checkout.subtotal);
+  $("#shipping-value").html(checkout.shipping);
+  $("#discount-value").html(checkout.taxes);
+  $("#total-value").html(checkout.total);
+  localStorage.setItem('checkout', JSON.stringify(checkout));
+}
+
+function SendOrderInfo() {
+  let checkout = JSON.parse(localStorage.getItem('checkout'));
+  let lettre = "0123456789";
+  let code = ""+checkout.username.substr(0,3);
+  for (let i = 0; i < 5; i++){
+    code += lettre.charAt(Math.floor(Math.random() * lettre.length));
+  }
+  checkout.id = code;
+  let cart = JSON.parse(localStorage.getItem('cart'));
+  let PaymentMode = checkout.paymentMethod.name;
+  let ShippingMode = checkout.shippingMethod.name;
+  let numero=checkout.id;
+  let userData = JSON.parse(localStorage.getItem('user'));
+  let userId = userData.email;
+  localStorage.setItem('cart', JSON.stringify(cart));
+  $.ajax({
+    type: "GET",
+    url: add_commande,
+    data:{
+      "numero": numero,
+      "cart": cart,
+      "payment":PaymentMode,
+      "shipping":ShippingMode,
+      "user":userId
+    },
+    async: true,
+    dataType: "JSON",
+    success: (data) => {
+      alert(data['payment']);
+    },
+    error: () => {
+      alert("Faute");
+    }
+  });
+  localStorage.setItem('checkout', JSON.stringify(checkout));
+}
+
+function SaveCheckout(){
+  let checkout=JSON.parse(localStorage.getItem('checkout'));
+  let cart = JSON.parse(localStorage.getItem('cart'));
+  let user =  checkout.user.id;
+  let modeLivraison = checkout.shippingMethod.name;
+  let modePaiement= checkout.paymentMethod.name;
+  localStorage.setItem('checkout', JSON.stringify(checkout));
+  localStorage.setItem('cart', JSON.stringify(cart));
+
+  $.ajax({
+    type: "GET",
+    url: next,
+    data: {
+
+    }
+      }
+  );
+
 }
 
 $(document).ready(function () {
@@ -138,6 +266,7 @@ $(document).ready(function () {
       $('#payment-methods-' + targetMethod).removeClass('is-hidden');
     }, 300);
   });
+
   $('.checkout-payment-methods .payment-back').on('click', function () {
     $('.checkout-payment-methods').addClass('is-hidden');
     $('.checkout-payment-methods .method-card').removeClass('is-selected');
@@ -147,6 +276,7 @@ $(document).ready(function () {
     $('.payment-disclaimer .animated-checkbox.is-checked').removeClass('is-checked is-unchecked');
     $('#checkout-next').addClass('no-click');
   });
+
   $('.payment-disclaimer input').on('change', function () {
     console.log('changed');
 
@@ -158,9 +288,9 @@ $(document).ready(function () {
   }); //If checkout
 
   if ($('.checkout-wrapper').length) {
-    var currentStep = parseInt($('.checkout-wrapper').attr('data-checkout-step'));
-    var checkout = JSON.parse(localStorage.getItem('checkout'));
-    var userData = JSON.parse(localStorage.getItem('user'));
+    let currentStep = parseInt($('.checkout-wrapper').attr('data-checkout-step'));
+    let checkout = JSON.parse(localStorage.getItem('checkout'));
+    let userData = JSON.parse(localStorage.getItem('user'));
     disableCartSidebar(); //If a user is logged
 
     if (userData.isLoggedIn) {
@@ -174,121 +304,122 @@ $(document).ready(function () {
         }, 1500);
       } //User is logged and some checkout data is available
       else {
-          //Redirect to the correct checkout object step
-          if (checkout.step !== currentStep) {
-            window.location.href = "/checkout-step" + checkout.step + ".html";
-          } //If checkout step1
+        //Redirect to the correct checkout object step
+        if (checkout.step !== currentStep) {
+          window.location.href = next;
+        } //If checkout step1
 
 
-          if ($('#checkout-1').length) {
-            getCheckoutSidebar();
-            getCheckoutStep1();
-          } else if ($('#checkout-2').length) {
-            getCheckoutSidebar();
-            getCheckoutStep2();
-          } else if ($('#checkout-3').length) {
-            getCheckoutSidebar();
-          } else if ($('#checkout-4').length) {
-            getCheckoutSidebar();
-            getCheckoutStep1(); //Can be reused here to get products
-
-            getCheckoutStep4();
-          } else if ($('#checkout-5').length) {
-            getCheckoutSidebar();
-            var cart = JSON.parse(localStorage.getItem('cart'));
-            cart.products = [];
-            cart.items = 0;
-            cart.total = 0.00;
-            localStorage.setItem('cart', JSON.stringify(cart));
-            setTimeout(function () {
-              $('.success-card').removeClass('is-hidden');
-              getCart();
-            }, 2000);
-          }
+        if ($('#checkout-1').length) {
+          getCheckoutSidebar();
+          getCheckoutStep1();
         }
+        else if ($('#checkout-2').length) {
+          getCheckoutSidebar();
+          getCheckoutStep2();
+        }
+        else if ($('#checkout-3').length) {
+          getCheckoutSidebar();
+        }
+        else if ($('#checkout-4').length) {
+          getCheckoutSidebar();
+          getCheckoutStep1(); //Can be reused here to get products
+
+          getCheckoutStep4();
+        }
+        else if ($('#checkout-5').length) {
+          getCheckoutSidebar();
+
+          setTimeout(function () {
+            $('.success-card').removeClass('is-hidden');
+            getCart();
+          }, 2000);
+        }
+      }
     } //If not
     else {
+      setTimeout(function () {
+        $('.checkout-unauth-modal').addClass('is-active');
         setTimeout(function () {
-          $('.checkout-unauth-modal').addClass('is-active');
-          setTimeout(function () {
-            $('.checkout-unauth-modal .box').addClass('scaled');
-          }, 600);
-        }, 1500);
-      }
+          $('.checkout-unauth-modal .box').addClass('scaled');
+        }, 600);
+      }, 1500);
+    }
   } //Checkout button
 
 
   $('#checkout-next').on('click', function () {
-    var checkout = JSON.parse(localStorage.getItem('checkout'));
-    var $this = $(this);
+    let checkout = JSON.parse(localStorage.getItem('checkout'));
+    let $this = $(this);
     $this.addClass('is-loading'); //Handle step 1
 
     if ($('#checkout-1').length) {
       checkout.step = parseInt(checkout.step) + 1;
       localStorage.setItem('checkout', JSON.stringify(checkout));
       setTimeout(function () {
-        window.location.href = '/checkout-step2.html';
+        window.location.href = next;
         $this.removeClass('is-loading');
       }, 1000);
     } //Handle step 2
     else if ($('#checkout-2').length) {
-        var shippingMethod = {};
+      var shippingMethod = {};
 
-        if ($('.method-card.is-selected').length === 0) {
-          toasts.service.error('', 'fa fa-close', 'Please select a shipping method', 'bottomRight', 2500);
-          setTimeout(function () {
-            $this.removeClass('is-loading');
-          }, 1000);
-        } else {
-          checkout.step = parseInt(checkout.step) + 1;
-          localStorage.setItem('checkout', JSON.stringify(checkout));
-          shippingMethod.icon = $('.method-card.is-selected').find('img').attr('src');
-          shippingMethod.name = $('.method-card.is-selected').find('h3').text();
-          shippingMethod.description = $('.method-card.is-selected').find('p').text();
-          checkout.shippingMethod = shippingMethod;
-          checkout.shipping = parseFloat($('#checkout-shipping-value').text()).toFixed(2);
-          checkout.total = (parseFloat(checkout.total) + parseFloat(checkout.shipping)).toFixed(2);
-          localStorage.setItem('checkout', JSON.stringify(checkout));
-          setTimeout(function () {
-            window.location.href = '/checkout-step3.html';
-            $this.removeClass('is-loading');
-          }, 1000);
-        }
-      } //Handle step 3
-      else if ($('#checkout-3').length) {
-          var paymentMethod = {};
+      if ($('.method-card.is-selected').length === 0) {
+        toasts.service.error('', 'fa fa-close', 'Veillez choisir un moyen de livraison', 'bottomRight', 2500);
+        setTimeout(function () {
+          $this.removeClass('is-loading');
+        }, 1000);
+      }
+      else {
+        checkout.step = parseInt(checkout.step) + 1;
+        localStorage.setItem('checkout', JSON.stringify(checkout));
+        shippingMethod.icon = $('.method-card.is-selected').find('img').attr('src');
+        shippingMethod.name = $('.method-card.is-selected').find('h3').text();
+        shippingMethod.description = $('.method-card.is-selected').find('p').text();
+        checkout.shippingMethod = shippingMethod;
+        checkout.shipping = parseFloat($('#checkout-shipping-value').text()).toFixed(2);
+        checkout.total = (parseFloat(checkout.total) + parseFloat(checkout.shipping)).toFixed(2);
+        localStorage.setItem('checkout', JSON.stringify(checkout));
+        setTimeout(function () {
+          window.location.href = next;
+          $this.removeClass('is-loading');
+        }, 1000);
+      }
+    } //Handle step 3
+    else if ($('#checkout-3').length) {
+      let paymentMethod = {};
 
-          if ($('.method-card.is-selected').length === 0) {
-            toasts.service.error('', 'fa fa-close', 'Please select a payment method', 'bottomRight', 2500);
-            setTimeout(function () {
-              $this.removeClass('is-loading');
-            }, 1000);
-          } else {
-            checkout.step = parseInt(checkout.step) + 1;
-            localStorage.setItem('checkout', JSON.stringify(checkout));
-            paymentMethod.icon = $('.method-card.is-selected').find('img').attr('src');
-            paymentMethod.name = $('.method-card.is-selected').find('h3').text();
-            paymentMethod.description = $('.method-card.is-selected').find('p').text();
-            checkout.paymentMethod = paymentMethod;
-            localStorage.setItem('checkout', JSON.stringify(checkout));
-            setTimeout(function () {
-              window.location.href = '/checkout-step4.html';
-              $this.removeClass('is-loading');
-            }, 1000);
-          }
-        } //Handle step 4
-        else if ($('#checkout-4').length) {
-            checkout.step = parseInt(checkout.step) + 1;
-            localStorage.setItem('checkout', JSON.stringify(checkout));
-            var checkout = JSON.parse(localStorage.getItem('checkout'));
-            var orderNotes = $('#checkout-notes').val();
-            checkout.orderNotes = orderNotes;
-            localStorage.setItem('checkout', JSON.stringify(checkout));
-            setTimeout(function () {
-              window.location.href = '/checkout-step5.html';
-              $this.removeClass('is-loading');
-            }, 1000);
-          }
+      if ($('.method-card.is-selected').length === 0) {
+        toasts.service.error('', 'fa fa-close', 'Veillez saisir le mode de Payement', 'bottomRight', 2500);
+        setTimeout(function () {
+          $this.removeClass('is-loading');
+        }, 1000);
+      } else {
+        checkout.step = parseInt(checkout.step) + 1;
+        localStorage.setItem('checkout', JSON.stringify(checkout));
+        paymentMethod.icon = $('.method-card.is-selected').find('img').attr('src');
+        paymentMethod.name = $('.method-card.is-selected').find('h3').text();
+        paymentMethod.description = $('.method-card.is-selected').find('p').text();
+        checkout.paymentMethod = paymentMethod;
+        localStorage.setItem('checkout', JSON.stringify(checkout));
+        setTimeout(function () {
+          window.location.href = next;
+          $this.removeClass('is-loading');
+        }, 1000);
+      }
+    } //Handle step 4
+    else if ($('#checkout-4').length) {
+      let checkout = JSON.parse(localStorage.getItem('checkout'));
+      checkout.step = parseInt(checkout.step);
+      localStorage.setItem('checkout', JSON.stringify(checkout));
+      checkout.orderNotes = $('#checkout-notes').val();
+      localStorage.setItem('checkout', JSON.stringify(checkout));
+      SendOrderInfo();
+      setTimeout(function () {
+        window.location.href = prev;
+        $this.removeClass('is-loading');
+      }, 1000);
+    }
   }); //Checkout back button
 
   $('.checkout-back').on('click', function (e) {
@@ -303,25 +434,25 @@ $(document).ready(function () {
 
       if ($('#checkout-2').length) {
         setTimeout(function () {
-          window.location.href = '/checkout-step1.html';
+          window.location.href = prev;
           $this.removeClass('is-loading');
         }, 1000);
       } //Back from step 3 to step 2
       else if ($('#checkout-3').length) {
-          checkout.total = (parseFloat(checkout.total) - parseFloat(checkout.shipping)).toFixed(2);
-          checkout.shipping = 0.00.toFixed(2);
-          localStorage.setItem('checkout', JSON.stringify(checkout));
-          setTimeout(function () {
-            window.location.href = '/checkout-step2.html';
-            $this.removeClass('is-loading');
-          }, 1000);
-        } //Back from step 4 to step 3
-        else if ($('#checkout-4').length) {
-            setTimeout(function () {
-              window.location.href = '/checkout-step3.html';
-              $this.removeClass('is-loading');
-            }, 1000);
-          }
+        checkout.total = (parseFloat(checkout.total) - parseFloat(checkout.shipping)).toFixed(2);
+        checkout.shipping = 0.00.toFixed(2);
+        localStorage.setItem('checkout', JSON.stringify(checkout));
+        setTimeout(function () {
+          window.location.href = prev;
+          $this.removeClass('is-loading');
+        }, 1000);
+      } //Back from step 4 to step 3
+      else if ($('#checkout-4').length) {
+        setTimeout(function () {
+          window.location.href = prev;
+          $this.removeClass('is-loading');
+        }, 1000);
+      }
     }
   }); //End Checkout
 
@@ -368,5 +499,12 @@ $(document).ready(function () {
         $('.pageloader, .infraloader').removeClass('is-full');
       }
     });
+  }
+
+  $('.coupon-button').on('click',function () {
+      checkCoupon();
+  });
+  if($("#order").length){
+    getOrderInfo();
   }
 });

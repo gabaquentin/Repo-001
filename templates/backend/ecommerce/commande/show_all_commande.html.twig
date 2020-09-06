@@ -1,0 +1,57 @@
+{% extends 'backend/base/base.html.twig' %}
+
+{% block stylesheets %}
+    <!-- Plugins css -->
+    <link href="{{ asset('backend/libs/datatables/responsive.bootstrap4.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('backend/libs/datatables/dataTables.bootstrap4.css') }}" rel="stylesheet" type="text/css" />/>
+{% endblock %}
+
+{% block block_starter %} Gestion des Commandes {% endblock %}
+{% block body %}
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+
+                    <h4 class="header-title">Liste des commandes</h4>
+                    <p class="text-muted font-13 mb-4">
+                    </p>
+                    <table id="datatable-buttons" class="table dt-responsive ">
+                        <thead class="bg-light">
+                        <tr>
+                            <th class="font-weight-medium">id</th>
+                            <th class="font-weight-medium">Client</th>
+                            <th class="font-weight-medium">Livreur</th>
+                            <th class="font-weight-medium">Date de commande</th>
+                            <th class="font-weight-medium">Date de Livraison</th>
+                            <th class="font-weight-medium">Mode de Paiement</th>
+                            <th class="font-weight-medium">Statut</th>
+                            <th class="font-weight-medium">Action</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+
+                        </tbody>
+                    </table>
+
+                </div> <!-- end card body-->
+            </div> <!-- end card -->
+        </div><!-- end col-->
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        const GetOrderRoute = "{{ path('get_order_back') }}";
+    </script>
+    <!-- Plugins Js -->
+    <script src="{{ asset('backend/libs/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('backend/libs/datatables/dataTables.bootstrap4.js') }}"></script>
+    <script src="{{ asset('backend/libs/datatables/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('backend/libs/datatables/buttons.bootstrap4.min.js') }}"></script>
+
+    <!-- custom js-->
+    <script src="{{ asset('backend/js/pages/ecommerce/commande.js') }}"></script>
+
+{% endblock %}
