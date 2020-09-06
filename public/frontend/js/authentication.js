@@ -16,7 +16,7 @@ var email = $('.js-user-email').data('email');
 var phone = $('.js-user-phone').data('phone');
 var image = $('.js-user-image').data('image');
 var ableToEdit = $('.js-user-able-to-edit').data('ableToEdit');
-console.log(ableToEdit);
+
 if(isAuthenticated)
 {
   var login = {
@@ -878,7 +878,7 @@ function Logout() {
     $('.small-auth-loader').addClass('is-active');
     localStorage.removeItem('user');
     setTimeout(function () {
-      toasts.service.success('', 'fas fa-check', 'Successfully logged out', 'bottomRight', 2000);
+      toasts.service.success('', 'fas fa-check', 'Vous etes maintenant deconnecté', 'bottomRight', 2000);
     }, 600);
   });
 } //Accounts panel (Demo: do not use in production)
@@ -961,10 +961,6 @@ $(window).on('load', function () {
         })
       }
 
-    }
-    else
-    {
-      console.log(userData.ableToEdit);
     }
   } else {
     console.log(url.toString());

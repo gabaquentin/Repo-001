@@ -117,6 +117,25 @@ class User implements UserInterface
     private $note;
 
     /**
+     * @ORM\OneToOne(targetEntity=Shipping::class)
+     */
+    private $livraison;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Billing::class)
+     */
+    private $paiement;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $esa;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $phone_verified;
+
      * @ORM\OneToOne(targetEntity=Pack::class, inversedBy="user", cascade={"persist", "remove"})
      */
     private $pack;
@@ -125,6 +144,7 @@ class User implements UserInterface
     {
         $this->creation = new \DateTime();
     }
+
 
     public function getId(): ?int
     {
@@ -405,6 +425,47 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getLivraison()
+    {
+        return $this->livraison;
+    }
+
+    /**
+     * @param mixed $livraison
+     */
+    public function setLivraison($livraison): void
+    {
+        $this->livraison = $livraison;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPaiement()
+    {
+        return $this->paiement;
+    }
+
+    /**
+     * @param mixed $paiement
+     */
+    public function setPaiement($paiement): void
+    {
+        $this->paiement = $paiement;
+    }
+
+    public function getEsa(): ?int
+    {
+        return $this->esa;
+    }
+
+    public function setEsa(int $esa): self
+    {
+        $this->esa = $esa;
+
     public function getPack(): ?Pack
     {
         return $this->pack;
@@ -414,8 +475,20 @@ class User implements UserInterface
     {
         $this->pack = $pack;
 
+
         return $this;
     }
 
+    public function getPhoneVerified(): ?bool
+    {
+        return $this->phone_verified;
+    }
+
+    public function setPhoneVerified(bool $phone_verified): self
+    {
+        $this->phone_verified = $phone_verified;
+
+        return $this;
+    }
 
 }

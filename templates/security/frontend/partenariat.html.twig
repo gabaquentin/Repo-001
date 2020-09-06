@@ -189,7 +189,7 @@
                                             <div class="inner">
                                                 <div class="divider"></div>
                                                 <h2 class="title is-6 is-light">{% trans %}Bienvenue {% endtrans %} {% if app.user %} {{ app.user.prenom }} {% endif %}</h2>
-                                                <p>Vous etes proprietaire d'un etablissement de vente/location de fournitures immobiliére, materiaux de constrction, maison/appartement et vous souhaités rejoindre notre communauté afin de promouvoir vos produits et services ? </br> Si oui n'hesitez pas a remplir ce formulaire pour une demande d'adhésion.</p>
+                                                <p>Vous etes prestataire de services et vous souhaitez proposez vos services dans notre site. </br> Si oui n'hesitez pas a remplir ce formulaire pour une demande d'adhésion.</p>
                                             </div>
                                         </div>
                                         <div class="column is-6 is-component">
@@ -214,9 +214,9 @@
                                                         <div class="control is-bigger has-icon">
                                                             <select id="partenariatS-domaine" class="chosen-select is-multiple" data-placeholder="Selectionnez votre/vos domaine(s) d'activité(s)" multiple>
                                                                 <option label="Domaine"></option>
-                                                                <option value="immobilier">Immobilier</option>
-                                                                <option value="fournitures">Fournitures</option>
-                                                                <option value="construction">Construction</option>
+                                                                {% for service in services %}
+                                                                <option value="{{service.nom}}">{{service.nom}}</option>
+                                                                {% endfor %}
                                                             </select>
                                                         </div>
                                                     </div>
@@ -256,7 +256,7 @@
                                             <div class="inner">
                                                 <div class="divider"></div>
                                                 <h2 class="title is-6 is-light">{% trans %}Bienvenue {% endtrans %} {% if app.user %} {{ app.user.prenom }} {% endif %}</h2>
-                                                <p>Vous etes proprietaire d'un etablissement de vente/location de fournitures immobiliére, materiaux de constrction, maison/appartement et vous souhaités rejoindre notre communauté afin de promouvoir vos produits et services ? </br> Si oui n'hesitez pas a remplir ce formulaire pour une demande d'adhésion.</p>
+                                                <p>Vous etes proprietaire d'un terrain et vous souhaitez le vendre ? </br> Si oui n'hesitez pas a remplir ce formulaire pour une demande d'adhésion.</p>
                                             </div>
                                         </div>
                                         <div class="column is-6 is-component">
@@ -337,12 +337,8 @@
     <script>
         $('#partenariat-boutique-submit').on('click', function (event) {
             var $this = $(this);
-
+            event.preventDefault();
             var form = $('#partenariat-boutique-form');
-
-            form.submit(function (e) {
-
-                e.preventDefault();
 
                 $.ajax({
                     type: "POST",
@@ -372,7 +368,7 @@
 
                     },
                 });
-            });
+
         })
 
     </script>
@@ -382,12 +378,8 @@
     <script>
         $('#partenariat-services-submit').on('click', function (event) {
             var $this = $(this);
-
+            event.preventDefault();
             var form = $('#partenariat-services-form');
-
-            form.submit(function (e) {
-
-                e.preventDefault();
 
                 $.ajax({
                     type: "POST",
@@ -416,7 +408,6 @@
 
                     },
                 });
-            });
         })
 
     </script>

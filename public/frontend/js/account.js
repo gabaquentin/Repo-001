@@ -1,6 +1,8 @@
 "use strict"; //Shipping address state global variable
 
-var enableShippingAddress = false; //Get account information
+var enableShippingAddress = false;
+
+//Get account information
 
 function getAccountInfo() {
   var userData = JSON.parse(localStorage.getItem('user')); //If not logged in, hide account
@@ -118,7 +120,6 @@ function saveAccountInfo() {
     userData.addresses[0].postalCode = $('#billing-edit-postal-code').val();
     userData.addresses[0].state = $('#billing-edit-state').val();
     userData.addresses[0].country = $('#billing-edit-country').val(); //Shipping Address
-
     if (enableShippingAddress) {
       userData.addresses[1].address1 = $('#shipping-edit-address1').val();
       userData.addresses[1].address2 = $('#shipping-edit-address2').val();
@@ -134,7 +135,7 @@ function saveAccountInfo() {
     setTimeout(function () {
       localStorage.setItem('user', JSON.stringify(userData));
       $this.removeClass('is-loading');
-      toasts.service.success('', 'fas fa-check', 'Changes saved successfully', 'bottomRight', 2500);
+      toasts.service.success('', 'fas fa-check', 'Sauvegarde effectué avec succés', 'bottomRight', 2500);
     }, 1500);
     setTimeout(function () {
       getUser();
@@ -282,25 +283,17 @@ $(document).ready(function () {
     getAccountInfo();
   } //If account edit page
 
-  console.log("account");
-  console.log($('#account-page').length);
-  console.log("edit account");
-  console.log($('#edit-account-page').length);
-
   if ($('#edit-account-page').length) {
     getEditAccountInfo();
     initPopButtons();
     fakeValidation();
-    uploadProfilePicture();
     initCountryAutocomplete();
     saveAccountInfo(); //Address switch
-
     $('#shipping-switch').on('change', function () {
       var userData = JSON.parse(localStorage.getItem('user'));
       $(this).closest('.flat-card').find('.card-body').toggleClass('is-disabled');
-      //enableShippingAddress = !enableShippingAddress;
+      enableShippingAddress = !enableShippingAddress;
       console.log(enableShippingAddress);
-
       if (enableShippingAddress) {
         $('#shipping-edit-address1').val(userData.addresses[0].address1);
         $('#shipping-edit-address2').val(userData.addresses[0].address2);
@@ -316,6 +309,38 @@ $(document).ready(function () {
         $('#shipping-edit-state').val('');
         $('#shipping-edit-country').val('');
       }
+
+      /*
+      var state ;
+      if(enableShippingAddress === false)
+        state = 0;
+      else
+        state = 1;
+
+      fetch("/esa/" + state).then(function(response) {
+        if(response.ok) {
+          if(state === 1)
+          {
+            setTimeout(function () {
+              toasts.service.success('', 'fas fa-check', 'Adresse de livraison activé ', 'bottomRight', 2000);
+            }, 600);
+          }
+          else if (state === 0)
+          {
+            setTimeout(function () {
+              toasts.service.success('', 'fas fa-check', 'Adresse de livraison desactivé', 'bottomRight', 2000);
+            }, 1200);
+          }
+        } else {
+          console.log('Mauvaise réponse du réseau');
+        }
+      })
+          .catch(function(error) {
+            console.log('Il y a eu un problème avec l\'opération fetch: ' + error.message);
+          });
+
+       */
     });
+
   }
 });

@@ -1,0 +1,121 @@
+{% extends '/security/frontend/base.html.twig' %}
+
+{% block title %}Ma securité{% endblock %}
+
+{% block body %}
+
+    <!-- Main wrapper -->
+    <div class="shop-wrapper">
+
+        <!-- Search overlay -->
+        <div class="search-overlay"></div>
+
+        <!-- Search input -->
+        <div class="search-input-wrapper is-desktop is-hidden">
+            <div class="field">
+                <div class="control">
+                    <input id="nephos-search" type="text" name="search" placeholder="Search a Product">
+                    <span id="clear-search" role="button"><i data-feather="x"></i></span>
+                    <span class="bar"></span>
+                </div>
+                <span class="search-help">Type the name of the product you are looking for</span>
+            </div>
+        </div>
+        <!-- Main section -->
+        <div id="shop-wishlist" class="section">
+            <!-- Container -->
+            <div class="container">
+
+                <!-- Security Layout -->
+                <div class="columns account-header">
+                    <div class="column main-column is-tablet-landscape-padded">
+                        <!-- title -->
+                        <div class="account-title">
+                            <h2>SECURITY</h2>
+                            <!-- Icon filigrane -->
+                            <img class="brand-filigrane" src="{{ asset('frontend/img/logo/nephos-greyscale.svg') }}" alt="">
+                        </div>
+
+                        <!-- Account tabs -->
+                        {% include 'security/frontend/menu.html.twig' %}
+
+                        <!-- Row -->
+
+                        <div id="account-main" class="order-details-wrap">
+                        <div class="order-stats">
+                            <div class="columns">
+                                <div class="column is-4">
+                                    <div id="email-tile" class="order-stat">
+                                        <h3>E-Mail</h3>
+                                        <div class="order-stat-inner">
+                                            <div class="icon-container">
+                                                <img src="{{ asset('frontend/img/icons/line/Circle-icons-mail.svg.png') }}" alt="">
+                                                <div class="indicator">
+                                                    <i class="check" data-feather="check"></i>
+                                                    <i class="error" data-feather="x"></i>
+                                                    <i class="warning" data-feather="x"></i>
+                                                </div>
+                                            </div>
+                                            <div class="meta">
+                                                <span>E-Mail</span>
+                                                <span id="status-email">Paid</span>
+                                                <span><a>{{ app.user.email }}</a></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="column is-4">
+                                    <div id="phone-tile" class="order-stat">
+                                        <h3>Telephone</h3>
+                                        <div class="order-stat-inner">
+                                            <div class="icon-container">
+                                                <img src="{{ asset('frontend/img/icons/line/Circle-icons-phone.svg.png') }}" alt="">
+                                                <div class="indicator">
+                                                    <i class="check" data-feather="check"></i>
+                                                    <i class="error" data-feather="x"></i>
+                                                    <i class="warning" data-feather="x"></i>
+                                                </div>
+                                            </div>
+                                            <div class="meta">
+                                                <span>Telephone</span>
+                                                <span id="status-tel"></span>
+                                                <span><a>{{ app.user.telephone }}</a></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="column is-4">
+                                    <div id="status-tile" class="order-stat">
+                                        <h3>Status</h3>
+                                        <div class="order-stat-inner">
+                                            <div class="icon-container">
+                                                <img src="{{ asset('frontend/img/icons/line/status.svg') }}" alt="">
+                                                <div class="indicator">
+                                                    <i class="check" data-feather="check"></i>
+                                                    <i class="error" data-feather="x"></i>
+                                                    <i class="warning" data-feather="x"></i>
+                                                </div>
+                                            </div>
+                                            <div class="meta">
+                                                <span>Status</span>
+                                                <span id="status-status">Complete</span>
+                                                <span><a>--</a></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+
+                        <!-- /Row -->
+                    </div>
+                </div>
+            </div>
+            <!-- /Container -->
+        </div>
+        <!-- /Main section -->
+    </div>
+    <!-- /Main wrapper -->
+
+{% endblock %}

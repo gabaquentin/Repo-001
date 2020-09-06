@@ -435,12 +435,7 @@
         $('#register-submit').on('click', function (event) {
             event.preventDefault();
             var $this = $(this);
-
             var form = $('#registration-form');
-
-            //form.submit(function (e) {
-
-               // e.preventDefault();
 
                 $.ajax({
                     type: "POST",
@@ -479,7 +474,7 @@
                                 photoUrl: data['image'],
                                 wishlists: myWishlists,
                                 orders: myOrders,
-                                addresses: elieAddresses
+                                addresses: myAddresses
                             };
 
                             localStorage.setItem('user', JSON.stringify(register));
@@ -512,7 +507,6 @@
 
                         }
 
-
                     },
                     error: function (data) {
                         setTimeout(function () {
@@ -522,7 +516,6 @@
 
                     },
                 });
-            //});
         })
 
     </script>
@@ -532,12 +525,8 @@
     <script>
         $('#reset-submit').on('click', function (event) {
             var $this = $(this);
-
+            event.preventDefault();
             var form = $('#reset-form');
-
-            form.submit(function (e) {
-
-                e.preventDefault();
 
                 $.ajax({
                     type: "POST",
@@ -575,7 +564,7 @@
 
                     },
                 });
-            });
+
         })
 
     </script>
@@ -585,12 +574,8 @@
     <script>
         $('#reset-process-submit').on('click', function (event) {
             var $this = $(this);
-
+            event.preventDefault();
             var form = $('#reset-process-form');
-
-            form.submit(function (e) {
-
-                e.preventDefault();
 
                 $.ajax({
                     type: "POST",
@@ -620,7 +605,6 @@
 
                     },
                 });
-            });
         })
 
     </script>
