@@ -19,6 +19,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/login", name="app_login")
      * @param AuthenticationUtils $authenticationUtils
+     * @param TranslatorInterface $translator
      * @return Response
      */
     public function login(AuthenticationUtils $authenticationUtils, TranslatorInterface $translator): Response

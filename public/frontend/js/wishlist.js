@@ -273,7 +273,7 @@ $(document).ready(function () {
     getWishlists();
     removeWishlistItem();
   } //Init add wishlist modal if any
-
+  //$('.account-loader').removeClass('is-active');
 
   if ($('#new-wishlist').length) {
     addWishlist();

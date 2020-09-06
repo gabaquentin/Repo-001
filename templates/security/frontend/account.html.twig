@@ -35,14 +35,7 @@
                         </div>
 
                         <!-- Account tabs -->
-                        <div class="tabs account-tabs">
-                            <ul>
-                                <li class="is-active"><a href="{{path('app_account')}}">Account</a></li>
-                                <li><a href="{{path('app_whishlist')}}">Wishlist</a></li>
-                                <li><a href="{{path('app_cart')}}">Cart</a></li>
-                                <li><a href="{{path('app_orders')}}">Orders</a></li>
-                            </ul>
-                        </div>
+                        {% include 'frontend/menu-account.html.twig' with { "account":"is-active" } %}
 
                         <div id="account-main-placeholder" class="main-placeholder is-hidden">
                             <div class="placeholder-content">
