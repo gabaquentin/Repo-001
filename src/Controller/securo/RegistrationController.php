@@ -2,6 +2,8 @@
 
 namespace App\Controller\securo;
 
+use App\Entity\Billing;
+use App\Entity\Shipping;
 use App\Entity\User;
 use App\Security\EmailVerifier;
 use App\Security\LoginFormAuthenticator;
@@ -65,12 +67,41 @@ class RegistrationController extends AbstractController
             if($code == 0)
             {
                 $user = new User();
+                $shipping = new Shipping();
+                $billing = new Billing();
+                $entityManager = $this->getDoctrine()->getManager();
 
+                // add empty shipping address
+
+                $shipping->setAdresse("");
+                $shipping->setPays("");
+                $shipping->setVille("");
+                $shipping->setQuartier("");
+                $shipping->setCodepostal("");
+                $entityManager->persist($shipping);
+                $entityManager->flush();
+
+                // add empty billing address
+
+                $billing->setAdresse("");
+                $billing->setPays("");
+                $billing->setVille("");
+                $billing->setQuartier("");
+                $billing->setCodepostal("");
+                $entityManager->persist($billing);
+                $entityManager->flush();
+
+                // add user
                 $user->setNom($nom);
                 $user->setPrenom($prenom);
                 $user->setEmail($email);
                 $user->setTelephone($tel);
                 $user->setLocal($local);
+                $user->setLivraison($shipping);
+                $user->setPaiement($billing);
+                $user->setPhoneVerified(0);
+                $user->setIsVerified(0);
+                $user->setEsa(0);
                 $user->setImage($image);
                 $user->setCreation(date('Y/m/d H:i:s',time()));
                 // encode the plain password
@@ -87,7 +118,6 @@ class RegistrationController extends AbstractController
                 else if($role == "new_admin")
                     $user->setRoles((array)'ROLE_ADMIN');
 
-                $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($user);
                 $entityManager->flush();
 

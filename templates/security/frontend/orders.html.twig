@@ -35,17 +35,22 @@
                         </div>
 
                         <!-- Account tabs -->
-                        <div class="tabs account-tabs has-controls">
-                            <ul>
-                                <li><a href="{{path('app_account')}}">Account</a></li>
-                                <li><a href="{{path('app_whishlist')}}">Wishlist</a></li>
-                                <li><a href="{{path('app_cart')}}">Cart</a></li>
-                                <li class="is-active"><a href="{{path('app_orders')}}">Orders</a></li>
-                            </ul>
+                        {% include 'security/frontend/menu.html.twig' %}
+
+                        <div id="account-edit-main-placeholder" class="main-placeholder is-hidden">
+                            <div class="placeholder-content">
+                                <img src="{{ asset('frontend/img/illustrations/profile.svg') }}" alt="">
+                                <h3>Welcome, Guest</h3>
+                                <p>Guest users don't have accounts. Please login or register to view your account.</p>
+                                <div class="button-wrap">
+                                    <a href="{{path('app_login')}}" class="button big-button primary-button rounded raised">Log In</a>
+                                </div>
+                                <a>Don't have an account?</a>
+                            </div>
                         </div>
 
                         <!-- Controls -->
-                        <div class="listing-controls">
+                        <div id="orders-main" class="listing-controls">
                             <div class="layout-controls">
                                 <a href="orders.html"><span class="is-active"><i data-feather="grid"></i></span></a>
                                 <a href="orders-list.html"><span><i data-feather="list"></i></span></a>
@@ -63,18 +68,6 @@
                             </div>
                         </div>
                         <!-- /Controls -->
-
-                        <div id="orders-main-placeholder" class="main-placeholder is-hidden">
-                            <div class="placeholder-content">
-                                <img src="assets/img/illustrations/happy.svg" alt="">
-                                <h3>Welcome, Guest</h3>
-                                <p>Guest users don't have accounts. Please login or register to view your account.</p>
-                                <div class="button-wrap">
-                                    <a href="/authentication.html" class="button big-button primary-button rounded raised">Log In</a>
-                                </div>
-                                <a>Don't have an account?</a>
-                            </div>
-                        </div>
 
                         <div id="orders-empty-placeholder" class="main-placeholder is-hidden">
                             <div class="placeholder-content">

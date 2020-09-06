@@ -35,26 +35,7 @@
                         </div>
 
                         <!-- Account tabs -->
-                        <div class="tabs account-tabs">
-                            <ul>
-                                <li class="is-active"><a href="{{path('app_account')}}">Account</a></li>
-                                <li><a href="{{path('app_whishlist')}}">Wishlist</a></li>
-                                <li><a href="{{path('app_cart')}}">Cart</a></li>
-                                <li><a href="{{path('app_orders')}}">Orders</a></li>
-                            </ul>
-                        </div>
-
-                        <div id="account-main-placeholder" class="main-placeholder is-hidden">
-                            <div class="placeholder-content">
-                                <img src="{{ asset('frontend/img/illustrations/profile.svg') }}" alt="">
-                                <h3>Welcome, Guest</h3>
-                                <p>Guest users don't have accounts. Please login or register to view your account.</p>
-                                <div class="button-wrap">
-                                    <a href="{{path('app_login')}}" class="button big-button primary-button rounded raised">Log In</a>
-                                </div>
-                                <a href="{{ path('app_register', {'role': 'new_user'}) }}">Don't have an account?</a>
-                            </div>
-                        </div>
+                        {% include 'security/frontend/menu.html.twig' %}
 
                         <!-- Account layout -->
                         <div id="account-main" class="columns is-account-grid is-multiline">
@@ -110,7 +91,7 @@
                                     <div class="card-title">
                                         <h3>Account details</h3>
                                         <div class="edit-account has-simple-popover popover-hidden-mobile" data-content="Edit Account" data-placement="top">
-                                            <a id="account-edit-front-alert" href="#"><i class="feather-icons" data-feather="settings"></i></a>
+                                            <a id="account-edit-front-alert" href="{{ path("app_account_edit") }}"><i class="feather-icons" data-feather="settings"></i></a>
                                         </div>
                                     </div>
                                     <!-- Contact Info -->

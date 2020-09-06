@@ -40,7 +40,7 @@
                     </a>
                 </li>
                 <li class="menu-1 menu-out animated">
-                    {% if app.user.roles == "ROLE_PARTENAIRE" %}
+                    {% if is_granted('ROLE_PARTENAIRE') %}
                         <a href="#" class="menu-link" data-name="partenaire" data-toggle="tooltip" data-placement="bottom" title="Devenir Partenaire">
                             <span aria-hidden="true" class="icon icon-info"></span>
                         </a>

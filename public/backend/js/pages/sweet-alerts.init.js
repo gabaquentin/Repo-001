@@ -122,52 +122,28 @@
                 confirmButtonClass: "btn btn-confirm mt-2",
                 background: "#fff url(//subtlepatterns2015.subtlepatterns.netdna-cdn.com/patterns/geometry.png)"
             })
-        }), t("#account-edit-front-alert").click(function () {
-            var data = JSON.parse(localStorage.getItem('user'));
-            if(!data.ableToEdit) {
-                Swal.fire({
-                    title: "Entrez votre mot de passe",
-                    input: "password",
-                    inputAttributes: {autocapitalize: "off"},
-                    showCancelButton: !0,
-                    confirmButtonText: "Verifier",
-                    showLoaderOnConfirm: !0,
-                    preConfirm: function (t) {
-                        return fetch("/validatePassword/" + t).then(function (t) {
-                            if (!t.ok) throw new Error(t.statusText);
-                            return t.json()
-                        }).catch(function (t) {
-                            Swal.showValidationMessage("Mot de passe incorrect")
-                        })
-                    },
-                    allowOutsideClick: function () {
-                        Swal.isLoading()
-                    }
-                }).then(function (t) {
-                    if(t.value)
-                    {
-                        window.location.href = '/editaccount';
-                        var login = {
-                            isLoggedIn: true,
-                            ableToEdit: true,
-                            firstName: data.firstName,
-                            lastName: data.lastName,
-                            email: data.email,
-                            phone: data.phone,
-                            photoUrl: data.photoUrl,
-                            wishlists: myWishlists,
-                            orders: myOrders,
-                            addresses: myAddresses
-                        };
-
-                        localStorage.setItem('user', JSON.stringify(login));
-                    }
-                    t.value&&Swal.fire({title:"Mot de passe correct" , text:"Vous allez etre redirigé vers la page d'edition de compte"})
-                })
-            } else {
-                window.location.href = '/editaccount';
-            }
-
+        }), t("#ajax-alert").click(function () {
+            Swal.fire({
+                title: "Submit your Github username",
+                input: "text",
+                inputAttributes: {autocapitalize: "off"},
+                showCancelButton: !0,
+                confirmButtonText: "Look up",
+                showLoaderOnConfirm: !0,
+                preConfirm: function (t) {
+                    return fetch("//api.github.com/users/" + t).then(function (t) {
+                        if (!t.ok) throw new Error(t.statusText);
+                        return t.json()
+                    }).catch(function (t) {
+                        Swal.showValidationMessage("Request failed: " + t)
+                    })
+                },
+                allowOutsideClick: function () {
+                    Swal.isLoading()
+                }
+            }).then(function (t) {
+                t.value && Swal.fire({title: t.value.login + "'s avatar", imageUrl: t.value.avatar_url})
+            })
         }), t("#chaining-alert").click(function () {
             Swal.mixin({
                 input: "text",

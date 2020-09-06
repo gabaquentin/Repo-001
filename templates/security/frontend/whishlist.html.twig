@@ -33,39 +33,21 @@
                         <div class="account-title">
                             <h2>WISHLIST</h2>
                             <!-- Icon filigrane -->
-                            <img class="brand-filigrane" src="assets/img/logo/nephos-greyscale.svg" alt="">
+                            <img class="brand-filigrane" src="{{ asset('frontend/img/logo/nephos-greyscale.svg') }}" alt="">
                         </div>
 
                         <!-- Account tabs -->
-                        <div class="tabs account-tabs">
-                            <ul>
-                                <li><a href="{{path('app_account')}}">Account</a></li>
-                                <li class="is-active"><a href="{{path('app_whishlist')}}">Wishlist</a></li>
-                                <li><a href="{{path('app_cart')}}">Cart</a></li>
-                                <li><a href="{{path('app_orders')}}">Orders</a></li>
-                            </ul>
-                        </div>
+                        {% include 'security/frontend/menu.html.twig' %}
 
-                        <div id="wishlist-main-placeholder" class="main-placeholder is-hidden">
+                        <div id="account-edit-main-placeholder" class="main-placeholder is-hidden">
                             <div class="placeholder-content">
-                                <img src="assets/img/illustrations/add-to-cart.svg" alt="">
+                                <img src="{{ asset('frontend/img/illustrations/profile.svg') }}" alt="">
                                 <h3>Welcome, Guest</h3>
-                                <p>Please login to your account, or create a new one to be able to use wishlists.</p>
+                                <p>Guest users don't have accounts. Please login or register to view your account.</p>
                                 <div class="button-wrap">
-                                    <a class="button big-button primary-button rounded raised">Log In</a>
+                                    <a href="{{path('app_login')}}" class="button big-button primary-button rounded raised">Log In</a>
                                 </div>
                                 <a>Don't have an account?</a>
-                            </div>
-                        </div>
-
-                        <div id="wishlist-empty-placeholder" class="main-placeholder is-hidden">
-                            <div class="placeholder-content">
-                                <img src="assets/img/illustrations/add-to-cart.svg" alt="">
-                                <h3>No Wishlists</h3>
-                                <p>You currently don't have any wishlist saved. Start by creating one.</p>
-                                <div class="button-wrap">
-                                    <a class="button big-button primary-button rounded raised modal-trigger" data-modal="new-wishlist">Add Wishlist</a>
-                                </div>
                             </div>
                         </div>
 
