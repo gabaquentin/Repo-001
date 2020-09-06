@@ -136,6 +136,7 @@ class User implements UserInterface
      */
     private $phone_verified;
 
+    /**
      * @ORM\OneToOne(targetEntity=Pack::class, inversedBy="user", cascade={"persist", "remove"})
      */
     private $pack;
@@ -465,6 +466,7 @@ class User implements UserInterface
     public function setEsa(int $esa): self
     {
         $this->esa = $esa;
+    }
 
     public function getPack(): ?Pack
     {
