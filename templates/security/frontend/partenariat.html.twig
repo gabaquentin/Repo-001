@@ -215,7 +215,7 @@
                                                             <select id="partenariatS-domaine" class="chosen-select is-multiple" data-placeholder="Selectionnez votre/vos domaine(s) d'activité(s)" multiple>
                                                                 <option label="Domaine"></option>
                                                                 {% for service in services %}
-                                                                <option value="immobilier">{{service.nom}}</option>
+                                                                <option value="{{service.nom}}">{{service.nom}}</option>
                                                                 {% endfor %}
                                                             </select>
                                                         </div>
