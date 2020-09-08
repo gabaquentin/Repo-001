@@ -6,6 +6,7 @@ use App\Repository\ServiceRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ServiceRepository::class)
@@ -20,16 +21,24 @@ class Service
     private $id;
 
     /**
+     * @Assert\NotBlank(message="Nom du service manquant")
      * @ORM\Column(type="string", length=255)
      */
     private $nom;
 
     /**
+     * @Assert\NotBlank(message="Description du service manquant")
      * @ORM\Column(type="text", nullable=true)
      */
     private $description;
 
     /**
+     * @Assert\NotBlank(message="Nombre de questions du service manquant")
+     *  @Assert\Type(
+     *     type="integer",
+     *     message="Cette valeur {{ value }} n'est pas un nombre ."
+     * )
+     * @Assert\PositiveOrZero(message="Le nombre de question doit être un entier positif")
      * @ORM\Column(type="integer", nullable=true)
      */
     private $nbre_questions;
@@ -45,11 +54,6 @@ class Service
      * @ORM\ManyToOne(targetEntity=CategorieService::class, inversedBy="services")
      */
     private $CategorieService;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=User::class)
-     */
-    private $prestataire;
 
     /**
      * @ORM\OneToMany(targetEntity=Demande::class, mappedBy="service")

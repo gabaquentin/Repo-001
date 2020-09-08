@@ -28,7 +28,7 @@ class   CategorieServiceType extends AbstractType
         $builder
             ->add('nom')
             ->add('description', TextareaType::class)
-            ->add('imgfile', FileType::class, [
+            /*->add('imgfile', FileType::class, [
                 'mapped' => false,
                 'constraints' => [
                     new File([
@@ -41,7 +41,7 @@ class   CategorieServiceType extends AbstractType
                         'mimeTypesMessage' => 'SVP insérer une image valide (format jpg, jpeg et png)',
                     ])
                 ],
-            ])
+            ])*/
             ->add('categorieParent',EntityType::class,[
                 "class"=>CategorieService::class,
                 "choice_label"=>"nom",

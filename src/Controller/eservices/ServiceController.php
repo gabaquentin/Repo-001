@@ -59,7 +59,7 @@ class ServiceController extends AbstractController
     }
 
     /**
-     *@Route("/save/{service}", name="save_service")
+     *@Route("/service/save/{service}", name="save_service")
      * @param Request $request
      * @param FileUploader $uploader
      * @param EntityManagerInterface $em
@@ -85,9 +85,9 @@ class ServiceController extends AbstractController
             $service->setDescription($form->get('description')->getData());
             $service->setNbreQuestions($form->get('nbreQuestions')->getData());
             //$imageFile = $request->files->get('files',[]);
-            if(!(!empty($service->getImg()) && empty($form->get('imgfile')->getData())))
+            if(!(!empty($service->getImg()) && empty($request->request->get('imgfile'))))
             {
-                $imageName = $uploader->upload($form->get('imgfile')->getData(),"service",$service->getNom());
+                $imageName = $uploader->upload($request->files->get('imgfile'),"service",$service->getNom());
                 $service->setImg($imageName);
             }
             $em->persist($service);

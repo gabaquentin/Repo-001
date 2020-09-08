@@ -6,7 +6,10 @@
     <link href="{{ asset('backend/css/pages/eservices/categorie.css') }}" rel="stylesheet" />
 {% endblock %}
 
+{%  block title %} E-services - Gestion {% endblock %}
+
 {% block block_starter %} Gestion des services {% endblock %}
+
 {% block body %}
     <div class="row">
         <div class="col-12">
@@ -58,28 +61,11 @@
                     </div>
 
                 <div class="text-center">
-                    <a href="{{ path('detail_categorie',{'id':cat.id}) }}" class="btn btn-sm btn-secondary">Voir plus d'infos</a>
+                    <a href="{{ path('detail_categorie_back',{'id':cat.id}) }}" class="btn btn-sm btn-secondary">Voir plus d'infos</a>
                 </div>
             </div>
         {% endfor %}
-        <div class="card-box col-auto mx-3 categorie">
-            <a href="{{ path('nouvelle_categorie') }}">
-                <div class="card-box">
-                    <h4 class="header-title">Nouveau</h4>
-                    <p class="sub-header">Ajouter une nouvelle catégorie</p>
-
-                    <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
-                        <div class="carousel-inner" role="listbox">
-                            <div class="carousel-item active">
-                                <img class="d-block img-fluid"
-                                     src="{{ asset('backend/images/pages/eservices/img-add.png') }}" alt="First slide">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </a>
-
-        </div>
+        {{ knp_pagination_render(categories) }}
     </div>
 {% endblock %}
 

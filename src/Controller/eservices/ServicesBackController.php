@@ -11,6 +11,7 @@ use App\Repository\ServiceRepository;
 use App\Services\FileUploader;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,12 +29,20 @@ class ServicesBackController extends AbstractController
      * afficher la liste des catégories
      * @Route("/", name="accueil_services")
      * @param CategorieServiceRepository $repo
+     * @param Request $request
+     * @param PaginatorInterface $paginator
      * @return Response
      */
-    public function accueil_services(CategorieServiceRepository $repo)
+    public function accueil_services(CategorieServiceRepository $repo, Request $request, PaginatorInterface $paginator)
     {
+        $donnees = $repo->findAll();
+        $categories = $paginator->paginate(
+            $donnees,
+            $request->query->getInt('page', 1), //numero de la page en cours
+            2
+        );
         return $this->render('backend/eservices/accueil.html.twig', [
-            'categories' => $repo->findAll(),
+            'categories' => $categories,
             'controller_name' => 'ServicesBackController',
         ]);
     }
