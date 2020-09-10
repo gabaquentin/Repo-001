@@ -167,9 +167,9 @@ function initFilterSidebar() {
   if ($('.price-range-wrapper').length) {
     var range = $('.input-range'),
         value = $('.range-value');
-    value.html('0' + ' ' + '-' + ' ' + range.attr('value') + 'F CFA');
+    value.html('0' + ' ' + '-' + ' ' + decimalNumber(range.attr('value')) + " " + devise);
     range.on('input', function () {
-      value.html('0' + ' ' + '-' + ' ' + this.value + 'F CFA');
+      value.html('0' + ' ' + '-' + ' ' + decimalNumber(this.value) + " " + devise);
     });
   }
 } //Init Global Search

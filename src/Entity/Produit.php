@@ -242,7 +242,7 @@ class Produit
         return $this->visiblite;
     }
 
-    public function setVisiblite(bool $visiblite): self
+    public function setVisiblite($visiblite): self
     {
         $this->visiblite = $visiblite;
 

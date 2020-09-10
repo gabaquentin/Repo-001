@@ -95,7 +95,7 @@ class ProduitController extends AbstractController
             $extraData["desc"] = $produit->getDescription();
         }
 
-        $cats = $em->getRepository(CategorieProd::class)->findAllCategories();
+        $cats = $em->getRepository(CategorieProd::class)->findSousCategories();
         $categoriesProd = [];
         foreach ($cats as $cat) {
             $categoriesProd[]=[
@@ -132,6 +132,7 @@ class ProduitController extends AbstractController
         $form = $this->createForm(ProduitType::class,$produit,[
             "action"=>$this->generateUrl("save_produit",["produit"=>$produit->getId()]),
         ]);
+
 
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid())

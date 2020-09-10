@@ -41,10 +41,22 @@ class ProduitFontController extends AbstractController
         $cats = $em->getRepository(CategorieProd::class)->findAllCategories();
         $categoriesProd = [];
         foreach ($cats as $cat) {
+            $sc = [];
+            $nbreProduitsCat = 0;
+            foreach ($cat->getSousCategories() as $sousCategory) {
+                $n = $em->getRepository(Produit::class)->countProductsFrontValid($sousCategory->getId());
+                $nbreProduitsCat += $n;
+                $sc[]=[
+                    "sc" => $sousCategory,
+                    "nbreProduits" => $n,
+                ];
+            }
             $categoriesProd[]=[
                 "categorie" => $cat,
-                "nbreProduits" => $em->getRepository(Produit::class)->countProductsFrontValid($cat->getId()),
+                "nbreProduits" => $nbreProduitsCat,
+                "sc"=>$sc,
             ];
+
         }
         return $this->render('frontend/ecommerce/produit/produit.html.twig', [
             'categories' => $categoriesProd,
@@ -155,7 +167,7 @@ class ProduitFontController extends AbstractController
             $extraData["desc"] = $produit->getDescription();
         }
 
-        $cats = $em->getRepository(CategorieProd::class)->findAllCategories();
+        $cats = $em->getRepository(CategorieProd::class)->findSousCategories();
         $categoriesProd = [];
         foreach ($cats as $cat) {
             $categoriesProd[]=[
@@ -227,8 +239,8 @@ class ProduitFontController extends AbstractController
      */
     public function refreshProduct(Request $request,EntityManagerInterface $em,Produit $product=null)
     {
-        if(!$request->isXmlHttpRequest())
-            die("");
+//        if(!$request->isXmlHttpRequest())
+//            die("");
         if(!$product)
             die();
 
@@ -236,6 +248,6 @@ class ProduitFontController extends AbstractController
         $em->persist($product);
         $em->flush();
 
-        return $this->json(["success"=>"mise à jour"]);
+        return $this->json(["success"=>["mise à jour"]]);
     }
 }

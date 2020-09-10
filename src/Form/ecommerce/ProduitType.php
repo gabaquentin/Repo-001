@@ -33,7 +33,7 @@ class ProduitType extends AbstractType
             ->add('categorieProd',EntityType::class,[
                 "class"=>CategorieProd::class,
                 "choice_label"=>"nomCategorie",
-                "choices"=>$this->repoCategorie->findAll(),
+                "choices"=>$this->repoCategorie->findSousCategories(),
             ])
             ->add('typeTransaction',ChoiceType::class,[
                 "choices"=>$this->tools->getTypeTransaction()

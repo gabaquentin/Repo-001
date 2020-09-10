@@ -34,6 +34,19 @@ class CategorieProdRepository extends ServiceEntityRepository
     }
 
     /**
+     * @return CategorieProd[] Returns an array of CategorieProd objects
+     */
+    public function findSousCategories()
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.categorieParent is not null')
+            ->orderBy('c.ordre', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    /**
      * @return QueryBuilder
      */
     public function findAllCategoriesForm()

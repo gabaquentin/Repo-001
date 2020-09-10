@@ -7,9 +7,17 @@ use App\Entity\Dimension;
 use App\Repository\CategorieProdRepository;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\KernelInterface;
 
 class Tools
 {
+    private $appKernel;
+
+    public function __construct(KernelInterface $appKernel)
+    {
+        $this->appKernel = $appKernel;
+    }
+
     /**
      * @return string[]
      */
@@ -17,6 +25,43 @@ class Tools
     {
         return ["immobilier"=>"immobilier","fourniture"=>"fourniture"];
     }
+
+    public function getDefaultPack()
+    {
+        return [
+            "id"=>0,
+            "titre"=>"Default Pack",
+            "description"=>"Ce pack vous deonne la possibilité de poste 5 annonces gratuitement",
+            "blaz"=>"/frontend/img/illustrations/smile.svg",
+            "prixBase"=>"0 F CFA",
+            "nbrPostes"=>"5",
+        ];
+    }
+    /**
+     * @return string
+     */
+    public function getPackInfoPath()
+    {
+        return $this->appKernel->getProjectDir()."/src/Services/ecommerce/packinfo.json";
+    }
+
+    /**
+     * @return array
+     */
+    function getPackInfoContent()
+    {
+        return json_decode(file_get_contents($this->getPackInfoPath()),true);
+    }
+
+    /**
+     * @param array $data
+     * @return mixed
+     */
+    function setPackInfoContent(array $data)
+    {
+        return file_put_contents($this->getPackInfoPath(),json_encode($data));
+    }
+
 
     function getDayMaxProduct()
     {

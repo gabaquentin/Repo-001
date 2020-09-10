@@ -180,7 +180,7 @@
                                 <div class="card-body">
                                     <div class="profile-image">
                                         {# {% if produit.client.image==false %} http://via.placeholder.com/250x250{% else %}data:image/base64,{{ (produit.client.image)}} {% endif %} #}
-                                        <img src="{{ (produit.client.image) }}" alt="">
+                                        <img src="{{ produit.client.image }}" alt="">
                                     </div>
                                     <div class="username has-text-centered">
                                         <span>{{ produit.client.nom }}  {{ produit.client.prenom }}</span>
