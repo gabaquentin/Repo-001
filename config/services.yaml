@@ -6,6 +6,8 @@
 parameters:
     image_produit_path: '%kernel.project_dir%/public/images/produits'
     image_service_path: '%kernel.project_dir%/public/images/services'
+    blog_directory: '%kernel.project_dir%/public/images/blog'
+    populaire_directory: '%kernel.project_dir%/public/images/populaire'
 
 
 services:

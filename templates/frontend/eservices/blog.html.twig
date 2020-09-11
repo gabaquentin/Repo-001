@@ -17,84 +17,26 @@
         <center>
             <div class="tout clearfix2">
                 <div class="content clearfix2">
-                    <div class="main-content">
-                        <h1 class="recent-post-title">NOS BLOGS</h1>
+                    <div class="main-content ">
+                        <h2 class="category-title">NOS BLOGS</h2>
+                        {% for blog in blogs %}
                         <div class="post clearfix2">
-                            <img src="{{ asset('frontend/img/eservices/0004.jpg') }}" class="post-image">
+                            <img src="{{ asset('images/blog/'~blog.image) }}" class="post-image">
                             <div class="post-review">
-                                <h3><a href="{{path('afficher_blog_detail')}}">Monsieur le titre</a> </h3>
+                                <h3><a href="{{ path('front_single_blog',{'id': blog.id}) }}">{{ blog.nom }}</a> </h3>
                                 <i class="far fa-user">Administrateur</i>
                                 &nbsp;
-                                <i class="far fa-calendar">Août 06, 2020</i>
+                                <i class="far fa-calendar">{{ blog.dateString }}</i>
                                 <p>
-                                    This is a well designed and crafted product that will suit many needs,
-                                    in terms of quality, craftmanship and aesthetics.
+                                    {{ blog.courteDescription }}
                                 </p>
                                 <i class="far fa-comment comment">6 comments</i>
-                                <a href="blog.html.twig" class="btn read-more">Lire plus</a>
+                                <a href="{{ path('front_single_blog',{'id': blog.id}) }}" class="btn read-more">Lire plus</a>
                             </div>
                         </div>
-                        <div class="post clearfix2">
-                            <img src="{{ asset('frontend/img/eservices/0004.jpg') }}" class="post-image">
-                            <div class="post-review">
-                                <h3><a href="{{path('afficher_blog_detail')}}">Monsieur le titre</a> </h3>
-                                <i class="far fa-user">Administrateur</i>
-                                &nbsp;
-                                <i class="far fa-calendar">Août 06, 2020</i>
-                                <p>
-                                    This is a well designed and crafted product that will suit many needs,
-                                    in terms of quality, craftmanship and aesthetics.
-                                </p>
-                                <i class="far fa-comment comment">6 comments</i>
-                                <a href="blog.html.twig" class="btn read-more">Lire plus</a>
-                            </div>
-                        </div>
-                        <div class="post clearfix2">
-                            <img src="{{ asset('frontend/img/eservices/0004.jpg') }}" class="post-image">
-                            <div class="post-review">
-                                <h3><a href="{{path('afficher_blog_detail')}}">Monsieur le titre</a> </h3>
-                                <i class="far fa-user">Administrateur</i>
-                                &nbsp;
-                                <i class="far fa-calendar">Août 06, 2020</i>
-                                <p>
-                                    This is a well designed and crafted product that will suit many needs,
-                                    in terms of quality, craftmanship and aesthetics.
-                                </p>
-                                <i class="far fa-comment comment">6 comments</i>
-                                <a href="blog.html.twig" class="btn read-more">Lire plus</a>
-                            </div>
-                        </div>
-                        <div class="post clearfix2">
-                            <img src="{{ asset('frontend/img/eservices/0004.jpg') }}" class="post-image">
-                            <div class="post-review">
-                                <h3><a href="{{path('afficher_blog_detail')}}">Monsieur le titre</a> </h3>
-                                <i class="far fa-user">Administrateur</i>
-                                &nbsp;
-                                <i class="far fa-calendar">Août 06, 2020</i>
-                                <p>
-                                    This is a well designed and crafted product that will suit many needs,
-                                    in terms of quality, craftmanship and aesthetics.
-                                </p>
-                                <i class="far fa-comment comment">6 comments</i>
-                                <a href="blog.html.twig" class="btn read-more">Lire plus</a>
-                            </div>
-                        </div>
-                        <div class="post clearfix2">
-                            <img src="{{ asset('frontend/img/eservices/0004.jpg') }}" class="post-image">
-                            <div class="post-review">
-                                <h3><a href="{{path('afficher_blog_detail')}}">Monsieur le titre</a> </h3>
-                                <i class="far fa-user">Administrateur</i>
-                                &nbsp;
-                                <i class="far fa-calendar">Août 06, 2020</i>
-                                <div>
-                                <p>
-                                    This is a well designed and crafted product that will suit many needs,
-                                    in terms of quality, craftmanship and aesthetics.
-                                </p>
-                                </div>
-                                <i class="far fa-comment comment">6 comments</i>
-                                <a href="blog.html.twig" class="btn read-more">Lire plus</a>
-                            </div>
+                        {% endfor %}
+                        <div class="pagination">
+                            {{ knp_pagination_render(blogs) }}
                         </div>
                     </div>
 

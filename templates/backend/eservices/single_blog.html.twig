@@ -1,0 +1,110 @@
+{% extends "backend/base/base.html.twig" %}
+
+{% block stylesheets %}
+    <!-- Plugins css -->
+    <link href="{{ asset('backend/libs/nestable2/jquery.nestable.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('backend/css/pages/eservices/categorie.css') }}" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ asset('frontend/css/service/blog.css') }}">
+{% endblock %}
+
+{% block block_starter %} Gestion du blog '{{ blog.nom }}' {% endblock %}
+{% block body %}
+    <div class="tout">
+                <div class="content clearfix2">
+                    <!-- MainContent -->
+                    <div class="main-content single">
+                        <img src="{{ asset('images/blog/'~blog.image) }}" class="imgBlog">
+                        <i class="far fa-user" style="margin-right: 50px;">Administrateur</i>
+                        <i class="far fa-calendar" style="margin-right: 50px;">{{ blog.dateString }}</i>
+                        <i class="far fa-comment">6 comments</i>
+                        <center><h1 class="post-title">{{ blog.nom}}</h1></center>
+
+                        <div class="post-content">
+                            <p><strong><h3>
+                                {{ blog.courteDescription }}</h3></strong>
+                            </p>
+                            <p>
+                                {{ blog.grandeDescription }}
+                            </p>
+
+                        </div>
+                    </div>
+                    <div class="sidebar2 single">
+
+                        <div class="col-lg-100">
+                            <div class="text-lg-right mt-3 mt-lg-0">
+                                <a href="" class="btn btn-success waves-effect waves-light" data-animation="fadein" data-overlayColor="#38414a"   data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"><i class="mdi mdi-update mr-1"></i> Modifier ce blog</a>
+                            </div>
+                        </div><!-- end col-->
+                    </div>
+                    </div>
+    </div>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="header-title">Ajouter un Blog</h4>
+                        <p class="sub-header"></p>
+                        {{ form_start(form) }}
+                        <div class="fallback">
+                            {{ form_row(form.image, {'label': ''}) }}
+                        </div>
+
+                        <div class="dz-message needsclick">
+                            <p class="h1 text-muted"><i class="mdi mdi-cloud-upload"></i></p>
+                            <h3>Déposez votre champs ici.</h3>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="validationCustom01">Titre du blog</label>
+                            {{ form_row(form.nom, {'label': ' '}) }}
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="validationCustom02">Courte description</label>
+                            {{ form_row(form.courte_description, {'label': ' '}) }}
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="validationCustomUsername">Longue description</label>
+                            <div class="input-group">
+                                {{ form_row(form.grande_description, {'label': ' '}) }}
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" id="btn-save-category" class="btn btn-primary waves-effect waves-lightspinner-border-sm">
+                            <span class="spinner-border-sm" role="status" aria-hidden="true"></span>
+                            Sauvegarder
+                        </button>
+                        {{ form_end(form) }}
+                    </div> <!-- end card-body-->
+                </div> <!-- end card-->
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $('#exampleModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget) // Button that triggered the modal
+            var recipient = button.data('whatever') // Extract info from data-* attributes
+            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+            var modal = $(this)
+            modal.find('.modal-title').text('New message to ' + recipient)
+            modal.find('.modal-body input').val(recipient)
+        })
+    </script>
+{% endblock %}

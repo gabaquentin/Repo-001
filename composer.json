@@ -8,6 +8,7 @@
         "ext-json": "*",
         "becklyn/javascript-routing": "^1.0",
         "fzaninotto/faker": "^1.9",
+        "knplabs/knp-paginator-bundle": "^5.3",
         "sensio/framework-extra-bundle": "^5.1",
         "symfony/asset": "5.1.*",
         "symfony/console": "5.1.*",
