@@ -1,13 +1,5 @@
 {% extends 'frontend/ecommerce/base.html.twig' %}
 
-{% block stylesheets %}
-    <style>
-        .select{
-            width: 100%;
-        }
-    </style>
-{% endblock %}
-
 {% block title %}Commandes{% endblock %}
 
 {% block body %}
@@ -24,14 +16,7 @@
                         </div>
 
                         <!-- Account tabs -->
-                        <div class="tabs account-tabs">
-                            <ul>
-                                <li><a href="account.html">Account</a></li>
-                                <li><a href="wishlist.html">Wishlist</a></li>
-                                <li class="is-active"><a href="cart.html">Cart</a></li>
-                                <li><a href="orders.html">Orders</a></li>
-                            </ul>
-                        </div>
+                        {% include 'frontend/menu-account.html.twig' with { "cart":"is-active" } %}
 
                         <div id="cart-main-placeholder" class="main-placeholder is-hidden">
                             <div class="placeholder-content">
@@ -128,5 +113,6 @@
 {% block js %}
     <script>
         const checkoutRoute= "{{ path('checkout_step') }}";
+        const GoToLogin= "{{ path('app_login') }}";
     </script>
 {% endblock %}

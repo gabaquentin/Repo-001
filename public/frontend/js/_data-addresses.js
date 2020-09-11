@@ -1,6 +1,6 @@
 "use strict";
 
-var myAddresses = [{
+let myAddresses = [{
   type: 'Billing Address',
   address1: '23, Block C2',
   address2: 'Church Street',
