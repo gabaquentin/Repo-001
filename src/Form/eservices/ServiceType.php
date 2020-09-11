@@ -34,19 +34,6 @@ class ServiceType extends AbstractType
                 "choice_label"=>"nom",
                 "choices"=>$this->categorieRepo->findAll(),
             ])
-            ->add('imgfile', FileType::class, [
-                'mapped' => false,
-                'constraints' => [
-                    new File([
-                        'mimeTypes' => [
-                            'image/jpg',
-                            'image/jpeg',
-                            'image/png',
-                        ],
-                        'mimeTypesMessage' => 'SVP insérer une image valide (format jpg, jpeg et png)',
-                    ])
-                ],
-            ])
         ;
     }
 
