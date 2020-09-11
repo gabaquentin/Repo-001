@@ -10,6 +10,7 @@ use App\Services\ecommerce\Tools;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
+use Doctrine\ORM\Query\AST\Functions\DateDiffFunction;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
@@ -38,6 +39,9 @@ class ProduitRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder("p")
             ->select("max(p.prix*(1-(p.prixPromo/100)))")
+            ->innerJoin(Date::class,"d","WITH","d.id=p.date")
+            ->andWhere("DATE_DIFF(CURRENT_TIMESTAMP(),d.dateModification)<:maxJour")
+            ->setParameter(":maxJour",$this->tools->getDayMaxProduct())
             ->getQuery()
             ->getSingleScalarResult();
     }
@@ -106,6 +110,8 @@ class ProduitRepository extends ServiceEntityRepository
             ->setMaxResults($max)
             ->andWhere("p.visiblite=:visibilite")
             ->setParameter(":visibilite",1)
+            ->andWhere("DATE_DIFF(CURRENT_TIMESTAMP(),d.dateModification)<:maxJour")
+            ->setParameter(":maxJour",$this->tools->getDayMaxProduct())
             ->orderBy($order[2].".".$order[0],$order[1])
 
         ;
@@ -179,6 +185,43 @@ class ProduitRepository extends ServiceEntityRepository
             ->select("count(p.id)")
             ->setMaxResults(null)->setFirstResult(null)
             ->getQuery()->getSingleScalarResult());
+    }
+
+    public function qbProductsValid($idCategory)
+    {
+        return $this->createQueryBuilder("p")
+            ->innerJoin(Date::class,"d","WITH","d.id=p.date")
+            ->andWhere("p.visiblite=:visibilite")
+            ->setParameter(":visibilite",1)
+            ->andWhere("DATE_DIFF(CURRENT_TIMESTAMP(),d.dateModification)<:maxJour")
+            ->setParameter(":maxJour",$this->tools->getDayMaxProduct())
+            ->andWhere("p.categorieProd=:cat")
+            ->setParameter(":cat",$idCategory);
+    }
+
+    /**
+     * compte les produits visible et donc la date d'expiration n'est pas encore atteinte
+     * @param $idCategory
+     * @return int|mixed|string
+     * @throws NoResultException
+     * @throws NonUniqueResultException
+     */
+    public function countProductsFrontValid($idCategory)
+    {
+        return $this->qbProductsValid($idCategory)
+            ->select("count(p.id)")
+            ->getQuery()->getSingleScalarResult();
+    }
+
+    /**
+     * récupère les produits visible et donc la date d'expiration n'est pas encore atteinte
+     * @param $idCategory
+     * @return int|mixed|string
+     */
+    public function FindValidProducts($idCategory)
+    {
+        return $this->qbProductsValid($idCategory)
+            ->getQuery()->getResult();
     }
 
     // /**

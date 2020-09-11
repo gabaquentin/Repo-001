@@ -73,11 +73,11 @@ class ProduitController extends AbstractController
     /**
      * @Route("/add",name="add_produit")
      * @Route("/modif/{produit}",name="modify_produit")
-     * @param EntityManagerInterface $manager
+     * @param EntityManagerInterface $em
      * @param Produit|null $produit
      * @return Response
      */
-    public function add(EntityManagerInterface $manager,Produit $produit=null)
+    public function add(EntityManagerInterface $em,Produit $produit=null)
     {
         if($produit==null)
             $produit = new Produit();
@@ -95,10 +95,19 @@ class ProduitController extends AbstractController
             $extraData["desc"] = $produit->getDescription();
         }
 
+        $cats = $em->getRepository(CategorieProd::class)->findAllCategories();
+        $categoriesProd = [];
+        foreach ($cats as $cat) {
+            $categoriesProd[]=[
+                "categorie" => $cat,
+                "produits" => $em->getRepository(Produit::class)->FindValidProducts($cat->getId()),
+            ];
+        }
+
         return $this->render('backend/ecommerce/produit/add.html.twig', [
             "form"=>$form->createView(),
-            "categories"=>$manager->getRepository(CategorieProd::class)->findAll(),
-            "attributs"=>$manager->getRepository(Attribut::class)->findAll(),
+            "categories"=>$categoriesProd,
+            "attributs"=>$em->getRepository(Attribut::class)->findAll(),
             "extraData" => $extraData
         ]);
     }
@@ -116,16 +125,18 @@ class ProduitController extends AbstractController
     {
         if(!$request->isXmlHttpRequest())
             die();
+
         if($produit==null)
             $produit = new Produit();
+
         $form = $this->createForm(ProduitType::class,$produit,[
-            "action"=>$this->generateUrl("save_produit",["produit"=>$produit->getId()])
+            "action"=>$this->generateUrl("save_produit",["produit"=>$produit->getId()]),
         ]);
 
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid())
         {
-
+            $produit = $form->getData();
             /**
              * récupération des données
              */
@@ -224,6 +235,7 @@ class ProduitController extends AbstractController
     public function getForm(Request $request,CategorieProdRepository $repCategorie, Produit $produit = null)
     {
         $data = "";
+        $forFront = $request->get("forFront",false);
         $idCategorie = $request->get("idCategorie");
         $categorie = $repCategorie->findOneBy(["id"=>$idCategorie]);
 
@@ -235,9 +247,17 @@ class ProduitController extends AbstractController
         $form = $this->createForm(ProduitType::class,$produit);
 
         if($categorie->getTypeCategorie()=="immobilier")
-            $data = $this->renderView("backend/ecommerce/produit/formulaire-immobilier.html.twig",[
+        {
+            $url = "backend/ecommerce/produit/formulaire-immobilier.html.twig";
+
+            if($forFront)
+                $url = "frontend/ecommerce/produit/formulaire-immobilier.html.twig";
+
+            $data = $this->renderView($url,[
                 'form'=>$form->createView()
             ]);
+        }
+
 
         return $this->json($data);
     }

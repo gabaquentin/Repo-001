@@ -1,4 +1,4 @@
-{% extends 'frontend/ecommerce/base.html.twig' %}
+{% extends 'security/frontend/base.html.twig' %}
 
 {% block title %}Commandes{% endblock %}
 
@@ -12,7 +12,7 @@
                     <div class="column main-column is-tablet-landscape-padded">
                         <div class="account-title">
                             <h2>MON PANIER</h2>
-                            <img class="brand-filigrane" src="assets/img/logo/nephos-greyscale.svg" alt="" />
+                            <img class="brand-filigrane" src="{{ asset('frontend/img/logo/nephos-greyscale.svg') }}" alt="" />
                         </div>
 
                         <!-- Account tabs -->
@@ -20,11 +20,11 @@
 
                         <div id="cart-main-placeholder" class="main-placeholder is-hidden">
                             <div class="placeholder-content">
-                                <img src="assets/img/illustrations/shop.svg" alt="" />
+                                <img src="{{ asset('frontend/img/illustrations/shop.svg') }}" alt="" />
                                 <h3>Empty Cart</h3>
                                 <p>Your shopping cart is currenlty empty. Start adding products to be able to checkout.</p>
                                 <div class="button-wrap">
-                                    <a href="products.html" class="button big-button primary-button rounded raised">Continue Shopping</a>
+                                    <a href="{{ path('show_products_front') }}" class="button big-button primary-button rounded raised">Continue Shopping</a>
                                 </div>
                             </div>
                         </div>

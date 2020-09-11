@@ -130,7 +130,7 @@
 {% include 'frontend/rigthmenu.html.twig' %}
 
 <!-- Shop quickview -->
-<div class="shop-quickview has-background-image" data-background="http://via.placeholder.com/1280x853" data-demo-background="{{ asset('frontend/img/bg/sidebar.jpeg') }}">
+<div class="shop-quickview has-background-image" data-background="http://via.placeholder.com/1280x853" data-demo-background="{{ asset('frontend/img/ui/sidebar.png') }}">
     <div class="inner">
         <!-- Header -->
         <div class="quickview-header">
@@ -152,7 +152,7 @@
                 </a>
             </li>
             <li>
-                <a href="account.html">
+                <a href="{{ path('app_account') }}">
                     <span>My Account</span>
                     <i data-feather="user"></i>
                 </a>
@@ -223,7 +223,7 @@
             <ul class="shopping-cart-items">
                 <!-- Item -->
                 <li class="clearfix">
-                    <img src="http://via.placeholder.com/250x250" data-demo-src="{{ asset('frontend/img/products/office5.jpg') }}" alt="" />
+                    <img src="http://via.placeholder.com/250x250" data-demo-src="{{ asset('frontend/img/icons/categories/office.svg') }}" alt="" />
                     <span class="item-meta">
                         <span class="item-name">Cosy Chair</span>
                         <span class="item-price"> <var>88.00</var> x <span>1</span> </span>

@@ -70,11 +70,11 @@ function ajaxShowProducts() {
             if(l.position())$(window).scrollTop(l.position().top);
             // message d'alert s'il n'y aucun produit trouvé
             if(container.attr("data-show")==="0")
-                toasts.service.error('', 'fas fa-plus', 'Aucun produit trouvé', 'bottomRight', 2500);
+                displayMessageNotify('Aucun produit trouvé');
         },
         error: () => {
             showMore.find("a").removeClass("is-loading")
-            toasts.service.error('', 'fas fa-plus', 'Problèmes de connexion avec le serveur', 'bottomRight', 2500);
+            messageErrorServer();
         }
     });
 }
@@ -88,12 +88,12 @@ function addSingleProduct(p)
     prix += (" " + "F CFA");
     const nom = truncateString(p.nom.toUpperCase(),30);
     let image = "http://via.placeholder.com/500x500/ffffff/999999";
-    if(p.images.length)image = p.images[0];
+    if(p.images.length)image =imageProdPath + p.images[0];
     return `
         <div class="column is-3 product-container" data-product-id="${p.id}">
             <div class="flat-card">
                 <div class="image" >
-                    <img src="${imageProdPath+image}" style="width: 100px;height: 100px" data-action="zoom" alt="" class="images" >
+                    <img src="${image}" style="width: 100px;height: 100px" data-action="zoom" alt="" class="" >
                 </div>
                 <div class="product-info has-text-centered">
                     <p class="product-price" data-price ="${price}">

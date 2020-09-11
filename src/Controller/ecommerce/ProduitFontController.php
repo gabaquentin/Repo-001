@@ -4,15 +4,12 @@ namespace App\Controller\ecommerce;
 
 use App\Entity\Attribut;
 use App\Entity\CategorieProd;
-use App\Entity\Date;
 use App\Entity\Produit;
 use App\Entity\User;
 use App\Entity\Ville;
 use App\Form\ecommerce\ProduitType;
 use App\Repository\AvisRepository;
-use App\Repository\CategorieProdRepository;
 use App\Repository\ProduitRepository;
-use App\Repository\VilleRepository;
 use App\Services\ecommerce\Tools;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
@@ -41,8 +38,16 @@ class ProduitFontController extends AbstractController
      */
     public function index(EntityManagerInterface $em,Tools $tools)
     {
+        $cats = $em->getRepository(CategorieProd::class)->findAllCategories();
+        $categoriesProd = [];
+        foreach ($cats as $cat) {
+            $categoriesProd[]=[
+                "categorie" => $cat,
+                "nbreProduits" => $em->getRepository(Produit::class)->countProductsFrontValid($cat->getId()),
+            ];
+        }
         return $this->render('frontend/ecommerce/produit/produit.html.twig', [
-            'categories' => $em->getRepository(CategorieProd::class)->findAllCategories(),
+            'categories' => $categoriesProd,
             'villes' => $em->getRepository(Ville::class)->findAll(),
             'prixMax' => $em->getRepository(Produit::class)->getMaxPrice(),
             'typeTransaction' => $tools->getTypeTransaction(),
@@ -125,11 +130,11 @@ class ProduitFontController extends AbstractController
     /**
      * @Route("/add" , name="add_product_front")
      * @Route("/modif/{produit}",name="modify_product_front")
-     * @param EntityManagerInterface $manager
+     * @param EntityManagerInterface $em
      * @param Produit|null $produit
      * @return Response
      */
-    public function addProductFront(EntityManagerInterface $manager,Produit $produit=null)
+    public function addProductFront(EntityManagerInterface $em,Produit $produit=null)
     {
         if ($produit == null)
             $produit = new Produit();
@@ -145,15 +150,24 @@ class ProduitFontController extends AbstractController
             if($produit->getClient()!=$this->getUser())
                 die("vous ne pouvez pas acceder à cette page");
 
-            $extraData["pa"] = implode(",", $produit->getProduitsAssocies());
+            $extraData["pa"] =  $produit->getProduitsAssocies();
             $extraData["attr"] = implode(",", $produit->getAttributs());
             $extraData["desc"] = $produit->getDescription();
         }
 
+        $cats = $em->getRepository(CategorieProd::class)->findAllCategories();
+        $categoriesProd = [];
+        foreach ($cats as $cat) {
+            $categoriesProd[]=[
+                "categorie" => $cat,
+                "produits" => $em->getRepository(Produit::class)->FindValidProducts($cat->getId()),
+            ];
+        }
+
         return $this->render("frontend/ecommerce/produit/add-product.html.twig", [
             "form" => $form->createView(),
-            "categories" => $manager->getRepository(CategorieProd::class)->findAll(),
-            "attributs" => $manager->getRepository(Attribut::class)->findAll(),
+            "categories" => $categoriesProd,
+            "attributs" => $em->getRepository(Attribut::class)->findAll(),
             "extraData" => $extraData
         ]);
     }

@@ -59,7 +59,7 @@ class CommandeFrontController extends AbstractController
     }
 
     /**
-     * @Route("/checkout_step1             ", name="checkout_step")
+     * @Route("/checkout_step1", name="checkout_step")
      */
     public function checkout1()
     {
@@ -83,7 +83,7 @@ class CommandeFrontController extends AbstractController
     }
 
     /**
- * @Route("/checkout_step4             ", name="checkout_step4")
+ * @Route("/checkout_step4", name="checkout_step4")
  */
     public function checkout4()
     {
@@ -187,6 +187,7 @@ class CommandeFrontController extends AbstractController
      * @param EntityManagerInterface $manager
      * @Route("/checkout_step5", name="checkout_step5")
      * @return Response
+     * @Route("/checkout_step5", name="checkout_step5")
      */
     public function Commander(EntityManagerInterface $manager,Request $request)
     {
@@ -241,9 +242,9 @@ class CommandeFrontController extends AbstractController
     /**
      * @param EntityManagerInterface $manager
      * @param Request $request
+     * @param Swift_Mailer $mailer
      * @return JsonResponse
      * @Route("/commande", name="add_commande")
-     * @throws \Exception
      */
     public function AddCommande(EntityManagerInterface $manager,Request $request,Swift_Mailer $mailer){
         $commande = new Commandes();

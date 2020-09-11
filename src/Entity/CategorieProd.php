@@ -48,11 +48,6 @@ class CategorieProd
     private $sousCategories;
 
     /**
-     * @ORM\OneToMany(targetEntity=Produit::class, mappedBy="categorieProd")
-     */
-    private $produits;
-
-    /**
      * @ORM\Column(type="integer")
      */
     private $ordre;
@@ -74,7 +69,7 @@ class CategorieProd
         return $this->nomCategorie;
     }
 
-    public function setNomCategorie(string $nomCategorie): self
+    public function setNomCategorie(?string $nomCategorie): self
     {
         $this->nomCategorie = $nomCategorie;
 
@@ -151,7 +146,7 @@ class CategorieProd
     /**
      * @return Collection|Produit[]
      */
-    public function getProduits(): Collection
+    /*public function getProduits(): Collection
     {
         return $this->produits;
     }
@@ -177,7 +172,7 @@ class CategorieProd
         }
 
         return $this;
-    }
+    }*/
 
     public function getOrdre(): ?int
     {
@@ -190,14 +185,5 @@ class CategorieProd
 
         return $this;
     }
-
-    /**
-     * @return string
-     */
-    /*public function __toString()
-    {
-        return $this->getNomCategorie();
-    }*/
-
 
 }

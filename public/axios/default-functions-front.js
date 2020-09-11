@@ -1,38 +1,49 @@
 
-function formatPhpDate(date,withTime = false) {
-    let today = new Date(date);
-    let dd = today.getDate();
-    let mm = today.getMonth() + 1;
-    let yyyy = today.getFullYear();
-    let minutes = today.getMinutes();
-    let heures = today.getHours();
-    if (dd < 10) {
-        dd = '0' + dd;
+
+function displayMessage(data) {
+    if(data['errors'] && data['errors'].length!==0)
+    {
+        let i = 5;
+        for(let titre in data['errors'])
+        {
+            setTimeout(()=>{
+                displayMessageNotify(data['errors'][titre]);
+                }, (500 + (i*100)));
+            i++;
+        }
+
     }
-    if (mm < 10) {
-        mm = '0' + mm;
+    if(data['success'] && data['success'].length!==0)
+    {
+        let j = 5;
+        for(let i in data['success'])
+        {
+            setTimeout(()=>{
+                displayMessageNotify(data['success'][i],"success");
+            }, (500 + (j*100)));
+            j++;
+        }
     }
-    if (minutes < 10) {
-        minutes = '0' + minutes;
-    }
-    if (heures < 10) {
-        heures = '0' + heures;
-    }
-    let toDay = dd + '/' + mm + '/' + yyyy;
-    if (withTime)
-        toDay += (" " + heures +":"+minutes);
-    return toDay;
 }
 
-function truncateString(str, num) {
-    if (str.length <= num) {
-        return str;
-    }
-    return str.slice(0, num) + '...';
+
+function disableButton(button)
+{
+    button.addClass("is-loading");
 }
 
-function isExpired(dateP) {
-    let interval = (new Date()).getTime() - (new Date(dateP)).getTime();
-    let days = (interval / (3600 * 24 * 1000));
-    return days > 60 ;
+function ableButton(button)
+{
+    button.removeClass("is-loading")
+}
+
+function messageErrorServer(message = "Probléme de connexion avec le serveur") {
+    displayMessageNotify( message);
+}
+
+function displayMessageNotify( message,type= "error",entete = "") {
+    if (type==="error" || type==="warning")
+        toasts.service.error(entete, 'fas fa-meh', message, 'bottomRight', timeShow);
+    else
+        toasts.service.success(entete, 'fas fa-check', message, 'bottomRight', timeShow);
 }

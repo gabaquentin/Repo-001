@@ -1,5 +1,32 @@
 "use strict";
 
+function initSpinner(extendForm=false)
+{
+  let $selector = (extendForm)?$(".basic-spinner.im"):$(".basic-spinner");
+
+  $selector.InputSpinner({
+    // button text/icons
+    decrementButton: "<i data-feather=" + 'minus' + ">-</i>",
+    incrementButton: "<i data-feather=" + 'plus' + ">+</i>",
+    // class of input group
+    groupClass: "spinner-control",
+    // button class
+    buttonsClass: "spinner-button",
+    // text alignment
+    textAlign: "center",
+    // delay in milliseconds
+    autoDelay: 500,
+    // interval in milliseconds
+    autoInterval: 100,
+    // boost after these steps
+    boostThreshold: 15,
+    // boost multiplier
+    boostMultiplier: 2,
+    // detects the local from `navigator.language`, if null
+    locale: null
+  });
+}
+
 $(document).ready(function () {
   "use strict"; //Elements selection
 
@@ -45,7 +72,7 @@ $(document).ready(function () {
 
     var $styledSelect = $this.next('div.styledSelect'); // Show the first select option in the styled div
 
-    $styledSelect.text($this.children('option').eq(0).text()); // Insert an unordered list after the styled div and also cache the list
+    $styledSelect.text($this.children('option:selected').text()); // Insert an unordered list after the styled div and also cache the list
 
     var $list = $('<ul />', {
       'class': 'options'
@@ -74,6 +101,12 @@ $(document).ready(function () {
       e.stopPropagation();
       $styledSelect.text($(this).text()).removeClass('active');
       $this.val($(this).attr('rel'));
+      let $options = $this.find("option");
+      $options.removeAttr("selected");
+      $options.each(function (){
+        if($(this).attr("value")===$this.val())
+          $(this).attr("selected","selected")
+      });
       $list.hide();
       /* alert($this.val()); Uncomment this for demonstration! */
     }); // Hides the unordered list when clicking outside of it
@@ -221,28 +254,8 @@ $(document).ready(function () {
     $("#orders-autocpl").easyAutocomplete(ordersOptions);
   } //Spinner
 
-
-  $(".basic-spinner").InputSpinner({
-    // button text/icons
-    decrementButton: "<i data-feather=" + 'minus-circle' + "></i>",
-    incrementButton: "<i data-feather=" + 'plus-circle' + "></i>",
-    // class of input group
-    groupClass: "spinner-control",
-    // button class
-    buttonsClass: "spinner-button",
-    // text alignment
-    textAlign: "center",
-    // delay in milliseconds
-    autoDelay: 500,
-    // interval in milliseconds
-    autoInterval: 100,
-    // boost after these steps
-    boostThreshold: 15,
-    // boost multiplier
-    boostMultiplier: 2,
-    // detects the local from `navigator.language`, if null
-    locale: null
-  }); //datepicker
+initSpinner();
+   //datepicker
 
   $('[data-toggle="datepicker"]').datepicker();
 });

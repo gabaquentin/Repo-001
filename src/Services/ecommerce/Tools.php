@@ -18,12 +18,20 @@ class Tools
         return ["immobilier"=>"immobilier","fourniture"=>"fourniture"];
     }
 
+    function getDayMaxProduct()
+    {
+        return 60;
+    }
+
     /**
      * @return int[]
      */
     function getOrdreImage()
     {
-        return [0,1,2,3];
+        $tab = [];
+        for ($i=0;$i<10;$i++)
+            $tab[] = $i;
+        return $tab;
     }
 
     /**
