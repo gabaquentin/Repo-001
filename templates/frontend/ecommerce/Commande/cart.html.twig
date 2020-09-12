@@ -1,13 +1,5 @@
 {% extends 'security/frontend/base.html.twig' %}
 
-{% block stylesheets %}
-    <style>
-        .select{
-            width: 100%;
-        }
-    </style>
-{% endblock %}
-
 {% block title %}Commandes{% endblock %}
 
 {% block body %}
@@ -121,5 +113,6 @@
 {% block js %}
     <script>
         const checkoutRoute= "{{ path('checkout_step') }}";
+        const GoToLogin= "{{ path('app_login') }}";
     </script>
 {% endblock %}
