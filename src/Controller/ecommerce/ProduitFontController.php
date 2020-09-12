@@ -122,7 +122,7 @@ class ProduitFontController extends AbstractController
         return $this->render('frontend/ecommerce/produit/single-product.html.twig', [
             'produit' => $produit,
             "produitAssocies"=>$produitAssocices,
-            "avis" => $repoAvis->findBy([], ['datePublication'=>'desc']),
+            "avis" => $repoAvis->findBy([], ['dateModification'=>'desc']),
             "noteGlobale" => $repoAvis->moyenneDesAvis(),
         ]);
     }
