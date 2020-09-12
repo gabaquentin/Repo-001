@@ -2,18 +2,18 @@
 
 function changeDemoImages() {
   $('*[data-demo-src]').each(function () {
-    var newSrc = $(this).attr('data-demo-src');
+    let newSrc = $(this).attr('data-demo-src');
     $(this).attr('src', newSrc);
   });
   $('*[data-demo-background]').each(function () {
-    var newBg = $(this).attr('data-demo-background');
+    let newBg = $(this).attr('data-demo-background');
     $(this).attr('data-background', newBg);
   });
 } //Helper to get query string parameters from Url
 
 
 $.urlParam = function (name) {
-  var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+  let results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
 
   if (results == null) {
     return null;
@@ -85,26 +85,25 @@ function initShopSidebar() {
 } //Init product links (dynamic product details rendering)
 
 
-function initProductDetailsLinks() {
+function initProductDetailsLinks(chaine) {
   $('.product-details-link').on('click', function (e) {
     e.preventDefault();
-    var $this = $(this);
-    var productId = $this.closest('.product-container, .featured-product').attr('data-product-id');
-    var baseUrl = '/product.html';
-    var productUrl = baseUrl + "?productId=" + productId;
+    let $this = $(this);
+    let productId = $this.closest('.product-container, .featured-product').attr('data-product-id');
+    let baseUrl = '/product.html';
+    let productUrl = baseUrl + "?productId=" + productId;
     console.log(productUrl);
     window.location.href = productUrl;
   });
 } //Init order details links (dynamic order details rendering)
 
 
-function initOrderDetailsLinks() {
+function initOrderDetailsLinks(chaine) {
   $('.order-details-link').on('click', function (e) {
     e.preventDefault();
-    var $this = $(this);
-    var orderId = $this.closest('.order-card, .order-long-card').attr('data-order-id');
-    var baseUrl = '/order.html';
-    var orderUrl = baseUrl + "?orderId=" + orderId;
+    let $this = $(this);
+    let orderId = $this.closest('.order-card, .order-long-card').attr('data-order-id');
+    let orderUrl = chaine + "?orderId=" + orderId;
     console.log(orderUrl);
     window.location.href = orderUrl;
   });
@@ -165,7 +164,7 @@ function initFilterSidebar() {
   }); //Range slider filter
 
   if ($('.price-range-wrapper').length) {
-    var range = $('.input-range'),
+    let range = $('.input-range'),
         value = $('.range-value');
     value.html('0' + ' ' + '-' + ' ' + decimalNumber(range.attr('value')) + " " + devise);
     range.on('input', function () {
@@ -242,7 +241,7 @@ function initProductCarousel() {
       arrows: false
     });
   }
-} //Init various actions (to rework)
+} //Init letious actions (to rework)
 
 
 function initCardActions() {} //Init JS injected background images
@@ -250,7 +249,7 @@ function initCardActions() {} //Init JS injected background images
 
 function initBackgroundImages() {
   $(".has-background-image").each(function () {
-    var bgImage = $(this).attr('data-background');
+    let bgImage = $(this).attr('data-background');
 
     if (bgImage !== undefined) {
       $(this).css('background-image', 'url(' + bgImage + ')');
@@ -276,7 +275,7 @@ function initDropdowns() {
 
 function initTabs() {
   $('.tabs li').on('click', function () {
-    var tab_id = $(this).attr('data-tab');
+    let tab_id = $(this).attr('data-tab');
     $(this).siblings('li').removeClass('is-active');
     $(this).closest('.tabs-wrapper').children('.navtab-content').removeClass('is-active');
     $(this).addClass('is-active');
@@ -287,7 +286,7 @@ function initTabs() {
 
 function initModals() {
   $('.modal-trigger').on('click', function () {
-    var modalID = $(this).attr('data-modal');
+    let modalID = $(this).attr('data-modal');
     $('#' + modalID).toggleClass('is-active').find('.box').addClass('scaleIn');
   });
   $('.modal-delete').on('click', function () {
@@ -299,7 +298,7 @@ function initModals() {
 function initChosenSelects() {
   if ($('.chosen-select-no-single').length) {
     //Chosen
-    var config = {
+    let config = {
       '.chosen-select': {
         disable_search_threshold: 10,
         width: "100%"
@@ -324,7 +323,7 @@ function initChosenSelects() {
       }
     };
 
-    for (var selector in config) {
+    for (let selector in config) {
       if (config.hasOwnProperty(selector)) {
         $(selector).chosen(config[selector]);
       }
@@ -342,31 +341,31 @@ function initChosenSelects() {
 
 
 function initFileInputs() {
-  var inputs = document.querySelectorAll('.inputfile');
+  let inputs = document.querySelectorAll('.inputfile');
   Array.prototype.forEach.call(inputs, function (input) {
-    var label = input.nextElementSibling,
+    let label = input.nextElementSibling,
         labelVal = label.innerHTML; //listen to changes
 
     input.addEventListener('change', function (e) {
-      var fileName = '';
+      let fileName = '';
       if (this.files && this.files.length > 1) fileName = (this.getAttribute('data-multiple-caption') || '').replace('{count}', this.files.length);else fileName = e.target.value.split('\\').pop();
       if (fileName) label.querySelector('span').innerHTML = fileName;else label.innerHTML = labelVal;
     });
   });
-  var inputField = document.querySelectorAll('.field-input');
+  let inputField = document.querySelectorAll('.field-input');
 
-  for (var i = 0, len = inputField.length; i < len; i++) {
+  for (let i = 0, len = inputField.length; i < len; i++) {
     customInput(inputField[i]);
   } //Create custom input
 
 
   function customInput(el) {
-    var fileInput = el.querySelector('[type="file"]');
-    var label = el.querySelector('[data-js-label]');
+    let fileInput = el.querySelector('[type="file"]');
+    let label = el.querySelector('[data-js-label]');
 
     fileInput.onchange = fileInput.onmouseout = function () {
       if (!fileInput.value) return;
-      var value = fileInput.value.replace(/^.*[\\\/]/, '');
+      let value = fileInput.value.replace(/^.*[\\\/]/, '');
       el.className += ' -chosen';
       label.innerText = value;
     };
@@ -400,7 +399,7 @@ function destroyPopovers() {
 
 function initAnimatedCheckboxes() {
   $('.animated-checkbox input').on('change', function () {
-    var $this = $(this);
+    let $this = $(this);
 
     if ($this.closest('.animated-checkbox').hasClass('is-checked')) {
       $this.closest('.animated-checkbox').addClass('is-unchecked').removeClass('is-checked');
@@ -512,23 +511,23 @@ function initMobileMode() {
 
 
 function initPopButtons() {
-  var rn = function rn(min, max) {
+  let rn = function rn(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min).toString();
   };
 
   $('.pop-button').each(function () {
-    var $this = $(this);
-    var template = "\n            <div class=\"p1\"></div>\n            <div class=\"p2\"></div>\n            <div class=\"p3\"></div>\n            <div class=\"p4\"></div>\n            <div class=\"p5\"></div>\n            <div class=\"p6\"></div>\n            <div class=\"p7\"></div>\n        ";
+    let $this = $(this);
+    let template = "\n            <div class=\"p1\"></div>\n            <div class=\"p2\"></div>\n            <div class=\"p3\"></div>\n            <div class=\"p4\"></div>\n            <div class=\"p5\"></div>\n            <div class=\"p6\"></div>\n            <div class=\"p7\"></div>\n        ";
     $this.append(template);
     $this.on('mousedown', function () {
-      var $this = $(this);
-      var p1 = $this.find(".p1");
-      var p2 = $this.find(".p2");
-      var p3 = $this.find(".p3");
-      var p4 = $this.find(".p4");
-      var p5 = $this.find(".p5");
-      var p6 = $this.find(".p6");
-      var p7 = $this.find(".p7");
+      let $this = $(this);
+      let p1 = $this.find(".p1");
+      let p2 = $this.find(".p2");
+      let p3 = $this.find(".p3");
+      let p4 = $this.find(".p4");
+      let p5 = $this.find(".p5");
+      let p6 = $this.find(".p6");
+      let p7 = $this.find(".p7");
       p1.animate({
         left: rn(100, 200),
         top: rn(40, 120),
@@ -633,7 +632,7 @@ function launchAlert(title, message, okLabel, cancelLabel, callback) {
 } //Toast Service
 
 
-var toasts = {};
+let toasts = {};
 toasts.service = {
   info: function info(title, icon, message, position, t) {
     iziToast.show({
@@ -696,7 +695,7 @@ function initSelect()
   $('select.native').each(function () {
 
     // Cache the number of options
-    var $this = $(this),
+    let $this = $(this),
         numberOfOptions = $(this).children('option').length;
 
     // Hides the select element
@@ -709,18 +708,18 @@ function initSelect()
     $this.after('<div class="styledSelect"></div>');
 
     // Cache the styled div
-    var $styledSelect = $this.next('div.styledSelect');
+    let $styledSelect = $this.next('div.styledSelect');
 
     // Show the first select option in the styled div
     $styledSelect.text($this.children('option').eq(0).text());
 
     // Insert an unordered list after the styled div and also cache the list
-    var $list = $('<ul />', {
+    let $list = $('<ul />', {
       'class': 'options'
     }).insertAfter($styledSelect);
 
     // Insert a list item into the unordered list for each select option
-    for (var i = 0; i < numberOfOptions; i++) {
+    for (let i = 0; i < numberOfOptions; i++) {
       $('<li />', {
         text: $this.children('option').eq(i).text(),
         rel: $this.children('option').eq(i).val()
@@ -728,7 +727,7 @@ function initSelect()
     }
 
     // Cache the list items
-    var $listItems = $list.children('li');
+    let $listItems = $list.children('li');
 
     // Show the unordered list when the styled div is clicked (also hides it if the div is clicked again)
     $styledSelect.on('click', function (e) {
@@ -795,7 +794,7 @@ function InitSpinner()
 }
 
 function once(fn, context) {
-  var result;
+  let result;
   return function () {
     if (fn) {
       result = fn.apply(context || this, arguments);

@@ -127,7 +127,7 @@ function AddToCart(container){
     let name = container.find('.product-name').text();
     let prix = parseFloat(container.find('.product-price').attr('data-price'));
     //let categorie = container.find('.product-name').text();
-    let img = $(".image").attr('src');
+    let img = $(".images").attr('src');
     let reload= $('.cart-loader');
     let quantite = 1 ;
 
@@ -142,7 +142,7 @@ function AddToCart(container){
             id: productId,
             name: name,
             quantity: quantite,
-            category: "ok",
+            category: "Category",
             price: prix,
             images: [{
                 url: img
