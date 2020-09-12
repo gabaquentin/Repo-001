@@ -40,12 +40,12 @@
                     </a>
                 </li>
                 <li class="menu-1 menu-out animated">
-                    {% if app.user.roles == "ROLE_PARTENAIRE" %}
-                        <a href="#" class="menu-link" data-name="partenaire" data-toggle="tooltip" data-placement="bottom" title="Devenir Partenaire">
+                    {% if is_granted('ROLE_PARTENAIRE') %}
+                        <a href="#" class="menu-link" data-name="partenaire" data-toggle="tooltip" data-placement="bottom" title="Mon Partenariat">
                             <span aria-hidden="true" class="icon icon-info"></span>
                         </a>
                     {% else %}
-                        <a href="#" class="menu-link" data-name="partenaire" data-toggle="tooltip" data-placement="bottom" title="Mon Partenariat">
+                        <a href="#" class="menu-link" data-name="partenaire" data-toggle="tooltip" data-placement="bottom" title="Devenir Partenaire">
                             <span aria-hidden="true" class="icon icon-info"></span>
                         </a>
                     {% endif %}
@@ -224,9 +224,9 @@
             <!-- 13.0 partenaire container -->
             <div class="partenaire-container col-lg-6 col-md-6 col-sm-12 col-xs-12 centering-y">
                 {% if is_granted('ROLE_PARTENAIRE') %}
-                <h2 class="animated entrance">Devenir Partenaire</h2>
-                {% else %}
                     <h2 class="animated entrance">Mon Partenariat</h2>
+                {% else %}
+                    <h2 class="animated entrance">Devenir Partenaire</h2>
                 {% endif %}
                 <p class="partenaire-desc col-lg-9 col-lg-offset-3 col-md-10 col-md-offset-2 col-sm-12 col-sm-offset-0 col-xs-12 col-xs-offset-0 animated entrance">
                     If you have any question or have a project to discuss with us, drop us a line below. We'd love to talk.

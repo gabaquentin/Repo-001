@@ -17,35 +17,32 @@
         </li>
 
         <li class="dropdown d-none d-lg-block">
-            <a class="nav-link dropdown-toggle mr-0 waves-effect waves-light" data-toggle="dropdown" href="#"
-               role="button" aria-haspopup="false" aria-expanded="false">
-                <img src="{{ asset('backend/images/flags/us.jpg') }}" alt="user-image" class="mr-1" height="12"> <span
-                        class="align-middle">English <i class="mdi mdi-chevron-down"></i> </span>
-            </a>
+            {% if app.user.local == "fr" %}
+                <a class="nav-link dropdown-toggle mr-0 waves-effect waves-light" data-toggle="dropdown" href="#"
+                   role="button" aria-haspopup="false" aria-expanded="false">
+                    <img src="{{ asset('backend/images/flags/french.jpg') }}" alt="user-image" class="mr-1" height="12"> <span
+                            class="align-middle">Francais <i class="mdi mdi-chevron-down"></i> </span>
+                </a>
+            {% elseif app.user.local == "en" %}
+                <a class="nav-link dropdown-toggle mr-0 waves-effect waves-light" data-toggle="dropdown" href="#"
+                   role="button" aria-haspopup="false" aria-expanded="false">
+                    <img src="{{ asset('backend/images/flags/us.jpg') }}" alt="user-image" class="mr-1" height="12"> <span
+                            class="align-middle">Anglais <i class="mdi mdi-chevron-down"></i> </span>
+                </a>
+            {% endif %}
             <div class="dropdown-menu dropdown-menu-right">
                 <!-- item-->
+                {% if app.user.local == "fr" %}
                 <a href="javascript:void(0);" class="dropdown-item notify-item">
-                    <img src="{{ asset('backend/images/flags/germany.jpg') }}" alt="user-image" class="mr-1"
-                         height="12"> <span class="align-middle">German</span>
+                    <img src="{{ asset('backend/images/flags/us.jpg') }}" alt="user-image" class="mr-1"
+                         height="12"> <span class="align-middle">Anglais</span>
                 </a>
-
-                <!-- item-->
-                <a href="javascript:void(0);" class="dropdown-item notify-item">
-                    <img src="{{ asset('backend/images/flags/italy.jpg') }}" alt="user-image" class="mr-1" height="12">
-                    <span class="align-middle">Italian</span>
-                </a>
-
-                <!-- item-->
-                <a href="javascript:void(0);" class="dropdown-item notify-item">
-                    <img src="{{ asset('backend/images/flags/spain.jpg') }}" alt="user-image" class="mr-1" height="12">
-                    <span class="align-middle">Spanish</span>
-                </a>
-
-                <!-- item-->
-                <a href="javascript:void(0);" class="dropdown-item notify-item">
-                    <img src="{{ asset('backend/images/flags/russia.jpg') }}" alt="user-image" class="mr-1" height="12">
-                    <span class="align-middle">Russian</span>
-                </a>
+                {% elseif app.user.local == "en" %}
+                    <a href="javascript:void(0);" class="dropdown-item notify-item">
+                        <img src="{{ asset('backend/images/flags/french.jpg') }}" alt="user-image" class="mr-1"
+                             height="12"> <span class="align-middle">Francais</span>
+                    </a>
+                {% endif %}
 
             </div>
         </li>
@@ -147,9 +144,9 @@
         <li class="dropdown notification-list">
             <a class="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" data-toggle="dropdown" href="#"
                role="button" aria-haspopup="false" aria-expanded="false">
-                <img src="{{ asset('backend/images/users/avatar-1.jpg') }}" alt="user-image" class="rounded-circle">
+                <img src="{{ app.user ? app.user.image }}" alt="user-image" class="rounded-circle">
                 <span class="pro-user-name ml-1">
-                                Nik Patel <i class="mdi mdi-chevron-down"></i>
+                                {{ app.user ? app.user.nom }} {{ app.user ? app.user.prenom }} <i class="mdi mdi-chevron-down"></i>
                             </span>
             </a>
             <div class="dropdown-menu dropdown-menu-right profile-dropdown ">

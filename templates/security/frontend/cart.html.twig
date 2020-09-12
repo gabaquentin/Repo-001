@@ -31,15 +31,16 @@
                     <div class="column main-column is-tablet-landscape-padded">
                         <div class="account-title">
                             <h2>MY CART</h2>
-                            <img class="brand-filigrane" src="assets/img/logo/nephos-greyscale.svg" alt="">
+                            <img class="brand-filigrane" src="{{ asset('frontend/img/logo/nephos-greyscale.svg') }}" alt="">
                         </div>
 
                         <!-- Account tabs -->
+
                         {% include 'frontend/menu-account.html.twig' with { "cart":"is-active" } %}
 
                         <div id="cart-main-placeholder" class="main-placeholder is-hidden">
                             <div class="placeholder-content">
-                                <img src="assets/img/illustrations/shop.svg" alt="">
+                                <img src="{{ asset('frontend/img/illustrations/shop.svg') }}" alt="">
                                 <h3>Empty Cart</h3>
                                 <p>Your shopping cart is currenlty empty. Start adding products to be able to checkout.</p>
                                 <div class="button-wrap">

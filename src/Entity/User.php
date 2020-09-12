@@ -119,14 +119,50 @@ class User implements UserInterface
     private $note;
 
     /**
+     * @ORM\OneToOne(targetEntity=Shipping::class)
+     */
+    private $livraison;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Billing::class)
+     */
+    private $paiement;
+
+    /**
+     * @ORM\Column(type="integer", options={"comment":"enable shipping address"})
+     */
+    private $esa;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $phone_verified;
+
+    /**
      * @ORM\Column(type="text",nullable=true)
      */
     private $packProduct;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true, options={"comment":"partner status"})
+     */
+    private $ps;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true, options={"comment":"date partnership"})
+     */
+    private $dp;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true, options={"comment":"admin lock"})
+     */
+    private $al;
 
     public function __construct()
     {
         $this->creation = new \DateTime();
     }
+
 
     public function getId(): ?int
     {
@@ -407,6 +443,50 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getLivraison()
+    {
+        return $this->livraison;
+    }
+
+    /**
+     * @param mixed $livraison
+     */
+    public function setLivraison($livraison): void
+    {
+        $this->livraison = $livraison;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPaiement()
+    {
+        return $this->paiement;
+    }
+
+    /**
+     * @param mixed $paiement
+     */
+    public function setPaiement($paiement): void
+    {
+        $this->paiement = $paiement;
+    }
+
+    public function getEsa(): ?int
+    {
+        return $this->esa;
+    }
+
+    public function setEsa(int $esa): self
+    {
+        $this->esa = $esa;
+
+        return $this;
+    }
+
     public function getPackProduct(): array
     {
         return unserialize($this->packProduct);
@@ -416,8 +496,56 @@ class User implements UserInterface
     {
         $this->packProduct = serialize($pack);
 
+
         return $this;
     }
 
+    public function getPhoneVerified(): ?bool
+    {
+        return $this->phone_verified;
+    }
+
+    public function setPhoneVerified(bool $phone_verified): self
+    {
+        $this->phone_verified = $phone_verified;
+
+        return $this;
+    }
+
+    public function getPs(): ?bool
+    {
+        return $this->ps;
+    }
+
+    public function setPs(?bool $ps): self
+    {
+        $this->ps = $ps;
+
+        return $this;
+    }
+
+    public function getDp(): ?string
+    {
+        return $this->dp;
+    }
+
+    public function setDp(?string $dp): self
+    {
+        $this->dp = $dp;
+
+        return $this;
+    }
+
+    public function getAl(): ?bool
+    {
+        return $this->al;
+    }
+
+    public function setAl(?bool $al): self
+    {
+        $this->al = $al;
+
+        return $this;
+    }
 
 }

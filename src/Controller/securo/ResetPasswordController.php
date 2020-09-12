@@ -50,10 +50,12 @@ class ResetPasswordController extends AbstractController
             );
 
         }
+        else
+        {
+            $lastUsername = $authenticationUtils->getLastUsername();
 
-        $lastUsername = $authenticationUtils->getLastUsername();
-
-        return $this->render('security/frontend/authenticator.html.twig', ['last_username' => $lastUsername, 'authentication' => 'reset']);
+            return $this->render('security/frontend/authenticator.html.twig', ['last_username' => $lastUsername, 'authentication' => 'reset']);
+        }
     }
 
     /**

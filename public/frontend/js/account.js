@@ -1,6 +1,8 @@
 "use strict"; //Shipping address state global variable
 
-var enableShippingAddress = false; //Get account information
+var enableShippingAddress = false;
+
+//Get account information
 
 function getAccountInfo() {
   var userData = JSON.parse(localStorage.getItem('user')); //If not logged in, hide account
@@ -102,43 +104,57 @@ function getEditAccountInfo() {
 
 
 function saveAccountInfo() {
-  var userData = JSON.parse(localStorage.getItem('user'));
-  $('#save-account-button').on('click', function () {
+
+  $('#save-account-button').on('click', function (event) {
     var $this = $(this);
+    event.preventDefault();
     $this.addClass('is-loading');
-    userData.photoUrl = $('.profile-pic').attr('src');
-    userData.firstName = $('#edit-first-name').val();
-    userData.lastName = $('#edit-last-name').val();
-    userData.email = $('#edit-email').val();
-    userData.phone = $('#edit-phone-number').val(); //Billing Address
 
-    userData.addresses[0].address1 = $('#billing-edit-address1').val();
-    userData.addresses[0].address2 = $('#billing-edit-address2').val();
-    userData.addresses[0].city = $('#billing-edit-city').val();
-    userData.addresses[0].postalCode = $('#billing-edit-postal-code').val();
-    userData.addresses[0].state = $('#billing-edit-state').val();
-    userData.addresses[0].country = $('#billing-edit-country').val(); //Shipping Address
+    var state ;
+    if(enableShippingAddress === false)
+      state = 0;
+    else
+      state = 1;
+    var form = $('#account-edit-form');
 
-    if (enableShippingAddress) {
-      userData.addresses[1].address1 = $('#shipping-edit-address1').val();
-      userData.addresses[1].address2 = $('#shipping-edit-address2').val();
-      userData.addresses[1].city = $('#shipping-edit-city').val();
-      userData.addresses[1].postalCode = $('#shipping-edit-postal-code').val();
-      userData.addresses[1].state = $('#shipping-edit-state').val();
-      userData.addresses[1].country = $('#shipping-edit-country').val();
-      userData.addresses[1].disabled = false;
-    } else {
-      userData.addresses[1].disabled = true;
-    }
+    $.ajax({
+      type: "POST",
+      url: form.attr("/editaccount"),
+      data: {
+        "nom": $('#edit-first-name').val(),
+        "prenom": $('#edit-last-name').val(),
+        "paysPaiement": $('#billing-edit-country').val(),
+        "postePaiement": $('#billing-edit-postal-code').val(),
+        "villePaiement": $('#billing-edit-address2').val(),
+        "quartierPaiement": $('#billing-edit-city').val(),
+        "addressPaiement": $('#billing-edit-state').val(),
+        "paysLivraison": $('#shipping-edit-country').val(),
+        "posteLivraison": $('#shipping-edit-postal-code').val(),
+        "villeLivraison": $('#shipping-edit-address2').val(),
+        "quartierLivraison": $('#shipping-edit-city').val(),
+        "addressLivraison": $('#shipping-edit-state').val(),
+        "image": $('.profile-pic').attr('src'),
+        "esa": state,
+        "local": $('#edit-local').val(),
+      },
+      dataType: 'json',
+      success: function (data) {
+        setTimeout(function () {
+          $this.removeClass('is-loading');
+          toasts.service.success('', 'fas fa-check', 'Sauvegarde effectué avec succés', 'bottomRight', 2500);
+        }, 1500);
+        setTimeout(function () {
+          getUser();
+        }, 4000);
+      },
+      error: function (data) {
+        setTimeout(function () {
+          $this.removeClass('is-loading');
+          toasts.service.error('', 'fas fa-meh', " Erreur interne du server... Veuillez reesayer ", 'bottomRight', 2800);
+        }, 800);
 
-    setTimeout(function () {
-      localStorage.setItem('user', JSON.stringify(userData));
-      $this.removeClass('is-loading');
-      toasts.service.success('', 'fas fa-check', 'Changes saved successfully', 'bottomRight', 2500);
-    }, 1500);
-    setTimeout(function () {
-      getUser();
-    }, 4000);
+      },
+    });
   });
 } //Fake field validation
 
@@ -282,25 +298,17 @@ $(document).ready(function () {
     getAccountInfo();
   } //If account edit page
 
-  console.log("account");
-  console.log($('#account-page').length);
-  console.log("edit account");
-  console.log($('#edit-account-page').length);
-
   if ($('#edit-account-page').length) {
     getEditAccountInfo();
     initPopButtons();
     fakeValidation();
-    uploadProfilePicture();
     initCountryAutocomplete();
     saveAccountInfo(); //Address switch
-
     $('#shipping-switch').on('change', function () {
       var userData = JSON.parse(localStorage.getItem('user'));
       $(this).closest('.flat-card').find('.card-body').toggleClass('is-disabled');
-      //enableShippingAddress = !enableShippingAddress;
+      enableShippingAddress = !enableShippingAddress;
       console.log(enableShippingAddress);
-
       if (enableShippingAddress) {
         $('#shipping-edit-address1').val(userData.addresses[0].address1);
         $('#shipping-edit-address2').val(userData.addresses[0].address2);
@@ -316,6 +324,38 @@ $(document).ready(function () {
         $('#shipping-edit-state').val('');
         $('#shipping-edit-country').val('');
       }
+
+      /*
+      var state ;
+      if(enableShippingAddress === false)
+        state = 0;
+      else
+        state = 1;
+
+      fetch("/esa/" + state).then(function(response) {
+        if(response.ok) {
+          if(state === 1)
+          {
+            setTimeout(function () {
+              toasts.service.success('', 'fas fa-check', 'Adresse de livraison activé ', 'bottomRight', 2000);
+            }, 600);
+          }
+          else if (state === 0)
+          {
+            setTimeout(function () {
+              toasts.service.success('', 'fas fa-check', 'Adresse de livraison desactivé', 'bottomRight', 2000);
+            }, 1200);
+          }
+        } else {
+          console.log('Mauvaise réponse du réseau');
+        }
+      })
+          .catch(function(error) {
+            console.log('Il y a eu un problème avec l\'opération fetch: ' + error.message);
+          });
+
+       */
     });
+
   }
 });

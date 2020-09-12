@@ -76,7 +76,161 @@
                     type: "error"
                 })
             })
-        }), t("#sa-image").click(function () {
+        }),t("[id=promote_user_boutique]").click(function (e) {
+            var id = $(e.target).closest('td').find("#id_user").html();
+            Swal.fire({
+                title: "Êtes-vous sûr?",
+                text: "L'utilisateur seras promu au rang d'administrateur E-Boutiques!",
+                type: "warning",
+                showCancelButton: !0,
+                confirmButtonText: "Oui, promouvoir l'utilisateur!",
+                cancelButtonText: "Non, annuler!",
+                confirmButtonClass: "btn btn-success mt-2",
+                cancelButtonClass: "btn btn-danger ml-2 mt-2",
+                buttonsStyling: !1
+            }).then(function (t) {
+                if(t.value)
+                {
+                    fetch("/back/security/promoteUser/boutique/" + id ).then(function(response) {
+                        if(response.ok) {
+                            Swal.fire({
+                                title: "Promu!",
+                                text: "Votre utilisateur a ete promu.",
+                                type: "success"
+                            })
+
+                            $("[id=row_promotion"+id+"]").html("Promu administrateur e-boutique");
+                        } else {
+                            t.dismiss === Swal.DismissReason.cancel &&Swal.fire({
+                                title: "Erreur",
+                                text: "Une erreur s'est produite durant l'operation",
+                                type: "error"
+                            });
+                        }
+                    })
+                        .catch(function(error) {
+                            console.log('Il y a eu un problème avec l\'opération fetch: ' + error.message);
+                            t.dismiss === Swal.DismissReason.cancel &&Swal.fire({
+                                title: "Erreur",
+                                text: "Une erreur s'est produite durant l'operation",
+                                type: "error"
+                            });
+                        });
+
+                }
+                else
+                {
+                    t.dismiss === Swal.DismissReason.cancel &&Swal.fire({
+                        title: "Annulé",
+                        text: "Aucune promotion n'as été effectué:)",
+                        type: "error"
+                    });
+                }
+            })
+        }),t("[id=promote_user_services]").click(function (e) {
+            var id = $(e.target).closest('td').find("#id_user").html();
+            console.log(id);
+            Swal.fire({
+                title: "Êtes-vous sûr?",
+                text: "L'utilisateur seras promu au rang d'administrateur E-Services!",
+                type: "warning",
+                showCancelButton: !0,
+                confirmButtonText: "Oui, promouvoir l'utilisateur!",
+                cancelButtonText: "Non, annuler!",
+                confirmButtonClass: "btn btn-success mt-2",
+                cancelButtonClass: "btn btn-danger ml-2 mt-2",
+                buttonsStyling: !1
+            }).then(function (t) {
+                if(t.value)
+                {
+                    fetch("/back/security/promoteUser/services/" + id ).then(function(response) {
+                        if(response.ok) {
+                            Swal.fire({
+                                title: "Promu!",
+                                text: "Votre utilisateur a ete promu.",
+                                type: "success"
+                            })
+
+                            $("[id=row_promotion"+id+"]").html("Promu administrateur e-services");
+                        } else {
+                            t.dismiss === Swal.DismissReason.cancel &&Swal.fire({
+                                title: "Erreur",
+                                text: "Une erreur s'est produite durant l'operation",
+                                type: "error"
+                            });
+                        }
+                    })
+                        .catch(function(error) {
+                            console.log('Il y a eu un problème avec l\'opération fetch: ' + error.message);
+                            t.dismiss === Swal.DismissReason.cancel &&Swal.fire({
+                                title: "Erreur",
+                                text: "Une erreur s'est produite durant l'operation",
+                                type: "error"
+                            });
+                        });
+
+                }
+                else
+                {
+                    t.dismiss === Swal.DismissReason.cancel &&Swal.fire({
+                        title: "Annulé",
+                        text: "Aucune promotion n'as été effectué:)",
+                        type: "error"
+                    });
+                }
+            })
+        }), t("[id=promote_user_terrain]").click(function (e) {
+            var id = $(e.target).closest('td').find("#id_user").html();
+            console.log(id);
+            Swal.fire({
+                title: "Êtes-vous sûr?",
+                text: "L'utilisateur seras promu au rang d'administrateur E-Terrains!",
+                type: "warning",
+                showCancelButton: !0,
+                confirmButtonText: "Oui, promouvoir l'utilisateur!",
+                cancelButtonText: "Non, annuler!",
+                confirmButtonClass: "btn btn-success mt-2",
+                cancelButtonClass: "btn btn-danger ml-2 mt-2",
+                buttonsStyling: !1
+            }).then(function (t) {
+                if(t.value)
+                {
+                    fetch("/back/security/promoteUser/terrain/" + id ).then(function(response) {
+                        if(response.ok) {
+                            Swal.fire({
+                                title: "Promu!",
+                                text: "Votre utilisateur a ete promu.",
+                                type: "success"
+                            })
+
+                            $("[id=row_promotion"+id+"]").html("Promu administrateur e-terrain");
+                        } else {
+                            t.dismiss === Swal.DismissReason.cancel &&Swal.fire({
+                                title: "Erreur",
+                                text: "Une erreur s'est produite durant l'operation",
+                                type: "error"
+                            });
+                        }
+                    })
+                        .catch(function(error) {
+                            console.log('Il y a eu un problème avec l\'opération fetch: ' + error.message);
+                            t.dismiss === Swal.DismissReason.cancel &&Swal.fire({
+                                title: "Erreur",
+                                text: "Une erreur s'est produite durant l'operation",
+                                type: "error"
+                            });
+                        });
+                }
+                else
+                {
+                    t.dismiss === Swal.DismissReason.cancel &&Swal.fire({
+                        title: "Annulé",
+                        text: "Aucune promotion n'as été effectué:)",
+                        type: "error"
+                    });
+                }
+            })
+        }),t("#sa-image").click(function () {
             Swal.fire({
                 title: "Minton",
                 text: "Responsive Bootstrap 4 Admin Dashboard",
@@ -122,52 +276,28 @@
                 confirmButtonClass: "btn btn-confirm mt-2",
                 background: "#fff url(//subtlepatterns2015.subtlepatterns.netdna-cdn.com/patterns/geometry.png)"
             })
-        }), t("#account-edit-front-alert").click(function () {
-            var data = JSON.parse(localStorage.getItem('user'));
-            if(!data.ableToEdit) {
-                Swal.fire({
-                    title: "Entrez votre mot de passe",
-                    input: "password",
-                    inputAttributes: {autocapitalize: "off"},
-                    showCancelButton: !0,
-                    confirmButtonText: "Verifier",
-                    showLoaderOnConfirm: !0,
-                    preConfirm: function (t) {
-                        return fetch("/validatePassword/" + t).then(function (t) {
-                            if (!t.ok) throw new Error(t.statusText);
-                            return t.json()
-                        }).catch(function (t) {
-                            Swal.showValidationMessage("Mot de passe incorrect")
-                        })
-                    },
-                    allowOutsideClick: function () {
-                        Swal.isLoading()
-                    }
-                }).then(function (t) {
-                    if(t.value)
-                    {
-                        window.location.href = '/editaccount';
-                        var login = {
-                            isLoggedIn: true,
-                            ableToEdit: true,
-                            firstName: data.firstName,
-                            lastName: data.lastName,
-                            email: data.email,
-                            phone: data.phone,
-                            photoUrl: data.photoUrl,
-                            wishlists: myWishlists,
-                            orders: myOrders,
-                            addresses: myAddresses
-                        };
-
-                        localStorage.setItem('user', JSON.stringify(login));
-                    }
-                    t.value&&Swal.fire({title:"Mot de passe correct" , text:"Vous allez etre redirigé vers la page d'edition de compte"})
-                })
-            } else {
-                window.location.href = '/editaccount';
-            }
-
+        }), t("#ajax-alert").click(function () {
+            Swal.fire({
+                title: "Submit your Github username",
+                input: "text",
+                inputAttributes: {autocapitalize: "off"},
+                showCancelButton: !0,
+                confirmButtonText: "Look up",
+                showLoaderOnConfirm: !0,
+                preConfirm: function (t) {
+                    return fetch("//api.github.com/users/" + t).then(function (t) {
+                        if (!t.ok) throw new Error(t.statusText);
+                        return t.json()
+                    }).catch(function (t) {
+                        Swal.showValidationMessage("Request failed: " + t)
+                    })
+                },
+                allowOutsideClick: function () {
+                    Swal.isLoading()
+                }
+            }).then(function (t) {
+                t.value && Swal.fire({title: t.value.login + "'s avatar", imageUrl: t.value.avatar_url})
+            })
         }), t("#chaining-alert").click(function () {
             Swal.mixin({
                 input: "text",

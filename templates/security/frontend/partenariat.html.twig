@@ -22,70 +22,25 @@
             </div>
         </div>
         <!-- Main section -->
-        <div class="section">
-            <!-- Container -->
-            <div class="container">
-                <!-- Elements Grid -->
-                <div class="columns category-header">
-                    <div class="column is-10 is-offset-1 is-tablet-landscape-padded">
-                        <!-- Title -->
-                        <div class="category-title">
-                            <!-- Main Title -->
-                            <h2 id="elements-title">PARTENARIAT</h2>
-
-                            <!-- Elements Titles -->
-                            <h2 id="boutique-title" class="element-title is-hidden">BOUTIQUE</h2>
-                            <h2 id="services-title" class="element-title is-hidden">SERVICES</h2>
-                            <h2 id="terrain-title" class="element-title is-hidden">TERRAIN</h2>
-
-                            <!-- Back to selection -->
-                            <a href="javascript:void(0);" class="button feather-button is-small primary-button raised elements-back is-hidden">Back</a>
-                            <!-- Filigrane logo -->
-                            <img class="brand-filigrane" src="{{ asset('frontend/img/logo/nephos-greyscale.svg') }}" alt="">
-                        </div>
-
-                        {% if app.user %}
-                            <div id="elements-selection" class="columns is-multiline">
-                                <!-- Boutique -->
-                                <div class="column is-4">
-                                    <div class="flat-card is-auto is-element-card">
-                                        <div class="inner has-text-centered">
-                                            <h3 class="element-card-title">Boutique</h3>
-                                            <img src="{{ asset('frontend/img/illustrations/store.svg') }}" alt="">
-                                            <div class="view-element">
-                                                <a href="javascript:void(0);" class="button feather-button primary-button is-small raised rounded" data-element="boutique">View</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Services -->
-                                <div class="column is-4">
-                                    <div class="flat-card is-auto is-element-card">
-                                        <div class="inner has-text-centered">
-                                            <h3 class="element-card-title">Services</h3>
-                                            <img src="{{ asset('frontend/img/illustrations/couch.svg') }}" alt="">
-                                            <div class="view-element">
-                                                <a href="javascript:void(0);" class="button feather-button primary-button is-small raised rounded" data-element="services">View</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Terrain -->
-                                <div class="column is-4">
-                                    <div class="flat-card is-auto is-element-card">
-                                        <div class="inner has-text-centered">
-                                            <h3 class="element-card-title">Terrain</h3>
-                                            <img src="{{ asset('frontend/img/icons/checkout/world.svg') }}" alt="">
-                                            <div class="view-element">
-                                                <a href="javascript:void(0);" class="button feather-button primary-button is-small raised rounded" data-element="terrain">View</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+        {% if is_granted('ROLE_PARTENAIRE') %}
+            <div id="account-page" class="section">
+                <!-- Container -->
+                <div class="container">
+                    <!-- Account Layout -->
+                    <div class="columns account-header">
+                        <div class="column main-column is-tablet-landscape-padded">
+                            <!-- Title -->
+                            <div class="account-title">
+                                <h2>Mon Partenariat</h2>
+                                <img class="brand-filigrane" src="{{ asset('frontend/img/logo/nephos-greyscale.svg') }}" alt="">
                             </div>
-                            <!-- Selection -->
-                        {% else %}
-                            <div id="account-main-placeholder" class="main-placeholder">
+
+                            <!-- Account tabs -->
+                            <div class="tabs account-tabs">
+                                <ul></ul>
+                            </div>
+
+                            <div id="account-main-placeholder" class="main-placeholder is-hidden">
                                 <div class="placeholder-content">
                                     <img src="{{ asset('frontend/img/illustrations/profile.svg') }}" alt="">
                                     <h3>Welcome, Guest</h3>
@@ -96,30 +51,68 @@
                                     <a href="{{ path('app_register', {'role': 'new_user'}) }}">Don't have an account?</a>
                                 </div>
                             </div>
-                        {% endif %}
 
-                        <!-- Boutique -->
-                        <div id="boutique" class="columns is-element is-hidden">
-                            <div class="column">
+                            <!-- Account layout -->
+                            <div id="account-main" class="columns is-account-grid is-multiline">
+                                <!--Loader-->
+                                <div class="account-loader is-active">
+                                    <div class="loader is-pulled is-loading"></div>
+                                </div>
 
-                                <!-- Default Inputs -->
-                                <div class="flat-card is-auto is-element-details">
-                                    <div class="columns is-gapless is-vcentered">
-                                        <div class="column is-6 is-description">
-                                            <div class="inner">
-                                                <div class="divider"></div>
-                                                <h2 class="title is-6 is-light">{% trans %}Bienvenue {% endtrans %} {% if app.user %} {{ app.user.prenom }} {% endif %}</h2>
-                                                <p>Vous etes proprietaire d'un etablissement de vente/location de fournitures immobiliére, materiaux de constrction, maison/appartement et vous souhaités rejoindre notre communauté afin de promouvoir vos produits et services ? </br> Si oui n'hesitez pas a remplir ce formulaire pour une demande d'adhésion.</p>
+                                <div id="tabs" class="columns is-element">
+                                    <div class="column">
+                                        <div class="flat-card is-auto is-element-details">
+                                            <div class="columns is-gapless is-vcentered">
+                                                <div class="column is-6 is-component">
+                                                    <div class="inner">
+
+                                                        <div class="tabs-wrapper underline-tabs animated-tabs">
+                                                            <div class="tabs">
+                                                                <ul>
+                                                                    <li class="is-active" data-tab="t4"><a>Boutique</a></li>
+                                                                    <li data-tab="t5"><a>Services</a></li>
+                                                                    <li data-tab="t6"><a>Terrain</a></li>
+                                                                </ul>
+                                                            </div>
+                                                            <div id="t4" class="navtab-content is-active">
+                                                                Lorem ipsum dolor sit amet, in adipiscing scribentur necessitatibus ius, meis mollis his ei, cu veri expetenda nec. Wisi essent in sed, quod persius at per, quodsi expetenda concludaturque ad usu.
+                                                                <div class="tabs"></div>
+                                                                <a class="button feather-button primary-button is-bold">Bold</a>
+                                                            </div>
+                                                            <div id="t5" class="navtab-content">
+                                                                Lorem ipsum dolor sit amet, in adipiscing scribentur necessitatibus ius, meis mollis his ei, cu veri expetenda nec.
+                                                            </div>
+                                                            <div id="t6" class="navtab-content">
+                                                                Lorem ipsum dolor sit amet, in adipiscing scribentur necessitatibus ius, meis mollis his ei, cu veri expetenda nec. Wisi essent in sed, quod persius at per, quodsi expetenda concludaturque ad usu.
+                                                            </div>
+                                                        </div>
+
+
+                                                    </div>
+                                                </div>
+                                                <div class="column is-6 is-description">
+                                                    <div class="inner">
+                                                        <div class="divider"></div>
+                                                        <h2 class="title is-6 is-light">{% trans %}Bienvenue {% endtrans %} {% if app.user %} {{ app.user.prenom }} {% endif %} </h2>
+                                                        <p>Cette section vous permet d'etablir un contrat de partenariat avec nous afin de promouvoir vos produits et services.</p>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="flat-card is-auto is-element-details">
+                                    <div class="columns is-gapless is-vcentered">
                                         <div class="column is-6 is-component">
                                             <div class="inner">
-                                                <form  id="partenariat-boutique-form" method="post" action="{{ path('app_partenariat') }}">
+                                                <form  id="registration-form" method="post" action="{{ path('app_register', {'role': 'new_user'}) }}" >
                                                     <!--Field avatar-->
                                                     <div class="field">
                                                         <!-- Avatar form -->
                                                         <div id="avatar-upload" class="avatar-wrapper has-simple-popover" data-content="Change profile picture" data-placement="top">
-                                                            <img class="profile-pic" id="imagesrc" src="{{ asset('frontend/img/logo/nephos-greyscale.svg') }}" alt="">
+                                                            <img class="profile-pic" id="imagesrc" src="{{ asset('frontend/img/avatars/avatar.png') }}" alt="">
                                                             <div class="upload-button modal-trigger" data-modal="upload-crop-modal">
                                                                 <i class="upload-icon" data-feather="plus" aria-hidden="true"></i>
                                                             </div>
@@ -128,174 +121,293 @@
                                                         </div>
                                                         <!-- /Avatar form -->
                                                     </div>
-                                                    <!--Field nom-->
-                                                    <div class="field has-flex-label has-validation">
-                                                        <label>
-                                                            <span>Nom de la Boutique</span>
-                                                            <span class="error">Ne peut etre vide</span>
-                                                        </label>
-                                                        <div class="control is-bigger has-icon">
-                                                            <input id="partenariatB-nom" type="text" name="nom" class="input">
-                                                        </div>
-                                                    </div>
-                                                    <!--Field domaine-->
-                                                    <div class="field has-flex-label has-validation">
-                                                        <label>
-                                                            <span>Domaine(s) d'activité(s)</span>
-                                                            <span class="error">Selectionnez au moins un domaine</span>
-                                                        </label>
-                                                        <div class="control is-bigger has-icon">
-                                                            <select id="partenariatB-domaine" class="chosen-select is-multiple" data-placeholder="Selectionnez votre/vos domaine(s) d'activité(s)" multiple>
-                                                                <option label="Domaine"></option>
-                                                                <option value="immobilier">Immobilier</option>
-                                                                <option value="fournitures">Fournitures</option>
-                                                                <option value="construction">Construction</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <!--Field desc-->
-                                                    <div class="field has-flex-label has-validation">
-                                                        <label>
-                                                            <span>Description</span>
-                                                            <span class="error">Au moins 10 caractéres pour la description</span>
-                                                        </label>
-                                                        <div class="control is-bigger has-icon">
-                                                            <textarea id="partenariatB-desc" class="input" name="description"></textarea>
-                                                        </div>
-                                                    </div>
-                                                    <!--Submit-->
-                                                    <div class="button-wrap">
-                                                        <button id="partenariat-boutique-submit" type="submit" class="button feather-button secondary-button btn-outlined is-fullwidth raised">Envoyer</button>
-                                                    </div>
                                                 </form>
-                                                <p id="boutique-submit-ok" class="is-hidden"> Merci pour votre demande de partenariat nous vous enverons une reponse dans les plus brefs delais</p>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <!-- /Default Inputs -->
+
                             </div>
                         </div>
-                        <!-- /Boutique -->
+                    </div>
+                </div>
+                <!-- /Container -->
+            </div>
+        {% else %}
+            <div class="section">
+                <!-- Container -->
+                <div class="container">
+                    <!-- Elements Grid -->
+                    <div class="columns category-header">
+                        <div class="column is-10 is-offset-1 is-tablet-landscape-padded">
+                            <!-- Title -->
+                            <div class="category-title">
+                                <!-- Main Title -->
+                                <h2 id="elements-title">PARTENARIAT</h2>
 
-                        <!-- Services -->
-                        <div id="services" class="columns is-element is-hidden">
-                            <div class="column">
+                                <!-- Elements Titles -->
+                                <h2 id="boutique-title" class="element-title is-hidden">BOUTIQUE</h2>
+                                <h2 id="services-title" class="element-title is-hidden">SERVICES</h2>
+                                <h2 id="terrain-title" class="element-title is-hidden">TERRAIN</h2>
 
-                                <!-- Default Inputs -->
-                                <div class="flat-card is-auto is-element-details">
-                                    <div class="columns is-gapless is-vcentered">
-                                        <div class="column is-6 is-description">
-                                            <div class="inner">
-                                                <div class="divider"></div>
-                                                <h2 class="title is-6 is-light">{% trans %}Bienvenue {% endtrans %} {% if app.user %} {{ app.user.prenom }} {% endif %}</h2>
-                                                <p>Vous etes proprietaire d'un etablissement de vente/location de fournitures immobiliére, materiaux de constrction, maison/appartement et vous souhaités rejoindre notre communauté afin de promouvoir vos produits et services ? </br> Si oui n'hesitez pas a remplir ce formulaire pour une demande d'adhésion.</p>
+                                <!-- Back to selection -->
+                                <a href="javascript:void(0);" class="button feather-button is-small primary-button raised elements-back is-hidden">Back</a>
+                                <!-- Filigrane logo -->
+                                <img class="brand-filigrane" src="{{ asset('frontend/img/logo/nephos-greyscale.svg') }}" alt="">
+                            </div>
+
+                            {% if app.user %}
+                                <div id="elements-selection" class="columns is-multiline">
+                                    <!-- Boutique -->
+                                    <div class="column is-4">
+                                        <div class="flat-card is-auto is-element-card">
+                                            <div class="inner has-text-centered">
+                                                <h3 class="element-card-title">Boutique</h3>
+                                                <img src="{{ asset('frontend/img/illustrations/store.svg') }}" alt="">
+                                                <div class="view-element">
+                                                    <a href="javascript:void(0);" class="button feather-button primary-button is-small raised rounded" data-element="boutique">View</a>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="column is-6 is-component">
-                                            <div class="inner">
-                                                <form  id="partenariat-services-form" method="post" action="{{ path('app_partenariat') }}">
-                                                    <!--Field cin-->
-                                                    <div class="field has-flex-label has-validation">
-                                                        <label>
-                                                            <span>CIN</span>
-                                                            <span class="error">CIN Invalide</span>
-                                                        </label>
-                                                        <div class="control is-bigger has-icon">
-                                                            <input id="partenariatS-cin" type="text" name="cin" class="input">
-                                                        </div>
-                                                    </div>
-                                                    <!--Field domaine-->
-                                                    <div class="field has-flex-label has-validation">
-                                                        <label>
-                                                            <span>Domaine(s) d'activité(s)</span>
-                                                            <span class="error">Selectionnez au moins un domaine</span>
-                                                        </label>
-                                                        <div class="control is-bigger has-icon">
-                                                            <select id="partenariatS-domaine" class="chosen-select is-multiple" data-placeholder="Selectionnez votre/vos domaine(s) d'activité(s)" multiple>
-                                                                <option label="Domaine"></option>
-                                                                <option value="immobilier">Immobilier</option>
-                                                                <option value="fournitures">Fournitures</option>
-                                                                <option value="construction">Construction</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <!--Field desc-->
-                                                    <div class="field has-flex-label has-validation">
-                                                        <label>
-                                                            <span>Description</span>
-                                                            <span class="error">Au moins 10 caractéres pour la description</span>
-                                                        </label>
-                                                        <div class="control is-bigger has-icon">
-                                                            <textarea id="partenariatS-desc" class="input" name="description"></textarea>
-                                                        </div>
-                                                    </div>
-                                                    <!--Submit-->
-                                                    <div class="button-wrap">
-                                                        <button id="partenariat-services-submit" type="submit" class="button feather-button secondary-button btn-outlined is-fullwidth raised">Envoyer</button>
-                                                    </div>
-                                                </form>
-                                                <p id="services-submit-ok" class="is-hidden"> Merci pour votre demande de partenariat nous vous enverons une reponse dans les plus brefs delais</p>
+                                    </div>
+                                    <!-- Services -->
+                                    <div class="column is-4">
+                                        <div class="flat-card is-auto is-element-card">
+                                            <div class="inner has-text-centered">
+                                                <h3 class="element-card-title">Services</h3>
+                                                <img src="{{ asset('frontend/img/illustrations/couch.svg') }}" alt="">
+                                                <div class="view-element">
+                                                    <a href="javascript:void(0);" class="button feather-button primary-button is-small raised rounded" data-element="services">View</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Terrain -->
+                                    <div class="column is-4">
+                                        <div class="flat-card is-auto is-element-card">
+                                            <div class="inner has-text-centered">
+                                                <h3 class="element-card-title">Terrain</h3>
+                                                <img src="{{ asset('frontend/img/icons/checkout/world.svg') }}" alt="">
+                                                <div class="view-element">
+                                                    <a href="javascript:void(0);" class="button feather-button primary-button is-small raised rounded" data-element="terrain">View</a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <!-- /Default Inputs -->
-                            </div>
-                        </div>
-                        <!-- /Services -->
-
-                        <!-- Terrain -->
-                        <div id="terrain" class="columns is-element is-hidden">
-                            <div class="column">
-
-                                <!-- Default Inputs -->
-                                <div class="flat-card is-auto is-element-details">
-                                    <div class="columns is-gapless is-vcentered">
-                                        <div class="column is-6 is-description">
-                                            <div class="inner">
-                                                <div class="divider"></div>
-                                                <h2 class="title is-6 is-light">{% trans %}Bienvenue {% endtrans %} {% if app.user %} {{ app.user.prenom }} {% endif %}</h2>
-                                                <p>Vous etes proprietaire d'un etablissement de vente/location de fournitures immobiliére, materiaux de constrction, maison/appartement et vous souhaités rejoindre notre communauté afin de promouvoir vos produits et services ? </br> Si oui n'hesitez pas a remplir ce formulaire pour une demande d'adhésion.</p>
-                                            </div>
+                                <!-- Selection -->
+                            {% else %}
+                                <div id="account-main-placeholder" class="main-placeholder">
+                                    <div class="placeholder-content">
+                                        <img src="{{ asset('frontend/img/illustrations/profile.svg') }}" alt="">
+                                        <h3>Welcome, Guest</h3>
+                                        <p>Guest users don't have accounts. Please login or register to view your account.</p>
+                                        <div class="button-wrap">
+                                            <a href="{{path('app_login')}}" class="button big-button primary-button rounded raised">Log In</a>
                                         </div>
-                                        <div class="column is-6 is-component">
-                                            <div class="inner">
-                                                <form  id="partenariat-terrain-form" method="post" action="{{ path('app_partenariat') }}">
-                                                    <!--Field desc-->
-                                                    <div class="field has-flex-label has-validation">
-                                                        <label>
-                                                            <span>Description</span>
-                                                            <span class="error">Au moins 10 caractéres pour la description</span>
-                                                        </label>
-                                                        <div class="control is-bigger has-icon">
-                                                            <textarea id="partenariat-desc" class="input" name="description"></textarea>
+                                        <a href="{{ path('app_register', {'role': 'new_user'}) }}">Don't have an account?</a>
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                            <!-- Boutique -->
+                            <div id="boutique" class="columns is-element is-hidden">
+                                <div class="column">
+
+                                    <!-- Default Inputs -->
+                                    <div class="flat-card is-auto is-element-details">
+                                        <div class="columns is-gapless is-vcentered">
+                                            <div class="column is-6 is-description">
+                                                <div class="inner">
+                                                    <div class="divider"></div>
+                                                    <h2 class="title is-6 is-light">{% trans %}Bienvenue {% endtrans %} {% if app.user %} {{ app.user.prenom }} {% endif %}</h2>
+                                                    <p>Vous etes proprietaire d'un etablissement de vente/location de fournitures immobiliére, materiaux de constrction, maison/appartement et vous souhaités rejoindre notre communauté afin de promouvoir vos produits et services ? </br> Si oui n'hesitez pas a remplir ce formulaire pour une demande d'adhésion.</p>
+                                                </div>
+                                            </div>
+                                            <div class="column is-6 is-component">
+                                                <div class="inner">
+                                                    <form  id="partenariat-boutique-form" method="post" action="{{ path('app_partenariat') }}">
+                                                        <!--Field avatar-->
+                                                        <div class="field">
+                                                            <!-- Avatar form -->
+                                                            <div id="avatar-upload" class="avatar-wrapper has-simple-popover" data-content="Change profile picture" data-placement="top">
+                                                                <img class="profile-pic" id="imagesrc" src="{{ asset('frontend/img/logo/nephos-greyscale.svg') }}" alt="">
+                                                                <div class="upload-button modal-trigger" data-modal="upload-crop-modal">
+                                                                    <i class="upload-icon" data-feather="plus" aria-hidden="true"></i>
+                                                                </div>
+                                                                <!-- input class="input" id="register-image"  type="file" accept="image/*" name="image" -->
+                                                                <!-- input id="register-image" type="text" name="image" class="input" -->
+                                                            </div>
+                                                            <!-- /Avatar form -->
                                                         </div>
-                                                    </div>
-                                                    <!--Submit-->
-                                                    <div class="button-wrap">
-                                                        <button id="partenariat-terrain-submit" type="submit" class="button feather-button secondary-button btn-outlined is-fullwidth raised">Envoyer</button>
-                                                    </div>
-                                                </form>
-                                                <p id="terrain-submit-ok" class="is-hidden"> Merci pour votre demande de partenariat nous vous enverons une reponse dans les plus brefs delais</p>
+                                                        <!--Field nom-->
+                                                        <div class="field has-flex-label has-validation">
+                                                            <label>
+                                                                <span>Nom de la Boutique</span>
+                                                                <span class="error">Ne peut etre vide</span>
+                                                            </label>
+                                                            <div class="control is-bigger has-icon">
+                                                                <input id="partenariatB-nom" type="text" name="nom" class="input">
+                                                            </div>
+                                                        </div>
+                                                        <!--Field domaine-->
+                                                        <div class="field has-flex-label has-validation">
+                                                            <label>
+                                                                <span>Domaine(s) d'activité(s)</span>
+                                                                <span class="error">Selectionnez au moins un domaine</span>
+                                                            </label>
+                                                            <div class="control is-bigger has-icon">
+                                                                <select id="partenariatB-domaine" class="chosen-select is-multiple" data-placeholder="Selectionnez votre/vos domaine(s) d'activité(s)" multiple>
+                                                                    <option label="Domaine"></option>
+                                                                    <option value="immobilier">Immobilier</option>
+                                                                    <option value="fournitures">Fournitures</option>
+                                                                    <option value="construction">Construction</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <!--Field desc-->
+                                                        <div class="field has-flex-label has-validation">
+                                                            <label>
+                                                                <span>Description</span>
+                                                                <span class="error">Au moins 10 caractéres pour la description</span>
+                                                            </label>
+                                                            <div class="control is-bigger has-icon">
+                                                                <textarea id="partenariatB-desc" class="input" name="description"></textarea>
+                                                            </div>
+                                                        </div>
+                                                        <!--Submit-->
+                                                        <div class="button-wrap">
+                                                            <button id="partenariat-boutique-submit" type="submit" class="button feather-button secondary-button btn-outlined is-fullwidth raised">Envoyer</button>
+                                                        </div>
+                                                    </form>
+                                                    <p id="boutique-submit-ok" class="is-hidden"> Merci pour votre demande de partenariat nous vous enverons une reponse dans les plus brefs delais</p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
+                                    <!-- /Default Inputs -->
                                 </div>
-                                <!-- /Default Inputs -->
-
                             </div>
-                        </div>
-                        <!-- /Terrain -->
+                            <!-- /Boutique -->
 
+                            <!-- Services -->
+                            <div id="services" class="columns is-element is-hidden">
+                                <div class="column">
+
+                                    <!-- Default Inputs -->
+                                    <div class="flat-card is-auto is-element-details">
+                                        <div class="columns is-gapless is-vcentered">
+                                            <div class="column is-6 is-description">
+                                                <div class="inner">
+                                                    <div class="divider"></div>
+                                                    <h2 class="title is-6 is-light">{% trans %}Bienvenue {% endtrans %} {% if app.user %} {{ app.user.prenom }} {% endif %}</h2>
+                                                    <p>Vous etes prestataire de services et vous souhaitez proposez vos services dans notre site. </br> Si oui n'hesitez pas a remplir ce formulaire pour une demande d'adhésion.</p>
+                                                </div>
+                                            </div>
+                                            <div class="column is-6 is-component">
+                                                <div class="inner">
+                                                    <form  id="partenariat-services-form" method="post" action="{{ path('app_partenariat') }}">
+                                                        <!--Field cin-->
+                                                        <div class="field has-flex-label has-validation">
+                                                            <label>
+                                                                <span>CIN</span>
+                                                                <span class="error">CIN Invalide</span>
+                                                            </label>
+                                                            <div class="control is-bigger has-icon">
+                                                                <input id="partenariatS-cin" type="text" name="cin" class="input">
+                                                            </div>
+                                                        </div>
+                                                        <!--Field domaine-->
+                                                        <div class="field has-flex-label has-validation">
+                                                            <label>
+                                                                <span>Domaine(s) d'activité(s)</span>
+                                                                <span class="error">Selectionnez au moins un domaine</span>
+                                                            </label>
+                                                            <div class="control is-bigger has-icon">
+                                                                <select id="partenariatS-domaine" class="chosen-select is-multiple" data-placeholder="Selectionnez votre/vos domaine(s) d'activité(s)" multiple>
+                                                                    <option label="Domaine"></option>
+                                                                    {% for service in services %}
+                                                                        <option value="{{service.nom}}">{{service.nom}}</option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <!--Field desc-->
+                                                        <div class="field has-flex-label has-validation">
+                                                            <label>
+                                                                <span>Description</span>
+                                                                <span class="error">Au moins 10 caractéres pour la description</span>
+                                                            </label>
+                                                            <div class="control is-bigger has-icon">
+                                                                <textarea id="partenariatS-desc" class="input" name="description"></textarea>
+                                                            </div>
+                                                        </div>
+                                                        <!--Submit-->
+                                                        <div class="button-wrap">
+                                                            <button id="partenariat-services-submit" type="submit" class="button feather-button secondary-button btn-outlined is-fullwidth raised">Envoyer</button>
+                                                        </div>
+                                                    </form>
+                                                    <p id="services-submit-ok" class="is-hidden"> Merci pour votre demande de partenariat nous vous enverons une reponse dans les plus brefs delais</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- /Default Inputs -->
+                                </div>
+                            </div>
+                            <!-- /Services -->
+
+                            <!-- Terrain -->
+                            <div id="terrain" class="columns is-element is-hidden">
+                                <div class="column">
+
+                                    <!-- Default Inputs -->
+                                    <div class="flat-card is-auto is-element-details">
+                                        <div class="columns is-gapless is-vcentered">
+                                            <div class="column is-6 is-description">
+                                                <div class="inner">
+                                                    <div class="divider"></div>
+                                                    <h2 class="title is-6 is-light">{% trans %}Bienvenue {% endtrans %} {% if app.user %} {{ app.user.prenom }} {% endif %}</h2>
+                                                    <p>Vous etes proprietaire d'un terrain et vous souhaitez le vendre ? </br> Si oui n'hesitez pas a remplir ce formulaire pour une demande d'adhésion.</p>
+                                                </div>
+                                            </div>
+                                            <div class="column is-6 is-component">
+                                                <div class="inner">
+                                                    <form  id="partenariat-terrain-form" method="post" action="{{ path('app_partenariat') }}">
+                                                        <!--Field desc-->
+                                                        <div class="field has-flex-label has-validation">
+                                                            <label>
+                                                                <span>Description</span>
+                                                                <span class="error">Au moins 10 caractéres pour la description</span>
+                                                            </label>
+                                                            <div class="control is-bigger has-icon">
+                                                                <textarea id="partenariat-desc" class="input" name="description"></textarea>
+                                                            </div>
+                                                        </div>
+                                                        <!--Submit-->
+                                                        <div class="button-wrap">
+                                                            <button id="partenariat-terrain-submit" type="submit" class="button feather-button secondary-button btn-outlined is-fullwidth raised">Envoyer</button>
+                                                        </div>
+                                                    </form>
+                                                    <p id="terrain-submit-ok" class="is-hidden"> Merci pour votre demande de partenariat nous vous enverons une reponse dans les plus brefs delais</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- /Default Inputs -->
+
+                                </div>
+                            </div>
+                            <!-- /Terrain -->
+
+                        </div>
 
                     </div>
-
                 </div>
-            </div>
-            <!-- /Elements Grid -->
+                <!-- /Elements Grid -->
 
-        </div>
+            </div>
+        {% endif %}
         <!-- /Main section -->
     </div>
     <!-- /Main wrapper -->
@@ -332,92 +444,4 @@
         </div>
     </div>
 
-    <!-- Asynch request for partenariat boutique submitting -->
-
-    <script>
-        $('#partenariat-boutique-submit').on('click', function (event) {
-            var $this = $(this);
-
-            var form = $('#partenariat-boutique-form');
-
-            form.submit(function (e) {
-
-                e.preventDefault();
-
-                $.ajax({
-                    type: "POST",
-                    url: form.attr("{{ path('app_partenariat') }}"),
-                    data: {
-                        "nom": $('#partenariatB-nom').val(),
-                        "domaine": $('#partenariatB-domaine').val().toString(),
-                        "desc": $('#partenariatB-desc').val(),
-                        "partenariat": "boutique",
-                        "logo": document.getElementById("imagesrc").src,
-                    },
-                    dataType: 'json',
-                    success: function (data) {
-
-                        $('#partenariat-boutique-form').addClass('is-hidden');
-                        $('#boutique-submit-ok').removeClass('is-hidden');
-                        setTimeout(function () {
-                            $this.removeClass('is-loading');
-                            toasts.service.success('', 'fas fa-check', data['infos'], 'bottomRight', 11200);
-                        }, 1200);
-                    },
-                    error: function (data) {
-                        setTimeout(function () {
-                            $this.removeClass('is-loading');
-                            toasts.service.error('', 'fas fa-meh', " Erreur interne du server... Veuillez reesayer ", 'bottomRight', 2800);
-                        }, 800);
-
-                    },
-                });
-            });
-        })
-
-    </script>
-
-    <!-- Asynch request for partenariat services submitting -->
-
-    <script>
-        $('#partenariat-services-submit').on('click', function (event) {
-            var $this = $(this);
-
-            var form = $('#partenariat-services-form');
-
-            form.submit(function (e) {
-
-                e.preventDefault();
-
-                $.ajax({
-                    type: "POST",
-                    url: form.attr("{{ path('app_partenariat') }}"),
-                    data: {
-                        "cin": $('#partenariatS-cin').val(),
-                        "domaine": $('#partenariatS-domaine').val().toString(),
-                        "desc": $('#partenariatS-desc').val(),
-                        "partenariat": "services",
-                    },
-                    dataType: 'json',
-                    success: function (data) {
-
-                        $('#partenariat-boutique-form').addClass('is-hidden');
-                        $('#boutique-submit-ok').removeClass('is-hidden');
-                        setTimeout(function () {
-                            $this.removeClass('is-loading');
-                            toasts.service.success('', 'fas fa-check', data['infos'], 'bottomRight', 11200);
-                        }, 1200);
-                    },
-                    error: function (data) {
-                        setTimeout(function () {
-                            $this.removeClass('is-loading');
-                            toasts.service.error('', 'fas fa-meh', " Erreur interne du server... Veuillez reesayer ", 'bottomRight', 2800);
-                        }, 800);
-
-                    },
-                });
-            });
-        })
-
-    </script>
 {% endblock %}

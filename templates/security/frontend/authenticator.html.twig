@@ -202,7 +202,7 @@
                                 <!--Registration form-->
                                 <div class="registration-form" >
                                     {% if authentication == "register" %}
-                                    <form  id="registration-form" method="post" action="{{ path('app_register', {'role': 'new_user'}) }}" >
+                                    <form  id="registration-form">
                                         <!--Field avatar-->
                                         <div class="field">
                                             <!-- Avatar form -->
@@ -319,7 +319,7 @@
                                                 <select id="register-local" class="chosen-select input" name="local" data-placeholder="&emsp; Selectionnez une langue">
                                                     <option label="Selectionnez une langue"></option>
                                                     <option value="fr">&emsp; Francais</option>
-                                                    <option value="en">&emsp; Englais</option>
+                                                    <option value="en">&emsp; Anglais</option>
                                                 </select>
                                                 <div class="form-icon">
                                                     <i data-feather="star"></i>
@@ -343,7 +343,7 @@
                                         </div>
                                         <!--Submit-->
                                         <div class="button-wrap">
-                                            <button id="register-submit" type="submit" class="button primary-button upper-button raised is-fullwidth is-rounded">Register</button>
+                                            <button id="register-submit" type="button" class="button primary-button upper-button raised is-fullwidth is-rounded">Register</button>
                                         </div>
                                     </form>
                                     {% elseif  authentication != "register" %}
@@ -411,8 +411,7 @@
             </div>
         </div>
     </div>
-{% endblock %}
-{% block javascript %}
+
     <!-- login error message -->
 
     {% if authentication == "login" %}
@@ -428,200 +427,4 @@
     {% endif %}
     {% endif %}
 
-
-    <!-- Asynch request for register submitting -->
-
-    <script>
-        $('#register-submit').on('click', function (event) {
-            event.preventDefault();
-            var $this = $(this);
-
-            var form = $('#registration-form');
-
-            //form.submit(function (e) {
-
-               // e.preventDefault();
-
-                $.ajax({
-                    type: "POST",
-                    url: form.attr("{{ path('app_register', {'role': 'new_user'}) }}"),
-                    data: {
-                        "nom": $('#register-nom').val(),
-                        "prenom": $('#register-prenom').val(),
-                        "email": $('#register-email').val(),
-                        "telephone": $('#register-tel').val(),
-                        "password": $('#register-password').val(),
-                        "local": $('#register-local').val(),
-                        "image": document.getElementById("imagesrc").src,
-                    },
-                    dataType: 'json',
-                    success: function (data) {
-                        /*
-             * code 0 : if no prblems with registration
-             * code 100 : if email already exist in data base
-             * code 200 : if phone number already exist in data base
-             * code 300 : if phone number and email already exist in data base
-             * code 400 : if phone number and/or email is empty
-                        */
-                        console.log(data['code']);
-                        if(data['code'] === 0)
-                        {
-                            $('#user-email-label').html(data['email']);
-                            $('#registration-form').addClass('is-hidden');
-                            $('#check-email').removeClass('is-hidden');
-
-                            var register = {
-                                isLoggedIn: true,
-                                firstName: data['nom'],
-                                lastName: data['prenom'],
-                                email: data['email'],
-                                phone: data['tel'],
-                                photoUrl: data['image'],
-                                wishlists: myWishlists,
-                                orders: myOrders,
-                                addresses: elieAddresses
-                            };
-
-                            localStorage.setItem('user', JSON.stringify(register));
-
-                            setTimeout(function () {
-                                $this.removeClass('is-loading');
-                                toasts.service.success('', 'fas fa-check', data['infos'], 'bottomRight', 11200);
-                            }, 1200);
-                        }
-                        else
-                        {
-                            setTimeout(function () {
-                                $this.removeClass('is-loading');
-                                toasts.service.info('', 'fas fa-meh', data['infos'], 'bottomRight', 11200);
-                            }, 1200);
-
-                            if(data['code'] === 100)
-                            {
-                                $('#register-email').closest('.field').addClass('has-error');
-                            }
-                            else if(data['code'] === 200)
-                            {
-                                $('#register-tel').closest('.field').addClass('has-error');
-                            }
-                            else if(data['code'] === 300)
-                            {
-                                $('#register-email').closest('.field').addClass('has-error');
-                                $('#register-tel').closest('.field').addClass('has-error');
-                            }
-
-                        }
-
-
-                    },
-                    error: function (data) {
-                        setTimeout(function () {
-                            $this.removeClass('is-loading');
-                            toasts.service.error('', 'fas fa-meh', " Erreur interne du server... Veuillez reesayer ", 'bottomRight', 2800);
-                        }, 800);
-
-                    },
-                });
-            //});
-        })
-
-    </script>
-
-    <!-- Asynch request for request reset password -->
-
-    <script>
-        $('#reset-submit').on('click', function (event) {
-            var $this = $(this);
-
-            var form = $('#reset-form');
-
-            form.submit(function (e) {
-
-                e.preventDefault();
-
-                $.ajax({
-                    type: "POST",
-                    url: form.attr("{{ path('app_forgot_password_request') }}"),
-                    data: {
-                        "email": $('#reset-email').val(),
-                    },
-                    dataType: 'json',
-                    success: function (data) {
-                        if(data['status'] === "succes")
-                        {
-                            setTimeout(function () {
-                                $this.removeClass('is-loading');
-                                toasts.service.success('', 'fas fa-check', "Verifiez vos E-Mail", 'bottomRight', 11200);
-                            }, 1200);
-
-                            $('#token-life-time').html(data['tokenlifetime']);
-                            $('#reset-form').addClass('is-hidden');
-                            $('#check-email-reset').removeClass('is-hidden');
-                        }
-                        else
-                        {
-                            setTimeout(function () {
-                                $this.removeClass('is-loading');
-                                toasts.service.error('', 'fas fa-meh', "Le compte n'existe pas dans notre base de donnees", 'bottomRight', 2800);
-                            }, 800);
-                        }
-
-                    },
-                    error: function (data) {
-                        setTimeout(function () {
-                            $this.removeClass('is-loading');
-                            toasts.service.error('', 'fas fa-meh', " Erreur interne du server... Veuillez reesayer ", 'bottomRight', 2800);
-                        }, 800);
-
-                    },
-                });
-            });
-        })
-
-    </script>
-
-    <!-- Asynch request for reset password -->
-
-    <script>
-        $('#reset-process-submit').on('click', function (event) {
-            var $this = $(this);
-
-            var form = $('#reset-process-form');
-
-            form.submit(function (e) {
-
-                e.preventDefault();
-
-                $.ajax({
-                    type: "POST",
-                    url: form.attr("{{ path('app_reset_password') }}"),
-                    data: {
-                        "password": $('#reset-password').val(),
-                    },
-                    dataType: 'json',
-                    success: function (data) {
-
-                            setTimeout(function () {
-                                $this.removeClass('is-loading');
-                                toasts.service.success('', 'fas fa-check', "Recuperation effectue avec succes", 'bottomRight', 11200);
-                            }, 1200);
-
-                            $('#reset-process-form').addClass('is-hidden');
-                            $('#succes-email-reset').removeClass('is-hidden');
-
-
-
-                    },
-                    error: function (data) {
-                        setTimeout(function () {
-                            $this.removeClass('is-loading');
-                            toasts.service.error('', 'fas fa-meh', " Erreur interne du server... Veuillez reesayer ", 'bottomRight', 2800);
-                        }, 800);
-
-                    },
-                });
-            });
-        })
-
-    </script>
 {% endblock %}

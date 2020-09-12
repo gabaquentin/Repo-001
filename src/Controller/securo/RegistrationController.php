@@ -2,6 +2,8 @@
 
 namespace App\Controller\securo;
 
+use App\Entity\Billing;
+use App\Entity\Shipping;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Security\EmailVerifier;
@@ -33,7 +35,7 @@ class RegistrationController extends AbstractController
     /**
      * @Route("/register/{role}", name="app_register")
      * @param Request $request
-     * @param Tools $tools
+     * @param PackTools $tools
      * @param UserPasswordEncoderInterface $passwordEncoder
      * @param GuardAuthenticatorHandler $guardHandler
      * @param LoginFormAuthenticator $authenticator
@@ -68,13 +70,44 @@ class RegistrationController extends AbstractController
             // code 0 : if no prblems with registration
             if($code == 0)
             {
-                $user = (new User())->setPackProduct((array)serialize($tools->getDefaultPack()));
+                $user = new User();
+                $shipping = new Shipping();
+                $billing = new Billing();
+                $entityManager = $this->getDoctrine()->getManager();
 
+                // add empty shipping address
+
+                $shipping->setAdresse("");
+                $shipping->setPays("");
+                $shipping->setVille("");
+                $shipping->setQuartier("");
+                $shipping->setCodepostal("");
+                $entityManager->persist($shipping);
+                $entityManager->flush();
+
+                // add empty billing address
+
+                $billing->setAdresse("");
+                $billing->setPays("");
+                $billing->setVille("");
+                $billing->setQuartier("");
+                $billing->setCodepostal("");
+                $entityManager->persist($billing);
+                $entityManager->flush();
+
+                // add user
                 $user->setNom($nom);
+                $user->setPackProduct($tools->getDefaultPack());
                 $user->setPrenom($prenom);
                 $user->setEmail($email);
                 $user->setTelephone($tel);
                 $user->setLocal($local);
+                $user->setLivraison($shipping);
+                $user->setPaiement($billing);
+                $user->setPhoneVerified(0);
+                $user->setIsVerified(0);
+                $user->setEsa(0);
+                $user->setAl(0);
                 $user->setImage($image);
                 $user->setCreation(new \DateTime());
                 // encode the plain password
@@ -90,7 +123,9 @@ class RegistrationController extends AbstractController
                     $user->setRoles((array)'ROLE_USER');
                 else if($role == "new_admin")
                     $user->setRoles((array)'ROLE_ADMIN');
+
                 $entityManager = $this->getDoctrine()->getManager();
+
                 $entityManager->persist($user);
                 $entityManager->flush();
 

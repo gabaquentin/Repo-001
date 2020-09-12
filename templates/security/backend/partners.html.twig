@@ -1,0 +1,83 @@
+{% extends "backend/base/base.html.twig" %}
+
+{% block stylesheets %}
+
+{% endblock %}
+
+{% block title %} Partners {% endblock %}
+{% block block_starter %} Partners {% endblock %}
+{% block body %}
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card-box">
+                <h4 class="header-title">PARTENARIAT</h4>
+                <p class="sub-header">
+                    Liste des partenaires de l'application.
+                </p>
+
+                <div class="mb-2">
+                    <div class="row">
+                        <div class="col-12 text-sm-center form-inline">
+                            <div class="form-group mr-2">
+                                <button id="demo-btn-addrow" class="btn btn-primary"><i class="mdi mdi-plus-circle mr-2"></i> Add New Partner</button>
+                            </div>
+                            <div class="form-group">
+                                <input id="demo-input-search2" type="text" placeholder="Search" class="form-control" autocomplete="off">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <table id="demo-foo-addrow" class="table table-centered table-striped table-bordered mb-0 toggle-circle" data-page-size="7">
+                    <thead>
+                    <tr>
+                        <th data-sort-ignore="true" class="min-width"></th>
+                        <th data-sort-initial="true" data-toggle="true">Nom</th>
+                        <th>Prenom</th>
+                        <th data-hide="phone">Email</th>
+                        <th data-hide="phone, tablet">Telephone</th>
+                        <th data-hide="phone, tablet">Creation</th>
+                        <th data-hide="phone, tablet">Vue le</th>
+                        <th data-hide="phone, tablet">Partenariat</th>
+                        <th data-hide="phone, tablet">Status</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for partner in partners %}
+                    <tr>
+                        <td class="text-center" id="row_etat{{ partner.id }}"><span id="id_user" hidden>{{ partner.id }}</span>{% if partner.ps == 0 %} <button class="enable-partner btn btn-success btn-xs btn-icon"><i class="fa fa-check"></i></button> {% elseif partner.ps == 1 %} <button class="disable-partner btn btn-danger btn-xs btn-icon"><i class="fa fa-times"></i></button> {% endif %}</td>
+                        <td>{{ partner.nom }}</td>
+                        <td>{{ partner.prenom }}</td>
+                        <td {% if partner.verified == 0 %}style="background-color: #F5275E;color: white;" {% endif %}>{{partner.email}}</td>
+                        <td {% if partner.phoneVerified == 0 %}style="background-color: #F5275E;color: white;" {% endif %}>{{partner.telephone}}</td>
+                        <td>{{partner.creation|format_datetime()}}</td>
+                        <td>{{partner.lastLogin|format_datetime()}}</td>
+                        <td>{{partner.partenariat}}</td>
+                        <td>{% if partner.verified == 1 and partner.phoneVerified == 1 %}<span class="badge label-table badge-success">Verifié</span> {% elseif partner.verified == 0 or partner.phoneVerified == 0 %} <span class="badge label-table badge-secondary">En Attente</span> {% else %} <span class="badge label-table badge-danger">Desactivé</span> {% endif %}</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                    <tfoot>
+                    <tr class="active">
+                        <td colspan="9">
+                            <div class="text-right">
+                                <ul class="pagination pagination-split justify-content-end footable-pagination m-t-10"></ul>
+                            </div>
+                        </td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div> <!-- end card-box -->
+        </div> <!-- end col -->
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <!-- Footable js -->
+    <script src="{{ asset('backend/libs/footable/footable.all.min.js') }}"></script>
+
+    <!-- Init js -->
+    <script src="{{ asset('backend/js/pages/foo-tables.init.js') }}"></script>
+{% endblock %}
