@@ -269,6 +269,47 @@ class SecurityController extends AbstractController
     }
 
     /**
+     * @Route("/back/lock", name="app_lock")
+     * @throws Exception
+     */
+    public function lock(Request $request, UserPasswordEncoderInterface $passwordEncoder)
+    {
+        if($request->isXMLHttpRequest()) {
+
+            $jsonData = array();
+            $password = addslashes(trim($request->get('password')));
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $user = $entityManager->getRepository(User::class)->find($this->getUser());
+            $dbpassword = $user->getPassword();
+            if (!$user) {
+                $jsonData["infos"] = "Auccun utilisateur trouvé pour cette session";
+            }
+            else
+            {
+
+                if($passwordEncoder->isPasswordValid($user, $password))
+                {
+                    $jsonData["infos"] = "ok";
+
+                    return new Response(json_encode($jsonData));
+                }
+                else
+                {
+                    $jsonData["infos"] = "NaN";
+                    throw new Exception('Incorrect : '.$dbpassword.' ---- my password : '.$passwordEncoder->encodePassword($user, $password).' is valid : '.$passwordEncoder->isPasswordValid($user, $password));
+                }
+            }
+
+            return new Response(json_encode($jsonData));
+        }
+        else
+        {
+            return $this->render('security/backend/lock.html.twig');
+        }
+    }
+
+    /**
      * @Route("/back/security/users", name="app_users")
      */
     public function users()
