@@ -180,7 +180,7 @@
                                 <div class="card-body">
                                     <div class="profile-image">
                                         {# {% if produit.client.image==false %} http://via.placeholder.com/250x250{% else %}data:image/base64,{{ (produit.client.image)}} {% endif %} #}
-                                        <img src="{{ (produit.client.image) }}" alt="">
+                                        <img src="{{ produit.client.image }}" alt="">
                                     </div>
                                     <div class="username has-text-centered">
                                         <span>{{ produit.client.nom }}  {{ produit.client.prenom }}</span>
@@ -406,8 +406,9 @@
                     async: true,
                     success: function (data) {
                         console.log(data.message)
-                        $('#rating-{{ app.user.id }}').remove()
+                        $('#rating-{% if app.user is not null %}{{ app.user.id }}{% endif %}').remove()
                         $('#rating-list').prepend(data.message)
+                        $('#add-rating').remove()
                     }
                 })
             }
@@ -434,7 +435,9 @@
                         async: true,
                         success: function (data) {
                             console.log(data.message)
-                            $('#rating-{{ app.user.id }}').remove()
+                            $('#rating-{% if app.user is not null %}{{ app.user.id }}{% endif %}').remove()
+                            $('#buton-gestion-avis').remove()
+                            //$('#main-rating-produit').append("<span class=\"add-review modal-trigger\" data-modal=\"review-modal\"><i data-feather=\"plus\"></i> Rédiger un avis</span>")
                         }
                     })
                 }

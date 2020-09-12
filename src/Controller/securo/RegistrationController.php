@@ -8,6 +8,8 @@ use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Security\EmailVerifier;
 use App\Security\LoginFormAuthenticator;
+use App\Services\ecommerce\PackTools;
+use App\Services\ecommerce\Tools;
 use App\Services\securo\RegistrationCheck;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -33,6 +35,7 @@ class RegistrationController extends AbstractController
     /**
      * @Route("/register/{role}", name="app_register")
      * @param Request $request
+     * @param PackTools $tools
      * @param UserPasswordEncoderInterface $passwordEncoder
      * @param GuardAuthenticatorHandler $guardHandler
      * @param LoginFormAuthenticator $authenticator
@@ -42,7 +45,7 @@ class RegistrationController extends AbstractController
      * @param $role
      * @return Response
      */
-    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, LoginFormAuthenticator $authenticator, AuthenticationUtils $authenticationUtils, RegistrationCheck $registrationCheck ,SluggerInterface $slugger, $role): Response
+    public function register(Request $request,PackTools $tools, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, LoginFormAuthenticator $authenticator, AuthenticationUtils $authenticationUtils, RegistrationCheck $registrationCheck ,SluggerInterface $slugger, $role): Response
     {
         if($request->isXMLHttpRequest()) {
 
@@ -94,6 +97,7 @@ class RegistrationController extends AbstractController
 
                 // add user
                 $user->setNom($nom);
+                $user->setPackProduct($tools->getDefaultPack());
                 $user->setPrenom($prenom);
                 $user->setEmail($email);
                 $user->setTelephone($tel);

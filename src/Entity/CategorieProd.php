@@ -52,6 +52,20 @@ class CategorieProd
      */
     private $ordre;
 
+    /**
+     * @Assert\GreaterThan(value = -1,message="la valeur du prix doit être supérieure à zèro")
+     * @Assert\NotBlank(message="Vous devez donner une valeur pour une unité d'annonce")
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $uniteAnnonce;
+
+    /**
+     * @Assert\GreaterThan(value = -1,message="la valeur du prix doit être supérieure à zèro")
+     * @Assert\NotBlank(message="Vous devez donner un prix pour une unité de boost")
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $uniteBoost;
+
 
     public function __construct()
     {
@@ -182,6 +196,30 @@ class CategorieProd
     public function setOrdre(int $ordre): self
     {
         $this->ordre = $ordre;
+
+        return $this;
+    }
+
+    public function getUniteAnnonce(): ?float
+    {
+        return $this->uniteAnnonce;
+    }
+
+    public function setUniteAnnonce(?float $uniteAnnonce): self
+    {
+        $this->uniteAnnonce = $uniteAnnonce;
+
+        return $this;
+    }
+
+    public function getUniteBoost(): ?float
+    {
+        return $this->uniteBoost;
+    }
+
+    public function setUniteBoost(?float $uniteBoost): self
+    {
+        $this->uniteBoost = $uniteBoost;
 
         return $this;
     }

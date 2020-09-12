@@ -31,7 +31,8 @@ class CommandeFrontController extends AbstractController
      */
     public function cart(EntityManagerInterface $manager,Request $request,Swift_Mailer $mailer)
     {
-        /*$commande= $manager->getRepository(Commandes::class)->find(11);
+        /*
+        $commande= $manager->getRepository(Commandes::class)->find(11);
         $payment_mode = $commande->getModePaiement();
         $cart=$commande->getPanier();
         $shipping = $commande->getModeLivraison();
@@ -52,7 +53,8 @@ class CommandeFrontController extends AbstractController
                 ]), 'text/html'
             );
         $mailer->send($message);
-        $this->addFlash('message',"C'est bon");*/
+        $this->addFlash('message',"C'est bon");
+        */
         return $this->render('frontend/ecommerce/Commande/cart.html.twig');
     }
 
@@ -90,7 +92,100 @@ class CommandeFrontController extends AbstractController
 
     /**
      * @param EntityManagerInterface $manager
-     * @param Request $request
+     * @Route("/order-list             ", name="order_list")
+     * @return Response
+     */
+    public function order_list(EntityManagerInterface $manager)
+    {
+        $tab_com=[];
+        $user=$this->getUser()->getId();
+        $commande=$manager->getRepository(Commandes::class)->findBy([
+            'client'=>$user
+        ]);
+        foreach ($commande as $com) {
+            $new_com = [
+                'id' => $com->getId(),
+                'numero' => $com->getNumero(),
+                'datecom' => $com->getDateCom(),
+                'dateLiv' => $com->getDateLivraison(),
+                'payement' => $com->getModePaiement(),
+                'cart' => $com->getPanier(),
+                'statut' => $com->getStatut(),
+                'mode_liv' => $com->getModeLivraison(),
+                'livreur' => $com->getLivreur(),
+                'info_liv' => $com->getInfoLivraison(),
+            ];
+            array_push($tab_com, $new_com);
+        }
+        return $this->render('frontend/ecommerce/Commande/orders_list.html.twig',["orders"=>$tab_com]);
+    }
+
+
+    /**
+     * @param EntityManagerInterface $manager
+     * @Route("/orders", name="order")
+     * @return Response
+     */
+    public function Order(EntityManagerInterface $manager)
+    {
+        $tab_com=[];
+        $user=$this->getUser()->getId();
+        $commande=$manager->getRepository(Commandes::class)->findBy([
+            'client'=>$user
+        ]);
+        $count=0;
+        foreach ($commande as $com) {
+            $new_com = [
+                'id' => $com->getId(),
+                'numero' => $com->getNumero(),
+                'datecom' => $com->getDateCom(),
+                'dateLiv' => $com->getDateLivraison(),
+                'payement' => $com->getModePaiement(),
+                'cart' => $com->getPanier(),
+                'statut' => $com->getStatut(),
+                'mode_liv' => $com->getModeLivraison(),
+                'livreur' => $com->getLivreur(),
+                'info_liv' => $com->getInfoLivraison(),
+            ];
+            array_push($tab_com, $new_com);
+        }
+        return $this->render('frontend/ecommerce/Commande/Orders.html.twig',["orders"=>$tab_com]);
+    }
+
+    /**
+     * @param EntityManagerInterface $manager
+     * @Route("/single-order", name="single_order")
+     * @return Response
+     */
+    public function Single_Order(EntityManagerInterface $manager)
+    {
+        $tab_com=[];
+        $user=$this->getUser()->getId();
+        $commande=$manager->getRepository(Commandes::class)->findBy([
+            'client'=>$user
+        ]);
+        $count=0;
+        foreach ($commande as $com) {
+            $new_com = [
+                'id' => $com->getId(),
+                'numero' => $com->getNumero(),
+                'datecom' => $com->getDateCom(),
+                'dateLiv' => $com->getDateLivraison(),
+                'payement' => $com->getModePaiement(),
+                'cart' => $com->getPanier(),
+                'statut' => $com->getStatut(),
+                'mode_liv' => $com->getModeLivraison(),
+                'livreur' => $com->getLivreur(),
+                'info_liv' => $com->getInfoLivraison(),
+            ];
+            array_push($tab_com, $new_com);
+        }
+        return $this->render('frontend/ecommerce/Commande/Order.html.twig',["orders"=>$tab_com]);
+    }
+
+    /**
+     * @param EntityManagerInterface $manager
+     * @Route("/checkout_step5", name="checkout_step5")
      * @return Response
      * @Route("/checkout_step5", name="checkout_step5")
      */

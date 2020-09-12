@@ -1,5 +1,6 @@
 let timeShow = 5e3;
 let maxImage = 10;
+let maxProductShow = 60;
 let devise = "F CFA";
 
 function formatPhpDate(date,withTime = false) {
@@ -37,5 +38,13 @@ function truncateString(str, num) {
 function isExpired(dateP) {
     let interval = (new Date()).getTime() - (new Date(dateP)).getTime();
     let days = (interval / (3600 * 24 * 1000));
-    return days > 60 ;
+    return days > maxProductShow ;
+}
+
+function decimalNumber(number,nbrDecimal=2)
+{
+    if(number.indexOf('.')!==-1)
+        number = number.slice(0,number.indexOf('.')+nbrDecimal);
+
+    return number;
 }

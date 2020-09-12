@@ -7,9 +7,15 @@ use App\Entity\Dimension;
 use App\Repository\CategorieProdRepository;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\KernelInterface;
 
 class Tools
 {
+
+    public function __construct()
+    {
+    }
+
     /**
      * @return string[]
      */

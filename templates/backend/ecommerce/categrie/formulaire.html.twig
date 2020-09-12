@@ -23,6 +23,18 @@
                     {{ form_widget(form.categorieParent, {'attr': {'class': 'form-control'}}) }}
                 </div>
             </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label" for="{{ form.uniteAnnonce.vars.id }}">Unité Annonce</label>
+                <div class="col-sm-9">
+                    {{ form_widget(form.uniteAnnonce, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label" for="{{ form.uniteBoost.vars.id }}">Unité Boost</label>
+                <div class="col-sm-9">
+                    {{ form_widget(form.uniteBoost, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
             <div class="form-group mb-0 justify-content-end row">
                 <div class="col-sm-9">
                     <button type="submit" id="btn-submit" class="btn btn-primary waves-effect waves-lightspinner-border-sm">

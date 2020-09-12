@@ -3,7 +3,9 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use App\Services\ecommerce\Tools;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\This;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -137,9 +139,9 @@ class User implements UserInterface
     private $phone_verified;
 
     /**
-     * @ORM\OneToOne(targetEntity=Pack::class, inversedBy="user", cascade={"persist", "remove"})
+     * @ORM\Column(type="text",nullable=true)
      */
-    private $pack;
+    private $packProduct;
 
     /**
      * @ORM\Column(type="boolean", nullable=true, options={"comment":"partner status"})
@@ -485,14 +487,14 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getPack(): ?Pack
+    public function getPackProduct(): array
     {
-        return $this->pack;
+        return unserialize($this->packProduct);
     }
 
-    public function setPack(?Pack $pack): self
+    public function setPackProduct(array $pack): self
     {
-        $this->pack = $pack;
+        $this->packProduct = serialize($pack);
 
 
         return $this;

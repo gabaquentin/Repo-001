@@ -9,6 +9,7 @@
         "amphp/http-client": "^4.5",
         "dompdf/dompdf": "^0.8.5",
         "fzaninotto/faker": "^1.9",
+        "paypal/rest-api-sdk-php": "^1.14",
         "sensio/framework-extra-bundle": "^5.1",
         "symfony/asset": "5.1.*",
         "symfony/console": "5.1.*",

@@ -1,6 +1,6 @@
-"use strict"; //Empty cart object initialization
+ //Empty cart object initialization
 
-var cart = {}; //Populate default cart object
+let cart = {}; //Populate default cart object
 
 cart.items = 0;
 cart.total = 0.00;
@@ -13,7 +13,7 @@ if (JSON.parse(localStorage.getItem('cart')) === null) {
 
 function initSpinners() {
   $('.sidebar-spinner').spinner('changing', function (e, newVal, oldVal) {
-    var $this = $(this);
+    let $this = $(this);
     $this.closest('.quantity').find('.spinner-value').html(newVal);
     $this.closest('li').find('.item-price span').html(newVal);
     $('.cart-quickview .view-cart-button').addClass('is-hidden');
@@ -24,7 +24,7 @@ function initSpinners() {
 
 function initCartSpinners() {
   $('.main-cart-spinner').spinner('changing', function (e, newVal, oldVal) {
-    var $this = $(this);
+    let $this = $(this);
     $this.closest('li').find('.spinner-value').html(newVal);
     $('#init-checkout').addClass('is-hidden');
     $('#update-cart-page').removeClass('is-hidden');
@@ -33,17 +33,17 @@ function initCartSpinners() {
 
 
 function updateCartSidebar() {
-  var cartObject = {};
-  var productsCount = $('.cart-quickview .product-container').length;
+  let cartObject = {};
+  let productsCount = $('.cart-quickview .product-container').length;
   cartObject.products = [];
   cartObject.items = productsCount;
   $('.cart-quickview .product-container').each(function () {
-    var $this = $(this);
-    var productId = parseInt($this.attr('data-product-id'));
-    var productName = $this.find('.item-name').text();
-    var productPrice = parseFloat($this.find('.item-price').text());
-    var productQuantity = parseInt($this.find('.quantity input').val());
-    var productImage = $this.find('img').attr('src');
+    let $this = $(this);
+    let productId = parseInt($this.attr('data-product-id'));
+    let productName = $this.find('.item-name').text();
+    let productPrice = parseFloat($this.find('.item-price').text());
+    let productQuantity = parseInt($this.find('.quantity input').val());
+    let productImage = $this.find('img').attr('src');
     cartObject.products.push({
       id: productId,
       name: productName,
@@ -58,28 +58,77 @@ function updateCartSidebar() {
   console.log(cartObject);
 } //Reusable add to cart function
 
+function getProductFromCart(p) {
+  let plusIcon = feather.icons.plus.toSvg();
+  let minusIcon = feather.icons.minus.toSvg();
+  let closeIcon = feather.icons.x.toSvg();
+  let price = p.price.toFixed(2);
+  return `
+        <li class="clearfix product-container" data-product-id="${p.id}">
+            <img src="${p.images[0].url}" data-demo-src="" alt="" >
+            <span class="item-meta">
+                <span class="item-name">${p.name}</span>
+                <span class="item-price"><let>${price}</let> x <span>${p.quantity}</span></span>
+            </span>
+            <span class="quantity">
+                <div id="spinner-${p.id}"   data-trigger="spinner" class="sidebar-spinner">
+                    <input class="hidden-spinner" type="hidden" value="${p.quantity}" data-spin="spinner" data-rule="quantity" data-min="1" data-max="99">
+                    <a class="spinner-button is-remove" href="javascript:;" data-spin="down">${minusIcon}</a>
+                    <span class="spinner-value">${p.quantity}</span>
+                    <a class="spinner-button is-add" href="javascript:;" data-spin="up">${plusIcon}</a>
+                </div>
+            </span>
+            <span class="remove-item remove-from-cart-action has-simple-popover" data-content="Remove from Cart" data-placement="top" onclick="return false">${closeIcon}</span>
+        </li>
+    `;
+}
+
+function getProductToCart(p) {
+  let plusIcon = feather.icons.plus.toSvg();
+  let minusIcon = feather.icons.minus.toSvg();
+  let removeIcon = feather.icons['trash-2'].toSvg();
+  let closeIcon = feather.icons.x.toSvg();
+  let price = p.price.toFixed(2);
+  return `
+        <div class="flat-card is-auto cart-card product-container" data-product-id="${p.id}" >
+            <ul class="cart-content">
+                <li><img src="${p.images[0].url}" data-demo-src="" alt="">
+                    <span class="product-info"><span>${p.name}</span><span>${p.category}</span></span>
+                    <span class="product-price"><span>Prix</span><span>${price}</span></span>
+                    <div data-trigger="spinner" class="main-cart-spinner">
+                        <input class="hidden-spinner" type="hidden" value="${p.quantity}" data-spin="spinner" data-rule="quantity" data-min="1" data-max="99">
+                        <a class="spinner-button is-remove" href="javascript:;" data-spin="down">${minusIcon}</a>
+                        <span class="spinner-value">${p.quantity}</span>
+                        <a class="spinner-button is-add" href="javascript:;" data-spin="up">${plusIcon}</a>
+                    </div>
+                    <span class="action"><span class="action-link is-remove remove-from-cartpage-action has-simple-popover" data-content="Remove from Cart" data-placement="top" onclick="return false">
+                        <a href="#">${removeIcon}</a></span>
+                    </span>
+                </li>
+            </ul>
+        </div>
+    `;
+}
 
 function getCart() {
-  var plusIcon = feather.icons.plus.toSvg();
-  var minusIcon = feather.icons.minus.toSvg();
-  var closeIcon = feather.icons.x.toSvg();
-  var data = JSON.parse(localStorage.getItem('cart'));
-  var cartTotal = 0.00; //Populate cart sidebar
+  let plusIcon = feather.icons.plus.toSvg();
+  let minusIcon = feather.icons.minus.toSvg();
+  let closeIcon = feather.icons.x.toSvg();
+  let data = JSON.parse(localStorage.getItem('cart'));
+  let cartTotal = 0.00; //Populate cart sidebar
 
   $('.cart-loader').addClass('is-active');
   $('.cart-quickview .cart-body ul').empty();
-
   if (data.products.length > 0) {
     $('.cart-quickview .empty-cart').addClass('is-hidden');
-
-    for (var i = 0; i < data.products.length; i++) {
+    for (let i = 0; i < data.products.length; i++) {
       cartTotal = parseFloat(cartTotal) + parseFloat(data.products[i].price) * parseInt(data.products[i].quantity);
-      var template = "\n                <li class=\"clearfix product-container\" data-product-id=\"" + data.products[i].id + "\">\n                    <img src=\"http://via.placeholder.com/250x250\" data-demo-src=\"" + data.products[i].images[0].url + "\"  alt=\"\" />\n                    <span class=\"item-meta\">\n                        <span class=\"item-name\">" + data.products[i].name + "</span>\n                        <span class=\"item-price\">\n                            <var>" + parseFloat(data.products[i].price).toFixed(2) + "</var> x <span>" + data.products[i].quantity + "</span>\n                        </span>\n                    </span>\n                    <span class=\"quantity\">\n                        <div id=\"spinner-" + data.products[i].id + "\" data-trigger=\"spinner\" class=\"sidebar-spinner\">\n                            <input class=\"hidden-spinner\" type=\"hidden\" value=\"" + data.products[i].quantity + "\" data-spin=\"spinner\"\n                                data-rule=\"quantity\" data-min=\"1\" data-max=\"99\">\n                            <a class=\"spinner-button is-remove\" href=\"javascript:;\" data-spin=\"down\">\n                                " + minusIcon + "\n                            </a>\n                            <span class=\"spinner-value\">" + data.products[i].quantity + "</span>\n                            <a class=\"spinner-button is-add\" href=\"javascript:;\" data-spin=\"up\">\n                                " + plusIcon + "\n                            </a>\n                        </div>\n                    </span>\n\n                    <span class=\"remove-item remove-from-cart-action has-simple-popover\" data-content=\"Remove from Cart\" data-placement=\"top\" onclick=\"return false\">\n                        " + closeIcon + "\n                    </span>\n                </li>\n            ";
+      let template = getProductFromCart(data.products[i]);
       $('.cart-quickview .cart-body ul').append(template);
 
       if (i == data.products.length - 1) {
         data.total = cartTotal;
-        $('#quickview-cart-count var').html(data.items);
+        $('#quickview-cart-count let').html(data.items);
         localStorage.setItem('cart', JSON.stringify(data));
         $('.cart-quickview .cart-total').html(parseFloat(cartTotal).toFixed(2));
         initSpinners(); //Check viewport size
@@ -111,9 +160,9 @@ function getCart() {
 
 function removeFromCart() {
   $('.remove-from-cart-action').on('click', function () {
-    var $this = $(this);
-    var productId = parseInt($this.closest('.product-container').attr('data-product-id'));
-    var data = JSON.parse(localStorage.getItem('cart'));
+    let $this = $(this);
+    let productId = parseInt($this.closest('.product-container').attr('data-product-id'));
+    let data = JSON.parse(localStorage.getItem('cart'));
     $('.cart-loader').addClass('is-active'); //Update cart Data
 
     setTimeout(function () {
@@ -128,7 +177,7 @@ function removeFromCart() {
 
     setTimeout(function () {
       $('.cart-loader').removeClass('is-active');
-      toasts.service.success('', 'fas fa-check', 'Product successfully removed from cart', 'bottomRight', 2500);
+      toasts.service.success('', 'fas fa-check', 'Produit retiré du panier avec succèss', 'bottomRight', 2500);
     }, 800);
   });
 } //Disable cart sidebar (when on cart page or checkout)
@@ -147,12 +196,12 @@ function disableCartSidebar() {
 
 
 function getCartPage() {
-  var plusIcon = feather.icons.plus.toSvg();
-  var minusIcon = feather.icons.minus.toSvg();
-  var removeIcon = feather.icons['trash-2'].toSvg();
-  var data = JSON.parse(localStorage.getItem('cart'));
-  var cartSubtotal = 0.00;
-  var taxRate = 0.00; // 6% tax rate
+  let plusIcon = feather.icons.plus.toSvg();
+  let minusIcon = feather.icons.minus.toSvg();
+  let removeIcon = feather.icons['trash-2'].toSvg();
+  let data = JSON.parse(localStorage.getItem('cart'));
+  let cartSubtotal = 0.00;
+  let taxRate = 0.00; // 6% tax rate
   //Populate cart page
 
   $('.account-loader').addClass('is-active');
@@ -162,9 +211,9 @@ function getCartPage() {
     $('#cart-main-placeholder').addClass('is-hidden');
     $('.is-account-grid').removeClass('is-hidden');
 
-    for (var i = 0; i < data.products.length; i++) {
+    for (let i = 0; i < data.products.length; i++) {
       cartSubtotal = parseFloat(cartSubtotal) + parseFloat(data.products[i].price) * parseInt(data.products[i].quantity);
-      var template = "\n                <div class=\"flat-card is-auto cart-card product-container\" data-product-id=\"" + data.products[i].id + "\">\n                    <ul class=\"cart-content\">\n                        <li>\n                            <img src=\"http://via.placeholder.com/500x500/ffffff/999999\"\n                                data-demo-src=\"" + data.products[i].images[0].url + "\" alt=\"\">\n                            <span class=\"product-info\">\n                                <span>" + data.products[i].name + "</span>\n                                <span>" + data.products[i].category + "</span>\n                            </span>\n                            <span class=\"product-price\">\n                                <span>Price</span>\n                                <span>" + parseFloat(data.products[i].price).toFixed(2) + "</span>\n                            </span>\n\n                            <div data-trigger=\"spinner\" class=\"main-cart-spinner\">\n                                <input class=\"hidden-spinner\" type=\"hidden\" value=\"" + data.products[i].quantity + "\" data-spin=\"spinner\" data-rule=\"quantity\"\n                                    data-min=\"1\" data-max=\"99\">\n                                <a class=\"spinner-button is-remove\" href=\"javascript:;\" data-spin=\"down\">\n                                    " + minusIcon + "\n                                </a>\n                                <span class=\"spinner-value\">" + data.products[i].quantity + "</span>\n                                <a class=\"spinner-button is-add\" href=\"javascript:;\" data-spin=\"up\">\n                                    " + plusIcon + "\n                                </a>\n                            </div>\n\n                            <span class=\"action\">\n                                <span class=\"action-link is-remove remove-from-cartpage-action has-simple-popover\" data-content=\"Remove from Cart\"\n                                    data-placement=\"top\" onclick=\"return false\">\n                                    <a href=\"#\">" + removeIcon + "</a>\n                                </span>\n                            </span>\n                        </li>\n                    </ul>\n                </div>\n            ";
+      let template = getProductToCart(data.products[i]);
       $('#cart-page-products').append(template);
 
       if (i == data.products.length - 1) {
@@ -203,18 +252,18 @@ function getCartPage() {
 
 
 function updateCartPage() {
-  var cartObject = {};
-  var productsCount = $('#cart-page-products .product-container').length;
+  let cartObject = {};
+  let productsCount = $('#cart-page-products .product-container').length;
   cartObject.products = [];
   cartObject.items = productsCount;
   $('#cart-page-products .product-container').each(function () {
-    var $this = $(this);
-    var productId = parseInt($this.attr('data-product-id'));
-    var productName = $this.find('.product-info span:first-child').text();
-    var productCategory = $this.find('.product-info span:nth-child(2)').text();
-    var productPrice = parseFloat($this.find('.product-price span:nth-child(2)').text());
-    var productQuantity = parseInt($this.find('.main-cart-spinner input').val());
-    var productImage = $this.find('img').attr('src');
+    let $this = $(this);
+    let productId = parseInt($this.attr('data-product-id'));
+    let productName = $this.find('.product-info span:first-child').text();
+    let productCategory = $this.find('.product-info span:nth-child(2)').text();
+    let productPrice = parseFloat($this.find('.product-price span:nth-child(2)').text());
+    let productQuantity = parseInt($this.find('.main-cart-spinner input').val());
+    let productImage = $this.find('img').attr('src');
     cartObject.products.push({
       id: productId,
       name: productName,
@@ -233,9 +282,9 @@ function updateCartPage() {
 
 function removeFromCartPage() {
   $('.remove-from-cartpage-action').on('click', function () {
-    var $this = $(this);
-    var productId = parseInt($this.closest('.product-container').attr('data-product-id'));
-    var data = JSON.parse(localStorage.getItem('cart'));
+    let $this = $(this);
+    let productId = parseInt($this.closest('.product-container').attr('data-product-id'));
+    let data = JSON.parse(localStorage.getItem('cart'));
     $('.account-loader').addClass('is-active'); //Update cart Data
 
     setTimeout(function () {
@@ -257,7 +306,7 @@ function removeFromCartPage() {
 } //Build proto checkout object and pass it to checkout
 
 
-function initCheckout() {
+  function initCheckout() {
   $('#init-checkout').on('click', function () {
     if (JSON.parse(localStorage.getItem('cart')) !== null) {
       localStorage.removeItem('checkout');
@@ -266,31 +315,40 @@ function initCheckout() {
     let cartData = JSON.parse(localStorage.getItem('cart'));
     let userData = JSON.parse(localStorage.getItem('user'));
     let $this = $(this);
-    let checkoutObject = {};
-    $this.addClass('is-loading');
-    checkoutObject.items = cartData.products;
-    checkoutObject.count = cartData.items;
-    checkoutObject.subtotal = parseFloat($('#cart-summary-subtotal').text());
-    checkoutObject.coupon = 0;
-    checkoutObject.remise = 0;
-    checkoutObject.taxes = 0;
-    checkoutObject.shipping = 0.00;
-    checkoutObject.total = parseFloat($('#cart-summary-total').text());
-    checkoutObject.step = 1;
-    checkoutObject.username = userData.firstName + ' ' + userData.lastName;
-    checkoutObject.avatar = userData.photoUrl;
-    checkoutObject.orderNotes = '';
-    localStorage.setItem('checkout', JSON.stringify(checkoutObject));
+    if(userData.isLoggedIn){
+      let checkoutObject = {};
+      checkoutObject.items = cartData.products;
+      checkoutObject.shippingAddress = [];
+      checkoutObject.count = cartData.items;
+      checkoutObject.subtotal = parseFloat($('#cart-summary-subtotal').text());
+      checkoutObject.coupon = 0;
+      checkoutObject.remise = 0;
+      checkoutObject.taxes = 0;
+      checkoutObject.shipping = 0.00;
+      checkoutObject.total = parseFloat($('#cart-summary-total').text());
+      checkoutObject.step = 1;
+      checkoutObject.username = userData.firstName + ' ' + userData.lastName;
+      checkoutObject.avatar = userData.photoUrl;
+      checkoutObject.orderNotes = '';
+      localStorage.setItem('checkout', JSON.stringify(checkoutObject));
       setTimeout(function () {
         window.location.href = checkoutRoute;
       }, 1200);
+
+    }
+    else{
+      $this.addClass('is-loading');
+      setTimeout(function () {
+        window.location.href = GoToLogin;
+      }, 1200);
+    }
   });
 }
 
 $(document).ready(function () {
   //Update cart button
   $('.update-cart-button').on('click', function () {
-    var $this = $(this);
+    let $this = $(this);
     $this.addClass('is-loading');
     $('.cart-loader').addClass('is-active');
     setTimeout(function () {
@@ -308,7 +366,7 @@ $(document).ready(function () {
   if ($('#shop-grid').length) {
     //Add to cart
     $('.product-container .actions .add').off().on('click', function () {
-      var $this = $(this);
+      let $this = $(this);
 
       if ($('.cart-quickview').hasClass('is-active')) {
         $('.cart-loader').addClass('is-active');
@@ -333,7 +391,7 @@ $(document).ready(function () {
   if ($('#shop-list').length) {
     //Add to cart
     $('.product-container .actions .add').on('click', function () {
-      var $this = $(this);
+      let $this = $(this);
 
       if ($('.cart-quickview').hasClass('is-active')) {
         $('.cart-loader').addClass('is-active');
@@ -365,7 +423,7 @@ $(document).ready(function () {
     initCheckout(); //Update cart page
 
     $('#update-cart-page').on('click', function () {
-      var $this = $(this);
+      let $this = $(this);
       $this.addClass('is-loading');
       $('.account-loader').addClass('is-active');
       setTimeout(function () {
@@ -381,7 +439,7 @@ $(document).ready(function () {
     }); //Add to cart from recently viewed
 
     $('.product-container .actions .add').on('click', function () {
-      var $this = $(this);
+      let $this = $(this);
       $('.account-loader').addClass('is-active');
       setTimeout(function () {
         $.when(addToCart($this)).done(function () {

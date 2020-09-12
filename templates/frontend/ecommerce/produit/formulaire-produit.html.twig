@@ -40,6 +40,16 @@
     </div>
 </div>
 
+    <div class="control {% if is_granted('ROLE_ADMIN')==false %} is-hidden {% endif %}">
+        <label class="" ></label>
+        <div class="control">
+            <div class="control">
+                {{ form_widget(form.visiblite, {'attr': {'class': ''}}) }}
+                <label class="" for="{{ form.visiblite.vars.id }}">Visible sur le site web ?</label>
+            </div>
+        </div>
+    </div>
+
 <div class="control">
     <label class="" for="{{ form.localisation.vars.id }}">Localisation</label>
     <div class="control">
@@ -168,7 +178,7 @@
     </div>
 </div>
 {% do form.meuble.setRendered %}
-{% do form.visiblite.setRendered %}
+
 {% do form.dureeSejour.setRendered %}
 {% do form.caracteristique.setRendered %}
 {{ form_end(form) }}

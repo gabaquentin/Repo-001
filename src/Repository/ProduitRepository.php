@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Caracteristiques;
+use App\Entity\CategorieProd;
 use App\Entity\Date;
 use App\Entity\Dimension;
 use App\Entity\Produit;
@@ -31,6 +32,7 @@ class ProduitRepository extends ServiceEntityRepository
     }
 
     /**
+     * recupere le plus grand prix des produits valides
      * @return int|mixed|string
      * @throws NoResultException
      * @throws NonUniqueResultException
@@ -41,6 +43,8 @@ class ProduitRepository extends ServiceEntityRepository
             ->select("max(p.prix*(1-(p.prixPromo/100)))")
             ->innerJoin(Date::class,"d","WITH","d.id=p.date")
             ->andWhere("DATE_DIFF(CURRENT_TIMESTAMP(),d.dateModification)<:maxJour")
+            ->innerJoin(CategorieProd::class,"c","WITH","p.categorieProd=c.id")
+            ->andWhere("c.categorieParent is not null")
             ->setParameter(":maxJour",$this->tools->getDayMaxProduct())
             ->getQuery()
             ->getSingleScalarResult();
@@ -106,6 +110,8 @@ class ProduitRepository extends ServiceEntityRepository
 
         $qb = $this->createQueryBuilder("p")
             ->innerJoin(Date::class,"d","WITH","d.id=p.date")
+            ->innerJoin(CategorieProd::class,"c","WITH","p.categorieProd=c.id")
+            ->andWhere("c.categorieParent is not null")
             ->setFirstResult($start)
             ->setMaxResults($max)
             ->andWhere("p.visiblite=:visibilite")
@@ -193,6 +199,8 @@ class ProduitRepository extends ServiceEntityRepository
             ->innerJoin(Date::class,"d","WITH","d.id=p.date")
             ->andWhere("p.visiblite=:visibilite")
             ->setParameter(":visibilite",1)
+            ->innerJoin(CategorieProd::class,"c","WITH","p.categorieProd=c.id")
+            ->andWhere("c.categorieParent is not null")
             ->andWhere("DATE_DIFF(CURRENT_TIMESTAMP(),d.dateModification)<:maxJour")
             ->setParameter(":maxJour",$this->tools->getDayMaxProduct())
             ->andWhere("p.categorieProd=:cat")
@@ -218,9 +226,11 @@ class ProduitRepository extends ServiceEntityRepository
      * @param $idCategory
      * @return int|mixed|string
      */
-    public function FindValidProducts($idCategory)
+    public function FindValidProducts($idCategory,$exception)
     {
         return $this->qbProductsValid($idCategory)
+            //->andWhere("p.id!=:id")
+            //->setParameter(":id",$exception)
             ->getQuery()->getResult();
     }
 

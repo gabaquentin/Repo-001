@@ -38,6 +38,9 @@
 
 <!-- /Content Wrapper -->
 {% include 'security/frontend/getuser.html.twig' %}
+<script>
+    let checkoutRoute= "{{ path('checkout_step') }}";
+</script>
 <!-- Concatenated plugins -->
 <script src="{{ asset('frontend/js/app.js') }}"></script>
 

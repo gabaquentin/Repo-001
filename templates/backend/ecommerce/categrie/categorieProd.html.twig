@@ -3,6 +3,7 @@
 {% block stylesheets %}
     <!-- Plugins css -->
     <link href="{{ asset('backend/libs/nestable2/jquery.nestable.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('backend/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css') }}" rel="stylesheet" />
 {% endblock %}
 
 {% block block_starter %} Gestion des catégories {% endblock %}
@@ -75,6 +76,7 @@
         const DeteleteCategorieRoute = "{{ path('delete_category') }}"
     </script>
     <script src="{{ asset('backend/libs/nestable2/jquery.nestable.min.js') }}"></script>
+    <script src="{{ asset('backend/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js') }}"></script>
 
     <!-- custom js-->
     <script src="{{ asset('backend/js/pages/ecommerce/categorie.js') }}"></script>

@@ -1,3 +1,4 @@
+const paramCarateristiques = { min: 0, max: 999999999, step: 1, decimals: 0, boostat: 5, maxboostedstep: 10, buttondown_class: "btn btn-primary", buttonup_class: "btn btn-primary"};
 
 $(document).ready(function () {
     let  btnSauv = $("#btn-submit");
@@ -35,7 +36,14 @@ $(document).ready(function () {
         )
     })
 
+    refreshSpin();
 })
+
+function refreshSpin()
+{
+    $("#categorie_prod_uniteAnnonce,#categorie_prod_uniteBoost").TouchSpin(paramCarateristiques);
+
+}
 
 function ajaxSaveCategory(form,button)
 {
@@ -80,6 +88,7 @@ function ajaxSaveCategoryDispo(data,button,formContent)
                 formContent.fadeOut()
                 formContent.html(data["form"]["content"])
                 formContent.fadeIn()
+                refreshSpin();
             }
             ableButton(button)
         },
@@ -104,6 +113,7 @@ function ajaxGetCategory(idCategory,formulaire,button) {
             formulaire.fadeOut()
             formulaire.html(data)
             formulaire.fadeIn()
+            refreshSpin();
             ableButton(button)
         },
         error: () => {
