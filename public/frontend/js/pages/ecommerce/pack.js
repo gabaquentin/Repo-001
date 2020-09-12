@@ -14,6 +14,7 @@ function updateDataPack(trigger,dataUnit,update = true)
     let totaldiv = container.find(".v-indicator");
     let total = 0;
 
+    data["id"] = parseInt(container.attr("data-id"));
     data["duration"] = selectDuration.val();
     data["post"] = selectPost.val();
     data["total"] = totaldiv.text().split(" ")[0];
@@ -38,6 +39,32 @@ function updateDataPack(trigger,dataUnit,update = true)
     return data;
 }
 
+function ajaxSavePackUser(button,packInfo) {
+    $.ajax({
+        type: "POST",
+        url: setPackRoute,
+        data: {
+            id : packInfo["id"],
+            duration : packInfo["duration"],
+            post : packInfo["post"],
+            total : packInfo["total"],
+            cats : packInfo["categories"],
+        },
+        dataType: "JSON",
+        beforeSend : () => {
+            disableButton(button)
+        },
+        success: (data) => {
+            displayMessage(data);
+            ableButton(button);
+        },
+        error: () => {
+            messageErrorServer()
+            ableButton(button)
+        }
+    });
+}
+
 $(document).ready(function (){
     initSelect();
 
@@ -50,34 +77,12 @@ $(document).ready(function (){
 
     $('.buy-pack').on("click",function (e) {
         e.preventDefault();
-        console.log(updateDataPack($(this),dataUnit,false))
+        let data = updateDataPack($(this),dataUnit,false);
+        if(data["categories"].length===0)
+            displayMessageNotify("vous devez sélèctionner une catégorie");
+        else
+            ajaxSavePackUser($(this),data);
     })
 
 });
 
-function ajaxSaveProduit(form,button,data) {
-    $.ajax({
-        type: form.attr("method"),
-        url: form.attr("action"),
-        data: data,
-        dataType: "JSON",
-        beforeSend : () => {
-            disableButton(button)
-        },
-        success: (data) => {
-            displayMessage(data);
-            ableButton(button);
-            if(data["success"]&&data["success"].length!==0)
-            {
-                if(getOrdreImg().length===0)
-                    setTimeout(function (){
-                        document.location.reload();
-                    },1000);
-            }
-        },
-        error: () => {
-            messageErrorServer()
-            ableButton(button)
-        }
-    });
-}

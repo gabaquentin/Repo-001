@@ -46,6 +46,18 @@ class CategorieProdRepository extends ServiceEntityRepository
             ;
     }
 
+    public function findSousCategoriesById(array $enabledCategories)
+    {
+        $qb = $this->createQueryBuilder('c');
+        return
+            $qb->andWhere('c.categorieParent is not null')
+                ->orderBy('c.ordre', 'ASC')
+                ->andWhere($qb->expr()->in("c.id",$enabledCategories))
+                ->andWhere()
+                ->getQuery()
+                ->getResult()
+            ;
+    }
     /**
      * @return QueryBuilder
      */
@@ -85,4 +97,5 @@ class CategorieProdRepository extends ServiceEntityRepository
         ;
     }
     */
+
 }

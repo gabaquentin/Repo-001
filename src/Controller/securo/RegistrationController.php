@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Security\EmailVerifier;
 use App\Security\LoginFormAuthenticator;
+use App\Services\ecommerce\PackTools;
 use App\Services\ecommerce\Tools;
 use App\Services\securo\RegistrationCheck;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -42,7 +43,7 @@ class RegistrationController extends AbstractController
      * @param $role
      * @return Response
      */
-    public function register(Request $request,Tools $tools, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, LoginFormAuthenticator $authenticator, AuthenticationUtils $authenticationUtils, RegistrationCheck $registrationCheck ,SluggerInterface $slugger, $role): Response
+    public function register(Request $request,PackTools $tools, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, LoginFormAuthenticator $authenticator, AuthenticationUtils $authenticationUtils, RegistrationCheck $registrationCheck ,SluggerInterface $slugger, $role): Response
     {
         if($request->isXMLHttpRequest()) {
 

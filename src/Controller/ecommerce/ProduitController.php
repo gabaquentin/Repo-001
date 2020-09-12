@@ -11,6 +11,7 @@ use App\Entity\User;
 use App\Form\ecommerce\ProduitType;
 use App\Repository\CategorieProdRepository;
 use App\Repository\ProduitRepository;
+use App\Services\ecommerce\PackTools;
 use App\Services\ecommerce\Tools;
 use App\Services\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
@@ -79,6 +80,13 @@ class ProduitController extends AbstractController
      */
     public function add(EntityManagerInterface $em,Produit $produit=null)
     {
+        /** @var User $user */
+        $user = $this->getUser();
+        if(!$user)
+            die("page de connexion");
+        if(!$user->isAdmin())
+            die("pas admin");
+
         if($produit==null)
             $produit = new Produit();
 
@@ -100,7 +108,7 @@ class ProduitController extends AbstractController
         foreach ($cats as $cat) {
             $categoriesProd[]=[
                 "categorie" => $cat,
-                "produits" => $em->getRepository(Produit::class)->FindValidProducts($cat->getId()),
+                "produits" => $em->getRepository(Produit::class)->FindValidProducts($cat->getId(),$produit->getId()),
             ];
         }
 
@@ -118,13 +126,19 @@ class ProduitController extends AbstractController
      * @param FileUploader $uploader
      * @param EntityManagerInterface $manager
      * @param Tools $tools
+     * @param PackTools $packTools
      * @param Produit|null $produit
      * @return JsonResponse
      */
-    public function save(Request $request,FileUploader $uploader,EntityManagerInterface $manager,Tools $tools,Produit $produit=null)
+    public function save(Request $request,FileUploader $uploader,EntityManagerInterface $manager,Tools $tools,PackTools $packTools,Produit $produit=null)
     {
         if(!$request->isXmlHttpRequest())
             die();
+
+        /** @var User $user */
+        $user = $this->getUser();
+        if(!$user)
+            die("page de connexion");
 
         if($produit==null)
             $produit = new Produit();
@@ -194,7 +208,15 @@ class ProduitController extends AbstractController
             $produit->getDate()->setDateModification(new \DateTime());
 
             if(is_null($produit->getClient()))
-                $produit->setClient($this->getUser());
+            {
+                $produit->setClient($user);
+                if(!$user->isAdmin())
+                {
+                    $newPack = $packTools->subtractUnitToPack($user,$produit->getCategorieProd()->getId());
+                    $user->setPackProduct($newPack);
+                    $manager->persist($user);
+                }
+            }
 
             $produit
                 ->setImages($imageNames)

@@ -2,8 +2,10 @@
 
 {% block stylesheets %}
     <style>
-        .select{
-            width: 100%;
+        .slick-prev:before, .slick-next:before {
+            font-size: 20px !important;
+            color: blue !important;
+            opacity: 1 !important;
         }
     </style>
 {% endblock %}
@@ -184,6 +186,32 @@
                             </div>
 
                             <div  class="column is-9">
+                                <div class="panel-footer">
+                                    <div class="footer-inner">
+                                        <div class="recommended">Produits à la une</div>
+                                        <div id="" class="columns  ">
+                                            <div class="column is-12 produit-asscocies">
+                                                {% for produit in produitAssocies %}
+                                                    <!-- Item -->
+                                                    <div class="column is-4">
+                                                        <div class="featured-product">
+                                                            <div class="image">
+                                                                <img src="/images/produits/{{ produit.images|first }}" alt="">
+                                                            </div>
+                                                            <div class="product-info has-text-centered">
+                                                                <a class="" href="{{ path('show_single_product_front',{'produit':produit.id}) }}">
+                                                                    <h3 class="product-name">{{ produit.nom }}</h3>
+                                                                </a>
+                                                                <p class="product-description">{{ produit.prix*(1-produit.prixPromo/100) }} F CFA  {{ produit.ville.villes }}</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="columns is-product-grid is-multiline products" data-show="0" data-max="32">
                                     <!-- Product card -->
 

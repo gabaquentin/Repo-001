@@ -2,9 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
+use App\Services\ecommerce\PackTools;
 use App\Services\ecommerce\Tools;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,14 +27,14 @@ class PackController extends AbstractController
 
     /**
      * @Route("/ecommerce/produit/packs", name="pack_show_product_front")
-     * @param Tools $tools
+     * @param PackTools $tools
      * @param EntityManagerInterface $em
      * @return Response
      */
-    public function showPackProductFront(Tools $tools,EntityManagerInterface $em)
+    public function showPackProductFront(PackTools $tools, EntityManagerInterface $em)
     {
         $categories = $em->getRepository("App:CategorieProd")->findAllCategories();
-        $data = [
+        /*$data = [
             [
                 "id"=>1,
                 "titre"=>"Packs d'insertions",
@@ -60,24 +64,78 @@ class PackController extends AbstractController
                     "120"=>"120 Jours",
                 ]
             ],
-        ];
+        ];*/
         $dataUnit = [];
         foreach ($categories as $category) {
             foreach ($category->getSousCategories() as $sousCategory) {
                 $dataUnit [] = [
-                    "idCat"=>$sousCategory->getId(),
-                    "durationUnit"=>$sousCategory->getUniteBoost(),
-                    "postUnit"=>$sousCategory->getUniteAnnonce(),
+                    "idCat" => $sousCategory->getId(),
+                    "durationUnit" => $sousCategory->getUniteBoost(),
+                    "postUnit" => $sousCategory->getUniteAnnonce(),
                 ];
             }
         }
         //$tools->setPackInfoContent($data);
         $data = $tools->getPackInfoContent();
 
-        return $this->render('pack/show-pack-produit-front.html.twig',[
-            "categories"=>$categories,
+        return $this->render('pack/show-pack-produit-front.html.twig', [
+            "categories" => $categories,
             "data" => $data,
-            "infoUnit"=> json_encode($dataUnit),
+            "infoUnit" => json_encode($dataUnit),
         ]);
+    }
+
+    /**
+     * @Route("/set-pack-user", name="set-pack-user-product")
+     * @param Request $request
+     * @param PackTools $packTools
+     * @param EntityManagerInterface $em
+     * @return JsonResponse
+     */
+    public function setPackUser(Request $request, PackTools $packTools, EntityManagerInterface $em)
+    {
+        /** @var User $user */
+        $user = $this->getUser();
+        if (!$user)
+            die();
+
+        $id = $request->get("id");
+        $duration = $request->get("duration");
+        $post = $request->get("post");
+        $total = $request->get("total");
+        $categories = $request->get("cats");
+        $packInfo = $packTools->getPackInfoContent();
+        $titre = "inconnu";
+        $blaz = "undefined";
+        foreach ($packInfo as $item) {
+            if ($item["id"] == $id) {
+                $titre = $item["titre"];
+                $blaz = $item["blaz"];
+                break;
+            }
+        }
+        $data = [
+            "id" => $id,
+            "titre" => $titre,
+            "blaz" => $blaz,
+            "duration" => $duration + 1,
+            "post" => $post,
+            "categories" => $categories,
+        ];
+
+        $data = $packTools->generatePackData($data);
+        /*$users = $em->getRepository(User::class)->findAll();
+        foreach ($users as $user) {
+            $user->setPackProduct($packTools->getDefaultPack());
+            $em->persist($user);
+        }
+        $em->flush();*/
+
+        $data = $packTools->mergeUserPacks($user, $data);
+        $user->setPackProduct($data);
+
+        $em->persist($user);
+        $em->flush();
+        return $this->json(["success" => ["test success"]]);
     }
 }

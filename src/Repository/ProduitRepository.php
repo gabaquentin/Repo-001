@@ -226,9 +226,11 @@ class ProduitRepository extends ServiceEntityRepository
      * @param $idCategory
      * @return int|mixed|string
      */
-    public function FindValidProducts($idCategory)
+    public function FindValidProducts($idCategory,$exception)
     {
         return $this->qbProductsValid($idCategory)
+            //->andWhere("p.id!=:id")
+            //->setParameter(":id",$exception)
             ->getQuery()->getResult();
     }
 

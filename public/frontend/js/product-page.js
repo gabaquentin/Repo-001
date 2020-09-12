@@ -187,5 +187,15 @@ $(document).ready(function () {
         ajaxShowProducts();
     })
     AddEventToCart();
+    $('.produit-asscocies').slick({
+        dots: false,
+        infinite: true,
+        speed: 500,
+        cssEase: 'cubic-bezier(0.645, 0.045, 0.355, 1.000)',
+        autoplay: true,
+        autoplaySpeed: 1000,
+        arrows: true,
+        slidesToShow: 4,
+    });
 });
 

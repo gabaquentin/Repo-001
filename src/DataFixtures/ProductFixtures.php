@@ -62,12 +62,17 @@ class ProductFixtures extends Fixture
         {
             $user = (new User())
                 ->setPackProduct([
-                    "id"=>0,
-                    "titre"=>"Default Pack",
-                    "description"=>"Ce pack vous deonne la possibilité de poste 5 annonces gratuitement",
-                    "blaz"=>"/frontend/img/illustrations/smile.svg",
-                    "prixBase"=>"0 F CFA",
-                    "nbrPostes"=>5,
+                    [
+                        "id"=>0,
+                        "titre"=>"Default Pack",
+                        "description"=>"Ce pack vous deonne la possibilité de poste 5 annonces gratuitement",
+                        "blaz"=>"/frontend/img/illustrations/smile.svg",
+                        "prixBase"=>"0 F CFA",
+                        "postes"=>[
+                            "nbrPostes"=>5,
+                            "categories"=>["all"],
+                        ],
+                    ],
                 ])
                 ->setNom($f->firstName())
                 ->setPrenom($f->firstName())

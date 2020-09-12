@@ -55,17 +55,29 @@
                                 <div class="loader is-loading"></div>
                             </div>
                             <!-- Wishlists -->
-                            <div class="column is-3">
+                            <div class="column is-4">
                                 <!-- List of Wishlists -->
-                                <div class="flat-card is-auto menu-card">
-                                    <div class="card-title">
-                                        <h3>Ajouter une annonce</h3>
+                                {% if canPost %}
+                                    <div class="flat-card is-auto menu-card">
+                                        <div class="card-title">
+                                            <h3>Ajouter une annonce</h3>
 
-                                        <div class="edit-account">
-                                            <a href="{{ path('add_product_front') }}" class="modal-trigger has-simple-popover"><i class="feather-icons" data-feather="plus"></i></a>
+                                            <div class="edit-account">
+                                                <a href="{{ path('add_product_front') }}" class="modal-trigger has-simple-popover"><i class="feather-icons" data-feather="plus"></i></a>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                {% else %}
+                                    <div class="flat-card is-auto menu-card">
+                                        <div class="card-title">
+                                            <h3>Vous n'avez plus de pack d'insertion</h3>
+                                            <div class="edit-account">
+                                                <a href="#" class="modal-trigger has-simple-popover"><i class="feather-icons" data-feather="plus"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+
                                 <div class="flat-card is-auto menu-card">
                                     <div class="card-title">
                                         <h3>Acheter un pack</h3>
@@ -75,9 +87,48 @@
                                         </div>
                                     </div>
                                 </div>
+                                {% if canPost or hasBoost %}
+                                    {% set text="Vos Packs" %}
+                                {% else %}
+                                    {% set text="Vous n'avez pas de pack" %}
+                                {% endif %}
+                                <div class="flat-card profile-info-card is-auto is-dark is-achievement">
+                                    <div class="card-body">
+                                        <div class="achievement-name">
+                                            <span class="is-gold" style="margin-bottom: 15px; text-align: center !important;display: inline">{{ text }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% if canPost %}
+                                    <div class="flat-card profile-info-card is-auto is-dark is-achievement">
+                                        <div class="card-body">
+                                            <img src="{{ userPackInfo.postes.blaz }}" alt="">
+                                            <div class="achievement-name">
+                                                <span class="is-gold" style="margin-bottom: 10px;">{{ userPackInfo.postes.titre }}</span>
+                                                {% for cat,post in userPackInfo.postes.postes %}
+                                                    <span class="is-size-7" style="margin-bottom: 5px;">{{ cat }}: {{ post }} postes</span>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                                {% if hasBoost %}
+                                    <div class="flat-card profile-info-card is-auto is-dark is-achievement">
+                                        <div class="card-body">
+                                            <img src="{{ userPackInfo.boost.blaz }}" alt="">
+                                            <div class="achievement-name">
+                                                <span class="is-gold" style="margin-bottom: 10px;">{{ userPackInfo.boost.titre }}</span>
+                                                {% for cat,jours in userPackInfo.boost.boost %}
+                                                    <span class="is-size-7" style="margin-bottom: 5px;">{{ cat }}: {{ jours }} Jours</span>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+
                             </div>
 
-                            <div id="my-products-container" class="column is-9">
+                            <div id="my-products-container" class="column is-8">
 
                                 <div id="my-products-empty-placeholder" class="main-placeholder is-hidden">
                                     <div class="placeholder-content">
@@ -108,7 +159,7 @@
 
 {% block js %}
     <script>
-        const canPost = true;
+        const canPost = "{{ canPost }}";
         const showProductsRoute = "{{ path('get_products_user_front') }}";
         const modifyProductRoute = "{{ path('modify_product_front') }}"
         const deleteProductRoute = "{{ path('delete_produit') }}"
