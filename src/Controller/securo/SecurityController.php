@@ -236,6 +236,8 @@ class SecurityController extends AbstractController
                     $user->setLogo($logo);
                     $user->setPartenariat($partenariat);
                     $user->setRoles((array)'ROLE_PARTENAIRE');
+                    $user->setDp(new \DateTime());
+                    $user->setPs(0);
                     $entityManager->flush();
                 }
                 else if ($partenariat == "services")
@@ -264,6 +266,130 @@ class SecurityController extends AbstractController
             $services = $entityManager->getRepository(Service::class)->findAll();
             return $this->render('security/frontend/partenariat.html.twig',['services'=>$services]);
         }
+    }
+
+    /**
+     * @Route("/back/security/users", name="app_users")
+     */
+    public function users()
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $users = $entityManager->getRepository(User::class)->findAll();
+        return $this->render('security/backend/users.html.twig',array("users"=>$users));
+    }
+
+    /**
+     * @Route("/back/security/admins", name="app_admins")
+     */
+    public function admins()
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $admins = $entityManager->getRepository(User::class)->findByRole("ROLE_ADMIN");
+        return $this->render('security/backend/admins.html.twig',array("admins"=>$admins));
+    }
+
+    /**
+     * @Route("/back/security/partners", name="app_partners")
+     */
+    public function partners()
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $partners = $entityManager->getRepository(User::class)->findByRole("ROLE_PARTENAIRE");
+        return $this->render('security/backend/partners.html.twig',array("partners"=>$partners));
+    }
+
+    /**
+     * @Route("/back/security/promoteUser/{departement}/{id}", name="app_promote_user")
+     * @throws Exception
+     */
+    public function promoteUser($departement,$id): Response
+    {
+        // esa === enable shipping address
+        $jsonData = array();
+        $entityManager = $this->getDoctrine()->getManager();
+        $user = $entityManager->getRepository(User::class)->find($id);
+
+        if($user)
+        {
+            $user->setDepartement($departement);
+            $user->setRoles((array)'ROLE_ADMIN');
+            $entityManager->flush();
+
+            $jsonData["infos"] = "ok";
+
+            return new Response(json_encode($jsonData));
+        }
+        else
+        {
+            throw new Exception('User not found ');
+        }
+
+
+    }
+
+    /**
+     * @Route("/back/security/retroUser/{id}", name="app_retro_user")
+     * @throws Exception
+     */
+    public function retroUser($id): Response
+    {
+        // esa === enable shipping address
+        $jsonData = array();
+        $entityManager = $this->getDoctrine()->getManager();
+        $user = $entityManager->getRepository(User::class)->find($id);
+
+        if($user)
+        {
+            $user->setDepartement("");
+            $user->setRoles((array)'ROLE_USER');
+            $entityManager->flush();
+
+            $jsonData["infos"] = "ok";
+
+            return new Response(json_encode($jsonData));
+        }
+        else
+        {
+            throw new Exception('User not found ');
+        }
+
+
+    }
+
+    /**
+     * @Route("/back/security/validatePartner/{statut}/{id}", name="app_validate_partner")
+     * @throws Exception
+     */
+    public function validatePartner($id,$statut): Response
+    {
+        // esa === enable shipping address
+        $jsonData = array();
+        $entityManager = $this->getDoctrine()->getManager();
+        $user = $entityManager->getRepository(User::class)->find($id);
+
+        if($user)
+        {
+            if($statut == 1)
+            {
+                $user->setPs($statut);
+            }
+            else if($statut == 0)
+            {
+                $user->setPs($statut);
+            }
+
+            $entityManager->flush();
+
+            $jsonData["infos"] = "ok";
+
+            return new Response(json_encode($jsonData));
+        }
+        else
+        {
+            throw new Exception('User not found ');
+        }
+
+
     }
 
     /**

@@ -39,10 +39,25 @@
                         <!-- Account tabs -->
                         {% include 'security/frontend/menu.html.twig' %}
 
-                        <!-- Row -->
+                        <div id="account-main-placeholder" class="main-placeholder is-hidden">
+                            <div class="placeholder-content">
+                                <img src="{{ asset('frontend/img/illustrations/profile.svg') }}" alt="">
+                                <h3>Welcome, Guest</h3>
+                                <p>Guest users don't have accounts. Please login or register to view your account.</p>
+                                <div class="button-wrap">
+                                    <a href="{{path('app_login')}}" class="button big-button primary-button rounded raised">Log In</a>
+                                </div>
+                                <a href="{{ path('app_register', {'role': 'new_user'}) }}">Don't have an account?</a>
+                            </div>
+                        </div>
 
-                        <div id="account-main" class="order-details-wrap">
-                        <div class="order-stats">
+                        <!-- Row -->
+                        <div id="account-main" class="columns is-account-grid is-multiline">
+                            <!--Loader-->
+                            <div class="account-loader is-active">
+                                <div class="loader is-pulled is-loading"></div>
+                            </div>
+                            
                             <div class="columns">
                                 <div class="column is-4">
                                     <div id="email-tile" class="order-stat">
@@ -59,7 +74,7 @@
                                             <div class="meta">
                                                 <span>E-Mail</span>
                                                 <span id="status-email">Paid</span>
-                                                <span><a>{{ app.user.email }}</a></span>
+                                                <span><a>{{ app.user ? app.user.email : 'Envoyer le lien de verification' }}</a></span>
                                             </div>
                                         </div>
                                     </div>
@@ -79,7 +94,7 @@
                                             <div class="meta">
                                                 <span>Telephone</span>
                                                 <span id="status-tel"></span>
-                                                <span><a>{{ app.user.telephone }}</a></span>
+                                                <span><a>{{ app.user ? app.user.telephone }}</a></span>
                                             </div>
                                         </div>
                                     </div>
@@ -106,8 +121,6 @@
                                 </div>
                             </div>
                         </div>
-                        </div>
-
                         <!-- /Row -->
                     </div>
                 </div>

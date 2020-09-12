@@ -141,6 +141,16 @@ class User implements UserInterface
      */
     private $pack;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $ps;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $dp;
+
     public function __construct()
     {
         $this->creation = new \DateTime();
@@ -466,6 +476,8 @@ class User implements UserInterface
     public function setEsa(int $esa): self
     {
         $this->esa = $esa;
+
+        return $this;
     }
 
     public function getPack(): ?Pack
@@ -489,6 +501,30 @@ class User implements UserInterface
     public function setPhoneVerified(bool $phone_verified): self
     {
         $this->phone_verified = $phone_verified;
+
+        return $this;
+    }
+
+    public function getPs(): ?bool
+    {
+        return $this->ps;
+    }
+
+    public function setPs(?bool $ps): self
+    {
+        $this->ps = $ps;
+
+        return $this;
+    }
+
+    public function getDp(): ?string
+    {
+        return $this->dp;
+    }
+
+    public function setDp(?string $dp): self
+    {
+        $this->dp = $dp;
 
         return $this;
     }
