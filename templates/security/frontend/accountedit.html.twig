@@ -102,7 +102,7 @@
                                             <div class="column is-6">
                                                 <div class="field info-block has-flex-label has-validation">
                                                     <label class="label-text">
-                                                        <span>First Name</span>
+                                                        <span>Nom</span>
                                                         <span class="error">Minimum 2 characters</span>
                                                     </label>
                                                     <div class="control">
@@ -130,7 +130,7 @@
                                             <div class="column is-6">
                                                 <div class="field info-block has-flex-label has-validation">
                                                     <label class="label-text">
-                                                        <span>Last Name</span>
+                                                        <span>Prenom</span>
                                                         <span class="error">Minimum 2 characters</span>
                                                     </label>
                                                     <div class="control">
@@ -150,14 +150,14 @@
                                                         <select id="edit-local" class="chosen-select input" data-placeholder="Selectionnez une langue">
                                                             <option label="Selectionnez une langue"></option>
                                                             <option value="fr" {% if app.user.local == "fr" %} selected {% endif %}>Francais</option>
-                                                            <option value="en" {% if app.user.local == "en" %} selected {% endif %}>Englais</option>
+                                                            <option value="en" {% if app.user.local == "en" %} selected {% endif %}>Anglais</option>
                                                         </select>
                                                     </div>
                                                 </div>
 
                                                 <div class="field info-block has-flex-label">
                                                     <label class="label-text">
-                                                        <span>Phone</span>
+                                                        <span>Telephone</span>
                                                         <span class="error">Minimum 2 characters</span>
                                                     </label>
                                                     <div class="control">
@@ -388,56 +388,4 @@
         </div>
     </div>
 
-    <!-- Asynch request for account save -->
-
-    <script>
-        $('#save-account-button').on('click', function () {
-            var $this = $(this);
-            var state ;
-            if(enableShippingAddress === false)
-                state = 0;
-            else
-                state = 1;
-            var form = $('#account-edit-form');
-
-            form.submit(function (e) {
-
-                e.preventDefault();
-
-                $.ajax({
-                    type: "POST",
-                    url: form.attr("{{ path('app_register', {'role': 'new_user'}) }}"),
-                    data: {
-                        "nom": $('#edit-first-name').val(),
-                        "prenom": $('#edit-last-name').val(),
-                        "paysPaiement": $('#billing-edit-country').val(),
-                        "postePaiement": $('#billing-edit-postal-code').val(),
-                        "villePaiement": $('#billing-edit-address2').val(),
-                        "quartierPaiement": $('#billing-edit-city').val(),
-                        "addressPaiement": $('#billing-edit-state').val(),
-                        "paysLivraison": $('#shipping-edit-country').val(),
-                        "posteLivraison": $('#shipping-edit-postal-code').val(),
-                        "villeLivraison": $('#shipping-edit-address2').val(),
-                        "quartierLivraison": $('#shipping-edit-city').val(),
-                        "addressLivraison": $('#shipping-edit-state').val(),
-                        "image": $('.profile-pic').attr('src'),
-                        "esa": state,
-                        "local": $('#edit-local').val(),
-                    },
-                    dataType: 'json',
-                    success: function (data) {
-
-                    },
-                    error: function (data) {
-                        setTimeout(function () {
-                            $this.removeClass('is-loading');
-                            toasts.service.error('', 'fas fa-meh', " Erreur interne du server... Veuillez reesayer ", 'bottomRight', 2800);
-                        }, 800);
-
-                    },
-                });
-            });
-        })
-
-    </script>
 {% endblock %}

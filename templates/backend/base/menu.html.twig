@@ -41,16 +41,32 @@
                     </ul>
                 </li>
 
-                <li class="menu-title">E-PACK</li>
+                <li class="menu-title">UTilisateurs</li>
                 <li>
                     <a href="javascript: void(0);" class="waves-effect">
-                        <i class="fas fa-hands-helping"></i>
-                        <span> Abonnements </span>
+                        <i class="fas fa-user"></i>
+                        <span> Gestion Utilisateurs </span>
                         <span class="menu-arrow"></span>
                     </a>
                     <ul class="nav-second-level nav" aria-expanded="false">
                         <li>
-                            <a href="{{ path('pack_show_back') }}">Packs</a>
+                            <a href="{{ path('app_users') }}">Abonnés</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('app_admins') }}">Administrateurs</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('app_partners') }}">Partenaires</a>
+                        </li>
+                        <li>
+                            <a href="javascript: void(0);" aria-expanded="false">Commandes
+                                <span class="menu-arrow"></span>
+                            </a>
+                            <ul class="nav-third-level nav" aria-expanded="false">
+                                <li>
+                                    <a href="javascript: void(0);">Packs</a>
+                                </li>
+                            </ul>
                         </li>
                     </ul>
                 </li>
