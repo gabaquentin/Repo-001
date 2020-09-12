@@ -127,7 +127,7 @@ class User implements UserInterface
     private $paiement;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", options={"comment":"enable shipping address"})
      */
     private $esa;
 
@@ -142,14 +142,19 @@ class User implements UserInterface
     private $pack;
 
     /**
-     * @ORM\Column(type="boolean", nullable=true)
+     * @ORM\Column(type="boolean", nullable=true, options={"comment":"partner status"})
      */
     private $ps;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true, options={"comment":"date partnership"})
      */
     private $dp;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true, options={"comment":"admin lock"})
+     */
+    private $al;
 
     public function __construct()
     {
@@ -525,6 +530,18 @@ class User implements UserInterface
     public function setDp(?string $dp): self
     {
         $this->dp = $dp;
+
+        return $this;
+    }
+
+    public function getAl(): ?bool
+    {
+        return $this->al;
+    }
+
+    public function setAl(?bool $al): self
+    {
+        $this->al = $al;
 
         return $this;
     }

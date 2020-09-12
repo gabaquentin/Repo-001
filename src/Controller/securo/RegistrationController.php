@@ -103,6 +103,7 @@ class RegistrationController extends AbstractController
                 $user->setPhoneVerified(0);
                 $user->setIsVerified(0);
                 $user->setEsa(0);
+                $user->setAl(0);
                 $user->setImage($image);
                 $user->setCreation(new \DateTime());
                 // encode the plain password
