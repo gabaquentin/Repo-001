@@ -118,7 +118,7 @@ class PackController extends AbstractController
             "id" => $id,
             "titre" => $titre,
             "blaz" => $blaz,
-            "duration" => $duration + 1,
+            "duration" => ($duration!=0)?$duration + 1:$duration,
             "post" => $post,
             "categories" => $categories,
         ];
@@ -132,6 +132,7 @@ class PackController extends AbstractController
         $em->flush();*/
 
         $data = $packTools->mergeUserPacks($user, $data);
+
         $user->setPackProduct($data);
 
         $em->persist($user);

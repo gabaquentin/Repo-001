@@ -1,11 +1,6 @@
-{% extends 'security/frontend/base.html.twig' %}
+{% extends 'frontend/ecommerce/base.html.twig' %}
 
 {% block stylesheets %}
-    <style>
-        .select{
-            width: 100%;
-        }
-    </style>
 {% endblock %}
 
 {% block title %}Commandes{% endblock %}
@@ -115,11 +110,11 @@
             </div>
         </div>
     </div>
-
-{% endblock %}
-
-{% block js %}
     <script>
         const checkoutRoute= "{{ path('checkout_step') }}";
     </script>
+{% endblock %}
+
+{% block js %}
+
 {% endblock %}
