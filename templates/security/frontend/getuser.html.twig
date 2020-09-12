@@ -33,19 +33,19 @@
 
 <!-- get billing address information -->
 
-<div class="js-user-billing-country is-hidden" data-billing-country="{{ app.user ? app.user.paiement.pays }}">
+<div class="js-user-billing-country is-hidden" data-billing-country="{{ app.user ? app.user.paiement ? app.user.paiement.pays }}">
     <!--get billing country-->
 </div>
-<div class="js-user-billing-postal is-hidden" data-billing-postal="{{ app.user ? app.user.paiement.codepostal }}">
+<div class="js-user-billing-postal is-hidden" data-billing-postal="{{ app.user ? app.user.paiement? app.user.paiement.codepostal }}">
     <!--get billing postal-->
 </div>
-<div class="js-user-billing-address2 is-hidden" data-billing-address2="{{ app.user ? app.user.paiement.ville }}">
+<div class="js-user-billing-address2 is-hidden" data-billing-address2="{{ app.user ? app.user.paiement ? app.user.paiement.ville }}">
     <!--get billing address2-->
 </div>
-<div class="js-user-billing-city is-hidden" data-billing-city="{{ app.user ? app.user.paiement.quartier }}">
+<div class="js-user-billing-city is-hidden" data-billing-city="{{ app.user ? app.user.paiement ? app.user.paiement.quartier }}">
     <!--get billing city-->
 </div>
-<div class="js-user-billing-state is-hidden" data-billing-state="{{ app.user ? app.user.paiement.adresse }}">
+<div class="js-user-billing-state is-hidden" data-billing-state="{{ app.user ? app.user.paiement ? app.user.paiement.adresse }}">
     <!--get billing state-->
 </div>
 
@@ -54,19 +54,19 @@
 <div class="js-user-esa is-hidden" data-esa="{{ app.user ? app.user.esa }}">
     <!--get esa-->
 </div>
-<div class="js-user-shipping-country is-hidden" data-shipping-country="{{ app.user ? app.user.livraison.pays }}">
+<div class="js-user-shipping-country is-hidden" data-shipping-country="{{ app.user ? app.user.livraison ? app.user.livraison.pays }}">
     <!--get shipping country-->
 </div>
-<div class="js-user-shipping-postal is-hidden" data-shipping-postal="{{ app.user ? app.user.livraison.codepostal }}">
+<div class="js-user-shipping-postal is-hidden" data-shipping-postal="{{ app.user ? app.user.livraison ? app.user.livraison.codepostal }}">
     <!--get shipping postal-->
 </div>
-<div class="js-user-shipping-address2 is-hidden" data-shipping-address2="{{ app.user ? app.user.livraison.ville }}">
+<div class="js-user-shipping-address2 is-hidden" data-shipping-address2="{{ app.user ? app.user.livraison ? app.user.livraison.ville }}">
     <!--get shipping address2-->
 </div>
-<div class="js-user-shipping-city is-hidden" data-shipping-city="{{ app.user ? app.user.livraison.quartier }}">
+<div class="js-user-shipping-city is-hidden" data-shipping-city="{{ app.user ? app.user.livraison ? app.user.livraison.quartier }}">
     <!--get shipping city-->
 </div>
-<div class="js-user-shipping-state is-hidden" data-shipping-state="{{ app.user ? app.user.livraison.adresse }}">
+<div class="js-user-shipping-state is-hidden" data-shipping-state="{{ app.user ? app.user.livraison ? app.user.livraison.adresse }}">
     <!--get shipping state-->
 </div>
 
