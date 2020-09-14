@@ -1,4 +1,7 @@
-{% extends 'security/frontend/base.html.twig' %}
+{% extends 'frontend/ecommerce/base.html.twig' %}
+
+{% block stylesheets %}
+{% endblock %}
 
 {% block title %}Commandes{% endblock %}
 
@@ -107,12 +110,12 @@
             </div>
         </div>
     </div>
-
-{% endblock %}
-
-{% block js %}
     <script>
         const checkoutRoute= "{{ path('checkout_step') }}";
         const GoToLogin= "{{ path('app_login') }}";
     </script>
+{% endblock %}
+
+{% block js %}
+
 {% endblock %}

@@ -34,6 +34,31 @@ class CategorieProdRepository extends ServiceEntityRepository
     }
 
     /**
+     * @return CategorieProd[] Returns an array of CategorieProd objects
+     */
+    public function findSousCategories()
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.categorieParent is not null')
+            ->orderBy('c.ordre', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public function findSousCategoriesById(array $enabledCategories)
+    {
+        $qb = $this->createQueryBuilder('c');
+        return
+            $qb->andWhere('c.categorieParent is not null')
+                ->orderBy('c.ordre', 'ASC')
+                ->andWhere($qb->expr()->in("c.id",$enabledCategories))
+                ->andWhere()
+                ->getQuery()
+                ->getResult()
+            ;
+    }
+    /**
      * @return QueryBuilder
      */
     public function findAllCategoriesForm()
@@ -72,4 +97,5 @@ class CategorieProdRepository extends ServiceEntityRepository
         ;
     }
     */
+
 }

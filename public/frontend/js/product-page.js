@@ -82,10 +82,9 @@ function ajaxShowProducts() {
 function addSingleProduct(p)
 {
     let prix = (p.prix*(1-(p.prixPromo/100))).toString();
-    if(prix.indexOf('.')!==-1)
-        prix = prix.slice(0,prix.indexOf('.')+2);
+    prix = decimalNumber(prix);
     let price = prix;
-    prix += (" " + "F CFA");
+    prix += (" " + devise);
     const nom = truncateString(p.nom.toUpperCase(),30);
     let image = "http://via.placeholder.com/500x500/ffffff/999999";
     if(p.images.length)image =imageProdPath + p.images[0];
@@ -188,5 +187,15 @@ $(document).ready(function () {
         ajaxShowProducts();
     })
     AddEventToCart();
+    $('.produit-asscocies').slick({
+        dots: false,
+        infinite: true,
+        speed: 500,
+        cssEase: 'cubic-bezier(0.645, 0.045, 0.355, 1.000)',
+        autoplay: true,
+        autoplaySpeed: 1000,
+        arrows: true,
+        slidesToShow: 4,
+    });
 });
 

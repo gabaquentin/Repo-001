@@ -2,6 +2,9 @@
 
 namespace App\Controller\securo;
 
+use App\Entity\Billing;
+use App\Entity\Service;
+use App\Entity\Shipping;
 use App\Entity\User;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -61,6 +64,34 @@ class SecurityController extends AbstractController
     }
 
     /**
+     * @Route("/esa/{value}", name="app_esa")
+     * @throws Exception
+     */
+    public function esa($value): Response
+    {
+        // esa === enable shipping address
+        $jsonData = array();
+        $entityManager = $this->getDoctrine()->getManager();
+        $user = $entityManager->getRepository(User::class)->find($this->getUser());
+
+        if($user)
+        {
+            $user->setEsa($value);
+            $entityManager->flush();
+
+            $jsonData["infos"] = "ok";
+
+            return new Response(json_encode($jsonData));
+        }
+        else
+        {
+            throw new Exception('User not found ');
+        }
+
+
+    }
+
+    /**
      * @Route("/account", name="app_account")
      */
     public function account()
@@ -93,11 +124,85 @@ class SecurityController extends AbstractController
     }
 
     /**
+     * @Route("/security", name="app_security")
+     */
+    public function security()
+    {
+        return $this->render('security/frontend/security.html.twig');
+    }
+
+    /**
      * @Route("/editaccount", name="app_account_edit")
      */
-    public function editaccount()
+    public function editaccount(Request $request)
     {
-        return $this->render('security/frontend/accountedit.html.twig');
+        if($request->isXMLHttpRequest()) {
+
+            $jsonData = array();
+            $nom = addslashes(trim($request->get('nom')));
+            $prenom = addslashes(trim($request->get('prenom')));
+            $local = addslashes(trim($request->get('local')));
+            $profil = addslashes(trim($request->get('image')));
+
+            $paysPaiement = addslashes(trim($request->get('paysPaiement')));
+            $postePaiement = addslashes(trim($request->get('postePaiement')));
+            $villePaiement = addslashes(trim($request->get('villePaiement')));
+            $quartierPaiement = addslashes(trim($request->get('quartierPaiement')));
+            $addressPaiement = addslashes(trim($request->get('addressPaiement')));
+
+            $esa = addslashes(trim($request->get('esa')));
+            $paysLivraison = addslashes(trim($request->get('paysLivraison')));
+            $posteLivraison = addslashes(trim($request->get('posteLivraison')));
+            $villeLivraison = addslashes(trim($request->get('villeLivraison')));
+            $quartierLivraison = addslashes(trim($request->get('quartierLivraison')));
+            $addressLivraison = addslashes(trim($request->get('addressLivraison')));
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $user = $entityManager->getRepository(User::class)->find($this->getUser());
+            $shipping = $entityManager->getRepository(Shipping::class)->find($user->getLivraison());
+            $billing = $entityManager->getRepository(Billing::class)->find($user->getPaiement());
+
+            if (!$user) {
+                $jsonData["infos"] = "Auccun utilisateur trouvé pour cette session";
+            }
+            else
+            {
+                // update user contact
+                $user->setNom($nom);
+                $user->setPrenom($prenom);
+                $user->setImage($profil);
+                $user->setLocal($local);
+                $user->setEsa($esa);
+
+                // update user billing address
+                $billing->setAdresse($addressPaiement);
+                $billing->setPays($paysPaiement);
+                $billing->setVille($villePaiement);
+                $billing->setQuartier($quartierPaiement);
+                $billing->setCodepostal($postePaiement);
+
+                // update user shipping address
+                if($esa == 1)
+                {
+                    $shipping->setAdresse($addressLivraison);
+                    $shipping->setPays($paysLivraison);
+                    $shipping->setVille($villeLivraison);
+                    $shipping->setQuartier($quartierLivraison);
+                    $shipping->setCodepostal($posteLivraison);
+                }
+
+
+                $entityManager->flush();
+
+                $jsonData["infos"] = "Pour l'instant cava";
+            }
+
+            return new Response(json_encode($jsonData));
+        }
+        else
+        {
+            return $this->render('security/frontend/accountedit.html.twig');
+        }
     }
 
     /**
@@ -131,6 +236,8 @@ class SecurityController extends AbstractController
                     $user->setLogo($logo);
                     $user->setPartenariat($partenariat);
                     $user->setRoles((array)'ROLE_PARTENAIRE');
+                    $user->setDp(new \DateTime());
+                    $user->setPs(0);
                     $entityManager->flush();
                 }
                 else if ($partenariat == "services")
@@ -155,8 +262,175 @@ class SecurityController extends AbstractController
         }
         else
         {
-            return $this->render('security/frontend/partenariat.html.twig');
+            $entityManager = $this->getDoctrine()->getManager();
+            $services = $entityManager->getRepository(Service::class)->findAll();
+            return $this->render('security/frontend/partenariat.html.twig',['services'=>$services]);
         }
+    }
+
+    /**
+     * @Route("/back/lock", name="app_lock")
+     * @throws Exception
+     */
+    public function lock(Request $request, UserPasswordEncoderInterface $passwordEncoder)
+    {
+        if($request->isXMLHttpRequest()) {
+
+            $jsonData = array();
+            $password = addslashes(trim($request->get('password')));
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $user = $entityManager->getRepository(User::class)->find($this->getUser());
+            $dbpassword = $user->getPassword();
+            if (!$user) {
+                $jsonData["infos"] = "Auccun utilisateur trouvé pour cette session";
+            }
+            else
+            {
+
+                if($passwordEncoder->isPasswordValid($user, $password))
+                {
+                    $jsonData["infos"] = "ok";
+
+                    return new Response(json_encode($jsonData));
+                }
+                else
+                {
+                    $jsonData["infos"] = "NaN";
+                    throw new Exception('Incorrect : '.$dbpassword.' ---- my password : '.$passwordEncoder->encodePassword($user, $password).' is valid : '.$passwordEncoder->isPasswordValid($user, $password));
+                }
+            }
+
+            return new Response(json_encode($jsonData));
+        }
+        else
+        {
+            return $this->render('security/backend/lock.html.twig');
+        }
+    }
+
+    /**
+     * @Route("/back/security/users", name="app_users")
+     */
+    public function users()
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $users = $entityManager->getRepository(User::class)->findAll();
+        return $this->render('security/backend/users.html.twig',array("users"=>$users));
+    }
+
+    /**
+     * @Route("/back/security/admins", name="app_admins")
+     */
+    public function admins()
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $admins = $entityManager->getRepository(User::class)->findByRole("ROLE_ADMIN");
+        return $this->render('security/backend/admins.html.twig',array("admins"=>$admins));
+    }
+
+    /**
+     * @Route("/back/security/partners", name="app_partners")
+     */
+    public function partners()
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $partners = $entityManager->getRepository(User::class)->findByRole("ROLE_PARTENAIRE");
+        return $this->render('security/backend/partners.html.twig',array("partners"=>$partners));
+    }
+
+    /**
+     * @Route("/back/security/promoteUser/{departement}/{id}", name="app_promote_user")
+     * @throws Exception
+     */
+    public function promoteUser($departement,$id): Response
+    {
+        // esa === enable shipping address
+        $jsonData = array();
+        $entityManager = $this->getDoctrine()->getManager();
+        $user = $entityManager->getRepository(User::class)->find($id);
+
+        if($user)
+        {
+            $user->setDepartement($departement);
+            $user->setRoles((array)'ROLE_ADMIN');
+            $entityManager->flush();
+
+            $jsonData["infos"] = "ok";
+
+            return new Response(json_encode($jsonData));
+        }
+        else
+        {
+            throw new Exception('User not found ');
+        }
+
+
+    }
+
+    /**
+     * @Route("/back/security/retroUser/{id}", name="app_retro_user")
+     * @throws Exception
+     */
+    public function retroUser($id): Response
+    {
+        // esa === enable shipping address
+        $jsonData = array();
+        $entityManager = $this->getDoctrine()->getManager();
+        $user = $entityManager->getRepository(User::class)->find($id);
+
+        if($user)
+        {
+            $user->setDepartement("");
+            $user->setRoles((array)'ROLE_USER');
+            $entityManager->flush();
+
+            $jsonData["infos"] = "ok";
+
+            return new Response(json_encode($jsonData));
+        }
+        else
+        {
+            throw new Exception('User not found ');
+        }
+
+
+    }
+
+    /**
+     * @Route("/back/security/validatePartner/{statut}/{id}", name="app_validate_partner")
+     * @throws Exception
+     */
+    public function validatePartner($id,$statut): Response
+    {
+        // esa === enable shipping address
+        $jsonData = array();
+        $entityManager = $this->getDoctrine()->getManager();
+        $user = $entityManager->getRepository(User::class)->find($id);
+
+        if($user)
+        {
+            if($statut == 1)
+            {
+                $user->setPs($statut);
+            }
+            else if($statut == 0)
+            {
+                $user->setPs($statut);
+            }
+
+            $entityManager->flush();
+
+            $jsonData["infos"] = "ok";
+
+            return new Response(json_encode($jsonData));
+        }
+        else
+        {
+            throw new Exception('User not found ');
+        }
+
+
     }
 
     /**

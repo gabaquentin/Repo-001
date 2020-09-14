@@ -456,9 +456,9 @@ function Register() {
 
 
   $('#register-submit').on('click', function (event) {
-
-    // letiable pour le calcul des erreurs de saisie
-    let erreur = 2;
+    event.preventDefault();
+    // variable pour le calcul des erreurs de saisie
+    var erreur = 2;
 
     let email =  $('#register-email').val().trim();
     let password = $('#register-password').val().trim();
@@ -561,9 +561,77 @@ function Register() {
     if(erreur === 0) {
       let $this = $(this);
       $this.addClass('is-loading');
-    }
-    else
-    {
+      var form = $('#registration-form');
+
+      $.ajax({
+        type: "POST",
+        url: form.attr("/register/new_user"),
+        data: {
+          "nom": $('#register-nom').val(),
+          "prenom": $('#register-prenom').val(),
+          "email": $('#register-email').val(),
+          "telephone": $('#register-tel').val(),
+          "password": $('#register-password').val(),
+          "local": $('#register-local').val(),
+          "image": document.getElementById("imagesrc").src,
+        },
+        dataType: 'json',
+        success: function (data) {
+          /*
+* code 0 : if no prblems with registration
+* code 100 : if email already exist in data base
+* code 200 : if phone number already exist in data base
+* code 300 : if phone number and email already exist in data base
+* code 400 : if phone number and/or email is empty
+          */
+          if(data['code'] === 0) {
+            $('#user-email-label').html(data['email']);
+            $('#registration-form').addClass('is-hidden');
+            $('#check-email').removeClass('is-hidden');
+
+            var register = {
+              isLoggedIn: true,
+              firstName: data['nom'],
+              lastName: data['prenom'],
+              email: data['email'],
+              phone: data['tel'],
+              photoUrl: data['image'],
+              wishlists: myWishlists,
+              orders: myOrders,
+              addresses: myAddresses
+            };
+
+            localStorage.setItem('user', JSON.stringify(register));
+
+            setTimeout(function () {
+              $this.removeClass('is-loading');
+              toasts.service.success('', 'fas fa-check', data['infos'], 'bottomRight', 11200);
+            }, 1200);
+          } else {
+            setTimeout(function () {
+              $this.removeClass('is-loading');
+              toasts.service.info('', 'fas fa-meh', data['infos'], 'bottomRight', 11200);
+            }, 1200);
+            if(data['code'] === 100) {
+              $('#register-email').closest('.field').addClass('has-error');
+            } else if(data['code'] === 200) {
+              $('#register-tel').closest('.field').addClass('has-error');
+            } else if(data['code'] === 300) {
+              $('#register-email').closest('.field').addClass('has-error');
+              $('#register-tel').closest('.field').addClass('has-error');
+            }
+
+          }
+
+        },
+        error: function (data) {
+          setTimeout(function () {
+            $this.removeClass('is-loading');
+            toasts.service.error('', 'fas fa-meh', " Erreur interne du server... Veuillez reesayer ", 'bottomRight', 2800);
+          }, 800);
+        },
+      });
+    } else {
       setTimeout(function () {
         toasts.service.error('', 'fas fa-dizzy', 'Le formulaire présente des problémes veuillez vérifier vos entrées', 'bottomRight', 11200);
       }, 1200);
@@ -604,7 +672,8 @@ function Reset() {
 
   $('#reset-submit').on('click', function (event) {
 
-    let erreur = 1;
+    event.preventDefault();
+    var erreur = 1;
 
     let email =  $('#reset-email').val().trim();
 
@@ -619,23 +688,56 @@ function Reset() {
     }
 
     // si auccune erreur
-    if (erreur === 0)
-    {
-      let $this = $(this);
+    if (erreur === 0) {
+      var $this = $(this);
       $this.addClass('is-loading');
-    }
-    else
-    {
+
+      var form = $('#reset-form');
+
+      $.ajax({
+        type: "POST",
+        url: form.attr("/reset-password"),
+        data: {
+          "email": $('#reset-email').val(),
+        },
+        dataType: 'json',
+        success: function (data) {
+          if(data['status'] === "succes") {
+            setTimeout(function () {
+              $this.removeClass('is-loading');
+              toasts.service.success('', 'fas fa-check', "Verifiez vos E-Mail", 'bottomRight', 11200);
+            }, 1200);
+
+            $('#token-life-time').html(data['tokenlifetime']);
+            $('#reset-form').addClass('is-hidden');
+            $('#check-email-reset').removeClass('is-hidden');
+          } else {
+            setTimeout(function () {
+              $this.removeClass('is-loading');
+              toasts.service.error('', 'fas fa-meh', "Le compte n'existe pas dans notre base de donnees", 'bottomRight', 2800);
+            }, 800);
+          }
+        },
+        error: function (data) {
+          setTimeout(function () {
+            $this.removeClass('is-loading');
+            toasts.service.error('', 'fas fa-meh', " Erreur interne du server... Veuillez reesayer ", 'bottomRight', 2800);
+          }, 800);
+
+        },
+      });
+    } else {
       setTimeout(function () {
         toasts.service.error('', 'fas fa-dizzy', 'Le formulaire présente des problémes veuillez vérifier vos entrées', 'bottomRight', 11200);
       }, 1200);
       $('#reset-submit').addClass('is-disabled');
     }
-  })
+  });
 
   $('#reset-process-submit').on('click', function (event) {
 
-    let erreur = 1;
+    event.preventDefault();
+    var erreur = 1;
 
     let password =  $('#reset-password').val().trim();
     let passwordConfirm =  $('#reset-confirm-password').val().trim();
@@ -675,6 +777,37 @@ function Reset() {
     {
       let $this = $(this);
       $this.addClass('is-loading');
+
+      var form = $('#reset-process-form');
+
+      $.ajax({
+        type: "POST",
+        url: form.attr("{{ path('app_reset_password') }}"),
+        data: {
+          "password": $('#reset-password').val(),
+        },
+        dataType: 'json',
+        success: function (data) {
+
+          setTimeout(function () {
+            $this.removeClass('is-loading');
+            toasts.service.success('', 'fas fa-check', "Recuperation effectue avec succes", 'bottomRight', 11200);
+          }, 1200);
+
+          $('#reset-process-form').addClass('is-hidden');
+          $('#succes-email-reset').removeClass('is-hidden');
+
+
+
+        },
+        error: function (data) {
+          setTimeout(function () {
+            $this.removeClass('is-loading');
+            toasts.service.error('', 'fas fa-meh', " Erreur interne du server... Veuillez reesayer ", 'bottomRight', 2800);
+          }, 800);
+
+        },
+      });
     }
     else
     {
@@ -768,7 +901,8 @@ function Partenariat() {
 
   $('#partenariat-boutique-submit').on('click', function (event) {
 
-    let erreur = 1;
+    event.preventDefault();
+    var erreur = 1;
 
     let nom =  $('#partenariatB-nom').val();
     let desc =  $('#partenariatB-desc').val();
@@ -809,6 +943,37 @@ function Partenariat() {
     {
       let $this = $(this);
       $this.addClass('is-loading');
+
+      var form = $('#partenariat-boutique-form');
+
+      $.ajax({
+        type: "POST",
+        url: form.attr("/partenariat"),
+        data: {
+          "nom": $('#partenariatB-nom').val(),
+          "domaine": $('#partenariatB-domaine').val().toString(),
+          "desc": $('#partenariatB-desc').val(),
+          "partenariat": "boutique",
+          "logo": document.getElementById("imagesrc").src,
+        },
+        dataType: 'json',
+        success: function (data) {
+
+          $('#partenariat-boutique-form').addClass('is-hidden');
+          $('#boutique-submit-ok').removeClass('is-hidden');
+          setTimeout(function () {
+            $this.removeClass('is-loading');
+            toasts.service.success('', 'fas fa-check', data['infos'], 'bottomRight', 11200);
+          }, 1200);
+        },
+        error: function (data) {
+          setTimeout(function () {
+            $this.removeClass('is-loading');
+            toasts.service.error('', 'fas fa-meh', " Erreur interne du server... Veuillez reesayer ", 'bottomRight', 2800);
+          }, 800);
+
+        },
+      });
     }
     else
     {
@@ -820,7 +985,8 @@ function Partenariat() {
   });
   $('#partenariat-services-submit').on('click', function (event) {
 
-    let erreur = 1;
+    event.preventDefault();
+    var erreur = 1;
 
     let cin =  $('#partenariatS-cin').val();
     let desc =  $('#partenariatS-desc').val();
@@ -861,6 +1027,36 @@ function Partenariat() {
     {
       let $this = $(this);
       $this.addClass('is-loading');
+      var form = $('#partenariat-services-form');
+
+      $.ajax({
+        type: "POST",
+        url: form.attr("/partenariat"),
+        data: {
+          "cin": $('#partenariatS-cin').val(),
+          "domaine": $('#partenariatS-domaine').val().toString(),
+          "desc": $('#partenariatS-desc').val(),
+          "partenariat": "services",
+        },
+        dataType: 'json',
+        success: function (data) {
+
+          $('#partenariat-boutique-form').addClass('is-hidden');
+          $('#boutique-submit-ok').removeClass('is-hidden');
+          setTimeout(function () {
+            $this.removeClass('is-loading');
+            toasts.service.success('', 'fas fa-check', data['infos'], 'bottomRight', 11200);
+          }, 1200);
+        },
+        error: function (data) {
+          setTimeout(function () {
+            $this.removeClass('is-loading');
+            toasts.service.error('', 'fas fa-meh', " Erreur interne du server... Veuillez reesayer ", 'bottomRight', 2800);
+          }, 800);
+
+        },
+      });
+
     }
     else
     {
@@ -882,25 +1078,6 @@ function Logout() {
     }, 600);
   });
 } //Accounts panel (Demo: do not use in production)
-
-
-function fakeAccountsPanel() {
-  //Fake accounts panel
-  $('.login-accounts-trigger, .login-accounts-panel .close-button').on('click', function () {
-    $('.login-accounts-trigger, .login-accounts-panel').toggleClass('is-active');
-  }); //Prepopulate login form on click
-
-  $('.login-accounts-panel .login-block').on('click', function () {
-    let email = $(this).find('.fake-email').text();
-    let password = $(this).find('.fake-password').text();
-    $('#login-email').val(email);
-    $('#login-password').val(password);
-  }); //Auto open
-
-  setTimeout(function () {
-    $('.login-accounts-trigger').trigger('click');
-  }, 2500);
-} //Redirect logged use to shop if tries to view login or registration
 
 
 $(window).on('load', function () {
@@ -980,5 +1157,4 @@ $(document).ready(function () {
   Partenariat();
   uploadProfilePicture();
   Logout();
-  fakeAccountsPanel();
 });

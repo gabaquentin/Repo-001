@@ -1,0 +1,93 @@
+{% extends "backend/base/base.html.twig" %}
+
+{% block stylesheets %}
+
+{% endblock %}
+
+{% block title %} Users {% endblock %}
+{% block block_starter %} Users {% endblock %}
+{% block body %}
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card-box">
+                <h4 class="header-title">UTILISATEURS</h4>
+                <p class="sub-header">
+                    Liste de tous utilisateurs inscrits.
+                </p>
+
+                <div class="mb-2">
+                    <div class="row">
+                        <div class="col-12 text-sm-center form-inline">
+                            <div class="form-group mr-2">
+                                <select id="demo-foo-filter-status" class="custom-select custom-select-sm">
+                                    <option value="">Tout</option>
+                                    <option value="Verifié">Verifié</option>
+                                    <option value="En Attente">En Attente</option>
+                                    <option value="Desactivé">Desactivé</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <input id="demo-foo-search" type="text" placeholder="Search" class="form-control form-control-sm" autocomplete="on">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table id="demo-foo-filtering" class="table table-bordered toggle-circle mb-0" data-page-size="7">
+                        <thead>
+                        <tr>
+                            <th data-toggle="true">Nom</th>
+                            <th>Prenom</th>
+                            <th data-hide="phone">Email</th>
+                            <th data-hide="phone, tablet">Telephone</th>
+                            <th data-hide="phone, tablet">Creation</th>
+                            <th data-hide="phone, tablet">Vue le</th>
+                            <th data-hide="phone, tablet">Partenariat</th>
+                            <th data-hide="phone, tablet">Promouvoir</th>
+                            <th data-hide="phone, tablet">Status</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for user in users %}
+                        <tr>
+                            <td>{{user.nom}}</td>
+                            <td>{{user.prenom}}</td>
+                            <td {% if user.verified == 0 %}style="background-color: #F5275E;color: white;" {% endif %}>{{user.email}}</td>
+                            <td {% if user.phoneVerified == 0 %}style="background-color: #F5275E;color: white;" {% endif %}>{{user.telephone}}</td>
+                            <td>{{user.creation|format_datetime()}}</td>
+                            <td>{{user.lastLogin|format_datetime()}}</td>
+                            <td>{% if user.partenariat %} Partenariat {{ user.partenariat }} {% else %} Aucun partenariat {% endif %}</td>
+                            <td class="text-center" id="row_promotion{{ user.id }}">{% if "ROLE_PARTENAIRE" in user.roles %} Ne peut être promu {% else %}<span id="id_user" hidden>{{ user.id }}</span>{% if user.departement %} Promu administrateur e-{{ user.departement }} {% else %}<button class="btn btn-success btn-xs btn-icon" data-id="{{user.id}}" id="promote_user_boutique"><i class="fa fa-shopping-bag"></i></button><button class="btn btn-success btn-xs btn-icon" data-id="{{user.id}}" id="promote_user_services"><i class="fa fa-handshake"></i></button><button class="btn btn-success btn-xs btn-icon" data-id="{{user.id}}" id="promote_user_terrain"><i class="fa fa-map"></i></button>{% endif %}{% endif %}</td>
+                            <td>{% if user.verified == 1 and user.phoneVerified == 1 %}<span class="badge label-table badge-success">Verifié</span>{% elseif user.verified == 2  %} <span class="badge label-table badge-danger">Desactivé</span> {% else %} <span class="badge label-table badge-secondary">En Attente</span> {% endif %}</td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                        <tfoot>
+                        <tr class="active">
+                            <td colspan="9">
+                                <div class="text-right">
+                                    <ul class="pagination pagination-rounded justify-content-end footable-pagination m-t-10 mb-0"></ul>
+                                </div>
+                            </td>
+                        </tr>
+                        </tfoot>
+                    </table>
+                </div> <!-- end .table-responsive-->
+            </div> <!-- end card-box -->
+        </div> <!-- end col -->
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <!-- Footable js -->
+    <script src="{{ asset('backend/libs/footable/footable.all.min.js') }}"></script>
+
+    <!-- Init js -->
+    <script src="{{ asset('backend/js/pages/foo-tables.init.js') }}"></script>
+
+    <!-- Sweet alert init js-->
+    <script src="{{ asset('backend/js/pages/sweet-alerts.init.js') }}"></script>
+{% endblock %}

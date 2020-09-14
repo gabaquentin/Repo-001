@@ -34,6 +34,7 @@
                         </div>
 
                         <!-- Account tabs -->
+
                         {% include 'frontend/menu-account.html.twig' with { "account":"is-active" } %}
 
                         <div id="account-edit-main-placeholder" class="main-placeholder is-hidden">
@@ -60,7 +61,7 @@
                                     <div class="card-body">
                                         <!-- Avatar form -->
                                         <div id="avatar-upload" class="avatar-wrapper has-simple-popover" data-content="Change profile picture" data-placement="top">
-                                            <img class="profile-pic" src="{{ asset('frontend/img/avatars/avatar.png') }}" alt="">
+                                            <img class="profile-pic" id="imagesrc" src="{{ asset('frontend/img/avatars/avatar.png') }}" alt="">
                                             <div class="upload-button modal-trigger" data-modal="upload-crop-modal">
                                                 <i class="upload-icon" data-feather="plus" aria-hidden="true"></i>
                                             </div>
@@ -70,14 +71,16 @@
 
                                         <!-- User -->
                                         <div class="username has-text-centered">
-                                            <span id="full-name">Elie Daniels</span>
-                                            <span id="full-email">eliedaniels@gmail.com</span>
+                                            <span id="full-name"></span>
+                                            <span id="full-email"></span>
                                         </div>
 
                                         <div class="has-text-centered pop-button">
-                                            <button id="save-account-button" class="button feather-button primary-button is-rounded raised opaque">
-                                                Save Changes
+                                            <form  id="account-edit-form" method="post" action="{{ path('app_account_edit') }}" >
+                                            <button id="save-account-button" type="submit" class="button feather-button primary-button is-rounded raised opaque">
+                                                Sauvegarder
                                             </button>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
@@ -99,7 +102,7 @@
                                             <div class="column is-6">
                                                 <div class="field info-block has-flex-label has-validation">
                                                     <label class="label-text">
-                                                        <span>First Name</span>
+                                                        <span>Nom</span>
                                                         <span class="error">Minimum 2 characters</span>
                                                     </label>
                                                     <div class="control">
@@ -116,7 +119,7 @@
                                                         <span class="error">Enter a valid email</span>
                                                     </label>
                                                     <div class="control">
-                                                        <input id="edit-email" type="email" class="input is-default fake-email-validation" value="eliedaniels@gmail.com">
+                                                        <input id="edit-email" type="email" class="input is-default fake-email-validation" value="" disabled >
                                                         <div class="error-icon">
                                                             <i data-feather="x"></i>
                                                         </div>
@@ -127,7 +130,7 @@
                                             <div class="column is-6">
                                                 <div class="field info-block has-flex-label has-validation">
                                                     <label class="label-text">
-                                                        <span>Last Name</span>
+                                                        <span>Prenom</span>
                                                         <span class="error">Minimum 2 characters</span>
                                                     </label>
                                                     <div class="control">
@@ -140,11 +143,25 @@
 
                                                 <div class="field info-block has-flex-label">
                                                     <label class="label-text">
-                                                        <span>Phone</span>
+                                                        <span>Preference Langue</span>
+                                                        <span class="error">Selectionnez une preference langue</span>
+                                                    </label>
+                                                    <div class="control">
+                                                        <select id="edit-local" class="chosen-select input" data-placeholder="Selectionnez une langue">
+                                                            <option label="Selectionnez une langue"></option>
+                                                            <option value="fr" {% if app.user.local == "fr" %} selected {% endif %}>Francais</option>
+                                                            <option value="en" {% if app.user.local == "en" %} selected {% endif %}>Anglais</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="field info-block has-flex-label">
+                                                    <label class="label-text">
+                                                        <span>Telephone</span>
                                                         <span class="error">Minimum 2 characters</span>
                                                     </label>
                                                     <div class="control">
-                                                        <input id="edit-phone-number" type="text" class="input is-default" value="+1 555 623 568">
+                                                        <input id="edit-phone-number" type="text" class="input is-default" value="" disabled>
                                                     </div>
                                                 </div>
                                             </div>
@@ -339,29 +356,30 @@
     </div>
     <!-- /Main wrapper -->
 
+    <!-- file upload  -->
     <div id="upload-crop-modal" class="modal upload-crop-modal">
         <div class="modal-background"></div>
         <div class="modal-content">
             <div class="box">
                 <div class="box-header">
-                        <img src="{{ asset('frontend/img/logo/nephos-greyscale.svg') }}" alt="">
-                    <span>UPLOAD PICTURE</span>
+                    <img src="{{ asset('frontend/img/logo/nephos-greyscale.svg') }}" alt="">
+                    <span>SOUMETRE UNE PHOTO DE PROFIL </span>
                     <div class="modal-delete"><i data-feather="x"></i></div>
                 </div>
                 <div class="box-body">
                     <label class="profile-uploader-box" for="upload-profile-picture">
                         <span class="inner-modal-content">
-                                <img src="{{ asset('frontend/img/illustrations/profile.svg') }}" alt="">
-                                <span>Click here to <br>upload a profile picture</span>
+                            <img src="{{ asset('frontend/img/illustrations/profile.svg') }}" alt="">
+                                <span>Clickez ici <br>Televerser une photo de profil</span>
                         </span>
-                        <input type="file" id="upload-profile-picture" accept="image/*">
+                        <input type="file" id="upload-profile-picture" accept="image/*" name="image">
                     </label>
                     <div class="upload-demo-wrap is-hidden">
                         <div id="upload-profile"></div>
                         <div class="upload-help buttons">
-                            <a id="profile-upload-reset" class="button feather-button primary-button is-rounded raised is-bold profile-reset is-hidden">Reset Picture</a>
+                            <a id="profile-upload-reset" class="button feather-button primary-button is-rounded raised is-bold profile-reset is-hidden">Rafraichir</a>
                             <button id="submit-profile-picture" class="button feather-button secondary-button is-rounded raised is-bold opaque is-disabled">
-                                Use Picture
+                                Utiliser
                             </button>
                         </div>
                     </div>

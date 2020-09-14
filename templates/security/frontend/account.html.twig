@@ -35,19 +35,8 @@
                         </div>
 
                         <!-- Account tabs -->
-                        {% include 'frontend/menu-account.html.twig' with { "account":"is-active" } %}
 
-                        <div id="account-main-placeholder" class="main-placeholder is-hidden">
-                            <div class="placeholder-content">
-                                <img src="{{ asset('frontend/img/illustrations/profile.svg') }}" alt="">
-                                <h3>Welcome, Guest</h3>
-                                <p>Guest users don't have accounts. Please login or register to view your account.</p>
-                                <div class="button-wrap">
-                                    <a href="{{path('app_login')}}" class="button big-button primary-button rounded raised">Log In</a>
-                                </div>
-                                <a href="{{ path('app_register', {'role': 'new_user'}) }}">Don't have an account?</a>
-                            </div>
-                        </div>
+                        {% include 'frontend/menu-account.html.twig' with { "account":"is-active" } %}
 
                         <!-- Account layout -->
                         <div id="account-main" class="columns is-account-grid is-multiline">
@@ -103,7 +92,7 @@
                                     <div class="card-title">
                                         <h3>Account details</h3>
                                         <div class="edit-account has-simple-popover popover-hidden-mobile" data-content="Edit Account" data-placement="top">
-                                            <a id="account-edit-front-alert" href="#"><i class="feather-icons" data-feather="settings"></i></a>
+                                            <a id="account-edit-front-alert" href="{{ path("app_account_edit") }}"><i class="feather-icons" data-feather="settings"></i></a>
                                         </div>
                                     </div>
                                     <!-- Contact Info -->
@@ -111,7 +100,7 @@
                                         <div class="columns">
                                             <div class="column is-6">
                                                 <div class="info-block">
-                                                    <span class="label-text">First Name</span>
+                                                    <span class="label-text">Nom</span>
                                                     <span id="account-first-name" class="label-value">Elie</span>
                                                 </div>
 
@@ -123,12 +112,12 @@
 
                                             <div class="column is-6">
                                                 <div class="info-block">
-                                                    <span class="label-text">Last Name</span>
+                                                    <span class="label-text">Prenom</span>
                                                     <span id="account-last-name" class="label-value">Daniels</span>
                                                 </div>
 
                                                 <div class="info-block">
-                                                    <span class="label-text">Phone</span>
+                                                    <span class="label-text">Telephone</span>
                                                     <span id="account-phone-number" class="label-value">+1 555 623 568</span>
                                                 </div>
                                             </div>
@@ -142,7 +131,7 @@
                                 <div id="account-billing-address" class="flat-card profile-info-card is-auto">
                                     <!-- Title -->
                                     <div class="card-title">
-                                        <h3>Billing address</h3>
+                                        <h3>Addresse de Paiement</h3>
                                         <!-- Cog Button -->
                                         <div class="edit-account is-vhidden">
                                             <a href="{{ path('app_account_edit') }}"><i class="feather-icons" data-feather="settings"></i></a>
@@ -153,35 +142,31 @@
                                     <div class="card-body">
                                         <div class="columns">
                                             <div class="column is-6">
-                                                <div class="info-block">
-                                                    <span class="label-text">Number</span>
-                                                    <span class="label-value address1">23, Block C2</span>
-                                                </div>
 
                                                 <div class="info-block">
-                                                    <span class="label-text">City</span>
+                                                    <span class="label-text">Quartier</span>
                                                     <span class="label-value city">Los Angeles</span>
                                                 </div>
 
                                                 <div class="info-block">
-                                                    <span class="label-text">State</span>
+                                                    <span class="label-text">Adresse</span>
                                                     <span class="label-value state">CA</span>
                                                 </div>
                                             </div>
 
                                             <div class="column is-6">
                                                 <div class="info-block">
-                                                    <span class="label-text">Street</span>
+                                                    <span class="label-text">Ville</span>
                                                     <span class="label-value address2">Church Street</span>
                                                 </div>
 
                                                 <div class="info-block">
-                                                    <span class="label-text">Postal Code</span>
+                                                    <span class="label-text">Code Postal</span>
                                                     <span class="label-value postal-code">100065</span>
                                                 </div>
 
                                                 <div class="info-block">
-                                                    <span class="label-text">Country</span>
+                                                    <span class="label-text">Pays</span>
                                                     <span class="label-value country">United States</span>
                                                 </div>
                                             </div>
@@ -194,10 +179,10 @@
                                 <div id="account-shipping-address" class="flat-card profile-info-card is-auto is-hidden">
                                     <!-- Title -->
                                     <div class="card-title">
-                                        <h3>Shipping address</h3>
+                                        <h3>Adresse de Livraison</h3>
                                         <!-- Cog Button -->
                                         <div class="edit-account is-vhidden">
-                                            <a href="account-edit.html"><i class="feather-icons" data-feather="settings"></i></a>
+                                            <a href="{{path('app_account_edit')}}"><i class="feather-icons" data-feather="settings"></i></a>
                                         </div>
 
                                     </div>
@@ -205,35 +190,31 @@
                                     <div class="card-body">
                                         <div class="columns">
                                             <div class="column is-6">
-                                                <div class="info-block">
-                                                    <span class="label-text">Number</span>
-                                                    <span class="label-value address1">23, Block C2</span>
-                                                </div>
 
                                                 <div class="info-block">
-                                                    <span class="label-text">City</span>
+                                                    <span class="label-text">Quartier</span>
                                                     <span class="label-value city">Los Angeles</span>
                                                 </div>
 
                                                 <div class="info-block">
-                                                    <span class="label-text">State</span>
+                                                    <span class="label-text">Adresse</span>
                                                     <span class="label-value state">CA</span>
                                                 </div>
                                             </div>
 
                                             <div class="column is-6">
                                                 <div class="info-block">
-                                                    <span class="label-text">Street</span>
+                                                    <span class="label-text">Ville</span>
                                                     <span class="label-value address2">Church Street</span>
                                                 </div>
 
                                                 <div class="info-block">
-                                                    <span class="label-text">Postal Code</span>
+                                                    <span class="label-text">Code Postal</span>
                                                     <span class="label-value postal-code">100065</span>
                                                 </div>
 
                                                 <div class="info-block">
-                                                    <span class="label-text">Country</span>
+                                                    <span class="label-text">Pays</span>
                                                     <span class="label-value country">United States</span>
                                                 </div>
                                             </div>

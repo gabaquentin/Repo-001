@@ -1,4 +1,4 @@
-"use strict"; //Empty cart object initialization
+ //Empty cart object initialization
 
 let cart = {}; //Populate default cart object
 

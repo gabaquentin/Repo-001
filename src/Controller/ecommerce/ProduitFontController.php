@@ -10,6 +10,7 @@ use App\Entity\Ville;
 use App\Form\ecommerce\ProduitType;
 use App\Repository\AvisRepository;
 use App\Repository\ProduitRepository;
+use App\Services\ecommerce\PackTools;
 use App\Services\ecommerce\Tools;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
@@ -41,16 +42,37 @@ class ProduitFontController extends AbstractController
         $cats = $em->getRepository(CategorieProd::class)->findAllCategories();
         $categoriesProd = [];
         foreach ($cats as $cat) {
+            $sc = [];
+            $nbreProduitsCat = 0;
+            foreach ($cat->getSousCategories() as $sousCategory) {
+                $n = $em->getRepository(Produit::class)->countProductsFrontValid($sousCategory->getId());
+                $nbreProduitsCat += $n;
+                $sc[]=[
+                    "sc" => $sousCategory,
+                    "nbreProduits" => $n,
+                ];
+            }
             $categoriesProd[]=[
                 "categorie" => $cat,
-                "nbreProduits" => $em->getRepository(Produit::class)->countProductsFrontValid($cat->getId()),
+                "nbreProduits" => $nbreProduitsCat,
+                "sc"=>$sc,
             ];
+
         }
+        /** @var Produit $produit */
+        $produit = $em->getRepository(Produit::class)->findOneBy(["id"=>2407]);
+        $pAs = [];
+        foreach ($produit->getProduitsAssocies() as $produitsAssocy) {
+            $pAs[] = $em->getRepository(Produit::class)->findOneBy(["id"=>$produitsAssocy]);
+        }
+
         return $this->render('frontend/ecommerce/produit/produit.html.twig', [
             'categories' => $categoriesProd,
             'villes' => $em->getRepository(Ville::class)->findAll(),
             'prixMax' => $em->getRepository(Produit::class)->getMaxPrice(),
             'typeTransaction' => $tools->getTypeTransaction(),
+            'produitAssocies'=>$pAs,
+            'produit'
         ]);
     }
 
@@ -122,7 +144,7 @@ class ProduitFontController extends AbstractController
         return $this->render('frontend/ecommerce/produit/single-product.html.twig', [
             'produit' => $produit,
             "produitAssocies"=>$produitAssocices,
-            "avis" => $repoAvis->findBy([], ['datePublication'=>'desc']),
+            "avis" => $repoAvis->findBy([], ['dateModification'=>'desc']),
             "noteGlobale" => $repoAvis->moyenneDesAvis(),
         ]);
     }
@@ -130,17 +152,23 @@ class ProduitFontController extends AbstractController
     /**
      * @Route("/add" , name="add_product_front")
      * @Route("/modif/{produit}",name="modify_product_front")
+     * @param PackTools $packTools
      * @param EntityManagerInterface $em
      * @param Produit|null $produit
      * @return Response
      */
-    public function addProductFront(EntityManagerInterface $em,Produit $produit=null)
+    public function addProductFront(PackTools $packTools,EntityManagerInterface $em,Produit $produit=null)
     {
+        /** @var User $user */
+        $user = $this->getUser();
+        if(!$user)
+            die("page de connexion");
+
         if ($produit == null)
             $produit = new Produit();
 
         $form = $this->createForm(ProduitType::class, $produit, [
-            "action" => $this->generateUrl("save_produit", ["produit" => $produit->getId()])
+            "action" => $this->generateUrl("save_produit", ["produit" => $produit->getId()]),
         ]);
 
         $extraData = [];
@@ -155,12 +183,12 @@ class ProduitFontController extends AbstractController
             $extraData["desc"] = $produit->getDescription();
         }
 
-        $cats = $em->getRepository(CategorieProd::class)->findAllCategories();
+        $cats = $em->getRepository(CategorieProd::class)->findSousCategories();
         $categoriesProd = [];
         foreach ($cats as $cat) {
             $categoriesProd[]=[
                 "categorie" => $cat,
-                "produits" => $em->getRepository(Produit::class)->FindValidProducts($cat->getId()),
+                "produits" => $em->getRepository(Produit::class)->FindValidProducts($cat->getId(),$produit->getId()),
             ];
         }
 
@@ -174,10 +202,20 @@ class ProduitFontController extends AbstractController
 
     /**
      * @Route("/mes-produits", name="my_products_front")
+     * @param PackTools $tools
+     * @return Response
      */
-    public function myProducts()
+    public function myProducts(PackTools $tools)
     {
-        return $this->render('frontend/ecommerce/produit/show-produit.html.twig', []);
+        $user = $this->getUser();
+        if(!$user)
+            die("page de connexion");
+        $infos = $tools->showUserPackDetails($user);
+        return $this->render('frontend/ecommerce/produit/show-produit.html.twig', [
+            "canPost" => (($infos["postes"]["total"] > 0)),
+            "hasBoost" => (($infos["boost"]["total"] > 0)),
+            "userPackInfo" => $infos,
+        ]);
     }
 
     /**
@@ -236,6 +274,6 @@ class ProduitFontController extends AbstractController
         $em->persist($product);
         $em->flush();
 
-        return $this->json(["success"=>"mise à jour"]);
+        return $this->json(["success"=>["mise à jour"]]);
     }
 }
