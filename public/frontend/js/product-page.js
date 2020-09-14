@@ -1,4 +1,4 @@
-"use strict";
+
 function getSelectedCat() {
     let val = [];
     $('.category-block').each(function(i){
@@ -93,7 +93,7 @@ function addSingleProduct(p)
         <div class="column is-3 product-container" data-product-id="${p.id}">
             <div class="flat-card">
                 <div class="image" >
-                    <img src="${image}" style="width: 100px;height: 100px" data-action="zoom" alt="" class="" >
+                    <img src="${image}" style="width: 100px;height: 100px" data-action="zoom" alt="" class="images" >
                 </div>
                 <div class="product-info has-text-centered">
                     <p class="product-price" data-price ="${price}">
@@ -121,7 +121,7 @@ function  AddEventToCart() {
 
 function AddToCart(container){
 
-    var data = JSON.parse(localStorage.getItem('cart'));
+    let data = JSON.parse(localStorage.getItem('cart'));
 
     //Récupération des donnnées des produits
     let productId =parseInt(container.attr('data-product-id'));
@@ -131,7 +131,7 @@ function AddToCart(container){
     let img = $(".images").attr('src');
     let reload= $('.cart-loader');
     let quantite = 1 ;
-
+    alert(img);
     let found = data.products.some(function (el) {
         return parseInt(el.id) === productId;
     });

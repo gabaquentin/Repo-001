@@ -99,6 +99,9 @@ class CommandeFrontController extends AbstractController
     {
         $tab_com=[];
         $user=$this->getUser()->getId();
+        if($this->getUser() == null){
+            return  $this->redirectToRoute('app_login');
+        }
         $commande=$manager->getRepository(Commandes::class)->findBy([
             'client'=>$user
         ]);
@@ -117,7 +120,8 @@ class CommandeFrontController extends AbstractController
             ];
             array_push($tab_com, $new_com);
         }
-        return $this->render('frontend/ecommerce/Commande/orders_list.html.twig',["orders"=>$tab_com]);
+
+        return $this->render('frontend/ecommerce/Commande/orders_list.html.twig',["orders"=>json_encode($tab_com)]);
     }
 
 
@@ -245,6 +249,7 @@ class CommandeFrontController extends AbstractController
      * @param Swift_Mailer $mailer
      * @return JsonResponse
      * @Route("/commande", name="add_commande")
+     * @throws \Exception
      */
     public function AddCommande(EntityManagerInterface $manager,Request $request,Swift_Mailer $mailer){
         $commande = new Commandes();
@@ -254,22 +259,6 @@ class CommandeFrontController extends AbstractController
         $numero = $request->get("numero");
         $email=$request->get("user");
         $user = $manager->getRepository(User::class)->findOneBy(['email'=>$email]);
-        $message = (new \Swift_Message('Commande éffectué'))
-            ->setFrom('thinkup237@gmail.com')
-            ->setTo('dodomaurel123@gmail.com')
-            ->setBody(
-                $this->renderView('frontend/ecommerce/Commande/commande.html.twig',[
-                    'payement' => $payment_mode,
-                    'cart'=>$cart,
-                    'shipping'=>$shipping,
-                    'numero'=>$numero,
-                    'firt_name'=>$user->getNom(),
-                    'last_name'=>$user->getPrenom(),
-                    'email'=>$email
-                ]), 'text/html'
-            );
-        $mailer->send($message);
-        $this->addFlash('message',"C'est bon");
         $commande->setDateCom(new \DateTime('now'))
             ->setModeLivraison($shipping)
             ->setModePaiement($payment_mode)
