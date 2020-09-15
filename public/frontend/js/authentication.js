@@ -726,7 +726,7 @@ $(window).on('load', function () {
       window.location.href = '/';
     }
   } else {
-    console.log('something');
+    // console.log('something');
   }
 });
 

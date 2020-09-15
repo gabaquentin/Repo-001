@@ -29,5 +29,5 @@ $(document).ready(function () {
   initCardActions();
   initAnimatedCheckboxes();
   initMobileMode();
-  getCart();
+  // getCart();
 });

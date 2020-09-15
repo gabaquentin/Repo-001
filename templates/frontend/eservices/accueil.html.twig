@@ -617,4 +617,25 @@
     {{ parent() }}
     <!-- Nephos alnding page demo js -->
     <script src="{{ asset('frontend/js/demo.js') }}"></script>
+    <script !src="">
+        var typed = new Typed('.typed-hero', {
+            strings: ["Hello, Bienvenue chez eservice"],
+            typeSpeed: 45,
+            loop: true,
+            loopCount: Infinity,
+            backSpeed: 20
+        }); //Initialize Feather Icons
+    </script>
+    <script>
+        $(function(){
+            let scroll_bool={{ scroll_bool }};
+            if(parseInt(scroll_bool)==1){
+                $('html, body').animate({
+                    scrollTop: $(".columns.is-multiline.has-text-centered").offset().top
+                }, 1000, function() {
+                    console.log("le scrolling fonctionne très bien");
+                });
+            }
+        })
+    </script>
 {% endblock %}

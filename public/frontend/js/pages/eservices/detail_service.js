@@ -11,12 +11,13 @@ function charger_question() {
         cache: false,
         async: false,
         success: function (response) {
-            response.service_questions.forEach(element => {
+            JSON.parse(response).forEach(element => {
                 service_questions.push(element);
             })
+            console.log(service_questions);
         },
         error: function () {
-            console.log("cela n'a pas fonctionné")
+            console.log("le chargement des questions n'a pas fonctionné ");
         }
     })
 }
@@ -52,6 +53,7 @@ function position() {
     })
     $("#suiv").click(function () {
         if (service_question == 3) {
+            recuperer_reponse(service_questions[service_question].question);
             envoyer_reponses();
         }
         afficher_reponse();
@@ -78,7 +80,7 @@ function envoyer_reponses() {
         },
         error: function () {
             alert("cela n'a pas fonctionné")
-            alert(window.url_recuperer_reponses);
+            // alert(window.url_recuperer_reponses);
         }
     })
 }
@@ -87,11 +89,18 @@ function init() {
     $("body").css("background-color", "#ededed");
     charger_question();
     afficher_question(0);
-    $("#suiv").prop("disabled", true);
-    position();
-    $("#informations").css("display", "none");
-    $('.dropify').dropify();
+        $("#suiv").prop("disabled", true);
+        position();
+        $("#informations").css("display", "none");
+        $('.dropify').dropify();
 
+}
+function initInfoModal() {
+    if (localStorage.getItem('update') === undefined || localStorage.getItem('update') === null) {
+        setTimeout(function () {
+            $('#info-modal').addClass('is-active');
+        }, 3000);
+    }
 }
 
 function ProgressBar() {
@@ -107,7 +116,6 @@ function ProgressBar() {
 }
 
 function recuperer_reponse(question) {
-    // console.log(service_question);
     $(".custom-control-input").each(function (index, element) {
         if ($(this).prop("checked")) {
             if (reponses[service_question] == null) {
@@ -127,7 +135,6 @@ function recuperer_reponse(question) {
         } else $("#suiv").prop("disabled", true);
 
     })
-    // console.log(reponses)
 
 }
 
@@ -220,9 +227,16 @@ function validation() {
             },
         },
         submitHandler: function (form) {
-            alert("validation correcte");
-            form.submit();
+            initInfoModal();
+            $('#info-modal .close-link,#success').on('click', function () {
+                if ($('#info-modal-toggle').prop('checked') === true) {
+                    localStorage.setItem('update', true);
+                }
 
+                $(this).closest('#info-modal').removeClass('is-active');
+                $(this).closest('#info-modal').find('iframe').remove();
+                form.submit();
+            });
         }
     })
 }

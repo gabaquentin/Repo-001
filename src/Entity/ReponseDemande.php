@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ReponseDemandeRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=ReponseDemandeRepository::class)
@@ -14,6 +15,7 @@ class ReponseDemande
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"group1"})
      */
     private $id;
 
@@ -34,9 +36,9 @@ class ReponseDemande
     }
 
     /**
-     * @param Service $demande
+     * @param Demande $demande
      */
-    public function setDemande(Service $demande): void
+    public function setDemande(Demande $demande): void
     {
         $this->demande = $demande;
     }
@@ -77,7 +79,7 @@ class ReponseDemande
      * @var Service
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Demande")
-     * @ORM\JoinColumn(name="demande", referencedColumnName="id", nullable=false, onDelete="CASCADE")
+     * @ORM\JoinColumn(name="demande_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      */
     private $demande;
 
@@ -86,11 +88,12 @@ class ReponseDemande
      */
     private $question;
 
+
     /**
      * @ORM\Column(name="reponses",type="text", nullable=false)
+     * @Groups({"group1"})
      */
     private $reponses;
-
 
 
 }

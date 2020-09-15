@@ -4,6 +4,9 @@ namespace App\Entity;
 
 use App\Repository\QuestionServiceRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+
+
 
 /**
  * @ORM\Entity(repositoryClass=QuestionServiceRepository::class)
@@ -27,21 +30,25 @@ class QuestionService
 
     /**
      * @ORM\Column(name="question",type="text", nullable=false)
+     * @Groups({"group1"})
      */
     private $question;
 
     /**
      * @ORM\Column(name="reponses",type="text", nullable=false)
+     * @Groups({"group1"})
      */
     private $reponses;
 
     /**
      * @ORM\Column(name="typeQuestion",type="string", length=3, nullable=false)
+     *
      */
     private $typeQuestion;
 
     /**
      * @ORM\Column(name="autre",type="string",length=3)
+     * @Groups({"group1"})
      */
     private $autre = "non";
 
@@ -55,7 +62,7 @@ class QuestionService
      */
     public function getService(): Service
     {
-        return $this -> service;
+        return $this->service;
     }
 
     /**
@@ -63,7 +70,7 @@ class QuestionService
      */
     public function setService(Service $service): void
     {
-        $this -> service = $service;
+        $this->service = $service;
     }
 
     /**
@@ -71,7 +78,7 @@ class QuestionService
      */
     public function getQuestion()
     {
-        return $this -> question;
+        return $this->question;
     }
 
     /**
@@ -79,7 +86,7 @@ class QuestionService
      */
     public function setQuestion($question): void
     {
-        $this -> question = $question;
+        $this->question = $question;
     }
 
     /**
@@ -87,7 +94,7 @@ class QuestionService
      */
     public function getReponses()
     {
-        return $this -> reponses;
+        return $this->reponses;
     }
 
     /**
@@ -95,7 +102,7 @@ class QuestionService
      */
     public function setReponses($reponses): void
     {
-        $this -> reponses = $reponses;
+        $this->reponses = $reponses;
     }
 
     /**
@@ -103,7 +110,7 @@ class QuestionService
      */
     public function getTypeQuestion()
     {
-        return $this -> typeQuestion;
+        return $this->typeQuestion;
     }
 
     /**
@@ -111,7 +118,7 @@ class QuestionService
      */
     public function setTypeQuestion($typeQuestion): void
     {
-        $this -> typeQuestion = $typeQuestion;
+        $this->typeQuestion = $typeQuestion;
     }
 
     /**
@@ -119,7 +126,7 @@ class QuestionService
      */
     public function isAutre(): bool
     {
-        return $this -> autre;
+        return $this->autre;
     }
 
     /**
@@ -127,7 +134,7 @@ class QuestionService
      */
     public function setAutre(bool $autre): void
     {
-        $this -> autre = $autre;
+        $this->autre = $autre;
     }
 
 }

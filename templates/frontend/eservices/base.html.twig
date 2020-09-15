@@ -22,6 +22,20 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,500" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css">
+    <style>
+        .cart-quickview .inner .cart-action .cart-total:after {
+            content: "";
+            font-size: 90%
+        }
+        .cart-quickview .inner .cart-body .shopping-cart-items .item-price var:after {
+            content: '';
+        }
+        .flat-card .product-info .product-price span:first-child:after {
+            content: ' ';
+            font-size: 80%;
+            position: relative;
+        }
+    </style>
     {% block stylesheets %}{% endblock %}
 
 </head>
@@ -34,6 +48,8 @@
 <!-- Content Wrapper -->
 {% block body %}{% endblock %}
 <!-- /Content Wrapper -->
+
+{% include 'security/frontend/getuser.html.twig' %}
 
 <!-- Concatenated plugins -->
 {% block javascripts %}
@@ -49,7 +65,7 @@
     <script src="{{ asset('frontend/js/functions.js') }}"></script>
     <script src="{{ asset('frontend/js/nephos.js') }}"></script>
     <script src="{{ asset('frontend/js/authentication.js') }}"></script>
-    <script src="{{ asset('frontend/js/cart.js') }}"></script>
+{#    <script src="{{ asset('frontend/js/cart.js') }}"></script>#}
 
     <!--Pages-->
     <script src="{{ asset('frontend/js/account.js') }}"></script>
@@ -59,7 +75,12 @@
     <script src="{{ asset('frontend/js/order.js') }}"></script>
     <script src="{{ asset('frontend/js/checkout.js') }}"></script>
     <script src="{{ asset('frontend/js/search.js') }}"></script>
-    <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    <script src="{{ asset("frontend/js/pages/eservices/leftmenu.js") }}"></script>
+    <script>
+        window.url_demande_utilisateur="{{ url('demande_utilisateur',{'user':app.user.id})  }}";
+        window.url_service_image="{{ asset("images/services/") }}"
+        window.service_demandes_client_recherche="{{ asset("service_demandes_client_recherche") }}";
+    </script>
 {% endblock %}
 
 </body>
