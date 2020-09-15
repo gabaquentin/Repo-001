@@ -7,9 +7,11 @@ use App\Entity\Service;
 use App\Form\eservices\CategorieServiceType;
 use App\Form\eservices\ServiceType;
 use App\Repository\CategorieServiceRepository;
+use App\Repository\ServiceRepository;
 use App\Services\FileUploader;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,12 +29,20 @@ class ServicesBackController extends AbstractController
      * afficher la liste des catégories
      * @Route("/", name="accueil_services")
      * @param CategorieServiceRepository $repo
+     * @param Request $request
+     * @param PaginatorInterface $paginator
      * @return Response
      */
-    public function accueil_services(CategorieServiceRepository $repo)
+    public function accueil_services(CategorieServiceRepository $repo, Request $request, PaginatorInterface $paginator)
     {
+        $donnees = $repo->findAll();
+        $categories = $paginator->paginate(
+            $donnees,
+            $request->query->getInt('page', 1), //numero de la page en cours
+            2
+        );
         return $this->render('backend/eservices/accueil.html.twig', [
-            'categories' => $repo->findAll(),
+            'categories' => $categories,
             'controller_name' => 'ServicesBackController',
         ]);
     }
@@ -42,13 +52,15 @@ class ServicesBackController extends AbstractController
      * @Route("/categorie/{id}", name="detail_categorie_back")
      * @param int $id
      * @param CategorieServiceRepository $repo
+     * @param ServiceRepository $repoService
      * @return Response
      */
-    public function categorie_detail(int $id, CategorieServiceRepository $repo)
+    public function categorie_detail(int $id, CategorieServiceRepository $repo, ServiceRepository $repoService)
     {
         return $this->render('backend/eservices/categorie_detail.html.twig', [
             'categorie' => $repo->findOneBy(['id' => $id]),
             'categories' => $repo->findAll(),
+            'services' => $repoService->findBy(['CategorieService'=>$id]),
             'controller_name' => 'ServicesBackController',
         ]);
     }

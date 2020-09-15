@@ -1,92 +1,70 @@
 {% extends "backend/base/base.html.twig" %}
 
-{% block title %}Nouveau Service{% endblock %}
+{% block title %}{{ (form.vars.value.id is null)?"Nouveau":"Modifier" }} Service{% endblock %}
 
 {% block stylesheets %}
-    <link href="{{ asset('backend/libs/dropzone/dropzone.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('backend/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('backend/libs/dropzone/dropzone.min.css') }}" rel="stylesheet" />
 {% endblock %}
 
 {% block block_starter %}Gestion des services {% endblock %}
 
 {% block body %}
-    <h4 class="header-title mb-3">Ajouter un nouveau service</h4>
+    <h4 class="header-title mb-3">{{ (form.vars.value.id is null)?"Ajouter un nouveau":"Modifier un" }} service</h4>
 
-    {{ form_start(form,{'attr':{'novalidate':'novalidate','id':'form-categorie','data-plugin':'dropzone','data-previews-container':'#file-previews','data-upload-preview-template':'#uploadPreviewTemplate','enctype':'multipart/form-data'}}) }}
+    {{ form_start(form,{'attr':{'novalidate':'novalidate','id':'form-service','data-plugin':'dropzone','data-previews-container':'#file-previews','data-upload-preview-template':'#uploadPreviewTemplate','enctype':'multipart/form-data'}}) }}
         <div class="form-group row">
-            <label class="col-sm-2 col-form-label" for="userName1">Nom du service</label>
+            <label class="col-sm-2 col-form-label" for="{{ form.nom.vars.id }}">Nom du service</label>
             <div class="col-md-9">
                 {{ form_widget(form.nom, {'attr': {'class':'form-control col-sm-6', 'id':'nom'}}) }}
             </div>
         </div>
     <div class="form-group row">
-        <label class="col-sm-2 col-form-label" for="userName1">Catégorie</label>
+        <label class="col-sm-2 col-form-label" for="{{ form.categorieService.vars.id }}">Catégorie</label>
         <div class="col-md-auto">
             {{ form_widget(form.categorieService, {'attr' : {'class':'form-control col-auto', 'id':'categorieService'}}) }}
         </div>
     </div>
         <div class="form-group row">
-            <label class="col-sm-2 col-form-label" for="example-textarea">Description</label>
+            <label class="col-sm-2 col-form-label" for="{{ form.description.vars.id }}">Description</label>
             <div class="col-sm-10">
                 {{ form_widget(form.description, {'attr': {'class':'form-control','rows':'5', 'id':'description'}}) }}
             </div>
         </div>
     <div class="form-group row">
-        <label class="col-sm-2 col-form-label" for="example-textarea">Nombre de questions associées </label>
+        <label class="col-sm-2 col-form-label" for="{{ form.nbreQuestions.vars.id }}">Nombre de questions associées </label>
         <div class="col-sm-10">
             {{ form_widget(form.nbreQuestions, {'attr': {'class':'form-control'}}) }}
         </div>
     </div>
-        <div class="form-group row">
-            <label class="col-sm-2 col-form-label" for="image-service">Image </label>
-            <div class="dropzone" id="myAwesomeDropzone" data-plugin="dropzone" data-previews-container="#file-previews"
-                 data-upload-preview-template="#uploadPreviewTemplate">
-                <div class="fallback">
-                    {{ form_widget(form.imgfile) }}
-                </div>
-
-                <div class="dz-message needsclick">
-                    <p class="h1 text-muted"><i class="mdi mdi-cloud-upload"></i></p>
-                    <h3>Drop files here or click to upload.</h3>
-                    <span class="text-muted font-13">(This is just a demo dropzone. Selected files are
-                                                    <strong>not</strong> actually uploaded.)</span>
-                </div>
-            </div>
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label" for="imgfile">Image </label>
+        <div class="fileupload btn btn-secondary waves-effect mt-1">
+                <span>
+                    <i class="mdi mdi-cloud-upload mr-1"></i>
+                    choisir une image
+                </span>
+            <input type="file" name="imgfile" id="imgfile">
         </div>
-        <br>
-        <button type="submit" class="btn btn-info waves-effect waves-light">Valider</button>
 
-    <!-- file preview template -->
-    <div class="d-none" id="uploadPreviewTemplate">
-        <div class="card mt-1 mb-0 shadow-none border">
-            <div class="p-2">
-                <div class="row align-items-center">
-                    <div class="col-auto">
-                        <img data-dz-thumbnail class="avatar-sm rounded bg-light" alt="">
-                    </div>
-                    <div class="col pl-0">
-                        <a href="javascript:void(0);" class="text-muted font-weight-bold" data-dz-name></a>
-                        <p class="mb-0" data-dz-size></p>
-                    </div>
-                    <div class="col-auto">
-                        <!-- Button -->
-                        <a href="" class="btn btn-link btn-lg text-muted" data-dz-remove>
-                            <i class="mdi mdi-close-circle"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
+        <br>
+        <button id="valider" type="submit" class="btn btn-info waves-effect waves-lightspinner-border-sm">
+            <span class="spinner-border-sm" role="status" aria-hidden="true"></span>
+            Valider
+        </button>
     {{ form_end(form) }}
+
 {% endblock %}
     {% block javascripts %}
         {{ parent() }}
         <!-- Plugins js-->
-        <script src="{{ asset('backend/libs/dropzone/dropzone.min.js') }}"></script>
         <script src="{{ asset('backend/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js') }}"></script>
+        <script src="{{ asset('backend/libs/dropzone/dropzone.min.js') }}"></script>
 
         <!-- Init js-->
-        <script src="{{ asset('backend/js/pages/form-fileuploads.init.js') }}"></script>
         <script src="{{ asset('backend/js/pages/form-advanced.init.js') }}"></script>
+
+        <!-- custom js-->
+        <script src="{{ asset('backend/js/pages/eservices/service.js') }}"></script>
     {% endblock %}

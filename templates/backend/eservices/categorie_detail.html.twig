@@ -48,66 +48,19 @@
                     </div>
                     <div class="tab-pane fade" id="privacy-p-tab">
                         <div class="row">
+                            {% for s in services %}
                             <div class="col-lg-4">
                                 <div class="card-box ribbon-box">
                                     <div class="ribbon ribbon-purple float-left"><i class="fe-star-on mr-1"></i><i class="fe-star-on mr-1"></i><i class="fe-star-on mr-1"></i><i class="fe-star mr-1"></i><i class="fe-star mr-1"></i> </div>
-                                    <h5 class="text-purple float-right mt-0">Nom de service X</h5>
+                                    <a href="{{ path('edit_service', {'service':s.id}) }}"><h5 class="text-purple float-right mt-0">{{ s.nom }}</h5></a>
                                     <div class="ribbon-content">
-                                        <p class="mb-0">Quisque nec turpis at urna dictum luctus. Suspendisse convallis dignissim eros at volutpat. In egestas
-                                            mattis dui. Aliquam mattis dictum aliquet. Nulla sapien mauris, eleifend et sem ac, commodo dapibus odio.</p>
+                                        <img class="d-block img-fluid" src="{{ asset('images/services/'~s.img) }}"
+                                             alt="First slide" height="200px" width="250px">
+                                        <p class="mb-0">{{ s.description }}</p>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-4">
-                                <div class="card-box ribbon-box">
-                                    <div class="ribbon ribbon-purple float-left"><i class="fe-star-on mr-1"></i><i class="fe-star-on mr-1"></i><i class="fe-star-on mr-1"></i><i class="fe-star mr-1"></i><i class="fe-star mr-1"></i> </div>
-                                    <h5 class="text-purple float-right mt-0">Nom de service X</h5>
-                                    <div class="ribbon-content">
-                                        <p class="mb-0">Quisque nec turpis at urna dictum luctus. Suspendisse convallis dignissim eros at volutpat. In egestas
-                                            mattis dui. Aliquam mattis dictum aliquet. Nulla sapien mauris, eleifend et sem ac, commodo dapibus odio.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4">
-                                <div class="card-box ribbon-box">
-                                    <div class="ribbon ribbon-purple float-left"><i class="fe-star-on mr-1"></i><i class="fe-star-on mr-1"></i><i class="fe-star-on mr-1"></i><i class="fe-star mr-1"></i><i class="fe-star mr-1"></i> </div>
-                                    <h5 class="text-purple float-right mt-0">Nom de service X</h5>
-                                    <div class="ribbon-content">
-                                        <p class="mb-0">Quisque nec turpis at urna dictum luctus. Suspendisse convallis dignissim eros at volutpat. In egestas
-                                            mattis dui. Aliquam mattis dictum aliquet. Nulla sapien mauris, eleifend et sem ac, commodo dapibus odio.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4">
-                                <div class="card-box ribbon-box">
-                                    <div class="ribbon ribbon-purple float-left"><i class="fe-star-on mr-1"></i><i class="fe-star-on mr-1"></i><i class="fe-star-on mr-1"></i><i class="fe-star mr-1"></i><i class="fe-star mr-1"></i> </div>
-                                    <h5 class="text-purple float-right mt-0">Nom de service X</h5>
-                                    <div class="ribbon-content">
-                                        <p class="mb-0">Quisque nec turpis at urna dictum luctus. Suspendisse convallis dignissim eros at volutpat. In egestas
-                                            mattis dui. Aliquam mattis dictum aliquet. Nulla sapien mauris, eleifend et sem ac, commodo dapibus odio.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4">
-                                <div class="card-box ribbon-box">
-                                    <div class="ribbon ribbon-purple float-left"><i class="fe-star-on mr-1"></i><i class="fe-star-on mr-1"></i><i class="fe-star-on mr-1"></i><i class="fe-star mr-1"></i><i class="fe-star mr-1"></i> </div>
-                                    <h5 class="text-purple float-right mt-0">Nom de service X</h5>
-                                    <div class="ribbon-content">
-                                        <p class="mb-0">Quisque nec turpis at urna dictum luctus. Suspendisse convallis dignissim eros at volutpat. In egestas
-                                            mattis dui. Aliquam mattis dictum aliquet. Nulla sapien mauris, eleifend et sem ac, commodo dapibus odio.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4">
-                                <div class="card-box ribbon-box">
-                                    <div class="ribbon ribbon-purple float-left"><i class="fe-star-on mr-1"></i><i class="fe-star-on mr-1"></i><i class="fe-star-on mr-1"></i><i class="fe-star mr-1"></i><i class="fe-star mr-1"></i> </div>
-                                    <h5 class="text-purple float-right mt-0">Nom de service X</h5>
-                                    <div class="ribbon-content">
-                                        <p class="mb-0">Quisque nec turpis at urna dictum luctus. Suspendisse convallis dignissim eros at volutpat. In egestas
-                                            mattis dui. Aliquam mattis dictum aliquet. Nulla sapien mauris, eleifend et sem ac, commodo dapibus odio.</p>
-                                    </div>
-                                </div>
-                            </div>
+                            {% endfor %}
                             <a>voir plus</a>
 
                         </div>
