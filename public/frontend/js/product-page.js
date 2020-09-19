@@ -187,6 +187,8 @@ $(document).ready(function () {
         ajaxShowProducts();
     })
     AddEventToCart();
+    initSelect();
+
     $('.produit-asscocies').slick({
         dots: false,
         infinite: true,

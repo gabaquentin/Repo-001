@@ -13,9 +13,15 @@
         .featured-product .product-name{
             color: white;
         }
-        .featured-product .product-description,.recommended{
-            color: black;
+        .recommended{
+            color: blue;
             font-weight: bold;
+        }
+        .flat-card .image{
+            margin-bottom: 5px !important;
+        }
+        .flat-card{
+            min-height: 245px;
         }
 
     </style>
@@ -136,8 +142,8 @@
                                             </select>
                                         </div>
                                     </div>
-
-                                    <label  >Type de transction</i></label>
+                                    <div class="filter-block">
+                                    <label  >Type de transction</label>
                                     <div class="filter-block control">
                                         <select class="native"  id="type-tansaction-filtre">
                                             <option value="">Tout</option>
@@ -146,7 +152,7 @@
                                             {% endfor %}
                                         </select>
                                     </div>
-
+                                    </div>
 
                                     <h3>Prix</h3>
                                     <!--Filter block-->
@@ -204,7 +210,7 @@
                                             <div class="column is-12 produit-asscocies">
                                                 {% for produit in produitAssocies %}
                                                     <!-- Item -->
-                                                    <div class="column is-4 product-container data-product-id=" {{ produit.id }}"">
+                                                    <div class="column is-4 product-container" data-product-id=" {{ produit.id }}">
                                                         <div class="featured-product flat-card">
                                                             <div class="image">
                                                                 <img src="/images/produits/{{ produit.images|first }}" style="width: 100px;height: 100px" data-action="zoom" alt="">
