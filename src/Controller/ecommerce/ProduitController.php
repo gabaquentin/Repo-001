@@ -288,11 +288,12 @@ class ProduitController extends AbstractController
     /**
      * @Route("/delete" , name="delete_produit")
      * @param Request $request
+     * @param PackTools $packTools
      * @param EntityManagerInterface $manager
      * @param FileUploader $uploader
      * @return JsonResponse
      */
-    public function delete(Request $request,EntityManagerInterface $manager,FileUploader $uploader)
+    public function delete(Request $request,PackTools $packTools,EntityManagerInterface $manager,FileUploader $uploader)
     {
         $id = $request->get("idProduit");
 
@@ -307,7 +308,9 @@ class ProduitController extends AbstractController
             if($produit->getClient() !== $user)
                 die("vous ne pouvez pas acceder à cette page");
 
-        /*foreach ($produit->getImages() as $imgeName)
+        /*
+             $packTools->deleteBoostedProduct($produit);
+        foreach ($produit->getImages() as $imgeName)
             $uploader->deleteFile($imgeName,"produit");
 
         $manager->remove($produit);

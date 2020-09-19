@@ -33,11 +33,12 @@ class ProduitFontController extends AbstractController
      * @Route("/", name="show_products_front")
      * @param EntityManagerInterface $em
      * @param Tools $tools
+     * @param PackTools $packTools
      * @return Response
      * @throws NoResultException
      * @throws NonUniqueResultException
      */
-    public function index(EntityManagerInterface $em,Tools $tools)
+    public function index(EntityManagerInterface $em,Tools $tools,PackTools $packTools)
     {
         $cats = $em->getRepository(CategorieProd::class)->findAllCategories();
         $categoriesProd = [];
@@ -59,19 +60,13 @@ class ProduitFontController extends AbstractController
             ];
 
         }
-        /** @var Produit $produit */
-        $produit = $em->getRepository(Produit::class)->findOneBy(["id"=>2407]);
-        $pAs = [];
-        foreach ($produit->getProduitsAssocies() as $produitsAssocy) {
-            $pAs[] = $em->getRepository(Produit::class)->findOneBy(["id"=>$produitsAssocy]);
-        }
 
         return $this->render('frontend/ecommerce/produit/produit.html.twig', [
             'categories' => $categoriesProd,
             'villes' => $em->getRepository(Ville::class)->findAll(),
             'prixMax' => $em->getRepository(Produit::class)->getMaxPrice(),
             'typeTransaction' => $tools->getTypeTransaction(),
-            'produitAssocies'=>$pAs,
+            'produitAssocies'=>$packTools->getBoostedProducts(null),
             'produit'
         ]);
     }
@@ -118,7 +113,7 @@ class ProduitFontController extends AbstractController
      * @param Produit|null $produit
      * @return Response
      */
-    public function showSingleProduct(Request $request,EntityManagerInterface $em, AvisRepository $repoAvis, Produit $produit=null)
+    public function showSingleProduct(Request $request,EntityManagerInterface $em, AvisRepository $repoAvis,Produit $produit=null)
     {
         if($produit==null)
             die("404");
