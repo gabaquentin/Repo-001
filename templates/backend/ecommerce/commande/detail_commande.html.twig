@@ -1,0 +1,216 @@
+{% extends "backend/base/base.html.twig" %}
+{% block stylesheets %}
+    <link href="{{ asset('backend/libs/select2/select2.min.css') }}" rel="stylesheet" type="text/css" />
+{% endblock %}
+{% block title %} Admins {% endblock %}
+{% block block_starter %} Admins {% endblock %}
+{% block body %}
+    <span id="order_id" hidden>{{ order.id }}</span>
+    <div class="row">
+        <div class="col-xl-4 col-md-6">
+            <div class="card-box">
+                <div class="text-center">
+                    <h4 class="mb-1">Mode de Paiement</h4>
+                    <p class="text-muted mb-1">
+                        {% if order.payement is same as ("Orange Money") %}
+                            <i class="fas fa-money-check-alt" style="color: #0023ff;"></i>
+                        {% elseif order.payement is same as ("Paypal") %}
+                            <i class="fab fa-cc-paypal" style="color: #0023ff;"></i>
+                        {% elseif order.payement is same as ("En Espèce") %}
+                            <i class="far fa-money-bill-alt" style="color: #0023ff;"></i>
+                        {% endif %} {{order.payement}}
+                    </p>
+                </div>
+            </div>
+        </div>
+        <!-- end col -->
+
+        <div class="col-xl-4 col-md-6">
+            <div class="card-box">
+                <div class="text-center">
+                    <h4 class="mb-1">Mode de Paiement</h4>
+                    <p class="text-muted mb-1"></p>
+                    <p class="text-muted mb-1"><i class="fas fa-shipping-fast" style="color: #0023ff;"></i> {{ order.livraison }}</p>
+                </div>
+            </div>
+        </div>
+        <!-- end col -->
+
+        <div class="col-xl-4 col-md-6">
+            <div class="card-box">
+                <div class="text-center">
+                    <h4 class="mb-1">Statut</h4>
+                    <p class="text-muted mb-1">
+                        {% if order.status is same as ("Livré") %}
+                            <i class="fas fa-check-square" style="color: #0023ff;"></i>
+                        {% elseif order.status is same as ("En cours de Livraison") %}
+                            <i class="mdi mdi-dots-horizontal" style="color: #0023ff;"></i>
+                        {% elseif order.status is same as ("En Attente") %}
+                            <i class="fas fa-window-close" style="color: #0023ff;"></i>
+                        {% endif %} {{order.status}}
+                    </p>
+                </div>
+            </div>
+        </div>
+        <!-- end col -->
+    </div>
+
+    <div class="row">
+        <div class="col-xl-6">
+            <div class="card-box">
+                <h4 class="header-title text-center">Informations sur le Client</h4>
+
+                <div class="mt-3 text-left">
+                    <p class="text-muted font-15 font-family-secondary mb-0"><span style="color: #0a0a0a;"> Nom : </span> <span>{{ order.client.nom }}</span></p>
+                    <p class="text-muted font-15 font-family-secondary mb-0"><span style="color: #0a0a0a;"> Prénom : </span> <span>{{ order.client.prenom }}</span></p>
+                    <p class="text-muted font-15 font-family-secondary mb-0"><span style="color: #0a0a0a;"> Email : </span> <span>{{ order.client.email }}</span></p>
+                    <p class="text-muted font-15 font-family-secondary mb-0"><span style="color: #0a0a0a;"> Numéro : </span> <span>{{ order.client.telephone }}</span></p>
+                    <p class="text-muted font-15 font-family-secondary mb-0">
+                        {% set mois = ['Janvier', 'Fevrier','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Decembre'] %}
+                        <span style="color: #0a0a0a;"> Date de commande : </span> <span>{{ order.datecom|date('l d-m M - Y H:i:s')}}</span>
+                    </p>
+                </div>
+            </div>
+            <!-- end card-box -->
+        </div>
+        <!-- end col -->
+
+        <div class="col-xl-6">
+            <div class="card-box">
+                <h4 class="header-title text-center">Informations sur la livraison</h4>
+
+                <div class="mt-3 text-left">
+                    <form action="#" class="form-horizontal" hidden>
+                        <div class="col-sm-11">
+                            <div class="input-group">
+                                <span style="color: #0a0a0a;"> Date de Livraison: </span><br />
+                                <input type="text" class="form-control date_liv" data-provide="datepicker" data-date-autoclose="true" />
+                                <div class="input-group-append">
+                                    <span class="input-group-text"><i class="ti-calendar"></i></span>
+                                </div>
+                                <button class="valider button btn-primary"><span class="envoie"></span>Valider</button>
+                            </div>
+                            <!-- input-group -->
+                        </div>
+                    </form>
+
+                    {% if order.date_liv is null %}
+                        <p class="text-muted font-15 font-family-secondary mb-0">
+                            {% set mois = ['Janvier', 'Fevrier','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Decembre'] %}
+                            <span style="color: #0a0a0a;" class="show_calendar2"> Date de Livraison : </span> <span class="show_calendar dat_liv">Non définie  </span > <i class="far fa-edit text-right show_calendar" style="color: #0023ff; cursor: pointer"></i>
+                        </p>
+                    {% else %}
+                        <p class="text-muted font-15 font-family-secondary mb-0">
+                            {% set mois = ['Janvier', 'Fevrier','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Decembre'] %}
+                            <span style="color: #0a0a0a;" class="show_calendar2"> Date de Livraison : </span> <span class="show_calendar dat_liv">{{ order.date_liv|date('l d-m M - Y')}}</span>   <i class="far fa-edit text-right show_calendar" style="color: #0023ff; cursor: pointer"></i>
+                        </p>
+                    {% endif %}
+
+                    <form action="#" class="form-horizontal2" id="form_liv" hidden>
+                        <div class="col-sm-11">
+                            <div class="input-group">
+                                <table  width="350">
+                                    <tr>
+                                        <td><span style="color: #0a0a0a;"> Livreur: </span><br /></td>
+                                        <td width="250">
+                                            <input type="text" class="form-control nom_liv" name="nom_liv"/>
+                                            <div class="input-group-append">
+                                            </div>
+                                        </td>
+                                        <td><button class="affecter_liv button btn-primary"><span class="envoie_liv"></span>Valider</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td width="250">
+                                                <select border="0" id="select_livreur" class="select2 select2-selection--single" multiple="multiple" multiple data-placeholder="Choisir ...">
+
+                                            </select>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <!-- input-group -->
+                        </div>
+                    </form>
+
+                    {% if order.livreur is null %}
+                        <p class="text-muted font-15 font-family-secondary mb-0">
+                            <span style="color: #0a0a0a;" class="Livreur"> Livreur : </span> <span class="set_liv liv">Aucun Livreur Affecté</span>   <i class="far fa-edit text-right set_liv" style="color: #0023ff; cursor: pointer"></i>
+                        </p>
+                        {% else %}
+                            <p class="text-muted font-15 font-family-secondary mb-0">
+                                <span style="color: #0a0a0a;" class="Livreur"> Livreur : </span> <span class="set_liv liv">{{order.livreur.nom}} {{order.livreur.prenom}}</span>   <i class="far fa-edit text-right set_liv" style="color: #0023ff; cursor: pointer"></i>
+                            </p>
+                    {% endif %}
+                </div>
+            </div>
+            <!-- end card-box -->
+        </div>
+        <!-- end col -->
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card-box">
+                    <div class="responsive-table-plugin">
+                        <div class="table-rep-plugin">
+                            <div class="table-responsive" data-pattern="priority-columns">
+                                <table id="tech-companies-1" class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>Image</th>
+                                        <th data-priority="1">Produit</th>
+                                        <th data-priority="3">Quantité</th>
+                                        <th data-priority="1">Prix</th>
+                                        <th data-priority="3">Propriétaire</th>
+                                        <th data-priority="3">Total</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for prod in order.produits %}
+                                        <tr>
+                                            <th><img src="{{ prod.images }}" alt="" width="90" height="90"></th>
+                                            <td>
+                                                <p><span style="color: #0a0a0a">Nom : </span>  {{ prod.name }}</p>
+                                                <p><span style="color: #0a0a0a">Catégorie :</span>  {{ prod.categorie }}</p>
+                                            </td>
+                                            <td>{{ prod.quantity }}</td>
+                                            <td>
+                                                <p><span style="color: #0a0a0a">Prix Promo : </span>  {{ prod.prix-prod.prixpromo }} FCFA</p>
+                                                <p><span style="color: #0a0a0a">Prix :</span>  <s>{{ prod.prix }} </s> FCFA</p>
+                                            </td>
+                                            <td>
+                                                <p><span style="color: #0a0a0a">Nom : </span>  {{ prod.proprietaire.nom }}  {{ prod.proprietaire.prenom }}</p>
+                                                <p><span style="color: #0a0a0a">Email :</span>  {{ prod.proprietaire.email }}</p>
+                                                <p><span style="color: #0a0a0a">Numéro :</span>  {{ prod.proprietaire.telephone }}</p>
+                                            </td>
+                                            <td>
+                                                {{ (prod.prix-prod.prixpromo)*prod.quantity }} FCFA
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div> <!-- end .table-responsive -->
+
+                        </div> <!-- end .table-rep-plugin-->
+                    </div> <!-- end .responsive-table-plugin-->
+                </div> <!-- end card-box -->
+            </div> <!-- end col -->
+        </div>
+    </div>
+{% endblock %} {% block javascripts %}
+    <script src="{{ asset('backend/js/pages/ecommerce/order.js') }}"></script>
+    <script src="{{ asset('backend/libs/sweetalert2/sweetalert2.min.js') }}"></script>
+    <script src="{{ asset('backend/libs/bootstrap-colorpicker/bootstrap-colorpicker.min.js') }}"></script>
+    <script src="{{ asset('backend/libs/clockpicker/bootstrap-clockpicker.min.js') }}"></script>
+    <script src="{{ asset('backend/libs/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
+    <script src="{{ asset('backend/libs/moment/moment.min.js') }}"></script>
+    <script src="{{ asset('backend/libs/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
+    <script src="{{ asset('backend/js/pages/form-pickers.init.js') }}"></script>
+    <script src="{{ asset('backend/libs/rwd-table/rwd-table.min.js') }}"></script>
+    <script src="{{ asset('backend/js/pages/responsive-table.init.js') }}"></script>
+    <script src="{{ asset('backend/libs/select2/select2.min.js') }}"></script>
+
+{% endblock %}

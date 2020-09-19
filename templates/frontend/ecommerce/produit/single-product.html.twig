@@ -43,14 +43,13 @@
                     <i class="is-liked" data-feather="heart"></i>
                 </div>
             </div>
-
             <!-- Product image -->
             <div id="product-view" class="product-image translateLeft">
 
                 <div class="is-carousel">
                     <div class="fullscreen-slick">
                         {% for image in produit.images %}
-                            <div><img src="/images/produits/{{ image }}" data-action="zoom" alt="" class="" style=""></div>
+                            <div><img src="/images/produits/{{ image }}" data-action="zoom" alt="" class="image-sp" style=""></div>
                         {% endfor %}
                     </div>
 
@@ -169,7 +168,7 @@
                         <!-- Add to Cart -->
                         <div class="add-to-cart">
                             <div class="heading is-hidden">Ajouter au panier</div>
-                            <button id="details-add-to-cart" class="button big-button cart-button primary-button upper-button rounded is-bold raised">Ajouter au panier</button>
+                            <button id="details-add-to-cart" class="button big-button cart-button primary-button upper-button rounded is-bold raised addCart">Ajouter au panier</button>
                         </div>
 
                     </div>
@@ -340,11 +339,55 @@
             </div>
         </div>
     </div>
-
+    <span id="images" data-images ="/images/produits/{{ produit.images[0] }}"></span>
 {% endblock %}
 
 {% block js %}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+   <script>
+       $('#details-add-to-cart').click(function () {
+           let data = JSON.parse(localStorage.getItem('cart'));
+
+           //Récupération des donnnées des produits
+           let productId =parseInt($('#product-page').attr('data-product-id'));
+           let name = $('#panel-product-name').text();
+           let prix = parseFloat($('#new-price').text());
+           let categorie = $('#product-details-sku').text();
+           let img = $("#images").attr('data-images');
+           let reload= $('.cart-loader');
+           let quantite = 1 ;
+           alert(productId);
+           let found = data.products.some(function (el) {
+               return parseInt(el.id) === productId;
+           });
+           reload.addClass('is-active');
+           if (!found) {
+               console.log('Product does not exist in cart');
+               data.items = parseInt(data.items) + 1;
+               data.products.push({
+                   id: productId,
+                   name: name,
+                   quantity: quantite,
+                   category: categorie,
+                   price: prix,
+                   images: [{
+                       url: img
+                   }]
+               });
+               localStorage.setItem('cart', JSON.stringify(data));
+           }
+           else{
+               console.log('Product exists in cart');
+               for (let i = 0; i < data.products.length; i++) {
+                   if (parseInt(data.products[i].id) === productId) {
+                       data.products[i].quantity = parseInt(data.products[i].quantity + 1);
+                       localStorage.setItem('cart', JSON.stringify(data));
+                   }
+               }
+           }
+           getCart();
+       })
+   </script>
     <script>
         $('#publier_avis').click(function () {
             let notes = 0;

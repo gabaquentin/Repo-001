@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Commandes;
+use App\Entity\User;
 use App\Services\ecommerce\CommandeTools;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -22,6 +23,7 @@ class CommandesRepository extends ServiceEntityRepository
         parent::__construct($registry, Commandes::class);
         $this->tools = $tools;
     }
+
     public function dataTableCommande(Request $request)
     {
         $start = $request->get("start");
@@ -49,7 +51,6 @@ class CommandesRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->getResult();
     }
-
 
     // /**
     //  * @return Commandes[] Returns an array of Commandes objects

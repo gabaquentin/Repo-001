@@ -115,8 +115,8 @@ function  AddEventToCart() {
     $(document).on('click','.add' , function () {
         AddToCart($(this).parents('.product-container').first())
     })
-
 }
+
 
 function AddToCart(container){
 
@@ -161,6 +161,7 @@ function AddToCart(container){
     }
     getCart();
 }
+
 
 $(document).ready(function () {
     let container = $("#products-list .products")
