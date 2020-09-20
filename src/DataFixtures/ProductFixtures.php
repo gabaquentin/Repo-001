@@ -65,7 +65,7 @@ class ProductFixtures extends Fixture
                     [
                         "id"=>0,
                         "titre"=>"Default Pack",
-                        "description"=>"Ce pack vous deonne la possibilité de poste 5 annonces gratuitement",
+                        "description"=>"Ce pack vous donne la possibilité de poste 5 annonces gratuitement",
                         "blaz"=>"/frontend/img/illustrations/smile.svg",
                         "prixBase"=>"0 F CFA",
                         "postes"=>[
