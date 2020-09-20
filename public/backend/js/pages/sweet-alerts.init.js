@@ -12,14 +12,16 @@
                 type: "question",
                 confirmButtonClass: "btn btn-confirm mt-2"
             })
-        }), t("#sa-success").click(function () {
+        })
+            , t("#sa-success").click(function () {
             Swal.fire({
                 title: "Good job!",
                 text: "You clicked the button!",
                 type: "success",
                 confirmButtonClass: "btn btn-confirm mt-2"
             })
-        }), t("#sa-error").click(function () {
+        }),
+            t("#sa-error").click(function () {
             Swal.fire({
                 type: "error",
                 title: "Oops...",
@@ -27,7 +29,8 @@
                 confirmButtonClass: "btn btn-confirm mt-2",
                 footer: '<a href="">Why do I have this issue?</a>'
             })
-        }), t("#sa-long-content").click(function () {
+        }),
+            t("#sa-long-content").click(function () {
             Swal.fire({
                 imageUrl: "https://placeholder.pics/svg/300x1500",
                 imageHeight: 1500,

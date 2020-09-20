@@ -77,6 +77,8 @@ class ProduitFontController extends AbstractController
      * @param ProduitRepository $repo
      * @param Tools $tools
      * @return JsonResponse
+     * @throws NoResultException
+     * @throws NonUniqueResultException
      */
     public function getProducts(Request $request,ProduitRepository $repo,Tools $tools)
     {

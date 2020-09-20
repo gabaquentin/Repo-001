@@ -21,7 +21,7 @@
             </div>
         </div>
         <!-- Main section -->
-        <div id="order-details" class="section">
+        <div id="order-details" class="section" data-orders="{{ orders }}">
             <!-- Container -->
             <div class="container">
 
@@ -213,49 +213,5 @@
 {% endblock %}
 
 {% block js %}
-<script>
-    function ConvertSQLtoJs2() {
-        let userData = JSON.parse(localStorage.getItem('user'));
-        let orderProducts = [];
-        let orderItem=[];
-        let newOrder = [];
-        {% for com in orders %}
-        {% for p in com.cart.products %}
-        orderItem = {
-            id: {{ p.id }},
-            name: "{{ p.name }}",
-            price: {{ p.price }},
-            quantity: {{ p.quantity }}
-        };
-        orderProducts.push(orderItem);
-        {% endfor %}
-        newOrder = {
-            id: {{com.id}},
-            numero: "{{ com.numero }}",
-            total: {{com.cart.total}},
-            date: "{{com.datecom | date('d-M-Y')}}",
-            status: "{{ com.statut }}",
-            completed: 12,
-            shippingMethod: "{{ com.mode_liv }}",
-            paymentMethod: "{{ com.payement }}",
-            orderModel: {
-                subtotal: {{ com.cart.total }},
-                taxes: 0,
-                shipping: 0,
-                total: {{ com.cart.total }}
-            },
-            //products: checkout.items,
-            products: orderProducts,
-            contact: {
-                name: "{{ app.user.nom }} {{ app.user.prenom }} ",
-                photoUrl: ""
-            }
-        };
-        userData.orders.push(newOrder);
-        orderProducts = [];
-        {% endfor %}
-        localStorage.setItem('user', JSON.stringify(userData));
-    }
-</script>
 <script src="{{ asset('frontend/js/order.js') }}"></script>
 {% endblock %}
