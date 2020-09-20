@@ -24,13 +24,12 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 
 /**
  * Class ProduitFontController
- * @Route("/front/ecommerce/produit")
  * @package App\Controller\ecommerce
  */
 class ProduitFontController extends AbstractController
 {
     /**
-     * @Route("/", name="show_products_front")
+     * @Route("/ecommerce/produit", name="show_products_front")
      * @param EntityManagerInterface $em
      * @param Tools $tools
      * @param PackTools $packTools
@@ -61,7 +60,7 @@ class ProduitFontController extends AbstractController
 
         }
 
-        return $this->render('frontend/ecommerce/produit/produit.html.twig', [
+        return $this->render('frontend/ecommerce/produit/all-products.html.twig', [
             'categories' => $categoriesProd,
             'villes' => $em->getRepository(Ville::class)->findAll(),
             'prixMax' => $em->getRepository(Produit::class)->getMaxPrice(),
@@ -72,7 +71,7 @@ class ProduitFontController extends AbstractController
     }
 
     /**
-     * @Route("/show_products_front", name="get_products_front")
+     * @Route("/ecommerce/produit/show_products_front", name="get_products_front")
      * @param Request $request
      * @param ProduitRepository $repo
      * @param Tools $tools
@@ -108,7 +107,7 @@ class ProduitFontController extends AbstractController
     }
 
     /**
-     * @Route("/details/{produit}", name="show_single_product_front")
+     * @Route("/ecommerce/produit/details/{produit}", name="show_single_product_front")
      * @param Request $request
      * @param EntityManagerInterface $em
      * @param AvisRepository $repoAvis
@@ -147,8 +146,8 @@ class ProduitFontController extends AbstractController
     }
 
     /**
-     * @Route("/add" , name="add_product_front")
-     * @Route("/modif/{produit}",name="modify_product_front")
+     * @Route("/account/produit/mes-produits/add" , name="add_product_front")
+     * @Route("/account/produit/mes-produits/modif/{produit}",name="modify_product_front")
      * @param PackTools $packTools
      * @param EntityManagerInterface $em
      * @param Produit|null $produit
@@ -198,7 +197,7 @@ class ProduitFontController extends AbstractController
     }
 
     /**
-     * @Route("/mes-produits", name="my_products_front")
+     * @Route("/account/produit/mes-produits", name="my_products_front")
      * @param PackTools $tools
      * @return Response
      */
@@ -208,7 +207,7 @@ class ProduitFontController extends AbstractController
         if(!$user)
             die("page de connexion");
         $infos = $tools->showUserPackDetails($user);
-        return $this->render('frontend/ecommerce/produit/show-produit.html.twig', [
+        return $this->render('security/frontend/my-products.html.twig', [
             "canPost" => (($infos["postes"]["total"] > 0)),
             "hasBoost" => (($infos["boost"]["total"] > 0)),
             "userPackInfo" => $infos,
@@ -216,7 +215,7 @@ class ProduitFontController extends AbstractController
     }
 
     /**
-     * @Route("/get-user-produits", name="get_products_user_front")
+     * @Route("/account/produit/get-user-produits", name="get_products_user_front")
      * @param ProduitRepository $rep
      * @param Request $request
      * @return JsonResponse
@@ -254,7 +253,7 @@ class ProduitFontController extends AbstractController
     }
 
     /**
-     * @Route("/refresh-product-date/{product}",name="refresh_product_date")
+     * @Route("/account/produit/refresh-product-date/{product}",name="refresh_product_date")
      * @param Request $request
      * @param Produit|null $product
      * @param EntityManagerInterface $em
