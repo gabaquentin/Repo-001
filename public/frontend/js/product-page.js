@@ -1,4 +1,4 @@
-"use strict";
+
 function getSelectedCat() {
     let val = [];
     $('.category-block').each(function(i){
@@ -92,7 +92,7 @@ function addSingleProduct(p)
         <div class="column is-3 product-container" data-product-id="${p.id}">
             <div class="flat-card">
                 <div class="image" >
-                    <img src="${image}" style="width: 100px;height: 100px" data-action="zoom" alt="" class="" >
+                    <img src="${image}" style="width: 100px;height: 100px" data-action="zoom" alt="" class="images" >
                 </div>
                 <div class="product-info has-text-centered">
                     <p class="product-price" data-price ="${price}">
@@ -101,7 +101,7 @@ function addSingleProduct(p)
                     <a href="${detailProductRoute}/${p.id}"><h3 class="product-name">${nom}</h3></a>
                 </div>
                 <div class="actions">
-                    <div class="add" onclick="AddToCart()"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-cart has-simple-popover" data-content="Ajouter au panier" data-placement="top" ><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg></div>
+                    <div class="add"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-cart has-simple-popover" data-content="Ajouter au panier" data-placement="top" ><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg></div>
                     <div class="like"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-heart has-simple-popover" data-content="Ajouter à la Wishlist" data-placement="top"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg></div>
                 </div>
             </div>
@@ -115,12 +115,12 @@ function  AddEventToCart() {
     $(document).on('click','.add' , function () {
         AddToCart($(this).parents('.product-container').first())
     })
-
 }
+
 
 function AddToCart(container){
 
-    var data = JSON.parse(localStorage.getItem('cart'));
+    let data = JSON.parse(localStorage.getItem('cart'));
 
     //Récupération des donnnées des produits
     let productId =parseInt(container.attr('data-product-id'));
@@ -130,7 +130,7 @@ function AddToCart(container){
     let img = $(".images").attr('src');
     let reload= $('.cart-loader');
     let quantite = 1 ;
-
+    alert(img);
     let found = data.products.some(function (el) {
         return parseInt(el.id) === productId;
     });
@@ -162,6 +162,7 @@ function AddToCart(container){
     getCart();
 }
 
+
 $(document).ready(function () {
     let container = $("#products-list .products")
     ajaxShowProducts();
@@ -187,6 +188,8 @@ $(document).ready(function () {
         ajaxShowProducts();
     })
     AddEventToCart();
+    initSelect();
+
     $('.produit-asscocies').slick({
         dots: false,
         infinite: true,

@@ -1,4 +1,4 @@
-{% extends 'frontend/ecommerce/base.html.twig' %}
+{% extends 'security/frontend/base.html.twig' %}
 
 {% block body %}
     <!-- Main wrapper -->
@@ -34,7 +34,7 @@
                         </div>
 
                         <!-- Account tabs -->
-                        {% include 'frontend/menu-account.html.twig' with { "myProducts":"is-active" } %}
+                        {% include 'security/frontend/menu-account.html.twig' with { "myProducts":"is-active" } %}
 
                         <div id="my-products-main-placeholder" class="main-placeholder is-hidden">
                             <div class="placeholder-content">
@@ -157,13 +157,13 @@
 
 {% endblock %}
 
-{% block js %}
+{% block javascript %}
     <script>
         const canPost = "{{ canPost }}";
         const showProductsRoute = "{{ path('get_products_user_front') }}";
-        const modifyProductRoute = "{{ path('modify_product_front') }}"
-        const deleteProductRoute = "{{ path('delete_produit') }}"
-        const refreshProductRoute = "{{ path('refresh_product_date') }}"
+        const modifyProductRoute = "{{ path('modify_product_front') }}";
+        const deleteProductRoute = "{{ path('delete_produit') }}";
+        const refreshProductRoute = "{{ path('refresh_product_date') }}";
     </script>
     <script src="{{ asset('frontend/js/pages/ecommerce/my-products.js') }}"></script>
 {% endblock %}

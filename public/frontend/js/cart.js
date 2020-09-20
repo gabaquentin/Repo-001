@@ -332,14 +332,14 @@ function removeFromCartPage() {
       checkoutObject.orderNotes = '';
       localStorage.setItem('checkout', JSON.stringify(checkoutObject));
       setTimeout(function () {
-        window.location.href = checkoutRoute;
+        window.location.href = "/front/ecommerce/checkout_step1" ;
       }, 1200);
 
     }
     else{
       $this.addClass('is-loading');
       setTimeout(function () {
-        window.location.href = GoToLogin;
+        window.location.href = "/login";
       }, 1200);
     }
   });

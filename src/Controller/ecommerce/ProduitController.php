@@ -26,13 +26,12 @@ use function Symfony\Component\String\s;
 
 /**
  * Class ProduitController
- * @Route("/back/ecommerce/produit")
  * @package App\Controller\ecommerce
  */
 class ProduitController extends AbstractController
 {
     /**
-     * @Route("/", name="produit_back")
+     * @Route("/back/ecommerce/produit", name="produit_back")
      * @return Response
      */
     public function index()
@@ -41,7 +40,7 @@ class ProduitController extends AbstractController
     }
 
     /**
-     * @Route("/get_produit_back", name="get_produit_back")
+     * @Route("/back/ecommerce/produit/get_produit_back", name="get_produit_back")
      * @param Request $request
      * @param ProduitRepository $repo
      * @param Tools $tools
@@ -72,8 +71,8 @@ class ProduitController extends AbstractController
     }
 
     /**
-     * @Route("/add",name="add_produit")
-     * @Route("/modif/{produit}",name="modify_produit")
+     * @Route("/back/ecommerce/produit/add",name="add_produit")
+     * @Route("/back/ecommerce/produit/modif/{produit}",name="modify_produit")
      * @param EntityManagerInterface $em
      * @param Produit|null $produit
      * @return Response
@@ -288,11 +287,12 @@ class ProduitController extends AbstractController
     /**
      * @Route("/delete" , name="delete_produit")
      * @param Request $request
+     * @param PackTools $packTools
      * @param EntityManagerInterface $manager
      * @param FileUploader $uploader
      * @return JsonResponse
      */
-    public function delete(Request $request,EntityManagerInterface $manager,FileUploader $uploader)
+    public function delete(Request $request,PackTools $packTools,EntityManagerInterface $manager,FileUploader $uploader)
     {
         $id = $request->get("idProduit");
 
@@ -307,7 +307,9 @@ class ProduitController extends AbstractController
             if($produit->getClient() !== $user)
                 die("vous ne pouvez pas acceder à cette page");
 
-        /*foreach ($produit->getImages() as $imgeName)
+        /*
+             $packTools->deleteBoostedProduct($produit);
+        foreach ($produit->getImages() as $imgeName)
             $uploader->deleteFile($imgeName,"produit");
 
         $manager->remove($produit);

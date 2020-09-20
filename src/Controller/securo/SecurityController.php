@@ -100,7 +100,7 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @Route("/whishlist", name="app_whishlist")
+     * @Route("/account/whishlist", name="app_whishlist")
      */
     public function whishlist()
     {
@@ -108,7 +108,7 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @Route("/cart", name="app_cart")
+     * @Route("/account/cart", name="app_cart")
      */
     public function cart()
     {
@@ -116,7 +116,7 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @Route("/orders", name="app_orders")
+     * @Route("/account/orders", name="app_orders")
      */
     public function orders()
     {
@@ -124,7 +124,7 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @Route("/security", name="app_security")
+     * @Route("/account/security", name="app_security")
      */
     public function security()
     {
@@ -132,7 +132,7 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @Route("/editaccount", name="app_account_edit")
+     * @Route("/account/editaccount", name="app_account_edit")
      */
     public function editaccount(Request $request)
     {
@@ -206,7 +206,7 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @Route("/partenariat", name="app_partenariat")
+     * @Route("/account/partenariat", name="app_partenariat")
      */
     public function indexPartenariat(Request $request)
     {

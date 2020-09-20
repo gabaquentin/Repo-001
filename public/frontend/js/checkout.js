@@ -1,5 +1,7 @@
 "use strict"; //Get checkout summary for checkout sidebar
 
+let nextroute ="/front/ecommerce";
+let prevroute ="/front/ecommerce";
 function getCheckoutSidebar() {
   let userData = JSON.parse(localStorage.getItem('user'));
   let checkout = JSON.parse(localStorage.getItem('checkout')); //Populate data
@@ -218,7 +220,7 @@ function SendOrderInfo() {
   localStorage.setItem('cart', JSON.stringify(cart));
   $.ajax({
     type: "GET",
-    url: add_commande,
+    url: "/front/ecommerce/commande",
     data:{
       "numero": numero,
       "cart": cart,
@@ -229,10 +231,16 @@ function SendOrderInfo() {
     async: true,
     dataType: "JSON",
     success: (data) => {
-      alert(data['payment']);
+      setTimeout(function () {
+        $('.cart-loader').removeClass('is-active');
+        toasts.service.success('', 'fas fa-check', 'Commande éffectuée avec succès', 'bottomRight', 2500);
+      }, 800);
     },
     error: () => {
-      alert("Faute");
+      setTimeout(function () {
+        $('.cart-loader').removeClass('is-active');
+        toasts.service.success('', 'fas fa-check', "il y'a une érreur lors de la transaction", 'bottomRight', 2500);
+      }, 800);
     }
   });
   localStorage.setItem('checkout', JSON.stringify(checkout));
@@ -301,22 +309,29 @@ $(document).ready(function () {
       else {
         //Redirect to the correct checkout object step
         if (checkout.step !== currentStep) {
-          window.location.href = current;
+          window.location.href = prevroute;
         } //If checkout step1
 
 
         if ($('#checkout-1').length) {
           getCheckoutSidebar();
+          nextroute+="/checkout_step2";
+          prevroute+="/cart";
           getCheckoutStep1();
         }
         else if ($('#checkout-2').length) {
           getCheckoutSidebar();
+          nextroute+="/checkout_step3";
+          prevroute+="/checkout_step1";
           getCheckoutStep2();
         }
         else if ($('#checkout-3').length) {
           getCheckoutSidebar();
+          nextroute+="/checkout_step4";
+          prevroute+="/checkout_step2";
         }
         else if ($('#checkout-4').length) {
+          prevroute+="/checkout_step3";
           getCheckoutSidebar();
           getCheckoutStep1(); //Can be reused here to get products
 
@@ -352,7 +367,7 @@ $(document).ready(function () {
       checkout.step = parseInt(checkout.step) + 1;
       localStorage.setItem('checkout', JSON.stringify(checkout));
       setTimeout(function () {
-        window.location.href = next;
+        window.location.href = nextroute;
         $this.removeClass('is-loading');
       }, 1000);
     } //Handle step 2
@@ -376,7 +391,7 @@ $(document).ready(function () {
         checkout.total = (parseFloat(checkout.total) + parseFloat(checkout.shipping)).toFixed(2);
         localStorage.setItem('checkout', JSON.stringify(checkout));
         setTimeout(function () {
-          window.location.href = next;
+          window.location.href = nextroute;
           $this.removeClass('is-loading');
         }, 1000);
       }
@@ -398,7 +413,7 @@ $(document).ready(function () {
         checkout.paymentMethod = paymentMethod;
         localStorage.setItem('checkout', JSON.stringify(checkout));
         setTimeout(function () {
-          window.location.href = next;
+          window.location.href = nextroute;
           $this.removeClass('is-loading');
         }, 1000);
       }
@@ -411,9 +426,9 @@ $(document).ready(function () {
       localStorage.setItem('checkout', JSON.stringify(checkout));
       SendOrderInfo();
       setTimeout(function () {
-        window.location.href = prev;
+        window.location.href = "/front/ecommerce/orders";
         $this.removeClass('is-loading');
-      }, 1000);
+      }, 5000);
     }
   }); //Checkout back button
 
@@ -429,7 +444,7 @@ $(document).ready(function () {
 
       if ($('#checkout-2').length) {
         setTimeout(function () {
-          window.location.href = prev;
+          window.location.href = prevroute;
           $this.removeClass('is-loading');
         }, 1000);
       } //Back from step 3 to step 2
@@ -438,13 +453,13 @@ $(document).ready(function () {
         checkout.shipping = 0.00.toFixed(2);
         localStorage.setItem('checkout', JSON.stringify(checkout));
         setTimeout(function () {
-          window.location.href = prev;
+          window.location.href = prevroute;
           $this.removeClass('is-loading');
         }, 1000);
       } //Back from step 4 to step 3
       else if ($('#checkout-4').length) {
         setTimeout(function () {
-          window.location.href = prev;
+          window.location.href = prevroute;
           $this.removeClass('is-loading');
         }, 1000);
       }

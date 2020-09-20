@@ -34,7 +34,7 @@ $(document).ready(function () {
         arrows: false
     });
     $('.produit-asscocies').slick({
-        dots: true,
+        dots: false,
         infinite: true,
         speed: 500,
         cssEase: 'cubic-bezier(0.645, 0.045, 0.355, 1.000)',

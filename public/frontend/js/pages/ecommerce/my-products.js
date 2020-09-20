@@ -164,4 +164,5 @@ $(document).ready(function () {
         e.preventDefault();
         ajaxShowProducts();
     })
+    $('.account-loader').removeClass('is-active');
 });

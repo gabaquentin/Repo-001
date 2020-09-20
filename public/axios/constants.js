@@ -28,7 +28,7 @@ function formatPhpDate(date,withTime = false) {
     return toDay;
 }
 
-function truncateString(str, num) {
+function truncateString(str, num=30) {
     if (str.length <= num) {
         return str;
     }

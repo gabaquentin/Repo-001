@@ -1,54 +1,45 @@
+function show_order(order) {
+    let span = '';
+    if(order['statut'] === "Livré"){
+        span ='<span class="badge label-table badge-primary">';
+    }
+    else if(order['statut'] === "En cours de Livraison"){
+        span ='<span class="badge label-table badge-success">';
+    }
+    else if(order['statut'] === "En Attente"){
+        span ='<span class="badge label-table badge-danger">';
+    }
+    return `
+        <tr data-order-id="${order['id']}">
+            <td class="text-center">
+                <button class=" btn btn-primary btn-xs btn-icon"><i class="fa fas fa-list-alt"></i></button>
+                <a href="/back/ecommerce/commande/detail/${order['id']}"><button class="affecter-livreur btn btn-primary btn-xs btn-icon"><i class="fa fas fa-edit"></i></button></a>
+            </td>
+            <td class="order" id="order_id" data-order="${order['id']}">${order['id']}</td>
+            <td>${order['numero']}</td>
+            <td>${order['client']}</td>
+            <td>${order['livreur']}</td>
+            <td><span class="badge label-table badge-light-dark">${order['payement']}</span></td>
+            <td><span class="badge label-table badge-light-dark">${order['mode_liv']}</td>
+            
+            <td>${span}${order['statut']}</span></td>
+        </tr>
+    `;
+}
+
+function Show_All_Orders(orders){
+    if($('#demo-foo-filtering').length){
+        for (let i=0;i<orders.length;i++){
+            console.log(orders[i]);
+            let template = show_order(orders[i]);
+            $.when($('.order-list').append(template)).done(function () {});
+        }
+    }
+}
 
 $(document).ready(function () {
-    let a = $("#datatable-buttons").DataTable({
-        processing: true,
-        serverSide: true,
-        ordering: true,
-        language: {
-            processing:     "Traitement en cours...",
-            search:         "Rechercher&nbsp;:",
-            lengthMenu:    "Afficher _MENU_ &eacute;l&eacute;ments",
-            info:           "Affichage de l'&eacute;lement _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
-            infoEmpty:      "Affichage de l'&eacute;lement 0 &agrave; 0 sur 0 &eacute;l&eacute;ments",
-            infoFiltered:   "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
-            infoPostFix:    "",
-            loadingRecords: "Chargement en cours...",
-            zeroRecords:    "Aucun &eacute;l&eacute;ment &agrave; afficher",
-            emptyTable:     "Aucune donnée disponible dans le tableau",
-            paginate: {
-                previous:   "<i class='mdi mdi-chevron-left'>",
-                next:       "<i class='mdi mdi-chevron-right'>",
-            },
-        },
-        drawCallback: function () {
-            $(".dataTables_paginate > .pagination").addClass("pagination-rounded");
-        },
-        ajax : GetOrderRoute,
-        columns: [
-            { data: 'id'},
-            { data: 'client' },
-            { data: 'livreur' },
-            { data: 'dateCom' },
-            { data: 'dateLivraison' },
-            { data: 'modePaiement'},
-            { data: 'statut'},
-            { data: 'action',"orderable": false }
-        ],
-        columnDefs: [
-            {
-                targets: -1,
-                render: function(data, type, row) {
-                    return `
-                        <div class="btn-group dropdown">
-                            <a href="javascript: void(0);" class="dropdown-toggle arrow-none btn btn-light btn-sm" data-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-horizontal"></i></a>
-                            <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="#"><i class="mdi mdi-pencil mr-2 text-muted font-18 vertical-middle"></i>Modifier</a>
-                                <a class="dropdown-item delete-p" href="#" data-id="${row.id}"><i class="mdi mdi-delete mr-2 text-muted font-18 vertical-middle"></i>Supprimer</a>
-                            </div>
-                        </div>
-                    `;
-                }
-            }
-        ]
+    Show_All_Orders(JSON.parse($('#demo-foo-filtering').attr('data-orders')));
+    $('.affecter-livreur').on('click',function () {
+        alert($('.order').text());
     });
 });
