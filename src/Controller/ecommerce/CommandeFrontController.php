@@ -55,6 +55,9 @@ class CommandeFrontController extends AbstractController
         $mailer->send($message);
         $this->addFlash('message',"C'est bon");
         */
+        if($this->getUser() == null){
+            return  $this->redirectToRoute('app_login');
+        }
         return $this->render('frontend/ecommerce/Commande/cart.html.twig');
     }
 
@@ -63,6 +66,9 @@ class CommandeFrontController extends AbstractController
      */
     public function checkout1()
     {
+        if($this->getUser() == null){
+            return  $this->redirectToRoute('app_login');
+        }
         return $this->render('frontend/ecommerce/Commande/checkout_step1.html.twig');
     }
 
@@ -71,6 +77,9 @@ class CommandeFrontController extends AbstractController
      */
     public function checkout2()
     {
+        if($this->getUser() == null){
+            return  $this->redirectToRoute('app_login');
+        }
         return $this->render('frontend/ecommerce/Commande/checkout_step2.html.twig');
     }
 
@@ -79,6 +88,9 @@ class CommandeFrontController extends AbstractController
      */
     public function checkout3()
     {
+        if($this->getUser() == null){
+            return  $this->redirectToRoute('app_login');
+        }
         return $this->render('frontend/ecommerce/Commande/checkout_step3.html.twig');
     }
 
@@ -87,6 +99,9 @@ class CommandeFrontController extends AbstractController
  */
     public function checkout4()
     {
+        if($this->getUser() == null){
+            return  $this->redirectToRoute('app_login');
+        }
         return $this->render('frontend/ecommerce/Commande/checkout_step4.html.twig');
     }
 
@@ -166,6 +181,9 @@ class CommandeFrontController extends AbstractController
      */
     public function Single_Order(EntityManagerInterface $manager)
     {
+        if($this->getUser() == null){
+            return  $this->redirectToRoute('app_login');
+        }
         $tab_com=[];
         $user=$this->getUser()->getId();
         $commande=$manager->getRepository(Commandes::class)->findBy([
