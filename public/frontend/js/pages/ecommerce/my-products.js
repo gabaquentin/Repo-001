@@ -123,7 +123,7 @@ function addSingleProduct(p)
     let prix = (p.prix*(1-(p.prixPromo/100))).toString();
     if(prix.indexOf('.')!==-1)
         prix = prix.slice(0,prix.indexOf('.')+2);
-    prix += (" " + "F CFA");
+    prix += (" " + devise);
 
     const nom = truncateString(p.nom.toUpperCase(),30);
     let image = "http://via.placeholder.com/500x500/ffffff/999999";
@@ -154,11 +154,24 @@ function addSingleProduct(p)
     `;
 }
 
+function controlPackEvent()
+{
+    $(".add-prod").on("click",function (e){
+        e.preventDefault();
+        if(canPost)
+            window.location.href = $(this).attr("href");
+        else
+            displayMessageNotify("Achetez un pack d'insertions avant de poster une annonce");
+    })
+}
+
 $(document).ready(function () {
 
     ajaxShowProducts();
 
     addEvent();
+
+    controlPackEvent();
 
     $(".show-more").on("click",function (e) {
         e.preventDefault();

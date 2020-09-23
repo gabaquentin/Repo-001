@@ -6,6 +6,7 @@ namespace App\Services\ecommerce;
 
 use App\Entity\BoostedProducts;
 use App\Entity\CategorieProd;
+use App\Entity\Date;
 use App\Entity\Produit;
 use App\Entity\User;
 use App\Repository\BoostedProductsRepository;
@@ -49,7 +50,7 @@ class PackTools
      *      [
      *          "idProd"=>"",
      *          "idCat"=>"",
-     *          "duration"=>"" en jour
+     *          "endDate"=>"" dateTime date de fin
      *      ]
      * ]
      * @param array $data
@@ -60,17 +61,8 @@ class PackTools
         $boostedProducts = $bProd->getBoostedProducts();
         foreach ($data as $datum) {
             $idProd = $datum["idProd"];
-            $duration = $datum["duration"];
+            $endDate = $datum["endDate"];
             $idCat = $datum["idCat"];
-            if (array_key_exists($idProd, $boostedProducts)) {
-                $endDate = $boostedProducts[$idProd]["endDate"];
-            } else {
-                $endDate = new \DateTime();
-            }
-            try {
-                $endDate = $endDate->add(new \DateInterval('P' . $duration . 'D'));
-            } catch (\Exception $e) {
-            }
             $boostedProducts[$idProd] = [
                 "idCat" => $idCat,
                 "endDate" => $endDate,
@@ -125,6 +117,8 @@ class PackTools
     public function showUserPackDetails(User $user)
     {
         $cats = [];
+        $now = new \DateTime();
+        $modif = false;
         $catsBoost = [];
         /** @var CategorieProd[] $categories */
         $categories = $this->repCat->findSousCategories();
@@ -147,18 +141,37 @@ class PackTools
         ];
         $types = ["postes", "boost"];
         $packs = $user->getPackProduct();
-        foreach ($packs as $pack) {
+        foreach ($packs as $key=>$pack) {
             foreach ($types as $type) {
                 if (key_exists($type, $pack)) {
                     foreach ($pack[$type]["categories"] as $id => $values) {
-                        $data[$type]["total"] += intval($values);
-                        $nom = $cats["$id"];
-                        $data[$type][$type]["$nom"] = intval($values);
+                        $enable = true;
+                        if($type == "boost"){
+                            if($now>=$values["endDate"]){
+                                unset($packs[$type]["categories"][$id]);
+                                $modif = true;
+                                $enable = false;
+                            }
+                        }
+                        if($enable){
+                            $data[$type]["total"] += intval(($type == "boost")?$values["value"]:$values);
+                            $nom = $cats["$id"];
+                            $data[$type][$type]["$nom"] = ($type == "boost")?$values["endDate"]:$values;
+                        }
                     }
                     $data[$type]["blaz"] = $pack["blaz"];
                     $data[$type]["titre"] = $pack["titre"];
+                    if($modif)
+                    {
+                        $packs[$key]=$pack;
+                    }
                 }
             }
+        }
+        if($modif){
+            $user->setPackProduct($packs);
+            $this->em->persist($user);
+            $this->em->flush();
         }
         return $data;
     }
@@ -177,11 +190,24 @@ class PackTools
             if (array_key_exists($typePack, $pack)) {
                 foreach ($pack[$typePack]["categories"] as $category => $nbrPost) {
                     if ($idCategory == $category) {
-                        $pack[$typePack]["categories"][$category] -= 1;
-                        $packs[$key] = $pack;
-                        if ($pack[$typePack]["categories"][$category] < 0) {
-                            unset($packs[$key]);
-                            $packs = array_values($packs);
+                        $now = new \DateTime();
+                        if($typePack=="boost")
+                        {
+                            $pack[$typePack]["categories"][$category]["value"] -= 1;
+                            $packs[$key] = $pack;
+                            if($now>=$nbrPost["endDate"] || $pack[$typePack]["categories"][$category]["value"] < 0){
+                                unset($packs[$key]);
+                                $packs = array_values($packs);
+                            }
+                        }
+                        else
+                        {
+                            $pack[$typePack]["categories"][$category] -= 1;
+                            $packs[$key] = $pack;
+                            if ($pack[$typePack]["categories"][$category] < 0) {
+                                unset($packs[$key]);
+                                $packs = array_values($packs);
+                            }
                         }
                         break;
                     }
@@ -201,12 +227,21 @@ class PackTools
     public function getEnabledCategories(User $user, $typePack = "postes")
     {
         $cats = [];
+        $now = new \DateTime();
         $packs = $user->getPackProduct();
         foreach ($packs as $pack) {
             if (array_key_exists($typePack, $pack)) {
                 foreach ($pack[$typePack]["categories"] as $category => $nbrPost) {
-                    if (intval($nbrPost) > 0)
-                        $cats[] = intval($category);
+                    if($typePack=="boost")
+                    {
+                        if($now<$nbrPost["endDate"])
+                            $cats[] = intval($category);
+                    }
+                    else
+                    {
+                        if (intval($nbrPost) > 0)
+                            $cats[] = intval($category);
+                    }
                 }
             }
         }
@@ -224,6 +259,7 @@ class PackTools
     }
 
     /**
+     * @todo revoir la fonction
      * @param User $user
      * @return bool
      */
@@ -297,9 +333,13 @@ class PackTools
                 if($exist!=-1 && $pack["id"] == 2)
                 {
                     $userPack = $userPacks[$exist];
-                    foreach ($pack["boost"]["categories"] as $id => $nbrJours) {
+                    foreach ($pack["boost"]["categories"] as $id => $data) {
                         if (array_key_exists($id, $userPack["boost"]["categories"]))
-                            $userPack["boost"]["categories"]["$id"] += $pack["boost"]["categories"]["$id"];
+                        {
+                            $value = $pack["boost"]["categories"]["$id"]["value"];
+                            $userPack["boost"]["categories"]["$id"]["value"] += $value;
+                            $userPack["boost"]["categories"]["$id"]["endDate"] = ($userPack["boost"]["categories"]["$id"]["endDate"])->add(new \DateInterval('P' . $value . 'D'));
+                        }
                         else
                             $userPack["boost"]["categories"]["$id"] = $pack["boost"]["categories"]["$id"];
                     }
@@ -332,7 +372,7 @@ class PackTools
             [
                 "id" => "0",
                 "titre" => "Default Pack",
-                "description" => "Ce pack vous deonne la possibilité de poste 5 annonces gratuitement",
+                "description" => "Ce pack vous deonne la possibilité de poste ".$n." annonces gratuitement",
                 "blaz" => "/frontend/img/illustrations/smile.svg",
                 "prixBase" => "0 F CFA",
                 "postes" => [
@@ -386,16 +426,17 @@ class PackTools
         return [
             "boost" => [
                 "duration" => $data["duration"],
-                "categories" => $this->coupleCatWithValue($data["categories"], $data["duration"]),
+                "categories" => $this->coupleCatWithValue($data["categories"], $data["duration"],"boost"),
             ]
         ];
     }
 
-    private function coupleCatWithValue(array $categories, $value)
+    private function coupleCatWithValue(array $categories, $value,$type="postes")
     {
         $res = [];
         foreach ($categories as $category) {
-            $res["$category"] = $value;
+
+            $res["$category"] = ($type=="boost")?["value"=>$value,"endDate"=>(new \DateTime())->add(new \DateInterval('P' . $value . 'D'))]:$value;
         }
         return $res;
     }

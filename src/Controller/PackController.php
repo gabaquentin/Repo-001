@@ -143,6 +143,7 @@ class PackController extends AbstractController
                 if(key_exists("boost",$userPack))
                     $boostPack = $userPack;
             }
+
             if(key_exists("id",$boostPack)&&$boostPack["id"]==2){
                 $data = [];
 
@@ -153,7 +154,7 @@ class PackController extends AbstractController
                     $data[] = [
                         "idProd"=>$produit->getId(),
                         "idCat"=>$idCat,
-                        "duration"=>$boostPack["boost"]["categories"][$idCat]
+                        "endDate"=>$boostPack["boost"]["categories"][$idCat]["endDate"]
                     ];
                 }
 

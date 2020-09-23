@@ -435,7 +435,7 @@ TABLE OF CONTENTS
 		//-- 5.1 activate static image background
 		if($(".bg-container-static").is(':visible')){
 			$(".bg-container-static").backstretch([
-				"img/slideshow/sample3.jpg"
+				"accueil/img/slideshow/sample3.jpg"
 			],{
 				duration:6000,
 				fade:'normal'
@@ -445,8 +445,8 @@ TABLE OF CONTENTS
 		//-- 5.2 activate slideshow background
 		if($(".bg-container-slideshow").is(':visible')){
 			$(".bg-container-slideshow").backstretch([
-				"img/slideshow/sample.jpg",
-				"img/slideshow/sample2.jpg"
+				"accueil/img/slideshow/sample.jpg",
+				"accueil/img/slideshow/sample2.jpg"
 			],{
 				duration:6000,
 				fade:'normal'
@@ -472,8 +472,8 @@ TABLE OF CONTENTS
 			}
 			else{
 				$(".bg-container-youtube").backstretch([
-					"img/slideshow/sample.jpg",
-					"img/slideshow/sample2.jpg"
+					"accueil/img/slideshow/sample.jpg",
+					"accueil/img/slideshow/sample2.jpg"
 				],{
 					duration:6000,
 					fade:'normal'
