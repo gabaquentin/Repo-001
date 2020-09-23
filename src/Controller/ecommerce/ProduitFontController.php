@@ -59,12 +59,6 @@ class ProduitFontController extends AbstractController
             ];
 
         }
-        /** @var Produit $produit */
-        $produit = $em->getRepository(Produit::class)->findOneBy(["id"=>301]);
-        $pAs = [];
-        foreach ($produit->getProduitsAssocies() as $produitsAssocy) {
-            $pAs[] = $em->getRepository(Produit::class)->findOneBy(["id"=>$produitsAssocy]);
-        }
 
         return $this->render('frontend/ecommerce/produit/all-products.html.twig', [
             'categories' => $categoriesProd,
