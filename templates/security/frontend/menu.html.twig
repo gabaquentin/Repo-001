@@ -1,9 +1,0 @@
-<div class="tabs account-tabs">
-    <ul>
-        <li {% if app.request.attributes.get('_route') == "app_account" or app.request.attributes.get('_route') == "app_account_edit" %} class="is-active" {% endif %}><a href="{{path('app_account')}}">Account</a></li>
-        <li {% if app.request.attributes.get('_route') == "app_whishlist" %} class="is-active" {% endif %}><a href="{{path('app_whishlist')}}">Wishlist</a></li>
-        <li {% if app.request.attributes.get('_route') == "app_cart" %} class="is-active" {% endif %}><a href="{{path('app_cart')}}">Cart</a></li>
-        <li {% if app.request.attributes.get('_route') == "app_orders" %} class="is-active" {% endif %}><a href="{{path('app_orders')}}">Orders</a></li>
-        <li {% if app.request.attributes.get('_route') == "app_security" %} class="is-active" {% endif %}><a href="{{path('app_security')}}">Securité</a></li>
-    </ul>
-</div>

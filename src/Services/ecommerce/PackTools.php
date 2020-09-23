@@ -4,20 +4,122 @@
 namespace App\Services\ecommerce;
 
 
+use App\Entity\BoostedProducts;
 use App\Entity\CategorieProd;
+use App\Entity\Produit;
 use App\Entity\User;
+use App\Repository\BoostedProductsRepository;
 use App\Repository\CategorieProdRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 
 class PackTools
 {
     private $repCat;
     private $appKernel;
+    private $repBoostedProd;
+    private $em;
 
-    public function __construct(CategorieProdRepository $repCat, KernelInterface $appKernel)
+    public function __construct(CategorieProdRepository $repCat, KernelInterface $appKernel, BoostedProductsRepository $repBoostedProd, EntityManagerInterface $em)
     {
         $this->repCat = $repCat;
         $this->appKernel = $appKernel;
+        $this->repBoostedProd = $repBoostedProd;
+        $this->em = $em;
+    }
+
+    /**
+     * @return BoostedProducts
+     */
+    private function getBoostedProductsEntity()
+    {
+        $data = $this->repBoostedProd->findAll();
+        if (empty($data)) {
+            $bProd = new BoostedProducts();
+            $this->em->persist($bProd);
+            $this->em->flush();
+            return $bProd;
+        }
+        return $data[0];
+    }
+
+    /**
+     * la structure de $data
+     *  [
+     *      [
+     *          "idProd"=>"",
+     *          "idCat"=>"",
+     *          "duration"=>"" en jour
+     *      ]
+     * ]
+     * @param array $data
+     */
+    public function persistBoostedProduct(array $data)
+    {
+        $bProd = $this->getBoostedProductsEntity();
+        $boostedProducts = $bProd->getBoostedProducts();
+        foreach ($data as $datum) {
+            $idProd = $datum["idProd"];
+            $duration = $datum["duration"];
+            $idCat = $datum["idCat"];
+            if (array_key_exists($idProd, $boostedProducts)) {
+                $endDate = $boostedProducts[$idProd]["endDate"];
+            } else {
+                $endDate = new \DateTime();
+            }
+            try {
+                $endDate = $endDate->add(new \DateInterval('P' . $duration . 'D'));
+            } catch (\Exception $e) {
+            }
+            $boostedProducts[$idProd] = [
+                "idCat" => $idCat,
+                "endDate" => $endDate,
+            ];
+        }
+
+        $bProd->setBoostedProducts($boostedProducts);
+        $this->em->persist($bProd);
+        $this->em->flush();
+    }
+
+    public function deleteBoostedProduct(Produit $produit)
+    {
+        $bProd = $this->getBoostedProductsEntity();
+        $boostedProducts = $bProd->getBoostedProducts();
+        if(array_key_exists($produit->getId(),$boostedProducts))
+        {
+            unset($boostedProducts[$produit->getId()]);
+            $bProd->setBoostedProducts(array_values($boostedProducts[$produit->getId()]));
+            $this->em->persist($bProd);
+            $this->em->flush();
+        }
+    }
+
+    /**
+     * @param array|null $idCategories
+     * @return Produit[]
+     */
+    public function getBoostedProducts(?array $idCategories)
+    {
+        $idProduits = [];
+        $now = (new \DateTime());
+        $bProd = $this->getBoostedProductsEntity();
+        $boostedProducts = $bProd->getBoostedProducts();
+
+        foreach ($boostedProducts as $idProd => $data) {
+            if ($now >= $data["endDate"]) {
+                unset($boostedProducts[$idProd]);
+            } else {
+                $idProduits[] = $idProd;
+            }
+        }
+        if (!empty(array_diff(array_keys($bProd->getBoostedProducts()), array_keys($boostedProducts)))) {
+            $bProd->setBoostedProducts($boostedProducts);
+            $this->em->persist($bProd);
+            $this->em->flush();
+        }
+
+        return $this->em->getRepository(Produit::class)->FindValidProducts((empty($idCategories) ? null : $idCategories), null, $idProduits);
     }
 
     public function showUserPackDetails(User $user)
@@ -43,7 +145,7 @@ class PackTools
                 "total" => 0,
             ],
         ];
-        $types = ["postes","boost"];
+        $types = ["postes", "boost"];
         $packs = $user->getPackProduct();
         foreach ($packs as $pack) {
             foreach ($types as $type) {
@@ -68,11 +170,11 @@ class PackTools
      * @param string $typePack
      * @return array
      */
-    public function subtractUnitToPack(User $user, int $idCategory,$typePack="postes")
+    public function subtractUnitToPack(User $user, int $idCategory, $typePack = "postes")
     {
         $packs = $user->getPackProduct();
         foreach ($packs as $key => $pack) {
-            if (key_exists($typePack, $pack)) {
+            if (array_key_exists($typePack, $pack)) {
                 foreach ($pack[$typePack]["categories"] as $category => $nbrPost) {
                     if ($idCategory == $category) {
                         $pack[$typePack]["categories"][$category] -= 1;
@@ -101,9 +203,9 @@ class PackTools
         $cats = [];
         $packs = $user->getPackProduct();
         foreach ($packs as $pack) {
-            if (key_exists($typePack, $pack)) {
+            if (array_key_exists($typePack, $pack)) {
                 foreach ($pack[$typePack]["categories"] as $category => $nbrPost) {
-                    if(intval($nbrPost)>0)
+                    if (intval($nbrPost) > 0)
                         $cats[] = intval($category);
                 }
             }
@@ -158,39 +260,57 @@ class PackTools
      * @param User $user
      * @param array $packs
      * @return array
+     * [
+     *      ""=>[
+     *              "postes|boost"=>[
+     *                                   "categories"=>["idCat"=>"nbreJours|nbrePostes"]
+     *                              ]
+     *          ]
+     * ]
      */
     public function mergeUserPacks(User $user, $packs)
     {
         $userPacks = $user->getPackProduct();
         foreach ($packs as $pack) {
-            if ($pack["id"] == 1) {
+            if ($pack["id"] == 1 || $pack["id"] == 2) {
+                $exist = -1;
                 foreach ($userPacks as $key => $userPack) {
-                    if (($userPack["id"] == 1 || $userPack["id"] == 0)&&$pack["id"] == 1) {
+                    if (($userPack["id"] == 1 || $userPack["id"] == 0) && $pack["id"] == 1) {
                         if ($userPack["id"] == 0) {
                             $save = $userPack;
                             $userPack = $pack;
                             $pack = $save;
                         }
                         foreach ($pack["postes"]["categories"] as $id => $nbrPostes) {
-                            if (key_exists($id, $userPack["postes"]["categories"]))
+                            if (array_key_exists($id, $userPack["postes"]["categories"]))
                                 $userPack["postes"]["categories"]["$id"] += $pack["postes"]["categories"]["$id"];
                             else
                                 $userPack["postes"]["categories"]["$id"] = $pack["postes"]["categories"]["$id"];
                         }
 
-                        $userPacks[$key] = $userPack;
-                    }elseif($pack["id"] == 2){
-                        foreach ($pack["boost"]["categories"] as $id => $nbrJours) {
-                            if (key_exists($id, $userPack["boost"]["categories"]))
-                                $userPack["boost"]["categories"]["$id"] += $pack["boost"]["categories"]["$id"];
-                            else
-                                $userPack["boost"]["categories"]["$id"] = $pack["boost"]["categories"]["$id"];
-                        }
+                    } elseif ($userPack["id"] == 2) {
+                        $exist = $key;
                     }
+
+                    $userPacks[$key] = $userPack;
                 }
+                if($exist!=-1 && $pack["id"] == 2)
+                {
+                    $userPack = $userPacks[$exist];
+                    foreach ($pack["boost"]["categories"] as $id => $nbrJours) {
+                        if (array_key_exists($id, $userPack["boost"]["categories"]))
+                            $userPack["boost"]["categories"]["$id"] += $pack["boost"]["categories"]["$id"];
+                        else
+                            $userPack["boost"]["categories"]["$id"] = $pack["boost"]["categories"]["$id"];
+                    }
+                    $userPacks[$exist] = $userPack;
+                }
+                else if ($exist==-1 && $pack["id"] == 2)
+                    $userPacks = array_merge($userPacks, $packs);
             }
             else
                 $userPacks = array_merge($userPacks, $packs);
+
         }
         return $userPacks;
     }

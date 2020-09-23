@@ -20,6 +20,7 @@ Class AppExtension extends AbstractExtension
         return [
             new TwigFunction('dateToday', [$this, 'dateToday']),
             new TwigFunction('countProductsValid', [$this, 'countProductsValid']),
+            new TwigFunction('truncateString', [$this, 'truncateString']),
         ];
     }
 
@@ -30,6 +31,14 @@ Class AppExtension extends AbstractExtension
             return (1)." Jour";
 
         return ($days/365)<1?$days." Jours":((int)$days/365)." Ans";
+    }
+
+    public function truncateString(string $str,int $num=30)
+    {
+        if (strlen($str) <= $num) {
+            return $str;
+        }
+        return substr($str,0,$num) . '...';
     }
 
     /**

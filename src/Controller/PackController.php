@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Produit;
 use App\Entity\User;
 use App\Services\ecommerce\PackTools;
 use App\Services\ecommerce\Tools;
@@ -104,6 +105,8 @@ class PackController extends AbstractController
         $post = $request->get("post");
         $total = $request->get("total");
         $categories = $request->get("cats");
+
+        // récupération du titre et de l'image d'un pack
         $packInfo = $packTools->getPackInfoContent();
         $titre = "inconnu";
         $blaz = "undefined";
@@ -118,25 +121,47 @@ class PackController extends AbstractController
             "id" => $id,
             "titre" => $titre,
             "blaz" => $blaz,
-            "duration" => ($duration!=0)?$duration + 1:$duration,
+            "duration" => $duration,
             "post" => $post,
             "categories" => $categories,
         ];
-
         $data = $packTools->generatePackData($data);
+
         /*$users = $em->getRepository(User::class)->findAll();
         foreach ($users as $user) {
             $user->setPackProduct($packTools->getDefaultPack());
             $em->persist($user);
         }
         $em->flush();*/
-
         $data = $packTools->mergeUserPacks($user, $data);
-
         $user->setPackProduct($data);
 
+        if ($post == 0) {
+            $userPacks = $user->getPackProduct();
+            $boostPack= [];
+            foreach ($userPacks as $userPack) {
+                if(key_exists("boost",$userPack))
+                    $boostPack = $userPack;
+            }
+            if(key_exists("id",$boostPack)&&$boostPack["id"]==2){
+                $data = [];
+
+                $categories = array_keys($boostPack["boost"]["categories"]);
+                $produitsForBoost = $em->getRepository(Produit::class)->FindValidProductsForBoost($categories,$user);
+                foreach ($produitsForBoost as $produit) {
+                    $idCat = $produit->getCategorieProd()->getId();
+                    $data[] = [
+                        "idProd"=>$produit->getId(),
+                        "idCat"=>$idCat,
+                        "duration"=>$boostPack["boost"]["categories"][$idCat]
+                    ];
+                }
+
+                $packTools->persistBoostedProduct($data);
+            }
+        }
         $em->persist($user);
         $em->flush();
-        return $this->json(["success" => ["test success"]]);
+        return $this->json(["success" => ["Vous avez acheter le ".$titre]]);
     }
 }
