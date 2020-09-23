@@ -350,13 +350,12 @@
 
            //Récupération des donnnées des produits
            let productId =parseInt($('#product-page').attr('data-product-id'));
-           let name = $('#panel-product-name').text();
+           let name = truncateString($('#panel-product-name').text().toUpperCase(),30);
            let prix = parseFloat($('#new-price').text());
            let categorie = $('#product-details-sku').text();
            let img = $("#images").attr('data-images');
            let reload= $('.cart-loader');
            let quantite = 1 ;
-           alert(productId);
            let found = data.products.some(function (el) {
                return parseInt(el.id) === productId;
            });
@@ -385,6 +384,10 @@
                    }
                }
            }
+           setTimeout(function () {
+               $('.account-loader').removeClass('is-active');
+               toasts.service.success('', 'fas fa-plus', 'Le produit a été ajouté au panier avec succès', 'bottomRight', 2500);
+           }, 800);
            getCart();
        })
    </script>

@@ -60,7 +60,7 @@ class ProduitFontController extends AbstractController
 
         }
         /** @var Produit $produit */
-        $produit = $em->getRepository(Produit::class)->findOneBy(["id"=>100]);
+        $produit = $em->getRepository(Produit::class)->findOneBy(["id"=>301]);
         $pAs = [];
         foreach ($produit->getProduitsAssocies() as $produitsAssocy) {
             $pAs[] = $em->getRepository(Produit::class)->findOneBy(["id"=>$produitsAssocy]);
