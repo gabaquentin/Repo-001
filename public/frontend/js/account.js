@@ -6,6 +6,7 @@ var enableShippingAddress = false;
 
 function getAccountInfo() {
   var userData = JSON.parse(localStorage.getItem('user')); //If not logged in, hide account
+  var url = window.location.href;
 
   if (!userData.isLoggedIn) {
     $('#account-main, #account-main-placeholder').toggleClass('is-hidden');
@@ -13,9 +14,18 @@ function getAccountInfo() {
   } //Load account info
   else {
       //Photo
+    if(url.toString() === "http://127.0.0.1:8000/partenariat" && userData.partenariat ==="boutique")
+    {
+      $('.profile-image').empty();
+      var avatar = "\n        <img src=\"" + userData.logo + "\" data-demo-src=\"" + userData.logo + "\" alt=\"\">\n    ";
+      $('.profile-image').append(avatar);
+    }
+    else
+    {
       $('.profile-image').empty();
       var avatar = "\n        <img src=\"" + userData.photoUrl + "\" data-demo-src=\"" + userData.photoUrl + "\" alt=\"\">\n    ";
-      $('.profile-image').append(avatar); //User Info
+      $('.profile-image').append(avatar);
+    }
 
       $('#account-first-name').html(userData.firstName);
       $('#account-last-name').html(userData.lastName);

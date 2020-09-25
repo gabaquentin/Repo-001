@@ -36,12 +36,14 @@
 {% block body %}{% endblock %}
 
 <!-- /Content Wrapper -->
+
 {% include 'security/frontend/getuser.html.twig' %}
 
 
 
 <script src="{{ asset('axios/constants.js') }}"></script>
 <script src="{{ asset('axios/default-functions-front.js') }}"></script>
+
 <!-- Concatenated plugins -->
 <script src="{{ asset('frontend/js/app.js') }}"></script>
 
@@ -65,15 +67,19 @@
 <script src="{{ asset('frontend/js/checkout.js') }}"></script>
 <script src="{{ asset('frontend/js/search.js') }}"></script>
 <script src="{{ asset('frontend/js/security.js') }}"></script>
+<script src="{{ asset('frontend/js/elements.js') }}"></script>
+
 <script>
     const imageProdPath = "/images/produits/";
 </script>
+
 {% block javascript %}{% endblock %}
 <!-- Sweet Alerts js -->
 <script src="{{ asset('backend/libs/sweetalert2/sweetalert2.min.js') }}"></script>
 
 <!-- Sweet alert init js-->
 <script src="{{ asset('backend/js/pages/sweet-alerts.init.js') }}"></script>
+
 </body>
 
 </html>

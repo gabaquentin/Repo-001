@@ -5,7 +5,6 @@ namespace App\Controller\securo;
 use App\Entity\Billing;
 use App\Entity\Shipping;
 use App\Entity\User;
-use App\Form\RegistrationFormType;
 use App\Security\EmailVerifier;
 use App\Security\LoginFormAuthenticator;
 use App\Services\ecommerce\PackTools;
@@ -70,6 +69,7 @@ class RegistrationController extends AbstractController
             // code 0 : if no prblems with registration
             if($code == 0)
             {
+
                 $user = new User();
                 $shipping = new Shipping();
                 $billing = new Billing();
@@ -129,7 +129,9 @@ class RegistrationController extends AbstractController
                 $entityManager->persist($user);
                 $entityManager->flush();
 
+
                 // generate a signed url and email it to the user
+
 
                 $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
                     (new TemplatedEmail())
@@ -139,17 +141,19 @@ class RegistrationController extends AbstractController
                         ->htmlTemplate('registration/confirmation_email.html.twig')
                 );
 
+
                 // do anything else you need here, like send an email
 
                 $jsonData["infos"] = "Inscription effectué avec succés" ;
 
-
+/*
                 return $guardHandler->authenticateUserAndHandleSuccess(
                     $user,
                     $request,
                     $authenticator,
                     'main' // firewall name in security.yaml
                 );
+*/
 
             } // code 100 : if email already exist in data base
             elseif($code == 100)

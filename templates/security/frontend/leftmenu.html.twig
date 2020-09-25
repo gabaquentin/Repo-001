@@ -7,7 +7,7 @@
     <!-- Brand -->
     <div class="navbar-brand">
         <a class="navbar-item" href="{{path('app_account')}}">
-            <img src="{{ asset('frontend/img/logo/nephos-gold.svg') }}" alt="">
+            <img src="assets/img/logo/nephos.svg" alt="">
         </a>
 
         <!-- Sidebar mode toggler icon -->
@@ -63,16 +63,13 @@
 <!-- Main Sidebar-->
 <div class="main-sidebar">
     <div class="sidebar-brand">
-        <a href="{{path('app')}}"><img src="{{ asset('frontend/img/logo/nephos.svg') }}" alt=""></a>
+        <a href="{{path('app')}}"><img src="assets/img/logo/nephos.svg" alt=""></a>
     </div>
     <div class="sidebar-inner">
         <ul class="icon-menu">
             <!-- Shop sidebar trigger -->
             <li>
                 <a href="javascript:void(0);" id="open-shop"><i data-feather="home"></i></a>
-            </li> <!-- Cart sidebar trigger -->
-            <li>
-                <a href="javascript:void(0);" id="open-cart"><i data-feather="shopping-cart"></i><span id="cart-dot" class="cart-items gelatine is-hidden"></span></a>
             </li> <!-- Search trigger -->
             <li>
                 <a href="javascript:void(0);" id="open-search"><i data-feather="search"></i></a>
@@ -155,7 +152,6 @@
                     <img id="quickview-avatar" src="http://via.placeholder.com/250x250" data-demo-src="{{ asset('frontend/img/avatars/altvatar.png') }}" alt="">
                     <span class="user">
                                 <span id="quickview-username">Guest</span>
-                        <span id="quickview-cart-count"><var>0</var> <small>Items in Cart</small></span>
                         </span>
                 </a>
             </li>
@@ -163,72 +159,3 @@
     </div>
 </div>
 <!-- Cart quickview -->
-<div class="cart-quickview">
-    <div class="inner">
-        <!-- Header -->
-        <div class="quickview-header">
-            <h2>Quick Cart</h2>
-            <span id="close-cart-sidebar"><i data-feather="x"></i></span>
-        </div>
-        <!-- Total and checkout -->
-        <div class="cart-action">
-                <span class="cart-total">
-                        0.00
-                    </span>
-            <a href="cart.html" class="button view-cart-button primary-button upper-button raised is-bold">
-                <span>View Cart</span>
-            </a>
-            <a class="button update-cart-button upper-button is-bold is-hidden">
-                <span>Update</span>
-            </a>
-        </div>
-        <!-- Cart quickview body -->
-        <div class="cart-body">
-
-            <!--Placeholder-->
-            <div class="empty-cart has-text-centered is-hidden">
-                <img src="{{ asset('frontend/img/icons/line/bag.svg') }}" alt="">
-                <h3>Your cart is empty</h3>
-                <p>Start by adding products to it</p>
-                <a href="shop.html" class="button big-button rounded">Continue Shopping</a>
-                <small>You can create your account later</small>
-            </div>
-
-            <!--Loader-->
-            <div class="cart-loader is-active">
-                <div class="loader is-loading"></div>
-            </div>
-
-            <ul class="shopping-cart-items">
-                <!-- Item -->
-                <li class="clearfix">
-                    <img src="http://via.placeholder.com/250x250" data-demo-src="{{ asset('frontend/img/products/office5.jpg') }}" alt="" />
-                    <span class="item-meta">
-                                <span class="item-name">Cosy Chair</span>
-                        <span class="item-price">
-                                    <var>88.00</var> x <span>1</span>
-                        </span>
-                        </span>
-                    <span class="quantity">
-                                <div data-trigger="spinner" class="return-spinner">
-                                    <input class="hidden-spinner" type="hidden" value="1" data-spin="spinner"
-                                           data-rule="quantity" data-min="1" data-max="99">
-                                    <a class="spinner-button is-remove" href="javascript:;" data-spin="down">
-                                        <i data-feather="minus"></i>
-                                    </a>
-                                    <span class="spinner-value">1</span>
-                        <a class="spinner-button is-add" href="javascript:;" data-spin="up">
-                            <i data-feather="plus"></i>
-                        </a>
-            </div>
-            </span>
-
-                    <span class="remove-item">
-                                <i data-feather="x" class="has-simple-popover" data-content="Remove from Cart"
-                                   data-placement="top"></i>
-                            </span>
-                </li>
-            </ul>
-        </div>
-    </div>
-</div>
