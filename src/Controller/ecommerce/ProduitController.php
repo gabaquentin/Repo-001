@@ -11,6 +11,7 @@ use App\Entity\User;
 use App\Form\ecommerce\ProduitType;
 use App\Repository\CategorieProdRepository;
 use App\Repository\ProduitRepository;
+use App\Services\ecommerce\PackTools;
 use App\Services\ecommerce\Tools;
 use App\Services\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
@@ -25,13 +26,12 @@ use function Symfony\Component\String\s;
 
 /**
  * Class ProduitController
- * @Route("/back/ecommerce/produit")
  * @package App\Controller\ecommerce
  */
 class ProduitController extends AbstractController
 {
     /**
-     * @Route("/", name="produit_back")
+     * @Route("/back/ecommerce/produit", name="produit_back")
      * @return Response
      */
     public function index()
@@ -40,7 +40,7 @@ class ProduitController extends AbstractController
     }
 
     /**
-     * @Route("/get_produit_back", name="get_produit_back")
+     * @Route("/back/ecommerce/produit/get_produit_back", name="get_produit_back")
      * @param Request $request
      * @param ProduitRepository $repo
      * @param Tools $tools
@@ -71,14 +71,21 @@ class ProduitController extends AbstractController
     }
 
     /**
-     * @Route("/add",name="add_produit")
-     * @Route("/modif/{produit}",name="modify_produit")
+     * @Route("/back/ecommerce/produit/add",name="add_produit")
+     * @Route("/back/ecommerce/produit/modif/{produit}",name="modify_produit")
      * @param EntityManagerInterface $em
      * @param Produit|null $produit
      * @return Response
      */
     public function add(EntityManagerInterface $em,Produit $produit=null)
     {
+        /** @var User $user */
+        $user = $this->getUser();
+        if(!$user)
+            die("page de connexion");
+        if(!$user->isAdmin())
+            die("pas admin");
+
         if($produit==null)
             $produit = new Produit();
 
@@ -95,12 +102,12 @@ class ProduitController extends AbstractController
             $extraData["desc"] = $produit->getDescription();
         }
 
-        $cats = $em->getRepository(CategorieProd::class)->findAllCategories();
+        $cats = $em->getRepository(CategorieProd::class)->findSousCategories();
         $categoriesProd = [];
         foreach ($cats as $cat) {
             $categoriesProd[]=[
                 "categorie" => $cat,
-                "produits" => $em->getRepository(Produit::class)->FindValidProducts($cat->getId()),
+                "produits" => $em->getRepository(Produit::class)->FindValidProducts($cat->getId(),$produit->getId()),
             ];
         }
 
@@ -118,13 +125,19 @@ class ProduitController extends AbstractController
      * @param FileUploader $uploader
      * @param EntityManagerInterface $manager
      * @param Tools $tools
+     * @param PackTools $packTools
      * @param Produit|null $produit
      * @return JsonResponse
      */
-    public function save(Request $request,FileUploader $uploader,EntityManagerInterface $manager,Tools $tools,Produit $produit=null)
+    public function save(Request $request,FileUploader $uploader,EntityManagerInterface $manager,Tools $tools,PackTools $packTools,Produit $produit=null)
     {
         if(!$request->isXmlHttpRequest())
             die();
+
+        /** @var User $user */
+        $user = $this->getUser();
+        if(!$user)
+            die("page de connexion");
 
         if($produit==null)
             $produit = new Produit();
@@ -132,6 +145,7 @@ class ProduitController extends AbstractController
         $form = $this->createForm(ProduitType::class,$produit,[
             "action"=>$this->generateUrl("save_produit",["produit"=>$produit->getId()]),
         ]);
+
 
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid())
@@ -193,7 +207,15 @@ class ProduitController extends AbstractController
             $produit->getDate()->setDateModification(new \DateTime());
 
             if(is_null($produit->getClient()))
-                $produit->setClient($this->getUser());
+            {
+                $produit->setClient($user);
+                if(!$user->isAdmin())
+                {
+                    $newPack = $packTools->subtractUnitToPack($user,$produit->getCategorieProd()->getId());
+                    $user->setPackProduct($newPack);
+                    $manager->persist($user);
+                }
+            }
 
             $produit
                 ->setImages($imageNames)
@@ -265,11 +287,12 @@ class ProduitController extends AbstractController
     /**
      * @Route("/delete" , name="delete_produit")
      * @param Request $request
+     * @param PackTools $packTools
      * @param EntityManagerInterface $manager
      * @param FileUploader $uploader
      * @return JsonResponse
      */
-    public function delete(Request $request,EntityManagerInterface $manager,FileUploader $uploader)
+    public function delete(Request $request,PackTools $packTools,EntityManagerInterface $manager,FileUploader $uploader)
     {
         $id = $request->get("idProduit");
 
@@ -284,7 +307,9 @@ class ProduitController extends AbstractController
             if($produit->getClient() !== $user)
                 die("vous ne pouvez pas acceder à cette page");
 
-        /*foreach ($produit->getImages() as $imgeName)
+        /*
+             $packTools->deleteBoostedProduct($produit);
+        foreach ($produit->getImages() as $imgeName)
             $uploader->deleteFile($imgeName,"produit");
 
         $manager->remove($produit);

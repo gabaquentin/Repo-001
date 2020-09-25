@@ -39,6 +39,8 @@ class CategorieProdType extends AbstractType
                 'choices'  =>$this->tools->getTypeProduit(),
             ])
             ->add('categorieParent',EntityType::class,$formOption)
+            ->add('uniteAnnonce')
+            ->add('uniteBoost')
         ;
     }
 

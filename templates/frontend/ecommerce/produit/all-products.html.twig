@@ -2,9 +2,28 @@
 
 {% block stylesheets %}
     <style>
-        .select{
-            width: 100%;
+        .slick-prev:before, .slick-next:before {
+            font-size: 20px !important;
+            color: blue !important;
+            opacity: 1 !important;
         }
+        .flat-card.featured-product{
+            background-color: #f1c40f;
+        }
+        .featured-product .product-name{
+            color: white;
+        }
+        .recommended{
+            color: blue;
+            font-weight: bold;
+        }
+        .flat-card .image{
+            margin-bottom: 5px !important;
+        }
+        .flat-card{
+            min-height: 245px;
+        }
+
     </style>
 {% endblock %}
 
@@ -78,11 +97,10 @@
                                     <!--Filter block-->
                                     {% for data in categories %}
 
-                                    <div class="filter-block category-block" data-id="{{ data.categorie.id }}">
+                                        <div class="filter-block category-block" data-id="{{ data.categorie.id }}">
                                             <div class="field">
                                                 <div class="control">
                                                     <label class="checkbox-wrap is-small">
-                                                        <input type="checkbox" class="d-checkbox">
                                                         <span></span>
                                                         <span class="filter-label">{{ data.categorie.nomCategorie }}</span>
                                                     </label>
@@ -92,6 +110,23 @@
                                                 <span>{{ data.nbreProduits }}</span>
                                             </div>
                                         </div>
+                                        {% for dataSc in data.sc %}
+
+                                            <div class="filter-block category-block" data-id="{{ dataSc.sc.id }}">
+                                                <div class="field">
+                                                    <div class="control">
+                                                        <label class="checkbox-wrap is-small">
+                                                            <input type="checkbox" class="d-checkbox">
+                                                            <span></span>
+                                                            <span class="filter-label">{{ dataSc.sc.nomCategorie }}</span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="filter-count">
+                                                    <span>{{ dataSc.nbreProduits }}</span>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
                                     {% endfor %}
                                 </div>
                                 <div class="filter-card">
@@ -107,8 +142,8 @@
                                             </select>
                                         </div>
                                     </div>
-
-                                    <label  >Type de transction</i></label>
+                                    <div class="filter-block">
+                                    <label  >Type de transction</label>
                                     <div class="filter-block control">
                                         <select class="native"  id="type-tansaction-filtre">
                                             <option value="">Tout</option>
@@ -117,7 +152,7 @@
                                             {% endfor %}
                                         </select>
                                     </div>
-
+                                    </div>
 
                                     <h3>Prix</h3>
                                     <!--Filter block-->
@@ -130,7 +165,7 @@
                                                     <small>Voir entre</small><span class="range-value"></span>
                                                 </div>
                                             </div>
-                                            <div class="price-limit">{{ prixMax }}</div>
+                                            <div class="price-limit">{{ prixMax|number_format(2) }}</div>
                                         </div>
                                     </div>
 
@@ -168,6 +203,38 @@
                             </div>
 
                             <div  class="column is-9">
+                                <div class="panel-footer">
+                                    <div class="footer-inner">
+                                        <div class="recommended">Produits à la une</div>
+                                        <div id="" class="columns  ">
+                                            <div class="column is-12 produit-asscocies">
+                                                {% for produit in produitAssocies %}
+                                                    <!-- Item -->
+                                                    <div class="column is-4 product-container" data-product-id=" {{ produit.id }}">
+                                                        <div class="featured-product flat-card">
+                                                            <div class="image">
+                                                                <img src="/images/produits/{{ produit.images|first }}" style="width: 100px;height: 100px" data-action="zoom" alt="">
+                                                            </div>
+                                                            <div class="product-info has-text-centered">
+                                                                <p class="product-price" data-price ="{{ produit.prix*(1-produit.prixPromo/100) }}">
+                                                                    {{ produit.prix*(1-produit.prixPromo/100) }} F CFA  {{ produit.ville.villes }}
+                                                                </p>
+                                                                <a class="" href="{{ path('show_single_product_front',{'produit':produit.id}) }}">
+                                                                    <h3 class="product-name">{{ truncateString(produit.nom) }}</h3>
+                                                                </a>
+                                                            </div>
+                                                            <div class="actions">
+                                                                <div class="add"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-cart has-simple-popover" data-content="Ajouter au panier" data-placement="top" ><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg></div>
+                                                                <div class="like"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-heart has-simple-popover" data-content="Ajouter à la Wishlist" data-placement="top"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="columns is-product-grid is-multiline products" data-show="0" data-max="32">
                                     <!-- Product card -->
 

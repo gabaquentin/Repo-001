@@ -1,6 +1,6 @@
 "use strict"; //Guest user object
 
-var user = {
+let user = {
   isLoggedIn: false,
   ableToEdit: false,
   firstName: null,
@@ -9,19 +9,20 @@ var user = {
   photoUrl: '/frontend/img/avatars/altvatar.png'
 }; // set user local
 
-var isAuthenticated = $('.js-user-rating').data('isAuthenticated');
-var nom = $('.js-user-first-name').data('nom');
-var prenom = $('.js-user-last-name').data('prenom');
-var email = $('.js-user-email').data('email');
-var phone = $('.js-user-phone').data('phone');
-var partenariat = $('.js-user-partenariat').data('partenariat');
-var image = $('.js-user-image').data('image');
-var logo = $('.js-user-logo').data('logo');
-var ableToEdit = $('.js-user-able-to-edit').data('ableToEdit');
+
+let isAuthenticated = $('.js-user-rating').data('isAuthenticated');
+let nom = $('.js-user-first-name').data('nom');
+let prenom = $('.js-user-last-name').data('prenom');
+let email = $('.js-user-email').data('email');
+let phone = $('.js-user-phone').data('phone');
+let partenariat = $('.js-user-partenariat').data('partenariat');
+let image = $('.js-user-image').data('image');
+let logo = $('.js-user-logo').data('logo');
+let ableToEdit = $('.js-user-able-to-edit').data('ableToEdit');
 
 if(isAuthenticated)
 {
-  var login = {
+  let login = {
     isLoggedIn: true,
     ableToEdit: ableToEdit,
     firstName: nom,
@@ -54,7 +55,7 @@ if (JSON.parse(localStorage.getItem('user')) === null) {
 
 
 function getUser() {
-  var data = JSON.parse(localStorage.getItem('user')); //Populate user areas
+  let data = JSON.parse(localStorage.getItem('user')); //Populate user areas
 
   $('#quickview-avatar').attr('src', data.photoUrl);
   $('#quickview-avatar').attr('data-demo-src', data.photoUrl);
@@ -234,8 +235,8 @@ function Login() {
  //Password Length validation
 
   $('#login-password').on('change', function () {
-    var $this = $(this);
-    var password = $this.val().trim();
+    let $this = $(this);
+    let password = $this.val().trim();
 
     if (!ValidateLength(password, 8)) {
       $('#login-submit').addClass('is-disabled');
@@ -247,8 +248,8 @@ function Login() {
   });
 
   $('#login-email').on('change', function () {
-    var $this = $(this);
-    var email = $this.val();
+    let $this = $(this);
+    let email = $this.val();
     if (email === "") {
       $('#login-submit').addClass('is-disabled');
       $this.closest('.field').addClass('has-error');
@@ -261,11 +262,11 @@ function Login() {
 
   $('#login-submit').on('click', function (event) {
 
-    // variable pour le calcul des erreurs de saisie
-    var erreur = -1;
+    // letiable pour le calcul des erreurs de saisie
+    let erreur = -1;
 
-    var password = $('#login-password').val().trim();
-    var email = $('#login-email').val().trim();
+    let password = $('#login-password').val().trim();
+    let email = $('#login-email').val().trim();
 
     if (!ValidateLength(password, 8)) {
       event.preventDefault();
@@ -289,7 +290,7 @@ function Login() {
     // si aucune erreur
 
     if(erreur === 0) {
-      var $this = $(this);
+      let $this = $(this);
       $this.addClass('is-loading');
       $('.small-auth-loader').addClass('is-active');
     }
@@ -301,8 +302,8 @@ function Login() {
 function Register() {
   //Email validation
   $('#register-email').on('change', function () {
-    var $this = $(this);
-    var email = $this.val().trim();
+    let $this = $(this);
+    let email = $this.val().trim();
 
     if (!ValidateEmail(email)) {
       $('#register-submit').addClass('is-disabled');
@@ -314,9 +315,9 @@ function Register() {
   }); //Phone Length validation
 
   $('#register-tel').on('change', function () {
-    var $this = $(this);
-    var tel = $this.val().trim();
-    var om = $('#register-om').val().trim();
+    let $this = $(this);
+    let tel = $this.val().trim();
+    let om = $('#register-om').val().trim();
 
     if (!ValidateTelLength(om, tel, 9)) {
       $('#register-submit').addClass('is-disabled');
@@ -328,8 +329,8 @@ function Register() {
   }); //Password validation
 
   $('#register-password').on('change', function () {
-    var $this = $(this);
-    var password = $this.val().trim();
+    let $this = $(this);
+    let password = $this.val().trim();
 
     if (!ValidatePassword(password)) {
       setTimeout(function () {
@@ -351,9 +352,9 @@ function Register() {
   }); //Verifing matching of passwords
 
   $('#register-confirm-password').on('change', function () {
-    var $this = $(this);
-    var confirm_passwordValue = $('#register-confirm-password').val();
-    var passwordValue = $('#register-password').val();
+    let $this = $(this);
+    let confirm_passwordValue = $('#register-confirm-password').val();
+    let passwordValue = $('#register-password').val();
 
     if (passwordValue !== confirm_passwordValue)
     {
@@ -366,8 +367,8 @@ function Register() {
   }); // message for language select
 
   $('#register-local').on('change', function () {
-    var $this = $(this);
-    var local = $this.val();
+    let $this = $(this);
+    let local = $this.val();
 
     if(local === "fr")
     {
@@ -394,8 +395,8 @@ function Register() {
   }); //
 
   $('#register-om').on('change', function () {
-    var $this = $(this);
-    var om = $this.val();
+    let $this = $(this);
+    let om = $this.val();
 
     $('#register-tel').val("");
 
@@ -431,8 +432,8 @@ function Register() {
   });
 
   $('#register-nom').on('change', function () {
-    var $this = $(this);
-    var nom = $this.val();
+    let $this = $(this);
+    let nom = $this.val();
     if (nom === "") {
       $('#register-submit').addClass('is-disabled');
       $this.closest('.field').addClass('has-error');
@@ -444,8 +445,8 @@ function Register() {
   });
 
   $('#register-prenom').on('change', function () {
-    var $this = $(this);
-    var prenom = $this.val();
+    let $this = $(this);
+    let prenom = $this.val();
     if (prenom === "") {
       $('#register-submit').addClass('is-disabled');
       $this.closest('.field').addClass('has-error');
@@ -464,17 +465,17 @@ function Register() {
     // variable pour le calcul des erreurs de saisie
     var erreur = 2;
 
-    var email =  $('#register-email').val().trim();
-    var password = $('#register-password').val().trim();
-    var tel = $('#register-tel').val().trim();
-    var om = $('#register-om').val().trim();
+    let email =  $('#register-email').val().trim();
+    let password = $('#register-password').val().trim();
+    let tel = $('#register-tel').val().trim();
+    let om = $('#register-om').val().trim();
 
-    var nom = $('#register-nom').val();
-    var prenom = $('#register-prenom').val();
-    var local = $('#register-local').val();
+    let nom = $('#register-nom').val();
+    let prenom = $('#register-prenom').val();
+    let local = $('#register-local').val();
 
-    var confirm_passwordValue = $('#register-confirm-password').val();
-    var passwordValue = $('#register-password').val();
+    let confirm_passwordValue = $('#register-confirm-password').val();
+    let passwordValue = $('#register-password').val();
 
     if (!ValidateEmail(email)) {
       event.preventDefault();
@@ -563,7 +564,7 @@ function Register() {
     // si aucune erreur
 
     if(erreur === 0) {
-      var $this = $(this);
+      let $this = $(this);
       $this.addClass('is-loading');
       var form = $('#registration-form');
 
@@ -650,8 +651,8 @@ function Reset() {
 
   // email validation
   $('#reset-email').on('change', function () {
-    var $this = $(this);
-    var email = $this.val().trim();
+    let $this = $(this);
+    let email = $this.val().trim();
 
     if (!ValidateEmail(email)) {
       $('#reset-submit').addClass('is-disabled');
@@ -662,8 +663,8 @@ function Reset() {
     }
   });// validate password
   $('#reset-password').on('change', function () {
-    var $this = $(this);
-    var password = $this.val().trim();
+    let $this = $(this);
+    let password = $this.val().trim();
 
     if (!ValidateLength(password, 8)) {
       $('#reset-process-submit').addClass('is-disabled');
@@ -679,7 +680,7 @@ function Reset() {
     event.preventDefault();
     var erreur = 1;
 
-    var email =  $('#reset-email').val().trim();
+    let email =  $('#reset-email').val().trim();
 
     if (!ValidateEmail(email)) {
       event.preventDefault();
@@ -743,8 +744,8 @@ function Reset() {
     event.preventDefault();
     var erreur = 1;
 
-    var password =  $('#reset-password').val().trim();
-    var passwordConfirm =  $('#reset-confirm-password').val().trim();
+    let password =  $('#reset-password').val().trim();
+    let passwordConfirm =  $('#reset-confirm-password').val().trim();
 
     if (!ValidatePassword(password)) {
       setTimeout(function () {
@@ -779,7 +780,7 @@ function Reset() {
     // si auccune erreur
     if (erreur === 0)
     {
-      var $this = $(this);
+      let $this = $(this);
       $this.addClass('is-loading');
 
       var form = $('#reset-process-form');
@@ -827,8 +828,8 @@ function Reset() {
 function Partenariat() {
 
   $('#partenariatB-nom').on('change', function () {
-    var $this = $(this);
-    var nom = $this.val();
+    let $this = $(this);
+    let nom = $this.val();
     if (nom === "") {
       $('#partenariat-boutique-submit').addClass('is-disabled');
       $this.closest('.field').addClass('has-error');
@@ -838,8 +839,8 @@ function Partenariat() {
     }
   });
   $('#partenariatS-cin').on('change', function () {
-    var $this = $(this);
-    var cin = $this.val();
+    let $this = $(this);
+    let cin = $this.val();
     if (cin === "") {
       $('#partenariat-services-submit').addClass('is-disabled');
       $this.closest('.field').addClass('has-error');
@@ -849,8 +850,8 @@ function Partenariat() {
     }
   });
   $('#partenariatB-desc').on('change', function () {
-    var $this = $(this);
-    var desc = $this.val().trim();
+    let $this = $(this);
+    let desc = $this.val().trim();
 
     if (!ValidateLength(desc, 10)) {
       $('#partenariat-boutique-submit').addClass('is-disabled');
@@ -861,8 +862,8 @@ function Partenariat() {
     }
   });
   $('#partenariatS-desc').on('change', function () {
-    var $this = $(this);
-    var desc = $this.val().trim();
+    let $this = $(this);
+    let desc = $this.val().trim();
 
     if (!ValidateLength(desc, 10)) {
       $('#partenariat-services-submit').addClass('is-disabled');
@@ -873,8 +874,8 @@ function Partenariat() {
     }
   });
   $('#partenariatB-domaine').on('change', function () {
-    var $this = $(this);
-    var domaine = document.querySelector("#partenariatB-domaine").selectedOptions.length;
+    let $this = $(this);
+    let domaine = document.querySelector("#partenariatB-domaine").selectedOptions.length;
 
     if(!domaine)
     {
@@ -888,8 +889,8 @@ function Partenariat() {
     }
   });
   $('#partenariatS-domaine').on('change', function () {
-    var $this = $(this);
-    var domaine = document.querySelector("#partenariatS-domaine").selectedOptions.length;
+    let $this = $(this);
+    let domaine = document.querySelector("#partenariatS-domaine").selectedOptions.length;
 
     if(!domaine)
     {
@@ -971,9 +972,9 @@ function Partenariat() {
     event.preventDefault();
     var erreur = 1;
 
-    var nom =  $('#partenariatB-nom').val();
-    var desc =  $('#partenariatB-desc').val();
-    var domaine =  document.querySelector("#partenariatB-domaine").selectedOptions.length;
+    let nom =  $('#partenariatB-nom').val();
+    let desc =  $('#partenariatB-desc').val();
+    let domaine =  document.querySelector("#partenariatB-domaine").selectedOptions.length;
 
     if (nom === "") {
       event.preventDefault();
@@ -1008,7 +1009,7 @@ function Partenariat() {
     // si auccune erreur
     if (erreur === 0)
     {
-      var $this = $(this);
+      let $this = $(this);
       $this.addClass('is-loading');
 
       var form = $('#partenariat-boutique-form');
@@ -1055,9 +1056,9 @@ function Partenariat() {
     event.preventDefault();
     var erreur = 1;
 
-    var cin =  $('#partenariatS-cin').val();
-    var desc =  $('#partenariatS-desc').val();
-    var domaine =  document.querySelector("#partenariatS-domaine").selectedOptions.length;
+    let cin =  $('#partenariatS-cin').val();
+    let desc =  $('#partenariatS-desc').val();
+    let domaine =  document.querySelector("#partenariatS-domaine").selectedOptions.length;
 
     if (cin === "") {
       event.preventDefault();
@@ -1092,7 +1093,7 @@ function Partenariat() {
     // si auccune erreur
     if (erreur === 0)
     {
-      var $this = $(this);
+      let $this = $(this);
       $this.addClass('is-loading');
       var form = $('#partenariat-services-form');
 
@@ -1141,15 +1142,15 @@ function Logout() {
     $('.small-auth-loader').addClass('is-active');
     localStorage.removeItem('user');
     setTimeout(function () {
-      toasts.service.success('', 'fas fa-check', 'Vous etes maintenant deconnecté', 'bottomRight', 2000);
+      toasts.service.success('', 'fas fa-check', 'Successfully logged out', 'bottomRight', 2000);
     }, 600);
   });
 } //Accounts panel (Demo: do not use in production)
 
 
 $(window).on('load', function () {
-  var url = window.location.href;
-  var userData = JSON.parse(localStorage.getItem('user'));
+  let url = window.location.href;
+  let userData = JSON.parse(localStorage.getItem('user'));
 
   if (url.indexOf("/login") > -1) {
     //If logged in, redirect
@@ -1182,7 +1183,7 @@ $(window).on('load', function () {
         }).then(function (t) {
           if(t.value)
           {
-            var login = {
+            let login = {
               isLoggedIn: true,
               ableToEdit: true,
               firstName: userData.firstName,

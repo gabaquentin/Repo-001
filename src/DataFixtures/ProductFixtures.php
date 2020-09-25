@@ -34,26 +34,46 @@ class ProductFixtures extends Fixture
     {
         $f = Factory::create("fr_FR");
 
+        /** @var CategorieProd[] $cats */
         $cats = [];
         $villes = [];
         $users = [];
         $typeProduit = $this->tools->getTypeProduit();
-        for ($i=0 ;$i<4;$i++)
+        for ($i=0 ;$i<8;$i++)
         {
             $cat = (new CategorieProd())
                 ->setNomCategorie($f->sentence(2))
                 ->setOrdre($i+1)
                 ->setTypeCategorie($typeProduit[["immobilier","fourniture"][$f->numberBetween(0,1)]])
                 ->setQuantite(0)
+                ->setUniteAnnonce($f->numberBetween(50,2000))
+                ->setUniteBoost($f->numberBetween(50,2000))
                 ;
             $manager->persist($cat);
             $cats[] = $cat;
         }
 
+        for ($i=2 ;$i<count($cats);$i++)
+        {
+            $cats[$i]->setCategorieParent($cats[$f->numberBetween(0,1)]);
+        }
 
         for ($i=0;$i<100;$i++)
         {
             $user = (new User())
+                ->setPackProduct([
+                    [
+                        "id"=>0,
+                        "titre"=>"Default Pack",
+                        "description"=>"Ce pack vous donne la possibilité de poste 5 annonces gratuitement",
+                        "blaz"=>"/frontend/img/illustrations/smile.svg",
+                        "prixBase"=>"0 F CFA",
+                        "postes"=>[
+                            "nbrPostes"=>5,
+                            "categories"=>["all"],
+                        ],
+                    ],
+                ])
                 ->setNom($f->firstName())
                 ->setPrenom($f->firstName())
                 ->setEmail($f->email)
@@ -93,7 +113,7 @@ class ProductFixtures extends Fixture
             ];
 
             /** @var CategorieProd $catP */
-            $catP = $cats[$f->numberBetween(0,3)];
+            $catP = $cats[$f->numberBetween(2,count($cats)-1)];
 
             $date = (new Date())->setDateAjout($f->dateTime("now"))->setDateModification($f->dateTime("now"));
             $manager->persist($date);

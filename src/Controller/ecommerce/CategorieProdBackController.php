@@ -45,7 +45,7 @@ class CategorieProdBackController extends AbstractController
      * @Route("/save/{category}", name="save_category")
      * @param Request $request
      * @param Tools $tools
-     * @param CategorieProd $category
+     * @param CategorieProd|null $category
      * @return JsonResponse | RedirectResponse
      */
     public function saveCategory(Request $request,Tools $tools,CategorieProd $category = null)
@@ -132,6 +132,9 @@ class CategorieProdBackController extends AbstractController
         {
             if($category->getCategorieParent())
             {
+                if($category->getCategorieParent()->getId()==$category->getId())
+                    return $this->json(["errors" => ["Une catégorie ne peut être son propre parent "]]);
+
                 if(!($category->getTypeCategorie() == $category->getCategorieParent()->getTypeCategorie()))
                     return $this->json(["errors"=>["La sous catégorie ".$category->getNomCategorie()." de type ".$category->getTypeCategorie(). " ne peut être fille de la catégorie de type ".$category->getCategorieParent()->getTypeCategorie()]]);
             }

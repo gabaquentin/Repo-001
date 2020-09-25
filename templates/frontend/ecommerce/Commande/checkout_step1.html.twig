@@ -1,11 +1,6 @@
-{% extends 'security/frontend/base.html.twig' %}
+{% extends 'frontend/ecommerce/base.html.twig' %}
 
 {% block stylesheets %}
-    <style>
-        .select{
-            width: 100%;
-        }
-    </style>
 {% endblock %}
 
 {% block title %}Checkout{% endblock %}
@@ -100,7 +95,7 @@
                     <div class="side-inner has-slimscroll">
                         <div class="side-card user-card">
                             <div class="avatar-container">
-                                <img id="checkout-avatar" src="http://via.placeholder.com/250x250" data-demo-src="assets/img/avatars/elie.jpg" alt="">
+                                <img id="checkout-avatar" src="{{ app.user.image }}"  alt="">
                             </div>
                             <div class="meta">
                                 <span>Checkout as</span>
@@ -113,7 +108,7 @@
                                 <input id="shipping-switch" type="checkbox" class="is-switch">
                                 <i></i>
                             </label>
-                            <h3 class="address-title">Shipping Address</h3>
+                            <h3 class="address-title">Adresse de Livraison <span class="edit-account"></span> </h3>
                             <p class="address">
                                 <var id="shipping-address1">463 San Bernardo Ave</var>, <var id="shipping-address2">Crimson Road</var>
                                 <br><var id="shipping-city">Long Beach</var>, <var id="shipping-state">CA</var> <var id="shipping-postalCode">90808</var>

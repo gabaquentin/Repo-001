@@ -47,6 +47,7 @@ class AvisController extends AbstractController
                 $a->setNote($request->request->get('notes'));
                 $a->setProduit($repoProduit->findOneBy(['id'=>$request->request->get('idproduit')]));
                 $a->setDatePublication(new \DateTime());
+                $a->setDateModification(new \DateTime());
                 $em->persist($a);
             }
             else
@@ -81,7 +82,7 @@ class AvisController extends AbstractController
                     "                                                                                <i class=\"fa fa-star-o\"></i>";
             }
             if($a->getNote() == 0.5){
-                $message = $message."<i class=\"fa fa-star-half\"></i>\n" .
+                $message = $message."<i class=\"fa fa-star-half-o\"></i>\n" .
                     "                                                                                <i class=\"fa fa-star-o\"></i>\n" .
                     "                                                                                <i class=\"fa fa-star-o\"></i>\n" .
                     "                                                                                <i class=\"fa fa-star-o\"></i>\n" .
@@ -155,10 +156,6 @@ class AvisController extends AbstractController
                 "                                                                <span class=\"rating-content\">".$a->getCommentaire()."</span>\n" .
                 "                                                        </p>\n" .
                 "                                                </div>\n".
-                "<div class=\"media-right\"> ".
-                "<a href=\"#\" id=\"edit-rating\" class=\"add-review modal-trigger\" data-modal=\"review-modal\"><i class=\"fa fa-edit\"></i></a>".
-                "<a href=\"#\" id=\"delete-rating\"><i class=\"fa fa-remove\"></i></a>".
-                " </div>".
                 "                                        </div>\n" .
                 "                                </div>";
             $response = new JsonResponse();
@@ -186,7 +183,7 @@ class AvisController extends AbstractController
     public function supprimer_note(EntityManagerInterface $em, ProduitRepository $repoProduit, Request $request, UserRepository $repoUser, AvisRepository $repoAvis, int $idProduit)
     {
         if($request->isXmlHttpRequest()) {
-            $em->remove($repoAvis->findOneBy(['produit'=>$idProduit]));
+            $em->remove($repoAvis->findOneBy(['produit'=>$idProduit, 'client'=>$this->getUser()->getId()]));
             $em->flush();
             $response = new JsonResponse();
             $response->setData(array('status'=> 'success', 'id'=>200, 'message'=>''));

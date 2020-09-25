@@ -32,11 +32,17 @@
 
 {% include 'security/frontend/leftmenu.html.twig' %}
 
-{% include 'security/frontend/getuser.html.twig' %}
 <!-- Content Wrapper -->
 {% block body %}{% endblock %}
 
 <!-- /Content Wrapper -->
+
+{% include 'security/frontend/getuser.html.twig' %}
+
+
+
+<script src="{{ asset('axios/constants.js') }}"></script>
+<script src="{{ asset('axios/default-functions-front.js') }}"></script>
 
 <!-- Concatenated plugins -->
 <script src="{{ asset('frontend/js/app.js') }}"></script>
@@ -62,6 +68,10 @@
 <script src="{{ asset('frontend/js/search.js') }}"></script>
 <script src="{{ asset('frontend/js/security.js') }}"></script>
 <script src="{{ asset('frontend/js/elements.js') }}"></script>
+
+<script>
+    const imageProdPath = "/images/produits/";
+</script>
 
 {% block javascript %}{% endblock %}
 <!-- Sweet Alerts js -->

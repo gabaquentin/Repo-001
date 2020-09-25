@@ -10,6 +10,7 @@ use App\Entity\Ville;
 use App\Form\ecommerce\ProduitType;
 use App\Repository\AvisRepository;
 use App\Repository\ProduitRepository;
+use App\Services\ecommerce\PackTools;
 use App\Services\ecommerce\Tools;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
@@ -23,43 +24,60 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 
 /**
  * Class ProduitFontController
- * @Route("/front/ecommerce/produit")
  * @package App\Controller\ecommerce
  */
 class ProduitFontController extends AbstractController
 {
     /**
-     * @Route("/", name="show_products_front")
+     * @Route("/ecommerce/produit", name="show_products_front")
      * @param EntityManagerInterface $em
      * @param Tools $tools
+     * @param PackTools $packTools
      * @return Response
      * @throws NoResultException
      * @throws NonUniqueResultException
      */
-    public function index(EntityManagerInterface $em,Tools $tools)
+    public function index(EntityManagerInterface $em,Tools $tools,PackTools $packTools)
     {
         $cats = $em->getRepository(CategorieProd::class)->findAllCategories();
         $categoriesProd = [];
         foreach ($cats as $cat) {
+            $sc = [];
+            $nbreProduitsCat = 0;
+            foreach ($cat->getSousCategories() as $sousCategory) {
+                $n = $em->getRepository(Produit::class)->countProductsFrontValid($sousCategory->getId());
+                $nbreProduitsCat += $n;
+                $sc[]=[
+                    "sc" => $sousCategory,
+                    "nbreProduits" => $n,
+                ];
+            }
             $categoriesProd[]=[
                 "categorie" => $cat,
-                "nbreProduits" => $em->getRepository(Produit::class)->countProductsFrontValid($cat->getId()),
+                "nbreProduits" => $nbreProduitsCat,
+                "sc"=>$sc,
             ];
+
         }
-        return $this->render('frontend/ecommerce/produit/produit.html.twig', [
+
+        return $this->render('frontend/ecommerce/produit/all-products.html.twig', [
             'categories' => $categoriesProd,
             'villes' => $em->getRepository(Ville::class)->findAll(),
             'prixMax' => $em->getRepository(Produit::class)->getMaxPrice(),
             'typeTransaction' => $tools->getTypeTransaction(),
+            'produitAssocies'=>$packTools->getBoostedProducts(null),
+            'produit'
         ]);
     }
 
     /**
-     * @Route("/show_products_front", name="get_products_front")
+     * @Route("/ecommerce/produit/show_products_front", name="get_products_front")
      * @param Request $request
      * @param ProduitRepository $repo
      * @param Tools $tools
      * @return JsonResponse
+     * @throws NoResultException
+     * @throws NonUniqueResultException
      */
     public function getProducts(Request $request,ProduitRepository $repo,Tools $tools)
     {
@@ -89,14 +107,14 @@ class ProduitFontController extends AbstractController
     }
 
     /**
-     * @Route("/details/{produit}", name="show_single_product_front")
+     * @Route("/ecommerce/produit/details/{produit}", name="show_single_product_front")
      * @param Request $request
      * @param EntityManagerInterface $em
      * @param AvisRepository $repoAvis
      * @param Produit|null $produit
      * @return Response
      */
-    public function showSingleProduct(Request $request,EntityManagerInterface $em, AvisRepository $repoAvis, Produit $produit=null)
+    public function showSingleProduct(Request $request,EntityManagerInterface $em, AvisRepository $repoAvis,Produit $produit=null)
     {
         if($produit==null)
             die("404");
@@ -122,25 +140,31 @@ class ProduitFontController extends AbstractController
         return $this->render('frontend/ecommerce/produit/single-product.html.twig', [
             'produit' => $produit,
             "produitAssocies"=>$produitAssocices,
-            "avis" => $repoAvis->findBy([], ['datePublication'=>'desc']),
+            "avis" => $repoAvis->findBy([], ['dateModification'=>'desc']),
             "noteGlobale" => $repoAvis->moyenneDesAvis(),
         ]);
     }
 
     /**
-     * @Route("/add" , name="add_product_front")
-     * @Route("/modif/{produit}",name="modify_product_front")
+     * @Route("/account/produit/mes-produits/add" , name="add_product_front")
+     * @Route("/account/produit/mes-produits/modif/{produit}",name="modify_product_front")
+     * @param PackTools $packTools
      * @param EntityManagerInterface $em
      * @param Produit|null $produit
      * @return Response
      */
-    public function addProductFront(EntityManagerInterface $em,Produit $produit=null)
+    public function addProductFront(PackTools $packTools,EntityManagerInterface $em,Produit $produit=null)
     {
+        /** @var User $user */
+        $user = $this->getUser();
+        if(!$user)
+            die("page de connexion");
+
         if ($produit == null)
             $produit = new Produit();
 
         $form = $this->createForm(ProduitType::class, $produit, [
-            "action" => $this->generateUrl("save_produit", ["produit" => $produit->getId()])
+            "action" => $this->generateUrl("save_produit", ["produit" => $produit->getId()]),
         ]);
 
         $extraData = [];
@@ -155,12 +179,12 @@ class ProduitFontController extends AbstractController
             $extraData["desc"] = $produit->getDescription();
         }
 
-        $cats = $em->getRepository(CategorieProd::class)->findAllCategories();
+        $cats = $em->getRepository(CategorieProd::class)->findSousCategories();
         $categoriesProd = [];
         foreach ($cats as $cat) {
             $categoriesProd[]=[
                 "categorie" => $cat,
-                "produits" => $em->getRepository(Produit::class)->FindValidProducts($cat->getId()),
+                "produits" => $em->getRepository(Produit::class)->FindValidProducts($cat->getId(),$produit->getId()),
             ];
         }
 
@@ -173,15 +197,25 @@ class ProduitFontController extends AbstractController
     }
 
     /**
-     * @Route("/mes-produits", name="my_products_front")
+     * @Route("/account/produit/mes-produits", name="my_products_front")
+     * @param PackTools $tools
+     * @return Response
      */
-    public function myProducts()
+    public function myProducts(PackTools $tools)
     {
-        return $this->render('frontend/ecommerce/produit/show-produit.html.twig', []);
+        $user = $this->getUser();
+        if(!$user)
+            die("page de connexion");
+        $infos = $tools->showUserPackDetails($user);
+        return $this->render('security/frontend/my-products.html.twig', [
+            "canPost" => (($infos["postes"]["total"] > 0)),
+            "hasBoost" => (($infos["boost"]["total"] > 0)),
+            "userPackInfo" => $infos,
+        ]);
     }
 
     /**
-     * @Route("/get-user-produits", name="get_products_user_front")
+     * @Route("/account/produit/get-user-produits", name="get_products_user_front")
      * @param ProduitRepository $rep
      * @param Request $request
      * @return JsonResponse
@@ -219,7 +253,7 @@ class ProduitFontController extends AbstractController
     }
 
     /**
-     * @Route("/refresh-product-date/{product}",name="refresh_product_date")
+     * @Route("/account/produit/refresh-product-date/{product}",name="refresh_product_date")
      * @param Request $request
      * @param Produit|null $product
      * @param EntityManagerInterface $em
@@ -236,6 +270,6 @@ class ProduitFontController extends AbstractController
         $em->persist($product);
         $em->flush();
 
-        return $this->json(["success"=>"mise à jour"]);
+        return $this->json(["success"=>["mise à jour"]]);
     }
 }
