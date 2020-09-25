@@ -14,7 +14,9 @@ var nom = $('.js-user-first-name').data('nom');
 var prenom = $('.js-user-last-name').data('prenom');
 var email = $('.js-user-email').data('email');
 var phone = $('.js-user-phone').data('phone');
+var partenariat = $('.js-user-partenariat').data('partenariat');
 var image = $('.js-user-image').data('image');
+var logo = $('.js-user-logo').data('logo');
 var ableToEdit = $('.js-user-able-to-edit').data('ableToEdit');
 
 if(isAuthenticated)
@@ -26,7 +28,9 @@ if(isAuthenticated)
     lastName: prenom,
     email: email,
     phone: phone,
+    partenariat: partenariat,
     photoUrl: image,
+    logo: logo,
     wishlists: myWishlists,
     orders: myOrders,
     addresses: myAddresses
@@ -702,7 +706,7 @@ function Reset() {
         },
         dataType: 'json',
         success: function (data) {
-          if(data['status'] === "succes") {
+          if(data['code'] === "200") {
             setTimeout(function () {
               $this.removeClass('is-loading');
               toasts.service.success('', 'fas fa-check', "Verifiez vos E-Mail", 'bottomRight', 11200);
@@ -897,6 +901,69 @@ function Partenariat() {
       $('#partenariat-services-submit').addClass('is-disabled');
       $this.closest('.field').removeClass('has-error');
     }
+  });
+
+  $('#cancel-partnership').on('click', function () {
+
+      Swal.fire({
+        title: "Ooh",
+        text: "Voulez vous vraiment annuler votre partenariat avec nous ? ",
+        type: "warning",
+        showCancelButton: !0,
+        confirmButtonText: "Oui, Continuer!",
+        cancelButtonText: "Non, annuler!",
+        confirmButtonClass: "btn btn-success mt-2",
+        cancelButtonClass: "btn btn-danger ml-2 mt-2",
+        buttonsStyling: !0
+      }).then(function (t) {
+        if(t.value)
+        {
+          fetch("/cancelPartnership/" ).then(function(response) {
+            if(response.ok) {
+              Swal.fire({
+                title: "Terminé",
+                text: "N'hesitez pas a nous contacter par mail ou par telephone pour nous faire part de la raison de votre depart afin d'ameliorer nos services",
+                type: "success"
+              })
+
+            } else {
+              t.dismiss === Swal.DismissReason.cancel &&Swal.fire({
+                title: "Erreur",
+                text: "Une erreur s'est produite durant l'operation",
+                type: "error"
+              });
+            }
+          })
+              .catch(function(error) {
+                console.log('Il y a eu un problème avec l\'opération fetch: ' + error.message);
+                t.dismiss === Swal.DismissReason.cancel &&Swal.fire({
+                  title: "Erreur",
+                  text: "Une erreur s'est produite durant l'operation",
+                  type: "error"
+                });
+              });
+        }
+        else
+        {
+          t.dismiss === Swal.DismissReason.cancel &&Swal.fire({
+            title: "OK",
+            text: "Content de vous savoir encore avec nous 😉",
+            type: "error"
+          });
+        }
+      })
+
+  });
+  $('#partenariat-edit-front-alert').on('click', function () {
+
+    $('#edit-partenariat').removeClass("is-hidden");
+
+  });
+
+  $('#partenariat-exit-edit-front-alert').on('click', function () {
+
+    $('#edit-partenariat').addClass("is-hidden");
+
   });
 
   $('#partenariat-boutique-submit').on('click', function (event) {
@@ -1139,7 +1206,8 @@ $(window).on('load', function () {
       }
 
     }
-  } else {
+  }
+  else {
     console.log(url.toString());
   }
 });

@@ -59,6 +59,7 @@
                     <div class="col-sm-12">
                         <div class="card-box">
                             {% block body %} {% endblock %}
+                            {% include 'security/frontend/getuser.html.twig' %}
                         </div>
                     </div>
                 </div>
@@ -105,6 +106,15 @@
 
 <!-- App js -->
 <script src="{{ asset('backend/js/app.min.js') }}"></script>
+
+<!-- redirect if admin is lock -->
+<script>
+    var al = $('.js-admin-lock').data('adminLock');
+    if (al === 1)
+    {
+        window.location.href = '/back/lock';
+    }
+</script>
 
 {% block javascripts %}{% endblock %}
 </body>

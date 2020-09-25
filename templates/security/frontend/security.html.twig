@@ -37,7 +37,7 @@
                         </div>
 
                         <!-- Account tabs -->
-                        {% include 'security/frontend/menu.html.twig' %}
+                        {% include 'frontend/menu-account.html.twig' with { "security":"is-active" } %}
 
                         <div id="account-main-placeholder" class="main-placeholder is-hidden">
                             <div class="placeholder-content">
@@ -52,12 +52,10 @@
                         </div>
 
                         <!-- Row -->
-                        <div id="account-main" class="columns is-account-grid is-multiline">
-                            <!--Loader-->
-                            <div class="account-loader is-active">
-                                <div class="loader is-pulled is-loading"></div>
-                            </div>
-                            
+                        <div class="columns account-header">
+                            <div class="column main-column is-tablet-landscape-padded">
+                        <div class="order-details-wrap">
+                            <div class="order-stats">
                             <div class="columns">
                                 <div class="column is-4">
                                     <div id="email-tile" class="order-stat">
@@ -74,7 +72,7 @@
                                             <div class="meta">
                                                 <span>E-Mail</span>
                                                 <span id="status-email">Paid</span>
-                                                <span><a>{{ app.user ? app.user.email : 'Envoyer le lien de verification' }}</a></span>
+                                                <span><a id="verified">{{ app.user.verified ? app.user.email : 'Verifier' }}</a> / <a id="emailChange">Changer</a></span>
                                             </div>
                                         </div>
                                     </div>
@@ -94,7 +92,7 @@
                                             <div class="meta">
                                                 <span>Telephone</span>
                                                 <span id="status-tel"></span>
-                                                <span><a>{{ app.user ? app.user.telephone }}</a></span>
+                                                <span><a id="phoneVerified">{{ app.user.phoneVerified ? app.user.telephone : 'Verifier' }}</a> / <a id="phoneChange">Changer</a></span>
                                             </div>
                                         </div>
                                     </div>
@@ -119,6 +117,9 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                            </div>
+                        </div>
                             </div>
                         </div>
                         <!-- /Row -->

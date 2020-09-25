@@ -32,12 +32,12 @@
 
 {% include 'security/frontend/leftmenu.html.twig' %}
 
-
+{% include 'security/frontend/getuser.html.twig' %}
 <!-- Content Wrapper -->
 {% block body %}{% endblock %}
 
 <!-- /Content Wrapper -->
-{% include 'security/frontend/getuser.html.twig' %}
+
 <!-- Concatenated plugins -->
 <script src="{{ asset('frontend/js/app.js') }}"></script>
 
@@ -61,6 +61,7 @@
 <script src="{{ asset('frontend/js/checkout.js') }}"></script>
 <script src="{{ asset('frontend/js/search.js') }}"></script>
 <script src="{{ asset('frontend/js/security.js') }}"></script>
+<script src="{{ asset('frontend/js/elements.js') }}"></script>
 
 {% block javascript %}{% endblock %}
 <!-- Sweet Alerts js -->
@@ -68,6 +69,7 @@
 
 <!-- Sweet alert init js-->
 <script src="{{ asset('backend/js/pages/sweet-alerts.init.js') }}"></script>
+
 </body>
 
 </html>
