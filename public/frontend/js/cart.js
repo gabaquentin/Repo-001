@@ -31,7 +31,7 @@ function initCartSpinners() {
   });
 } //Update cart sidebar (when products are added, updated or removed)
 
-
+//Fonction qui permet de mettre à jour le panier
 function updateCartSidebar() {
   let cartObject = {};
   let productsCount = $('.cart-quickview .product-container').length;
@@ -58,6 +58,7 @@ function updateCartSidebar() {
   console.log(cartObject);
 } //Reusable add to cart function
 
+ //Fonction qui permet d'afficher un produit du panier dans le panier de la gauche
 function getProductFromCart(p) {
   let plusIcon = feather.icons.plus.toSvg();
   let minusIcon = feather.icons.minus.toSvg();
@@ -83,6 +84,7 @@ function getProductFromCart(p) {
     `;
 }
 
+//Fonction qui permet d'afficher un produit du panier dans la page Panier
 function getProductToCart(p) {
   let plusIcon = feather.icons.plus.toSvg();
   let minusIcon = feather.icons.minus.toSvg();
@@ -110,6 +112,7 @@ function getProductToCart(p) {
     `;
 }
 
+//Fonction qui permet d'afficher tout les produit du panier dans le cart de la gauche
 function getCart() {
   let plusIcon = feather.icons.plus.toSvg();
   let minusIcon = feather.icons.minus.toSvg();
@@ -125,7 +128,6 @@ function getCart() {
       cartTotal = parseFloat(cartTotal) + parseFloat(data.products[i].price) * parseInt(data.products[i].quantity);
       let template = getProductFromCart(data.products[i]);
       $('.cart-quickview .cart-body ul').append(template);
-
       if (i == data.products.length - 1) {
         data.total = cartTotal;
         $('#quickview-cart-count let').html(data.items);
@@ -300,7 +302,7 @@ function removeFromCartPage() {
 
     setTimeout(function () {
       $('.account-loader').removeClass('is-active');
-      toasts.service.success('', 'fas fa-check', 'Product successfully removed from cart', 'bottomRight', 2500);
+      toasts.service.success('', 'fas fa-check', 'Le produit a été rétiré du panier avec succès ', 'bottomRight', 2500);
     }, 800);
   });
 } //Build proto checkout object and pass it to checkout
@@ -359,7 +361,7 @@ $(document).ready(function () {
       $this.removeClass('is-loading').addClass('is-hidden');
       $('.cart-quickview .view-cart-button').removeClass('is-hidden');
       $('.cart-loader').removeClass('is-active');
-      toasts.service.success('', 'fas fa-check', 'cart updated successfully', 'bottomRight', 2500);
+      toasts.service.success('', 'fas fa-check', 'Le panier a été mise à jour avec succès', 'bottomRight', 2500);
     }, 800);
   }); //Products Grid implementation
 
@@ -398,7 +400,7 @@ $(document).ready(function () {
       }
 
       setTimeout(function () {
-        $.when(addToCart($this)).done(function () {
+        $.when(AddEventToCart()).done(function () {
           getCart();
         });
       }, 300);
@@ -434,7 +436,7 @@ $(document).ready(function () {
         $this.removeClass('is-loading').addClass('is-hidden');
         $('#init-checkout').removeClass('is-hidden');
         $('.account-loader').removeClass('is-active');
-        toasts.service.success('', 'fas fa-check', 'cart updated successfully', 'bottomRight', 2500);
+        toasts.service.success('', 'fas fa-check', 'Le Panier a été ajouté avec succès', 'bottomRight', 2500);
       }, 800);
     }); //Add to cart from recently viewed
 

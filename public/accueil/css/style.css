@@ -39,7 +39,7 @@ html, body{
 	width:100%;
 	height:100%;
 	font-family:'Raleway', sans-serif;
-	background:black;
+	background:blue;
 }
 body.kenburns{
 	background:none;
@@ -94,6 +94,7 @@ h1, h2, h3{
 	font-weight:500;
 	margin:0px;
 	letter-spacing:10px;
+	color:blue;
 }
 h1{
 	font-size:72px;
@@ -150,7 +151,7 @@ textarea
 	outline:none;
 	background:none;
 	padding:0px;
-	color:#111111;
+	color:blue;
 	font-weight:400;
 	font-size:14px;
 	width:100%;
@@ -160,8 +161,8 @@ input.subscribe-email{
 	position:absolute;
 	display:block;
 	left:0px;
-	border:1px solid #111111;
-	color:#111111;
+	border:1px solid blue;
+	color:blue;
 	padding:0px 180px 0px 20px;
 	height:45px;
 	transition:all 0.3s ease;
@@ -260,7 +261,7 @@ label.contact-notif-error{
 	text-align:center;
 	line-height:42px;
 	height:45px;
-	border:1px solid #111111;
+	border:1px solid blue;
 	background:none;
 	-webkit-backface-visibility:hidden;
 	backface-visibility:hidden;
@@ -297,7 +298,7 @@ label.contact-notif-error{
 	bottom:0%;
 	width:200%;
 	height:200%;
-	background:#111111;
+	background:blue;
 	backface-visibility:hidden;
 	z-index:-1;
 	-webkit-transform: skewX(-60deg);
@@ -330,7 +331,7 @@ label.contact-notif-error{
 .button-regular:hover,
 .button-square:hover
 {
-	color:#111111;
+	color:blue;
 }
 .button-regular:hover::before{
 	opacity:0;
@@ -478,7 +479,7 @@ label.contact-notif-error{
 	-ms-transition:all 0.3s ease;
 }
 .menu li a:hover span.icon{
-	color:#111111;
+	color:blue;
 }
 .menu li:first-child{
 	margin-left:0px;
@@ -577,9 +578,9 @@ label.contact-notif-error{
 	overflow:hidden;
 	width:60px;
 	height:60px;
-	border:1px solid #111111;
+	border:1px solid blue;
 	display:block;
-	color:#111111;
+	color:blue;
 	line-height:60px;
 	text-align:center;
 	font-weight:300;
@@ -598,7 +599,7 @@ label.contact-notif-error{
 	bottom:-150%;
 	width:200%;
 	height:200%;
-	background:#111111;
+	background:blue;
 	z-index:-1;
 	-webkit-transform: skewX(-45deg);
 	-moz-transform: skewX(-45deg);
@@ -780,7 +781,7 @@ label.contact-notif-error{
 .service-container a.prev-service
 {
 	font-family:'Dosis', sans-serif;
-	color:#111111;
+	color:blue;
 	font-size:28px;
 	font-weight:300;
 	right:0px;
@@ -816,7 +817,7 @@ label.contact-notif-error{
 .service .icon-container::after{
 	content:'//';
 	font-family:'Dosis', sans-serif;
-	color:#111111;
+	color:blue;
 	font-size:18px;
 	position:absolute;
 	display:block;
@@ -832,7 +833,7 @@ label.contact-notif-error{
 }
 .service .icon{
 	display:inline-block;
-	color:#111111;
+	color:blue;
 	font-size:36px;
 }
 .service .icon-container .text{
@@ -840,7 +841,7 @@ label.contact-notif-error{
 	letter-spacing:0px;
 	display:block;
 	margin-top:16px;
-	color:#111111;
+	color:blue;
 	font-size:20px;
 	font-weight:500;
 	text-transform:capitalize;
@@ -910,7 +911,7 @@ label.contact-notif-error{
 	text-align:center;
 	line-height:43px;
 	background:none;
-	color:#111111;
+	color:blue;
 	font-size:18px;
 	font-weight: normal;
 	font-style: normal;
@@ -985,7 +986,7 @@ label.contact-notif-error{
 .works-gallery a.prev-work
 {
 	font-family:'Dosis', sans-serif;
-	color:#111111;
+	color:blue;
 	font-size:28px;
 	font-weight:300;
 	right:0px;
@@ -1061,14 +1062,14 @@ label.contact-notif-error{
 }
 .work .text-container span.title{
 	font-family:'Dosis', sans-serif;
-	color:#111111;
+	color:blue;
 	font-size:22px;
 	font-weight:500;
 	text-align:left;
 	display:block;
 }
 .work .text-container span.desc{
-	color:#111111;
+	color:blue;
 	font-size:13px;
 	display:block;
 	letter-spacing:0px;
@@ -1078,7 +1079,7 @@ label.contact-notif-error{
 	bottom:0px;
 }
 .work .button-container a{
-	color:#111111;
+	color:blue;
 	font-size:18px;
 	opacity:1;
 	margin-right:10px;
@@ -1147,7 +1148,7 @@ label.contact-notif-error{
 	content:'//';
 	width:20px;
 	height:30px;
-	color:#111111;
+	color:blue;
 	position:absolute;
 	top:5px;
 	right:-11px;
@@ -1158,13 +1159,13 @@ label.contact-notif-error{
 }
 .partenaire-details .detail .icon{
 	display:inline-block;
-	color:#111111;
+	color:blue;
 	font-size:30px;
 }
 .partenaire-details .detail .title{
 	font-family:'Dosis', sans-serif;
 	display:block;
-	color:#111111;
+	color:blue;
 	font-size:18px;
 	letter-spacing:0px;
 	padding-left:4px;
@@ -1175,11 +1176,11 @@ label.contact-notif-error{
 }
 .partenaire-details .detail .desc{
 	display:block;
-	color:#111111;
+	color:blue;
 	font-size:13px;
 	font-weight:400;
 	word-wrap:break-word;
-	border-top:1px solid #111111;
+	border-top:1px solid blue;
 	padding-top:7px;
 	margin-top:24px;
 	-webkit-backface-visibility:hidden;
@@ -1364,12 +1365,12 @@ footer .social-media-link{
 		transform: translate3d(0%, 0%, 0);
 	}
 	.countdown-container .dash{
-		border:2px solid #111111;
+		border:2px solid blue;
 	}
 	.countdown-container .digit,
 	.countdown-container .dash_title
 	{
-		color:#111111;
+		color:blue;
 	}
 	.main-content{
 		background:rgba(255,255,255,0.85);
@@ -1426,7 +1427,7 @@ footer .social-media-link{
 	}
 	.service .icon{
 		display:inline-block;
-		color:#111111;
+		color:blue;
 		font-size:36px;
 	}
 	.service .desc-container{

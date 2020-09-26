@@ -58,32 +58,24 @@
                             <div class="column is-4">
                                 <!-- List of Wishlists -->
                                 {% if canPost %}
-                                    <div class="flat-card is-auto menu-card">
-                                        <div class="card-title">
-                                            <h3>Ajouter une annonce</h3>
-
-                                            <div class="edit-account">
-                                                <a href="{{ path('add_product_front') }}" class="modal-trigger has-simple-popover"><i class="feather-icons" data-feather="plus"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    {% set text="Ajouter une annonce" %}
                                 {% else %}
-                                    <div class="flat-card is-auto menu-card">
-                                        <div class="card-title">
-                                            <h3>Vous n'avez plus de pack d'insertion</h3>
-                                            <div class="edit-account">
-                                                <a href="#" class="modal-trigger has-simple-popover"><i class="feather-icons" data-feather="plus"></i></a>
-                                            </div>
+                                    {% set text="Vous n'avez plus de pack d'insertion" %}
+                                {% endif %}
+                                <div class="flat-card is-auto menu-card">
+                                    <div class="card-title">
+                                        <h3>{{ text }}</h3>
+                                        <div class="edit-account">
+                                            <a href="{{ path('pack_show_product_front') }}" class="add-prod modal-trigger has-simple-popover"><i class="feather-icons" data-feather="plus"></i></a>
                                         </div>
                                     </div>
-                                {% endif %}
+                                </div>
 
                                 <div class="flat-card is-auto menu-card">
                                     <div class="card-title">
                                         <h3>Acheter un pack</h3>
-
                                         <div class="edit-account">
-                                            <a href="{{ path('pack_show_product_front') }}" class="modal-trigger has-simple-popover"><i class="feather-icons" data-feather="package"></i></a>
+                                            <a href="{{ path('pack_show_product_front') }}" class=" modal-trigger has-simple-popover"><i class="feather-icons" data-feather="package"></i></a>
                                         </div>
                                     </div>
                                 </div>
@@ -106,7 +98,7 @@
                                             <div class="achievement-name">
                                                 <span class="is-gold" style="margin-bottom: 10px;">{{ userPackInfo.postes.titre }}</span>
                                                 {% for cat,post in userPackInfo.postes.postes %}
-                                                    <span class="is-size-7" style="margin-bottom: 5px;">{{ cat }}: {{ post }} postes</span>
+                                                    <span class="is-size-7" style="margin-bottom: 5px;">{{ cat }}: {{ post }} Annonces</span>
                                                 {% endfor %}
                                             </div>
                                         </div>
@@ -118,8 +110,8 @@
                                             <img src="{{ userPackInfo.boost.blaz }}" alt="">
                                             <div class="achievement-name">
                                                 <span class="is-gold" style="margin-bottom: 10px;">{{ userPackInfo.boost.titre }}</span>
-                                                {% for cat,jours in userPackInfo.boost.boost %}
-                                                    <span class="is-size-7" style="margin-bottom: 5px;">{{ cat }}: {{ jours }} Jours</span>
+                                                {% for cat,date in userPackInfo.boost.boost %}
+                                                    <span class="is-size-7" style="margin-bottom: 5px;">{{ cat }}: {{ dateToday(date) }}</span>
                                                 {% endfor %}
                                             </div>
                                         </div>
@@ -158,7 +150,7 @@
 {% endblock %}
 
 {% block javascript %}
-    <script>
+    <script >
         const canPost = "{{ canPost }}";
         const showProductsRoute = "{{ path('get_products_user_front') }}";
         const modifyProductRoute = "{{ path('modify_product_front') }}";
