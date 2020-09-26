@@ -54,7 +54,7 @@
 
                             <!-- Account layout -->
                             {% if app.user.ps %}
-                                <div id="account-main" class="columns is-account-grid is-multiline">
+                                <div id="partenariat-main" class="columns is-account-grid is-multiline">
                                     <!--Loader-->
                                     <div class="account-loader is-active">
                                         <div class="loader is-pulled is-loading"></div>
@@ -187,7 +187,7 @@
                                                     <!-- Avatar form -->
                                                     <div id="avatar-upload" class="avatar-wrapper has-simple-popover" data-content="Change profile picture" data-placement="top">
 
-                                                        <img class="profile-pic" id="imagesrc" src="{{ asset('frontend/img/avatars/avatar.png') }}" alt="">
+                                                        <img class="profile-pic" id="partenariatB-edit-logo" src="{{ asset('frontend/img/avatars/avatar.png') }}" alt="">
 
                                                         <div class="upload-button modal-trigger" data-modal="upload-crop-modal">
                                                             <i class="upload-icon" data-feather="plus" aria-hidden="true"></i>
@@ -203,7 +203,7 @@
                                                             <span class="error">Minimum 2 characters</span>
                                                         </label>
                                                         <div class="control">
-                                                            <input id="partenariatB-edit-name" type="text" class="input is-default fake-validation" value="{{ app.user ? app.user.boutique }}">
+                                                            <input id="partenariatB-edit-nom" type="text" class="input is-default fake-validation" value="{{ app.user ? app.user.boutique }}">
                                                             <div class="error-icon">
                                                                 <i data-feather="x"></i>
                                                             </div>
@@ -228,7 +228,7 @@
                                                     <div class="field info-block has-flex-label has-validation">
                                                         <label class="label-text">
                                                             <span>Description</span>
-                                                            <span class="error">Error</span>
+                                                            <span class="error">Au moins 10 caractéres pour la description</span>
                                                         </label>
                                                         <div class="control">
                                                             <textarea id="partenariatB-edit-desc" class="input" name="description">{{ app.user ? app.user.description }}</textarea>
@@ -236,6 +236,14 @@
                                                                 <i data-feather="x"></i>
                                                             </div>
                                                         </div>
+                                                    </div>
+
+                                                    <div class="has-text-centered pop-button">
+                                                        <form  id="partenariatB-edit-form" method="post" action="{{ path('app_edit_partenariat') }}" >
+                                                            <button id="save-partenariatB-button" type="submit" class="button feather-button primary-button is-rounded raised opaque">
+                                                                Sauvegarder
+                                                            </button>
+                                                        </form>
                                                     </div>
 
                                                 {% elseif app.user.partenariat == "services"  %}
@@ -276,15 +284,15 @@
                                                         </div>
                                                     </div>
 
-                                                {% endif %}
+                                                    <div class="has-text-centered pop-button">
+                                                        <form  id="partenariatS-edit-form" method="post" action="{{ path('app_edit_partenariat') }}" >
+                                                            <button id="save-partenariatS-button" type="submit" class="button feather-button primary-button is-rounded raised opaque">
+                                                                Sauvegarder
+                                                            </button>
+                                                        </form>
+                                                    </div>
 
-                                                <div class="has-text-centered pop-button">
-                                                    <form  id="account-edit-form" method="post" action="{{ path('app_account_edit') }}" >
-                                                        <button id="save-account-button" type="submit" class="button feather-button primary-button is-rounded raised opaque">
-                                                            Sauvegarder
-                                                        </button>
-                                                    </form>
-                                                </div>
+                                                {% endif %}
 
                                             </div>
 
@@ -293,12 +301,25 @@
                                     </div>
 
                                 </div>
+                                <div id="partenariat-main-placeholder" class="main-placeholder is-hidden">
+                                    <div class="placeholder-content">
+                                        <img src="{{ asset('frontend/img/illustrations/stripe.svg') }}" alt="">
+                                        <h3>Validation en cours</h3>
+                                        <p>Votre Partenariat est en cours de validation par nos agents.</br> Vous allez etre notifié une fois la validation effectué.</p>
+                                        <p style="color: #f08080">{% if app.user.verified == 0 or app.user.phoneVerified == 0  %} L'operation risque etre plus longue veuillez proceder a la verification de votre addresse E-Mail et/ou de votre numero de telephone <a href="{{ path('app_security') }}">ici</a> {% endif %}</p>
+                                        <div class="button-wrap">
+                                            <a href="" class="button big-button primary-button rounded raised is-loading"></a>
+                                        </div>
+                                        <a id="cancel-partnership" style="color: red;">Annuler mon partenariat</a>
+                                    </div>
+                                </div>
                             {% else %}
                                 <div id="account-main-placeholder" class="main-placeholder">
                                     <div class="placeholder-content">
                                         <img src="{{ asset('frontend/img/illustrations/stripe.svg') }}" alt="">
                                         <h3>Validation en cours</h3>
                                         <p>Votre Partenariat est en cours de validation par nos agents.</br> Vous allez etre notifié une fois la validation effectué.</p>
+                                        <p style="color: #f08080">{% if app.user.verified == 0 or app.user.phoneVerified == 0  %} L'operation risque etre plus longue veuillez proceder a la verification de votre addresse E-Mail et/ou de votre numero de telephone <a href="{{ path('app_security') }}">ici</a> {% endif %}</p>
                                         <div class="button-wrap">
                                             <a href="" class="button big-button primary-button rounded raised is-loading"></a>
                                         </div>
@@ -335,8 +356,8 @@
                                 <img class="brand-filigrane" src="{{ asset('frontend/img/logo/nephos-greyscale.svg') }}" alt="">
                             </div>
 
-                            {% if app.user %}
-                                    <div id="elements-selection" class="columns is-multiline">
+
+                            <div id="elements-selection" class="columns is-multiline">
                                         <!-- Boutique -->
                                         <div class="column is-4">
                                             <div class="flat-card is-auto is-element-card">
@@ -375,19 +396,18 @@
                                         </div>
                                     </div>
                                     <!-- Selection -->
-                            {% else %}
-                                <div id="account-main-placeholder" class="main-placeholder">
+                            <div id="partenariat-main-placeholder" class="main-placeholder is-hidden">
                                     <div class="placeholder-content">
-                                        <img src="{{ asset('frontend/img/illustrations/profile.svg') }}" alt="">
-                                        <h3>Welcome, Guest</h3>
-                                        <p>Guest users don't have accounts. Please login or register to view your account.</p>
+                                        <img src="{{ asset('frontend/img/illustrations/stripe.svg') }}" alt="">
+                                        <h3>Validation en cours</h3>
+                                        <p>Votre Partenariat est en cours de validation par nos agents.</br> Vous allez etre notifié une fois la validation effectué.</p>
+                                        <p style="color: #f08080">{% if app.user.verified == 0 or app.user.phoneVerified == 0  %} L'operation risque etre plus longue veuillez proceder a la verification de votre addresse E-Mail et/ou de votre numero de telephone <a href="{{ path('app_security') }}">ici</a> {% endif %}</p>
                                         <div class="button-wrap">
-                                            <a href="{{path('app_login')}}" class="button big-button primary-button rounded raised">Log In</a>
+                                            <a href="" class="button big-button primary-button rounded raised is-loading"></a>
                                         </div>
-                                        <a href="{{ path('app_register', {'role': 'new_user'}) }}">Don't have an account?</a>
+                                        <a id="cancel-partnership" style="color: red;">Annuler mon partenariat</a>
                                     </div>
                                 </div>
-                            {% endif %}
 
                             <!-- Boutique -->
                             <div id="boutique" class="columns is-element is-hidden">
@@ -459,7 +479,6 @@
                                                             <button id="partenariat-boutique-submit" type="submit" class="button feather-button secondary-button btn-outlined is-fullwidth raised">Envoyer</button>
                                                         </div>
                                                     </form>
-                                                    <p id="boutique-submit-ok" class="is-hidden"> Merci pour votre demande de partenariat nous vous enverons une reponse dans les plus brefs delais</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -526,7 +545,6 @@
                                                             <button id="partenariat-services-submit" type="submit" class="button feather-button secondary-button btn-outlined is-fullwidth raised">Envoyer</button>
                                                         </div>
                                                     </form>
-                                                    <p id="services-submit-ok" class="is-hidden"> Merci pour votre demande de partenariat nous vous enverons une reponse dans les plus brefs delais</p>
                                                 </div>
                                             </div>
                                         </div>

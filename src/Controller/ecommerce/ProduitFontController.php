@@ -160,7 +160,7 @@ class ProduitFontController extends AbstractController
         if(!$user)
             die("page de connexion");
 
-        if(!$packTools->canPost($user))
+        if(!$packTools->canPost($user) && $produit == null)
             die("page des packs");
 
         if ($produit == null)
