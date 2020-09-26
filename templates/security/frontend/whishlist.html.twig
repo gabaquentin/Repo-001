@@ -4,6 +4,15 @@
 
 {% block body %}
 
+    {% for w in whishlist %}
+        <!-- get whishlist information -->
+
+        <div class="js-whishlist is-hidden" data-whishlist="{{ app.user ? w|json_encode|e('html_attr') }}">
+            <!--get whishlist informations-->
+        </div>
+
+    {% endfor %}
+
     <!-- Main wrapper -->
     <div class="shop-wrapper">
 
@@ -248,12 +257,12 @@
         <div class="modal-content">
             <div class="box">
                 <div class="box-header">
-                    <img src="assets/img/logo/nephos-greyscale.svg" alt="">
+                    <img src="{{ asset('frontend/img/logo/nephos-greyscale.svg') }}" alt="">
                     <span>NEW LIST</span>
                     <div class="modal-delete"><i data-feather="x"></i></div>
                 </div>
                 <div class="box-body">
-                    <img src="assets/img/illustrations/wishlist.svg" alt="">
+                    <img src="{{ asset('frontend/img/illustrations/wishlist.svg') }}" alt="">
                     <div class="inner-content">
                         <p>Add a new sub list to classify your wishlist items. You can then manage them and find them more easily.</p>
                         <div class="control">

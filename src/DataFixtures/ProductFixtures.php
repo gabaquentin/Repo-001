@@ -78,10 +78,15 @@ class ProductFixtures extends Fixture
                 ->setPrenom($f->firstName())
                 ->setEmail($f->email)
                 ->setTelephone($f->phoneNumber)
+                ->setEsa(0)
+                ->setAl(0)
+                ->setIsVerified(0)
+                ->setPhoneVerified(0)
                 ->setLocal(["fr","en"][$f->numberBetween(0,1)])
                 ->setCreation(new \DateTime())
                 ->setRoles((array)'ROLE_USER')
                 ->setImage("/images/produits/maison au bord de la plage-5f2594ac3b773.jpeg")
+                ->setLogo("/images/produits/maison au bord de la plage-5f2594ac3b773.jpeg")
             ;
             $user->setPassword($this->encoder->encodePassword(
                 $user,
