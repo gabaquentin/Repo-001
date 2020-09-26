@@ -9,6 +9,7 @@ use App\Entity\User;
 use App\Entity\Ville;
 use App\Form\ecommerce\ProduitType;
 use App\Repository\AvisRepository;
+use App\Repository\CategorieProdRepository;
 use App\Repository\ProduitRepository;
 use App\Services\ecommerce\PackTools;
 use App\Services\ecommerce\Tools;
@@ -160,7 +161,7 @@ class ProduitFontController extends AbstractController
         if(!$user)
             die("page de connexion");
 
-        if(!$packTools->canPost($user) && $produit == null)
+        if(!$packTools->canPost($user) && is_null($produit))
             die("page des packs");
 
         if ($produit == null)
@@ -194,7 +195,6 @@ class ProduitFontController extends AbstractController
         return $this->render("frontend/ecommerce/produit/add-product.html.twig", [
             "form" => $form->createView(),
             "categories" => $categoriesProd,
-            "attributs" => $em->getRepository(Attribut::class)->findAll(),
             "extraData" => $extraData
         ]);
     }
@@ -253,6 +253,52 @@ class ProduitFontController extends AbstractController
                 return $object->getId();
             },
         ]);
+    }
+
+    /**
+     * recupere les inputs supplementaires du formulaire en fonction de la catégorie choisie
+     *
+     * @Route("/get_form/{produit}", name="get_form_extend_prod")
+     * @param Request $request
+     * @param CategorieProdRepository $repCategorie
+     * @param Produit|null $produit
+     * @return JsonResponse
+     */
+    public function getForm(Request $request,CategorieProdRepository $repCategorie, Produit $produit = null)
+    {
+        $data = "";
+        $forFront = $request->get("forFront",false);
+        $idCategorie = $request->get("idCategorie");
+        $categorie = $repCategorie->findOneBy(["id"=>$idCategorie]);
+
+        if(!$request->isXmlHttpRequest())
+            die("dd");
+
+        /** @var User $user */
+        $user = $this->getUser();
+        if(!$user)
+            die("connexion");
+
+        if($categorie==null)
+            die("cate");
+        if($produit==null)
+            $produit = new Produit();
+
+        $form = $this->createForm(ProduitType::class,$produit);
+
+        if($categorie->getTypeCategorie()=="immobilier")
+        {
+            $url = "backend/ecommerce/produit/formulaire-immobilier.html.twig";
+
+            if($forFront)
+                $url = "frontend/ecommerce/produit/formulaire-immobilier.html.twig";
+
+            $data = $this->renderView($url,[
+                'form'=>$form->createView()
+            ]);
+        }
+
+        return $this->json($data);
     }
 
     /**

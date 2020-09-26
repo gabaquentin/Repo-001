@@ -5,12 +5,14 @@
         {{ form_widget(form.nom, {'attr': {'class': 'input is-default'}}) }}
     </div>
 </div>
-<div class="control">
-    <label class="" for="{{ form.categorieProd.vars.id }}">Categorie du produit</label>
-    <div class="control" id="produit_categorie">
-        {{ form_widget(form.categorieProd, {'attr': {'class': 'native'}}) }}
+{% if form.vars.value.id is null or app.user.admin==true %}
+    <div class="control">
+        <label class="" for="{{ form.categorieProd.vars.id }}">Categorie du produit</label>
+        <div class="control" id="produit_categorie">
+            {{ form_widget(form.categorieProd, {'attr': {'class': 'native'}}) }}
+        </div>
     </div>
-</div>
+{% endif %}
 <div class="control">
     <label class="" for="{{ form.typeTransaction.vars.id }}">Type de transaction</label>
     <div class="control">
@@ -178,7 +180,7 @@
     </div>
 </div>
 {% do form.meuble.setRendered %}
-
+{% do form.categorieProd.setRendered %}
 {% do form.dureeSejour.setRendered %}
 {% do form.caracteristique.setRendered %}
 {{ form_end(form) }}
