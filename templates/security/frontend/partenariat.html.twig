@@ -53,81 +53,260 @@
                             </div>
 
                             <!-- Account layout -->
-                            <div id="account-main" class="columns is-account-grid is-multiline">
-                                <!--Loader-->
-                                <div class="account-loader is-active">
-                                    <div class="loader is-pulled is-loading"></div>
-                                </div>
+                            {% if app.user.ps %}
+                                <div id="account-main" class="columns is-account-grid is-multiline">
+                                    <!--Loader-->
+                                    <div class="account-loader is-active">
+                                        <div class="loader is-pulled is-loading"></div>
+                                    </div>
 
-                                <div id="tabs" class="columns is-element">
-                                    <div class="column">
-                                        <div class="flat-card is-auto is-element-details">
-                                            <div class="columns is-gapless is-vcentered">
-                                                <div class="column is-6 is-component">
-                                                    <div class="inner">
-
-                                                        <div class="tabs-wrapper underline-tabs animated-tabs">
-                                                            <div class="tabs">
-                                                                <ul>
-                                                                    <li class="is-active" data-tab="t4"><a>Boutique</a></li>
-                                                                    <li data-tab="t5"><a>Services</a></li>
-                                                                    <li data-tab="t6"><a>Terrain</a></li>
-                                                                </ul>
-                                                            </div>
-                                                            <div id="t4" class="navtab-content is-active">
-                                                                Lorem ipsum dolor sit amet, in adipiscing scribentur necessitatibus ius, meis mollis his ei, cu veri expetenda nec. Wisi essent in sed, quod persius at per, quodsi expetenda concludaturque ad usu.
-                                                                <div class="tabs"></div>
-                                                                <a class="button feather-button primary-button is-bold">Bold</a>
-                                                            </div>
-                                                            <div id="t5" class="navtab-content">
-                                                                Lorem ipsum dolor sit amet, in adipiscing scribentur necessitatibus ius, meis mollis his ei, cu veri expetenda nec.
-                                                            </div>
-                                                            <div id="t6" class="navtab-content">
-                                                                Lorem ipsum dolor sit amet, in adipiscing scribentur necessitatibus ius, meis mollis his ei, cu veri expetenda nec. Wisi essent in sed, quod persius at per, quodsi expetenda concludaturque ad usu.
-                                                            </div>
-                                                        </div>
-
-
+                                    <div class="column is-5">
+                                        <!-- User card -->
+                                        <div class="flat-card profile-card is-auto">
+                                            <div class="card-body">
+                                                {% if app.user.partenariat == "boutique" %}
+                                                    <div class="profile-image">
+                                                        <img src="http://via.placeholder.com/250x250" data-demo-src="assets/img/avatars/elie.jpg" alt="">
                                                     </div>
+                                                    <div class="username has-text-centered">
+                                                        <span>{{ app.user ? app.user.boutique }}</span>
+                                                        <small id="full-email">eliedaniels@gmail.com</small>
+                                                    </div>
+                                                {% else %}
+                                                    <div class="profile-image">
+                                                        <img src="http://via.placeholder.com/250x250" data-demo-src="assets/img/avatars/elie.jpg" alt="">
+                                                    </div>
+                                                    <div class="username has-text-centered">
+                                                        <span id="full-name">Elie Daniels</span>
+                                                        <small id="full-email">eliedaniels@gmail.com</small>
+                                                    </div>
+                                                {% endif %}
+
+                                            </div>
+                                            <div class="profile-footer has-text-centered">
+                                                <span class="achievement-title">Partenariat</span>
+                                                <div class="count">
+                                                    {{ app.user ? app.user.partenariat }}
                                                 </div>
-                                                <div class="column is-6 is-description">
-                                                    <div class="inner">
-                                                        <div class="divider"></div>
-                                                        <h2 class="title is-6 is-light">{% trans %}Bienvenue {% endtrans %} {% if app.user %} {{ app.user.prenom }} {% endif %} </h2>
-                                                        <p>Cette section vous permet d'etablir un contrat de partenariat avec nous afin de promouvoir vos produits et services.</p>
-                                                    </div>
+                                            </div>
+                                        </div>
+                                        <!-- Gold Customer card -->
+                                        <div class="flat-card profile-info-card is-auto is-dark is-achievement">
+                                            <div class="card-body">
+                                                <img src="{{ asset('frontend/img/logo/nephos-gold.svg') }}" alt="">
+                                                <div class="achievement-name">
+                                                    <span class="is-gold">Nephos Gold Customer</span>
+                                                    <span>As a Gold Customer, you have a permanent 10% discount on all your purchases.</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Referal card -->
+                                        <div class="flat-card profile-info-card is-auto is-dark is-achievement">
+                                            <div class="card-body">
+                                                <img src="{{ asset('frontend/img/logo/nephos-referral.svg') }}" alt="">
+                                                <div class="achievement-name">
+                                                    <span class="is-green">Nephos Referer</span>
+                                                    <span>You have referred <b>30+</b> customers. You get a 2.5% discount on all your purchases.</span>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
 
-
-                                <div class="flat-card is-auto is-element-details">
-                                    <div class="columns is-gapless is-vcentered">
-                                        <div class="column is-6 is-component">
-                                            <div class="inner">
-                                                <form  id="registration-form" method="post" action="{{ path('app_register', {'role': 'new_user'}) }}" >
-                                                    <!--Field avatar-->
-                                                    <div class="field">
-                                                        <!-- Avatar form -->
-                                                        <div id="avatar-upload" class="avatar-wrapper has-simple-popover" data-content="Change profile picture" data-placement="top">
-                                                            <img class="profile-pic" id="imagesrc" src="{{ asset('frontend/img/avatars/avatar.png') }}" alt="">
-                                                            <div class="upload-button modal-trigger" data-modal="upload-crop-modal">
-                                                                <i class="upload-icon" data-feather="plus" aria-hidden="true"></i>
-                                                            </div>
-                                                            <!-- input class="input" id="register-image"  type="file" accept="image/*" name="image" -->
-                                                            <!-- input id="register-image" type="text" name="image" class="input" -->
-                                                        </div>
-                                                        <!-- /Avatar form -->
-                                                    </div>
-                                                </form>
+                                    <!-- Details -->
+                                    <div class="column is-7">
+                                        <div class="flat-card profile-info-card is-auto">
+                                            <!-- Title -->
+                                            <div class="card-title">
+                                                <h3>Plus d'informations</h3>
+                                                <div class="edit-account has-simple-popover popover-hidden-mobile" data-content="Edit Account" data-placement="top">
+                                                    <a id="partenariat-edit-front-alert" ><i class="feather-icons" data-feather="settings"></i></a>
+                                                </div>
                                             </div>
+                                            <!-- Contact Info -->
+                                            <div class="card-body">
+                                                <div class="columns">
+
+                                                    {% if app.user.partenariat == "boutique" %}
+                                                    <div class="column is-7">
+                                                        <div class="info-block">
+                                                            <span class="label-text">Nom de la Boutique</span>
+                                                            <span id="partenariatB-name" class="label-value">{{ app.user ? app.user.boutique }}</span>
+                                                        </div>
+                                                        <div class="info-block">
+                                                            <span class="label-text">Domaine(s) d'activité(s)</span>
+
+                                                            {% for domaine in app.user.domaine %}
+                                                            <span id="partenariatB-domaine" class="label-value">- {{domaine}}</span>
+                                                            {% endfor %}
+                                                        </div>
+                                                        <div class="info-block">
+                                                            <span class="label-text">Description</span>
+                                                            <span id="partenariatB-desc" class="label-value">{{ app.user ? app.user.description }}</span>
+                                                        </div>
+                                                    </div>
+                                                    {% elseif app.user.partenariat == "services" %}
+                                                        <div class="column is-7">
+                                                            <div class="info-block">
+                                                                <span class="label-text">CIN</span>
+                                                                <span id="partenariatS-cin" class="label-value">{{ app.user ? app.user.cin }}</span>
+                                                            </div>
+                                                            <div class="info-block">
+                                                                <span class="label-text">Domaine(s) d'activité(s)</span>
+
+                                                                {% for domaine in app.user.domaine %}
+                                                                    <span id="partenariatS-domaine" class="label-value">- {{domaine}}</span>
+                                                                {% endfor %}
+                                                            </div>
+                                                            <div class="info-block">
+                                                                <span class="label-text">Description</span>
+                                                                <span id="partenariatS-desc" class="label-value">{{ app.user ? app.user.description }}</span>
+                                                            </div>
+                                                        </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                            <!-- Background Nephos Icon -->
+                                            <img class="card-bg" src="{{ asset('frontend/img/logo/nephos-greyscale.svg') }}" alt="">
                                         </div>
+
+                                        <!-- edit partenariat -->
+                                        <div id="edit-partenariat" class="flat-card upload-card is-auto is-hidden">
+                                            <div class="card-body profile-info-card">
+
+                                                <div class="card-title">
+                                                    <h3>Editer Votre Partenariat</h3>
+                                                    <div class="edit-account has-simple-popover popover-hidden-mobile" data-content="Edit Account" data-placement="top">
+                                                        <a id="partenariat-exit-edit-front-alert" ><i class="feather-icons" data-feather="x"></i></a>
+                                                    </div>
+                                                </div>
+                                            </br>
+                                            </br>
+
+                                                {% if app.user.partenariat == "boutique" %}
+
+                                                    <!-- Avatar form -->
+                                                    <div id="avatar-upload" class="avatar-wrapper has-simple-popover" data-content="Change profile picture" data-placement="top">
+
+                                                        <img class="profile-pic" id="imagesrc" src="{{ asset('frontend/img/avatars/avatar.png') }}" alt="">
+
+                                                        <div class="upload-button modal-trigger" data-modal="upload-crop-modal">
+                                                            <i class="upload-icon" data-feather="plus" aria-hidden="true"></i>
+                                                        </div>
+                                                        <!--input class="file-upload" type="file" accept="image/*"/-->
+                                                    </div>
+                                                    <!-- /Avatar form -->
+
+                                                    <!-- Partner -->
+                                                    <div class="field info-block has-flex-label has-validation">
+                                                        <label class="label-text">
+                                                            <span>Nom de la Boutique</span>
+                                                            <span class="error">Minimum 2 characters</span>
+                                                        </label>
+                                                        <div class="control">
+                                                            <input id="partenariatB-edit-name" type="text" class="input is-default fake-validation" value="{{ app.user ? app.user.boutique }}">
+                                                            <div class="error-icon">
+                                                                <i data-feather="x"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                <div class="field has-flex-label has-validation">
+                                                    <label>
+                                                        <span>Domaine(s) d'activité(s)</span>
+                                                        <span class="error">Selectionnez au moins un domaine</span>
+                                                    </label>
+                                                    <div class="control is-bigger has-icon">
+                                                        <select id="partenariatB-edit-domaine" class="chosen-select is-multiple" data-placeholder="Selectionnez votre/vos domaine(s) d'activité(s)"  multiple>
+                                                            <option label="Domaine"></option>
+                                                            <option value="immobilier" {% if "immobilier" in app.user.domaine %} selected {% endif %}>Immobilier</option>
+                                                            <option value="fournitures" {% if "fournitures" in app.user.domaine %} selected {% endif %}>Fournitures</option>
+                                                            <option value="construction" {% if "construction" in app.user.domaine %} selected {% endif %}>Construction</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                    <div class="field info-block has-flex-label has-validation">
+                                                        <label class="label-text">
+                                                            <span>Description</span>
+                                                            <span class="error">Error</span>
+                                                        </label>
+                                                        <div class="control">
+                                                            <textarea id="partenariatB-edit-desc" class="input" name="description">{{ app.user ? app.user.description }}</textarea>
+                                                            <div class="error-icon">
+                                                                <i data-feather="x"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                {% elseif app.user.partenariat == "services"  %}
+
+                                                    <!--Field cin-->
+                                                    <div class="field has-flex-label has-validation">
+                                                        <label>
+                                                            <span>CIN</span>
+                                                            <span class="error">CIN Invalide</span>
+                                                        </label>
+                                                        <div class="control is-bigger has-icon">
+                                                            <input id="partenariatS-edit-cin" type="text" name="cin" class="input" value="{{ app.user ? app.user.cin }}">
+                                                        </div>
+                                                    </div>
+                                                    <!--Field domaine-->
+                                                    <div class="field has-flex-label has-validation">
+                                                        <label>
+                                                            <span>Domaine(s) d'activité(s)</span>
+                                                            <span class="error">Selectionnez au moins un domaine</span>
+                                                        </label>
+                                                        <div class="control is-bigger has-icon">
+                                                            <select id="partenariatS-edit-domaine" class="chosen-select is-multiple" data-placeholder="Selectionnez votre/vos domaine(s) d'activité(s)" multiple>
+                                                                <option label="Domaine"></option>
+                                                                {% for service in services %}
+                                                                    <option value="{{service.nom}}" {% if service.nom in app.user.domaine %} selected {% endif %}>{{service.nom}}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <!--Field desc-->
+                                                    <div class="field has-flex-label has-validation">
+                                                        <label>
+                                                            <span>Description</span>
+                                                            <span class="error">Au moins 10 caractéres pour la description</span>
+                                                        </label>
+                                                        <div class="control is-bigger has-icon">
+                                                            <textarea id="partenariatS-edit-desc" class="input" name="description">{{ app.user ? app.user.description }}</textarea>
+                                                        </div>
+                                                    </div>
+
+                                                {% endif %}
+
+                                                <div class="has-text-centered pop-button">
+                                                    <form  id="account-edit-form" method="post" action="{{ path('app_account_edit') }}" >
+                                                        <button id="save-account-button" type="submit" class="button feather-button primary-button is-rounded raised opaque">
+                                                            Sauvegarder
+                                                        </button>
+                                                    </form>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                        <!-- /edit partenariat -->
+                                    </div>
+
+                                </div>
+                            {% else %}
+                                <div id="account-main-placeholder" class="main-placeholder">
+                                    <div class="placeholder-content">
+                                        <img src="{{ asset('frontend/img/illustrations/stripe.svg') }}" alt="">
+                                        <h3>Validation en cours</h3>
+                                        <p>Votre Partenariat est en cours de validation par nos agents.</br> Vous allez etre notifié une fois la validation effectué.</p>
+                                        <div class="button-wrap">
+                                            <a href="" class="button big-button primary-button rounded raised is-loading"></a>
+                                        </div>
+                                       <a id="cancel-partnership" style="color: red;">Annuler mon partenariat</a>
                                     </div>
                                 </div>
+                            {% endif %}
 
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -143,7 +322,7 @@
                             <!-- Title -->
                             <div class="category-title">
                                 <!-- Main Title -->
-                                <h2 id="elements-title">PARTENARIAT</h2>
+                                <h2 id="partenariat-title">PARTENARIAT</h2>
 
                                 <!-- Elements Titles -->
                                 <h2 id="boutique-title" class="element-title is-hidden">BOUTIQUE</h2>
@@ -157,45 +336,45 @@
                             </div>
 
                             {% if app.user %}
-                                <div id="elements-selection" class="columns is-multiline">
-                                    <!-- Boutique -->
-                                    <div class="column is-4">
-                                        <div class="flat-card is-auto is-element-card">
-                                            <div class="inner has-text-centered">
-                                                <h3 class="element-card-title">Boutique</h3>
-                                                <img src="{{ asset('frontend/img/illustrations/store.svg') }}" alt="">
-                                                <div class="view-element">
-                                                    <a href="javascript:void(0);" class="button feather-button primary-button is-small raised rounded" data-element="boutique">View</a>
+                                    <div id="elements-selection" class="columns is-multiline">
+                                        <!-- Boutique -->
+                                        <div class="column is-4">
+                                            <div class="flat-card is-auto is-element-card">
+                                                <div class="inner has-text-centered">
+                                                    <h3 class="element-card-title">Boutique</h3>
+                                                    <img src="{{ asset('frontend/img/illustrations/store.svg') }}" alt="">
+                                                    <div class="view-element">
+                                                        <a href="javascript:void(0);" class="button feather-button primary-button is-small raised rounded" data-element="boutique">View</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Services -->
+                                        <div class="column is-4">
+                                            <div class="flat-card is-auto is-element-card">
+                                                <div class="inner has-text-centered">
+                                                    <h3 class="element-card-title">Services</h3>
+                                                    <img src="{{ asset('frontend/img/illustrations/couch.svg') }}" alt="">
+                                                    <div class="view-element">
+                                                        <a href="javascript:void(0);" class="button feather-button primary-button is-small raised rounded" data-element="services">View</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Terrain -->
+                                        <div class="column is-4">
+                                            <div class="flat-card is-auto is-element-card">
+                                                <div class="inner has-text-centered">
+                                                    <h3 class="element-card-title">Terrain</h3>
+                                                    <img src="{{ asset('frontend/img/icons/checkout/world.svg') }}" alt="">
+                                                    <div class="view-element">
+                                                        <a href="javascript:void(0);" class="button feather-button primary-button is-small raised rounded" data-element="terrain">View</a>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- Services -->
-                                    <div class="column is-4">
-                                        <div class="flat-card is-auto is-element-card">
-                                            <div class="inner has-text-centered">
-                                                <h3 class="element-card-title">Services</h3>
-                                                <img src="{{ asset('frontend/img/illustrations/couch.svg') }}" alt="">
-                                                <div class="view-element">
-                                                    <a href="javascript:void(0);" class="button feather-button primary-button is-small raised rounded" data-element="services">View</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Terrain -->
-                                    <div class="column is-4">
-                                        <div class="flat-card is-auto is-element-card">
-                                            <div class="inner has-text-centered">
-                                                <h3 class="element-card-title">Terrain</h3>
-                                                <img src="{{ asset('frontend/img/icons/checkout/world.svg') }}" alt="">
-                                                <div class="view-element">
-                                                    <a href="javascript:void(0);" class="button feather-button primary-button is-small raised rounded" data-element="terrain">View</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Selection -->
+                                    <!-- Selection -->
                             {% else %}
                                 <div id="account-main-placeholder" class="main-placeholder">
                                     <div class="placeholder-content">

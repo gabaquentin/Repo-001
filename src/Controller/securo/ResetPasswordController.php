@@ -146,6 +146,7 @@ class ResetPasswordController extends AbstractController
 
     private function processSendingPasswordResetEmail(string $emailFormData, MailerInterface $mailer): RedirectResponse
     {
+        $jsonData = array();
         $user = $this->getDoctrine()->getRepository(User::class)->findOneBy([
             'email' => $emailFormData,
         ]);
@@ -155,6 +156,7 @@ class ResetPasswordController extends AbstractController
 
         // Do not reveal whether a user account was found or not.
         if (!$user) {
+            $jsonData["code"] = "400" ;
             return $this->redirectToRoute('app_check_email');
         }
 
@@ -189,6 +191,7 @@ class ResetPasswordController extends AbstractController
         } catch (TransportExceptionInterface $e) {
         }
 
+        $jsonData["code"] = "200" ;
         return $this->redirectToRoute('app_check_email');
     }
 }

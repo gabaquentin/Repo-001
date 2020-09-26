@@ -32,6 +32,28 @@
 
                 </a>
             </li>
+            <li>
+                <a href="{{path('app_partenariat')}}">
+                    {% if is_granted('ROLE_PARTENAIRE') %}
+                        <span>Mon Partenariat</span>
+                        <img src="{{ asset('frontend/img/illustrations/bed.svg') }}" alt="">
+                    {% else %}
+                        <span>Devenir Partenaire</span>
+                        <img src="{{ asset('frontend/img/illustrations/add-files.svg') }}" alt="">
+                    {% endif %}
+
+
+                </a>
+            </li>
+            {% if is_granted('ROLE_ADMIN') %}
+                <li>
+                    <a href="{{path('back')}}">
+                        <span>Administration</span>
+                        <img src="{{ asset('frontend/img/illustrations/metrics.svg') }}" alt="">
+
+                    </a>
+                </li>
+            {% endif %}
         </ul>
 
         <!--div class="all-categories is-hidden-mobile">
