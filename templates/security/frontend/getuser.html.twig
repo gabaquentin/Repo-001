@@ -80,14 +80,18 @@
 
 <!-- get verified? -->
 
-<div class="js-user-is-verified" data-is-verified="{{ app.user ? app.user.verified }}">
+<div class="js-user-is-verified is-hidden" data-is-verified="{{ app.user ? app.user.verified }}">
     <!--get isVerified-->
 </div>
 
-<div class="js-user-phone-verified" data-phone-verified="{{ app.user ? app.user.phoneVerified }}">
+<div class="js-user-phone-verified is-hidden" data-phone-verified="{{ app.user ? app.user.phoneVerified }}">
     <!--get phone verified-->
 </div>
 
-<div class="js-admin-lock" data-admin-lock="{{ app.user ? app.user.al }}">
+<div class="js-admin-lock is-hidden" data-admin-lock="{{ app.user ? app.user.al }}">
     <!--get admin lock-->
 </div>
+
+<!-- get whishlist information -->
+
+
