@@ -246,45 +246,6 @@ class ProduitController extends AbstractController
 
 
     /**
-     * recupere les inputs supplementaires du formulaire en fonction de la catégorie choisie
-     *
-     * @Route("/get_form/{produit}", name="get_form_extend_prod")
-     * @param Request $request
-     * @param CategorieProdRepository $repCategorie
-     * @param Produit|null $produit
-     * @return JsonResponse
-     */
-    public function getForm(Request $request,CategorieProdRepository $repCategorie, Produit $produit = null)
-    {
-        $data = "";
-        $forFront = $request->get("forFront",false);
-        $idCategorie = $request->get("idCategorie");
-        $categorie = $repCategorie->findOneBy(["id"=>$idCategorie]);
-
-        if($categorie==null)
-            die();
-        if($produit==null)
-            $produit = new Produit();
-
-        $form = $this->createForm(ProduitType::class,$produit);
-
-        if($categorie->getTypeCategorie()=="immobilier")
-        {
-            $url = "backend/ecommerce/produit/formulaire-immobilier.html.twig";
-
-            if($forFront)
-                $url = "frontend/ecommerce/produit/formulaire-immobilier.html.twig";
-
-            $data = $this->renderView($url,[
-                'form'=>$form->createView()
-            ]);
-        }
-
-
-        return $this->json($data);
-    }
-
-    /**
      * @Route("/delete" , name="delete_produit")
      * @param Request $request
      * @param PackTools $packTools

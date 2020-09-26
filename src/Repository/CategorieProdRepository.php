@@ -52,7 +52,8 @@ class CategorieProdRepository extends ServiceEntityRepository
         return
             $qb->andWhere('c.categorieParent is not null')
                 ->orderBy('c.ordre', 'ASC')
-                ->andWhere($qb->expr()->in("c.id",$enabledCategories))
+                ->andWhere("c.id in (:enabled)")
+                ->setParameter(":enabled",$enabledCategories)
                 ->andWhere()
                 ->getQuery()
                 ->getResult()

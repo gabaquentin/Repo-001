@@ -111,7 +111,7 @@ class PackTools
             $this->em->flush();
         }
 
-        return $this->em->getRepository(Produit::class)->FindValidProducts((empty($idCategories) ? null : $idCategories), null, $idProduits);
+        return $this->em->getRepository(Produit::class)->FindValidProducts(((empty($idCategories)||is_null($idCategories)) ? null : $idCategories), null, $idProduits,false);
     }
 
     public function showUserPackDetails(User $user)
@@ -141,6 +141,7 @@ class PackTools
         ];
         $types = ["postes", "boost"];
         $packs = $user->getPackProduct();
+
         foreach ($packs as $key=>$pack) {
             foreach ($types as $type) {
                 if (key_exists($type, $pack)) {
@@ -154,6 +155,7 @@ class PackTools
                             }
                         }
                         if($enable){
+
                             $data[$type]["total"] += intval(($type == "boost")?$values["value"]:$values);
                             $nom = $cats["$id"];
                             $data[$type][$type]["$nom"] = ($type == "boost")?$values["endDate"]:$values;
