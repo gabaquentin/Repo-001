@@ -7,13 +7,11 @@
     <link rel="stylesheet" href="{{ asset('frontend/css/service/blog.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.2/css/all.min.css"  />
     <link href="https://fonts.googleapis.com/css2?family=Candal&display=swap" rel="stylesheet">
-    <link href='https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css'>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <style>
         .rating {
             display: flex;
             flex-direction: row-reverse;
-            justify-content: center
+            justify-content: center;
         }
 
         .rating>input {
@@ -23,7 +21,7 @@
         .rating>label {
             position: relative;
             width: 1em;
-            font-size: 6vw;
+            font-size: 3vw;
             color: #FFD600;
             cursor: pointer
         }
@@ -65,10 +63,11 @@
                     <!-- MainContent -->
                     <div class="main-content single">
                         <img src="{{ asset('images/blog/'~blog.image) }}" class="imgBlog">
-                        <i class="far fa-user" style="margin-right: 50px;">Administrateur</i>
-                        <i class="far fa-calendar" style="margin-right: 50px;">{{ blog.dateString }}</i>
-                        <i class="far fa-comment">{{ commentaires|length }} comments</i>
-                        <center><h1 class="post-title">{{ blog.nom}}</h1></center>
+                        <i class="far fa-user" style="margin-right: 50px;">  Administrateur</i>
+                        <i class="far fa-calendar" style="margin-right: 50px;">  {{ blog.dateString }}</i>
+                        <i class="far fa-comment" style="margin-right: 50px;">  {{ blog.commentaires }} commentaires</i>
+                        <i class="far fa-eye" >{{ blog.vues }} Vues</i><br>
+                        <center><h1 class="title">{{ blog.nom}}</h1></center>
 
                         <div class="post-content">
                             <p><strong><h3>
@@ -79,87 +78,73 @@
                             </p>
 
                         </div>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#new-wishlist">
                             Launch demo modal
                         </button>
-
+                        <div class="edit-account">
+                            <a href="javascript:void(0);" class="modal-trigger has-simple-popover" data-modal="new-wishlist" data-content="Add a New Wishlist" data-placement="top"><i class="feather-icons" data-feather="plus"></i></a>
+                        </div>
                         <!-- Modal -->
-                        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLongTitle">Notez le service:D</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
+                        <div id="new-wishlist" class="modal wishlist-modal">
+                            <div class="modal-background"></div>
+                            <div class="modal-content">
+                                <div class="box">
+                                    <div class="box-header">
+                                        <img src="assets/img/logo/nephos-greyscale.svg" alt="">
+                                        <span>Feedback</span>
+                                        <div class="modal-delete"><i data-feather="x"></i></div>
                                     </div>
-                                    <div class="modal-body">
-                                        <div class="rating"> <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label> <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label> <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label> <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label> <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
+                                    <div class="box-body">
+                                        <img src="assets/img/illustrations/wishlist.svg" alt="">
+                                        <div class="inner-content">
+                                            <p>Laissez une note et un commentaire svp.</p>
+                                            <div class="control">
+                                                <!-- Content ... --><div class="rating" > <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label> <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label> <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label> <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label> <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
+                                                </div>
+                                                <input type="text" name="commentaire" class="input is-minimal">
+                                            </div>
+                                            <div class="button-wrap">
+                                                <button type="submit" class="button add-wishlist-action is-fullwidth feather-button is-bold primary-button raised">
+                                                    Create
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-primary">Valider</button>
-                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="chatbox">
-                            <div class="chatlogs">
-                                <div class="chat friends">
-                                    <div class="user-photo"><img src="{{ asset('frontend/img/eservices/0004.jpg') }}"></div>
-                                    <div class="chat-message"><h6>Constant Ateba</h6><h6 style="font-size: small;">21-05-2020 06:30:33</h6><br>What's up my nigga??</div>
-                                </div>
-                                {% for commentaire in commentaires %}
-                                <div class="chat self">
-                                    <div class="user-photo"><img src="{{ asset('frontend/img/eservices/0004.jpg') }}"></div>
-                                    <div class="chat-message"><h6 style="font-size: small;text-align: right;">
-                                        {{ commentaire.date }}</h6><br>{{ commentaire.libelle }}</div>
-                                </div>
-                                {% endfor %}
+                        <div class="chatbox js-filter">
+
+                            <div class="chatlogs js-filter-content" id="messages">
+                        {% include 'frontend/eservices/commentaires.html.twig' %}
+
+                            <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
                             </div>
-                            <div class="chat-form">
-                                <form method="post" action="{{ path('front_single_blog',{'id':blog.id}) }}">
-                                <textarea name="libelle"></textarea>
-                                    <input type="hidden" name="blog" value="{{ blog.id }}">
-                                <button type="submit" name="valider">Envoyer</button>
-                                </form>
-                            </div>
-                        </div>
+                        {% if not app.user %}
+                            <center>
+                                <a style="position: relative; top: 20px;" href="{{ path('app_login') }}"><button class="button feather-button primary-button">Connectez-vous</button> </a>
+                            </center>
+                            {% else %}
+                            <input type="text" id="libelle1" name="libelle" class="input" style="">
+                            <input type="hidden" id="blog1" name="blog" value="{{ blog.id }}">
+                            <input type="hidden" id="id1" name="id" value="{{ app.user.id }}">
+                            <button type="submit" class="button feather-button primary-button" onclick="EnvoieMsg(1)" name="valider">Envoyer</button>
+                            {% endif %}
+                    </div>
                     </div>
                     <!-- Content -->
                     <!-- Sidebar -->
                     <div class="sidebar2 single">
                         <div class="fb-page" data-href="https://www.facebook.com/facebook" data-tabs="" data-width="" data-height="" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/facebook" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/facebook">Facebook</a></blockquote></div>
                         <div class="section popular">
-                            <h2 class="section-title">Populaires</h2>
-                            <div class="post clearfix2">
-                                <img src="{{ asset('frontend/img/eservices/0004.jpg') }}">
-                                <a href="#" class="titlePop">Comment draguer son patron??</a>
-                            </div>
-                            <div class="post clearfix2">
-                                <img src="{{ asset('frontend/img/eservices/0004.jpg') }}">
-                                <a href="#" class="titlePop">Comment draguer son patron??</a>
-                            </div>
-                            <div class="post clearfix2">
-                                <img src="{{ asset('frontend/img/eservices/0004.jpg') }}">
-                                <a href="#" class="titlePop">Comment draguer son patron??</a>
-                            </div>
-                            <div class="post clearfix2">
-                                <img src="{{ asset('frontend/img/eservices/0004.jpg') }}">
-                                <a href="#" class="titlePop">Comment draguer son patron??</a>
-                            </div>
-                            <div class="post clearfix2">
-                                <img src="{{ asset('frontend/img/eservices/0004.jpg') }}">
-                                <a href="#" class="titlePop">Comment draguer son patron??</a>
-                            </div>
-                            <div class="post clearfix2">
-                                <img src="{{ asset('frontend/img/eservices/0004.jpg') }}">
-                                <a href="#" class="titlePop">Comment draguer son patron??</a>
-                            </div>
-                            <div class="post clearfix2">
-                                <img src="{{ asset('frontend/img/eservices/0004.jpg') }}">
-                                <a href="#" class="titlePop">Comment draguer son patron??</a>
-                            </div>
+                            <h2 class="title">Populaires</h2>
+                            {% for pop in popular %}
+                                <div class="post clearfix2">
+                                    <img src="{{ asset('images/blog/'~pop.image) }}">
+                                    <a href="{{ path('front_single_blog',{'id': pop.id}) }}" class="titlePop">{{ pop.nom }}</a>
+                                </div>
+                            {% endfor %}
                         </div>
                         <div class="section topics">
                             <h2 class="section-title">Sujets</h2>
@@ -409,7 +394,32 @@
             </div>
         </div>
     </section>
-
+    <div id="new-wishlist" class="modal wishlist-modal">
+        <div class="modal-background"></div>
+        <div class="modal-content">
+            <div class="box">
+                <div class="box-header">
+                    <img src="assets/img/logo/nephos-greyscale.svg" alt="">
+                    <span>NEW LIST</span>
+                    <div class="modal-delete"><i data-feather="x"></i></div>
+                </div>
+                <div class="box-body">
+                    <img src="assets/img/illustrations/wishlist.svg" alt="">
+                    <div class="inner-content">
+                        <p>Add a new sub list to classify your wishlist items. You can then manage them and find them more easily.</p>
+                        <div class="control">
+                            <input id="new-wishlist-input" type="text" class="input is-minimal" placeholder="Wishlist name">
+                        </div>
+                        <div class="button-wrap">
+                            <button type="submit" class="button add-wishlist-action is-fullwidth feather-button is-bold primary-button raised">
+                                Create
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <footer class="footer">
         <div class="container">
             <div class="footer-flex">
@@ -516,13 +526,223 @@
     <script src='https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
     <script>
-        $(function(){
-            $(".service_slider").slick({
-                autoplay:true,
-                autoplaySpeed:3000,
-                arrows:false,
-            })
-        })
+        var a;
+        function hide(b)
+        {
+            var str1 = "reponse ";
+            var res = str1.concat(b);
+            if(a==1){
+                document.getElementById(res).style.display="none";
+                return a=0;
+            }
+            else{
+                document.getElementById(res).style.display="inline";
+                return a=1;
+            }
+        }
+    </script>
+    <script>
+        var c;
+        function hideMod(b)
+        {
+            var str1 = "mod";
+            var res = str1.concat(b);
+            if(c==1){
+                document.getElementById(res).style.display="none";
+                return c=0;
+            }
+            else{
+                document.getElementById(res).style.display="inline";
+                return c=1;
+            }
+        }
+    </script>
+    <script>
+        var d;
+        function hideRep(b,nombre)
+        {
+            var str1 = "rep";
+            var res = str1.concat(b);
+            var str2 = "afficher";
+            var res2 = str2.concat(b);
+            const afficher=document.getElementById(res2);
+            if(d==1){
+                document.getElementById(res).style.display="none";
+                if (nombre>1){
+                    var str3 = "Afficher les ";
+                    var str4 = " reponses";
+                    var res3 = str3.concat(nombre);
+                    var res3 = res3.concat(str4);
+                    afficher.textContent=res3;
+                }
+                else if(nombre==1) {
+                    afficher.textContent="Afficher la reponse";
+                }
+                return d=0;
+            }
+            else{
+                document.getElementById(res).style.display="inline";
+                if (nombre>1){
+                    var str3 = "Masquer les ";
+                    var str4 = " reponses";
+                    var res3 = str3.concat(nombre);
+                    var res3 = res3.concat(str4);
+                    afficher.textContent=res3;
+                }
+                else if(nombre==1) {
+                    afficher.textContent="Masquer la reponse";
+                }
+                return d=1;
+            }
+        }
+    </script>
+    <script>
+        const Route="{{ path('front_single_blog_add_commentaire',{'id':blog.id}) }}";
+        const Route2="{{ path('messages',{'id':blog.id}) }}";
+        const content2 = document.querySelector('.js-filter-content');
+
+        function EnvoieMsg(b)
+        {
+            var str1 = "#libelle";
+            var res1 = str1.concat(b);
+            var str2 = "#blog";
+            var res2 = str2.concat(b);
+            var str3 = "#id";
+            var res3 = str3.concat(b);
+            const libelle=document.querySelector(res1);
+            const blog=document.querySelector(res2);
+            const id=document.querySelector(res3);
+            const data = new FormData();
+            data.append('libelle', libelle.value);
+            data.append('blog', blog.value);
+            data.append('id', id.value);
+            data.append('valider', "");
+            data.append('ajax', "");
+            const xhr= new XMLHttpRequest();
+            xhr.open("POST",Route,true);
+            xhr.send(data);
+
+
+            const xhr2= new XMLHttpRequest();
+            xhr2.open("GET",Route2,true);
+            xhr2.onload = () => {
+                const data=JSON.parse(xhr2.response);
+                content2.innerHTML=data.contenue;
+                libelle.value='';
+                console.log(data);
+            }
+            xhr2.send();
+
+        }
+        function RepondreMsg(b)
+        {
+            var str1 = "#libelleR";
+            var res1 = str1.concat(b);
+            var str2 = "#blogR";
+            var res2 = str2.concat(b);
+            var str3 = "#idR";
+            var res3 = str3.concat(b);
+            var str4 = "#idComR";
+            var res4 = str4.concat(b);
+            const libelle=document.querySelector(res1);
+            const blog=document.querySelector(res2);
+            const id=document.querySelector(res3);
+            const idCom=document.querySelector(res4);
+            const data = new FormData();
+            data.append('libelle', libelle.value);
+            data.append('blog', blog.value);
+            data.append('id', id.value);
+            data.append('idCom', idCom.value);
+            data.append('repondre', "");
+            data.append('ajax', "");
+            const xhr= new XMLHttpRequest();
+            xhr.open("POST",Route,true);
+            xhr.send(data);
+
+
+            const xhr2= new XMLHttpRequest();
+            xhr2.open("GET",Route2,true);
+            xhr2.onload = () => {
+                const data=JSON.parse(xhr2.response);
+                content2.innerHTML=data.contenue;
+                libelle.value='';
+                console.log(data);
+            }
+            xhr2.send();
+
+        }
+
+        function Voirplus(route,plus)
+        {
+            var str1 = "#vplus";
+            var res1 = str1.concat(plus);
+            const vplus=document.querySelector(res1);
+            vplus.innerHTML="";
+            const Route5= route;
+            const xhr2 = new XMLHttpRequest();
+            xhr2.open("GET",Route5,true);
+            xhr2.onload = () => {
+                const data=JSON.parse(xhr2.response);
+                content2.innerHTML+=data.contenue;
+                console.log(data);
+            }
+            xhr2.send();
+        }
+
+        function ModifierMsg(b)
+        {
+            var str1 = "#libelleM";
+            var res1 = str1.concat(b);
+            var str2 = "#idComM";
+            var res2 = str2.concat(b);
+            const libelle=document.querySelector(res1);
+            const idCom=document.querySelector(res2);
+            const data = new FormData();
+            data.append('libelle', libelle.value);
+            data.append('idCom', idCom.value);
+            data.append('modifier', "");
+            data.append('ajax', "");
+            const xhr= new XMLHttpRequest();
+            xhr.open("POST",Route,true);
+            xhr.send(data);
+
+
+            const xhr2= new XMLHttpRequest();
+            xhr2.open("GET",Route2,true);
+            xhr2.onload = () => {
+                const data=JSON.parse(xhr2.response);
+                content2.innerHTML=data.contenue;
+                libelle.value='';
+                console.log(data);
+            }
+            xhr2.send();
+
+        }
+
+        function SupprimerMsg(b)
+        {
+            var str2 = "#idComM";
+            var res2 = str2.concat(b);
+            const idCom=document.querySelector(res2);
+            const data = new FormData();
+            data.append('idCom', idCom.value);
+            data.append('supprimer', "");
+            data.append('ajax', "");
+            const xhr= new XMLHttpRequest();
+            xhr.open("POST",Route,true);
+            xhr.send(data);
+
+
+            const xhr2= new XMLHttpRequest();
+            xhr2.open("GET",Route2,true);
+            xhr2.onload = () => {
+                const data=JSON.parse(xhr2.response);
+                content2.innerHTML=data.contenue;
+                console.log(data);
+            }
+            xhr2.send();
+
+        }
     </script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>

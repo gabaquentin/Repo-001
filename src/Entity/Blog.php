@@ -47,6 +47,16 @@ class Blog
      */
     private $id_createur;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $vues;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $commentaires;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -108,6 +118,30 @@ class Blog
     public function setIdCreateur(int $id_createur): self
     {
         $this->id_createur = $id_createur;
+
+        return $this;
+    }
+
+    public function getVues(): ?int
+    {
+        return $this->vues;
+    }
+
+    public function setVues(int $vues): self
+    {
+        $this->vues = $vues;
+
+        return $this;
+    }
+
+    public function getCommentaires(): ?int
+    {
+        return $this->commentaires;
+    }
+
+    public function setCommentaires(int $commentaires): self
+    {
+        $this->commentaires = $commentaires;
 
         return $this;
     }

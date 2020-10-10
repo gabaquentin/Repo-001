@@ -1,0 +1,65 @@
+
+        {% for commentaire in commentaires %}
+            <div class="chat friends">
+                <div class="user-photo" style=""><img src="{{ commentaire.utilisateur.image }}"></div>
+                <div class="chat-message"><h6 style="font-size: small;" class="title"><font style="font-weight: bold">{{ commentaire.utilisateur.nom }} {{ commentaire.utilisateur.prenom }}</font>
+                        <i style="font-weight: lighter;">{{ commentaire.date }}</i></h6><br><h6 style="position: relative;top: -40px;" class="title">{{ commentaire.libelle }}</h6>
+                    <b style="color: dimgrey; cursor: pointer" onclick="hide({{ commentaire.id }})">Répondre</b>
+                    {% if not app.user %}
+                    {% elseif commentaire.utilisateur.id == app.user.id %}
+                        <i onclick="SupprimerMsg({{ commentaire.id }})" class="fa fa-trash btn-danger sup"></i>
+                        <i onclick="hideMod({{ commentaire.id }})" class="fa fa-pencil-square btn-warning mod"></i>
+                    {% endif %}</div>
+            </div>
+            {% if app.user %}
+            <div id="reponse {{ commentaire.id }}" class="reponse">
+                    <input type="text" name="libelle" id="libelleR{{ commentaire.id }}" class="input" style="">
+                    <input type="hidden" name="idCom" id="idComR{{ commentaire.id }}" value="{{ commentaire.id }}">
+                    <input type="hidden" name="blog" id="blogR{{ commentaire.id }}" value="{{ blog.id }}">
+                    <input type="hidden" name="id" id="idR{{ commentaire.id }}" value="{{ app.user.id }}">
+                    <button type="submit" style="margin-top: 5px;" onclick="RepondreMsg({{ commentaire.id }})" class="button feather-button primary-button" name="repondre">Répondre</button>
+
+            </div>
+            <div id="mod{{ commentaire.id }}" class="reponse">
+                    <input type="text" name="libelle" id="libelleM{{ commentaire.id }}" class="input" value="{{ commentaire.libelle }}" style="">
+                    <input type="hidden" name="idCom" id="idComM{{ commentaire.id }}" value="{{ commentaire.id }}">
+                    <button type="submit" style="margin-top: 5px;" onclick="ModifierMsg({{ commentaire.id }})" class="button feather-button warning-button" name="modifier">Modifier</button>
+
+            </div>
+            {% endif %}
+            {% if commentaire.reponses | length > 1 %}
+                <h6 style="color: blue;text-align: right; cursor: pointer" id="afficher{{ commentaire.id }}" onclick="hideRep({{ commentaire.id }},{{ commentaire.reponses | length }})">Afficher les {{ commentaire.reponses | length }} reponses</h6>
+            {% elseif commentaire.reponses | length > 0 %}
+                <h6 style="color: blue;text-align: right; cursor: pointer" id="afficher{{ commentaire.id }}" onclick="hideRep({{ commentaire.id }},{{ commentaire.reponses | length }})">Afficher la reponse</h6>
+            {% endif %}
+            <div id="rep{{ commentaire.id }}" class="blockRep">
+                {% for reponse in commentaire.reponses %}
+                    <div class="chat rep" >
+                        <div class="user-photo" style=""><img src="{{ reponse.utilisateur.image }}"></div>
+                        <div class="chat-message">
+                            {% if reponse.utilisateur.id == commentaire.utilisateur.id %}
+                            <h6 style="font-size: small;" class="title"><b class="badge badge-primary">{{ reponse.utilisateur.nom }} {{ reponse.utilisateur.prenom }}</b>
+                                <i style="font-weight: lighter;">{{ reponse.date }}</i></h6>
+                                {% else %}
+                                    <h6 style="font-size: small;" class="title"><font style="font-weight: bold">{{ reponse.utilisateur.nom }} {{ reponse.utilisateur.prenom }}</font>
+                                        <i style="font-weight: lighter;">{{ reponse.date }}</i></h6>
+                                {% endif %}
+                            <br><h6 style="position: relative;top: -40px;" class="title">{{ reponse.libelle }}</h6>
+                            <h6 style="color: dimgrey; cursor: pointer" onclick="hide({{ reponse.id }})">Répondre</h6></div>
+                    </div>
+                    {% if app.user %}
+                    <div id="reponse {{ reponse.id }}" class="reponse">
+                            <input type="text" name="libelle" id="libelleR{{ reponse.id }}"  class="input" value="@{{ reponse.utilisateur.nom }} {{ reponse.utilisateur.prenom }}" style="">
+                            <input type="hidden" name="idCom" id="idComR{{ reponse.id }}" value="{{ commentaire.id }}">
+                            <input type="hidden" name="blog" id="blogR{{ reponse.id }}" value="{{ blog.id }}">
+                            <input type="hidden" name="id" id="idR{{ reponse.id }}" value="{{ app.user.id }}">
+                            <button type="submit" style="margin-top: 5px;" onclick="RepondreMsg({{ reponse.id }})" class="button feather-button primary-button" name="repondre">Répondre</button>
+
+                    </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endfor %}
+        {% if commentaires | length == 5 %}
+        <h6 style="color: blue;text-align: right; cursor: pointer" id="vplus{{ plus }}" onclick=Voirplus("{{ path('voirplus',{'id':blog.id,'plus':plus}) }}",{{ plus }})>Voirplus</h6>
+        {% endif %}

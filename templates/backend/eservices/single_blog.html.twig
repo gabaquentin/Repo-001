@@ -5,18 +5,27 @@
     <link href="{{ asset('backend/libs/nestable2/jquery.nestable.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('backend/css/pages/eservices/categorie.css') }}" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('frontend/css/service/blog.css') }}">
+    <link href="{{ asset('backend/libs/dropzone/dropzone.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('backend/libs/custombox/custombox.min.css') }}" rel="stylesheet" />
+    <style>
+        .back{
+            width: 50%;
+        }
+
+    </style>
 {% endblock %}
 
 {% block block_starter %} Gestion du blog '{{ blog.nom }}' {% endblock %}
 {% block body %}
-    <div class="tout">
-                <div class="content clearfix2">
+    <div class="tout-back">
+                <div class="content clearfix2" style="width: 100%;">
                     <!-- MainContent -->
-                    <div class="main-content single">
+                    <div class="main-content-back single">
                         <img src="{{ asset('images/blog/'~blog.image) }}" class="imgBlog">
-                        <i class="far fa-user" style="margin-right: 50px;">Administrateur</i>
-                        <i class="far fa-calendar" style="margin-right: 50px;">{{ blog.dateString }}</i>
-                        <i class="far fa-comment">6 comments</i>
+                        <i class="far fa-user" style="margin-right: 50px;">  Administrateur</i>
+                        <i class="far fa-calendar" style="margin-right: 50px;">  {{ blog.dateString }}</i>
+                        <i class="far fa-comment" style="margin-right: 50px;">  {{ blog.commentaires }} commentaires</i>
+                        <i class="far fa-eye" >{{ blog.vues }} Vues</i><br>
                         <center><h1 class="post-title">{{ blog.nom}}</h1></center>
 
                         <div class="post-content">
@@ -29,13 +38,77 @@
 
                         </div>
                     </div>
-                    <div class="sidebar2 single">
+                    <div class="sidebar2-back single">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="header-title">Modifier ce Blog</h4>
+                                <p class="sub-header"></p>
+                                {{ form_start(form) }}
+                                <div class="form-group">
+                                    <div class="dropzone click">
+                                        <div class="fallback">
+                                            {{ form_row(form.image, {'label': ''}) }}
+                                        </div>
 
-                        <div class="col-lg-100">
-                            <div class="text-lg-right mt-3 mt-lg-0">
-                                <a href="" class="btn btn-success waves-effect waves-light" data-animation="fadein" data-overlayColor="#38414a"   data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"><i class="mdi mdi-update mr-1"></i> Modifier ce blog</a>
-                            </div>
-                        </div><!-- end col-->
+                                        <div class="dz-message needsclick">
+                                            <p class="h1 text-muted"><i class="mdi mdi-cloud-upload"></i></p>
+                                            <h3>Déposez votre champs ici.</h3>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- file preview template -->
+                                <div class="d-none" id="uploadPreviewTemplate">
+                                    <div class="card mt-1 mb-0 shadow-none border">
+                                        <div class="p-2">
+                                            <div class="row align-items-center">
+                                                <div class="col-auto">
+                                                    <img data-dz-thumbnail class="avatar-sm rounded bg-light" alt="">
+                                                </div>
+                                                <div class="col pl-0">
+                                                    <a href="javascript:void(0);" class="text-muted font-weight-bold" data-dz-name></a>
+
+                                                </div>
+                                                <div class="col-auto">
+                                                    <!-- Button -->
+                                                    <a href="" class="btn btn-link btn-lg text-muted" data-dz-remove>
+                                                        <i class="mdi mdi-close-circle"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label" for="{{ form.nom.vars.id }}">Titre du Blog</label>
+                                    <div class="col-sm-9">
+                                        {{ form_widget(form.nom, {'attr': {'class': 'form-control'}}) }}
+                                    </div>
+                                </div>
+                                <div class="form-group row" >
+                                    <label class="col-sm-3 col-form-label" for="">Courte Description </label>
+                                    <div class="col-sm-9">
+                                        <div id="snow-editor" style="height: 100px;" >
+                                            {{ form_widget(form.courte_description, {'attr': {'class': 'form-control','rows':'2'}}) }}
+                                        </div> <!-- end Snow-editor-->
+                                    </div>
+                                </div>
+                                <div class="form-group row" >
+                                    <label class="col-sm-3 col-form-label" for="">Grande Description </label>
+                                    <div class="col-sm-9">
+                                        <div id="snow-editor" style="height: 100px;" >
+                                            {{ form_widget(form.grande_description, {'attr': {'class': 'form-control' ,'rows':'4'}}) }}
+                                        </div> <!-- end Snow-editor-->
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" id="btn-save-category" class="btn btn-primary waves-effect waves-lightspinner-border-sm">
+                                    <span class="spinner-border-sm" role="status" aria-hidden="true"></span>
+                                    Sauvegarder
+                                </button>
+                                {{ form_end(form) }}
+                            </div> <!-- end card-body-->
+                        </div> <!-- end card-->
                     </div>
                     </div>
     </div>
@@ -49,47 +122,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="header-title">Ajouter un Blog</h4>
-                        <p class="sub-header"></p>
-                        {{ form_start(form) }}
-                        <div class="fallback">
-                            {{ form_row(form.image, {'label': ''}) }}
-                        </div>
 
-                        <div class="dz-message needsclick">
-                            <p class="h1 text-muted"><i class="mdi mdi-cloud-upload"></i></p>
-                            <h3>Déposez votre champs ici.</h3>
-                        </div>
-                        <div class="form-group mb-3">
-                            <label for="validationCustom01">Titre du blog</label>
-                            {{ form_row(form.nom, {'label': ' '}) }}
-                            <div class="valid-feedback">
-                                Looks good!
-                            </div>
-                        </div>
-                        <div class="form-group mb-3">
-                            <label for="validationCustom02">Courte description</label>
-                            {{ form_row(form.courte_description, {'label': ' '}) }}
-                            <div class="valid-feedback">
-                                Looks good!
-                            </div>
-                        </div>
-                        <div class="form-group mb-3">
-                            <label for="validationCustomUsername">Longue description</label>
-                            <div class="input-group">
-                                {{ form_row(form.grande_description, {'label': ' '}) }}
-                            </div>
-                        </div>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" id="btn-save-category" class="btn btn-primary waves-effect waves-lightspinner-border-sm">
-                            <span class="spinner-border-sm" role="status" aria-hidden="true"></span>
-                            Sauvegarder
-                        </button>
-                        {{ form_end(form) }}
-                    </div> <!-- end card-body-->
-                </div> <!-- end card-->
             </div>
         </div>
     </div>
@@ -107,4 +140,6 @@
             modal.find('.modal-body input').val(recipient)
         })
     </script>
+    <script src="{{ asset('backend/libs/dropzone/dropzone.min.js') }}"></script>
+    <script src="{{ asset('backend/libs/custombox/custombox.min.js') }}"></script>
 {% endblock %}

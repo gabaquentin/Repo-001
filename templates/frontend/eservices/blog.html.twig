@@ -7,6 +7,15 @@
     <link rel="stylesheet" href="{{ asset('frontend/css/service/blog.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.2/css/all.min.css"  />
     <link href="https://fonts.googleapis.com/css2?family=Candal&display=swap" rel="stylesheet">
+    <style>
+        .pagination .current{
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: solid 2px #0b0b0b;
+            background-color: dimgrey;
+        }
+    </style>
 {% endblock %}
 {% block body %}
     <!-- Pageloader -->
@@ -17,21 +26,23 @@
         <center>
             <div class="tout clearfix2">
                 <div class="content clearfix2">
+                    <h2 class="title" style="text-align: left; padding-left: 20px;">NOS BLOGS</h2>
+                    <div style="border-bottom: 1px solid dimgrey; padding-left: 20px"></div>
                     <div class="main-content ">
-                        <h2 class="category-title">NOS BLOGS</h2>
+
                         {% for blog in blogs %}
                         <div class="post clearfix2">
                             <img src="{{ asset('images/blog/'~blog.image) }}" class="post-image">
                             <div class="post-review">
-                                <h3><a href="{{ path('front_single_blog',{'id': blog.id}) }}">{{ blog.nom }}</a> </h3>
+                                <h3 class="title"><a href="{{ path('front_single_blog',{'id': blog.id}) }}">{{ blog.nom }}</a> </h3>
                                 <i class="far fa-user">Administrateur</i>
                                 &nbsp;
                                 <i class="far fa-calendar">{{ blog.dateString }}</i>
                                 <p>
                                     {{ blog.courteDescription }}
                                 </p>
-                                <i class="far fa-comment comment">6 comments</i>
-                                <a href="{{ path('front_single_blog',{'id': blog.id}) }}" class="btn read-more">Lire plus</a>
+                                <i class="far fa-comment comment">{{ blog.commentaires }} comments</i>
+                                <a href="{{ path('front_single_blog',{'id': blog.id}) }}" class="button feather-button primary-button btn-outlined rounded is-bold read-more">Lire plus</a>
                             </div>
                         </div>
                         {% endfor %}
@@ -42,23 +53,64 @@
 
                     <div class="sidebar2">
                         <div class="section search">
-                            <h2 class="section-title">Rechercher</h2>
-                            <form action="blog.html.twig"method="post">
-                                <input type="text" name="search-term" class="text-input" placeholder="Search...">
+                            <h2 class="title">Rechercher</h2>
+                            <form action="{{ path('searchAll') }}" method="post">
+                                <input type="text" id="recherche" style="width: 80%;" name="mot" class="input is-default" placeholder="Search..."><button  style="float: right;width: 20%;" type="submit" class="button primary-button"><i class="fa fa-search"></i> </button>
                             </form>
+                            <ul id="entitiesNav">
+                                <div>
+                                    <a href="#" class="title" style="font-size: small">Resultat de la recherche<span class="fa arrow"></span> </a>
+
+                                </div>
+                            </ul>
                         </div>
 
-                        <div class="section topics">
-                            <h2 class="section-title">Sujets</h2>
-                            <ul>
-                                <li><a href="#">Poèmes</a></li>
-                                <li><a href="#">Fiction</a></li>
-                                <li><a href="#">Biographie</a></li>
-                                <li><a href="#">Motivation</a></li>
-                                <li><a href="#">Inspiration</a></li>
-                                <li><a href="#">Leçons de vie</a></li>
-                                <li><a href="#">Contes</a></li>
-                            </ul>
+                        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+                        <script type="text/javascript">
+                            jQuery(document).ready(function(){
+                                $("#recherche").keyup(function(){
+                                    var minlength=1;
+                                    var that = this;
+                                    var value = $(this).val();
+                                    var entitySelector = $("#entitiesNav").html('');
+                                    if(value.length>=minlength){
+                                            $.ajax({
+                                                url: "{{ path('search') }}",
+                                                method: "GET",
+                                                data: {
+                                                    'q': value
+                                                },
+                                                dataType: "text",
+                                                success: function(msg){
+                                                    if(value===$(that).val()){
+                                                        var result =JSON.parse(msg);
+                                                        $.each(result, function(key,arr){
+                                                            $.each(arr, function(id,value){
+                                                                if (key==='posts'){
+                                                                    if (id!=='error'){
+                                                                        entitySelector.append('<div style="cursor: pointer;position: relative;left: -35px;"><a href="/eservice/singleblog/'+id+'">'+'<img src="/images/blog/'+value[0]+'" style="width: 50px; height: 50px;margin-right: 5px"/>' +'</a><b class="title" style="font-size: small;position: relative;bottom: 15px;">'+value[1]+'</b></div>');
+                                                                    }else{
+                                                                        entitySelector.append('<div class="errorLi" style="font-size: small">'+value+'</div>')
+                                                                    }
+                                                                }
+                                                            })
+                                                        })
+                                                    }
+                                                }
+                                            })
+                                    }
+                                })
+                            })
+                        </script>
+
+                        <div class="section popular">
+                            <h2 class="title">Populaires</h2>
+                            {% for pop in popular %}
+                            <div class="post clearfix2">
+                                <img src="{{ asset('images/blog/'~pop.image) }}">
+                                <a href="{{ path('front_single_blog',{'id': pop.id}) }}" class="titlePop">{{ pop.nom }}</a>
+                            </div>
+                            {% endfor %}
                         </div>
                     </div>
 
@@ -408,6 +460,6 @@
             })
         })
     </script>
-
+    <script src="//code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 
 {% endblock %}

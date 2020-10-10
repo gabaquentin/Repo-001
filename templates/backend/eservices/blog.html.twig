@@ -4,6 +4,8 @@
     <!-- Plugins css -->
     <link href="{{ asset('backend/libs/nestable2/jquery.nestable.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('backend/css/pages/eservices/categorie.css') }}" rel="stylesheet" />
+    <link href="{{ asset('backend/libs/dropzone/dropzone.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('backend/libs/custombox/custombox.min.css') }}" rel="stylesheet" />
 {% endblock %}
 
 {% block block_starter %} Gestion des Blogs {% endblock %}
@@ -16,9 +18,54 @@
                         <form class="form-inline">
                             <div class="form-group">
                                 <label for="inputPassword2" class="sr-only">Rechercher</label>
-                                <input type="search" class="form-control" id="inputPassword2" placeholder="rechercher...">
+                                <form action="{{ path('searchAllBack') }}" method="post">
+                                    <input type="search" id="recherche" style="width: 80%;" name="mot" class="form-control" placeholder="Rechercher..."><button  style="float: right;width: 20%;" type="submit" class="btn btn-primary"><i class="fa fa-search"></i> </button>
+                                </form>
+                                <ul id="entitiesNav">
+                                    <div>
+                                        <a href="#" class="title" style="font-size: small">Resultat de la recherche<span class="fa arrow"></span> </a>
+
+                                    </div>
+                                </ul>
+                                <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+                                <script type="text/javascript">
+                                    jQuery(document).ready(function(){
+                                        $("#recherche").keyup(function(){
+                                            var minlength=1;
+                                            var that = this;
+                                            var value = $(this).val();
+                                            var entitySelector = $("#entitiesNav").html('');
+                                            if(value.length>=minlength){
+                                                $.ajax({
+                                                    url: "{{ path('search') }}",
+                                                    method: "GET",
+                                                    data: {
+                                                        'q': value
+                                                    },
+                                                    dataType: "text",
+                                                    success: function(msg){
+                                                        if(value===$(that).val()){
+                                                            var result =JSON.parse(msg);
+                                                            $.each(result, function(key,arr){
+                                                                $.each(arr, function(id,value){
+                                                                    if (key==='posts'){
+                                                                        if (id!=='error'){
+                                                                            entitySelector.append('<div style="cursor: pointer;position: relative;left: -35px;margin-top: 5px;"><a href="/front/eservice/front/eservices/service/singleblog/'+id+'">'+'<img src="/images/blog/'+value[0]+'" style="width: 50px; height: 50px;margin-right: 5px;"/>' +'</a><b class="title" style="font-size: small;position: relative;bottom: 15px;">'+value[1]+'</b></div>');
+                                                                        }else{
+                                                                            entitySelector.append('<div class="errorLi" style="font-size: small">'+value+'</div>')
+                                                                        }
+                                                                    }
+                                                                })
+                                                            })
+                                                        }
+                                                    }
+                                                })
+                                            }
+                                        })
+                                    })
+                                </script>
                             </div>
-                            <div class="form-group mx-sm-3">
+                            <!--<div class="form-group mx-sm-3">
                                 <label for="status-select" class="mr-2">Tri par</label>
                                 <select class="custom-select" id="status-select">
                                     <option selected="">Tout</option>
@@ -27,12 +74,12 @@
                                     <option value="3">Nombre de sous-catégorie</option>
                                     <option value="4">Nombre de services</option>
                                 </select>
-                            </div>
+                            </div>-->
                         </form>
                     </div>
                     <div class="col-lg-4">
                         <div class="text-lg-right mt-3 mt-lg-0">
-                            <a href="" class="btn btn-success waves-effect waves-light" data-animation="fadein" data-overlayColor="#38414a"><i class="mdi mdi-plus-circle mr-1"></i> Nouvelle catégorie</a>
+                            <a href="{{ path('add_blog') }}" class="btn btn-success waves-effect waves-light" data-animation="fadein" data-overlayColor="#38414a"><i class="mdi mdi-plus-circle mr-1"></i> Nouvelle catégorie</a>
                         </div>
                     </div><!-- end col-->
                 </div> <!-- end row -->
@@ -59,12 +106,13 @@
 
                 <div class="text-center">
                     <a href="{{ path('back_single_blog',{'id':blog.id}) }}" class="btn btn-sm btn-secondary">Voir plus d'infos</a>
+                    <a href="{{ path('back_blog_del',{'id':blog.id}) }}" class="btn btn-sm btn-danger">Supprimer</a>
                 </div>
             </div>
         {% endfor %}
-
+        <textarea></textarea>
         <div class="card-box col-auto mx-3 categorie">
-            <a href=""  data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">
+            <a href="{{ path('add_blog') }}">
                 <div class="card-box">
                     <h4 class="header-title">Nouveau</h4>
                     <p class="sub-header">Ajouter un nouveau blog</p>
@@ -85,59 +133,6 @@
     <div class="pagination">
         {{ knp_pagination_render(blogs) }}
     </div>
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">New message</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="header-title">Ajouter un Blog</h4>
-                        <p class="sub-header"></p>
-                        {{ form_start(form) }}
-                            <div class="fallback">
-                                {{ form_row(form.image, {'label': ''}) }}
-                            </div>
-
-                            <div class="dz-message needsclick">
-                                <p class="h1 text-muted"><i class="mdi mdi-cloud-upload"></i></p>
-                                <h3>Déposez votre champs ici.</h3>
-                            </div>
-                            <div class="form-group mb-3">
-                                <label for="validationCustom01">Titre du blog</label>
-                                {{ form_row(form.nom, {'label': ' '}) }}
-                                <div class="valid-feedback">
-                                    Looks good!
-                                </div>
-                            </div>
-                            <div class="form-group mb-3">
-                                <label for="validationCustom02">Courte description</label>
-                                {{ form_row(form.courte_description, {'label': ' '}) }}
-                                <div class="valid-feedback">
-                                    Looks good!
-                                </div>
-                            </div>
-                            <div class="form-group mb-3">
-                                <label for="validationCustomUsername">Longue description</label>
-                                <div class="input-group">
-                                    {{ form_row(form.grande_description, {'label': ' '}) }}
-                                </div>
-                            </div>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="submit" id="btn-save-category" class="btn btn-primary waves-effect waves-lightspinner-border-sm">
-                                <span class="spinner-border-sm" role="status" aria-hidden="true"></span>
-                                Sauvegarder
-                            </button>
-                        {{ form_end(form) }}
-                    </div> <!-- end card-body-->
-                </div> <!-- end card-->
-            </div>
-        </div>
-    </div>
 {% endblock %}
 
 {% block javascripts %}
@@ -152,5 +147,7 @@
             modal.find('.modal-body input').val(recipient)
         })
     </script>
+    <script src="{{ asset('backend/libs/dropzone/dropzone.min.js') }}"></script>
+    <script src="{{ asset('backend/libs/custombox/custombox.min.js') }}"></script>
 {% endblock %}
 

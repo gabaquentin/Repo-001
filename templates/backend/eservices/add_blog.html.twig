@@ -1,0 +1,126 @@
+{% extends 'backend/base/base.html.twig' %}
+
+{% block stylesheets %}
+    <!-- Plugins css -->
+    <link href="{{ asset('backend/libs/quill/quill.core.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('backend/libs/quill/quill.bubble.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('backend/libs/quill/quill.snow.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('backend/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('backend/libs/select2/select2.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('backend/libs/dropzone/dropzone.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('backend/libs/custombox/custombox.min.css') }}" rel="stylesheet" />
+{% endblock %}
+
+{% block block_starter %} Gestion des Blogs {% endblock %}
+{% block body %}
+    <div class="row">
+        <div class="col-md-12">
+            <h4 class="header-title">Ajouter un produit</h4>
+            <p class="sub-header">
+
+            </p>
+            {{ form_start(form,{'attr':{'novalidate':'novalidate','class':'form-horizontal','data-plugin':'dropzone','data-previews-container':'#file-previews','data-upload-preview-template':'#uploadPreviewTemplate','enctype':'multipart/form-data'}}) }}
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label" for="{{ form.nom.vars.id }}">Titre du Blog</label>
+                <div class="col-sm-9">
+                    {{ form_widget(form.nom, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="dropzone click">
+                <div class="fallback">
+                    {{ form_row(form.image, {'label': ''}) }}
+                </div>
+
+                <div class="dz-message needsclick">
+                    <p class="h1 text-muted"><i class="mdi mdi-cloud-upload"></i></p>
+                    <h3>Déposez votre champs ici.</h3>
+                </div>
+                </div>
+            </div>
+
+            <!-- file preview template -->
+            <div class="d-none" id="uploadPreviewTemplate">
+                <div class="card mt-1 mb-0 shadow-none border">
+                    <div class="p-2">
+                        <div class="row align-items-center">
+                            <div class="col-auto">
+                                <img data-dz-thumbnail class="avatar-sm rounded bg-light" alt="">
+                            </div>
+                            <div class="col pl-0">
+                                <a href="javascript:void(0);" class="text-muted font-weight-bold" data-dz-name></a>
+
+                            </div>
+                            <div class="col-auto">
+                                <!-- Button -->
+                                <a href="" class="btn btn-link btn-lg text-muted" data-dz-remove>
+                                    <i class="mdi mdi-close-circle"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row" >
+                <label class="col-sm-3 col-form-label" for="">Courte Description </label>
+                <div class="col-sm-9">
+                    <div id="snow-editor" style="height: 100px;" >
+                        {{ form_widget(form.courte_description, {'attr': {'class': 'form-control'}}) }}
+                    </div> <!-- end Snow-editor-->
+                </div>
+            </div>
+            <div class="form-group row" >
+                <label class="col-sm-3 col-form-label" for="">Grande Description </label>
+                <div class="col-sm-9">
+                    <div id="snow-editor" style="height: 100px;" >
+                        {{ form_widget(form.grande_description, {'attr': {'class': 'form-control' ,'rows':'4'}}) }}
+                    </div> <!-- end Snow-editor-->
+                </div>
+            </div>
+
+            <div class="form-group mb-0 justify-content-end row">
+                <div class="col-sm-9">
+                    <button type="submit" id="btn-submit" class="btn btn-primary waves-effect waves-lightspinner-border-sm">
+                        <span class="spinner-border-sm" role="status" aria-hidden="true"></span>
+                        Sauvegarder
+                    </button>
+                    <button type="submit" id="btn-reset" class="btn btn-info ml-1 waves-effect waves-light">
+                        Reset
+                    </button>
+                </div>
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+    <div id="con-close-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title"></h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body p-4" id="modal-body">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Annuler</button>
+                    <button id="save-modal" type="button" class="btn btn-info waves-effect waves-light">Sauvegarder</button>
+                </div>
+            </div>
+        </div>
+    </div><!-- /.modal -->
+{% endblock %}
+
+{% block javascripts %}
+    <!-- Plugins Js -->
+    <script src="{{ asset('backend/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js') }}"></script>
+    <script src="{{ asset('backend/libs/quill/quill.min.js') }}"></script>
+    <script src="{{ asset('backend/libs/select2/select2.min.js') }}"></script>
+    <script src="{{ asset('backend/libs/dropzone/dropzone.min.js') }}"></script>
+    <script src="{{ asset('backend/libs/custombox/custombox.min.js') }}"></script>
+    <!-- custom js-->
+    <script src="{{ asset('backend/js/pages/ecommerce/produit.js') }}"></script>
+
+{% endblock %}

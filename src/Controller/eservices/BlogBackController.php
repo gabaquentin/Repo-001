@@ -87,6 +87,27 @@ class BlogBackController extends AbstractController
         ]);
     }
 
+
+    /**
+     * @Route("/searchAll/",name="searchAllBack")
+     */
+    public function searchAll(Request $request, PaginatorInterface $paginator){
+        $properties=$this->repository->findAllLike($_POST['mot']);
+        if (!isset($_POST['mot']))
+            $properties=$this->repository->findAll();
+        $blogs = $paginator->paginate(
+        // Doctrine Query, not results
+            $properties,
+            // Define the page parameter
+            $request->query->getInt('page', 1),
+            // Items per page
+            5
+        );
+        return $this->render("backend/eservices/blog.html.twig",[
+            "blogs"=>$blogs
+        ]);
+    }
+
     /**
      * @Route("/showPopulaire", name="get_populaire_back")
      * @param Request $request
@@ -119,10 +140,39 @@ class BlogBackController extends AbstractController
     }
 
     /**
-     * @Route("/back/eservices/service/blog",name="back_blog")
+     * @Route("/blog/supprimer{id}",name="back_blog_del")
+     */
+    public function supprimerBlog(Request $request, PaginatorInterface $paginator, $id){
+        $blog=$this->repository->find($id);
+        $em=$this->getDoctrine()->getManager();
+        $em->remove($blog);
+        $em->flush();
+        return $this->afficher_blog($request,$paginator);
+    }
+
+    /**
+     * @Route("/blog",name="back_blog")
      */
     public function afficher_blog(Request $request, PaginatorInterface $paginator)
     {
+        $blog=new Blog();
+        $properties = $this->repository->findAll();
+        $blogs = $paginator->paginate(
+        // Doctrine Query, not results
+            $properties,
+            // Define the page parameter
+            $request->query->getInt('page', 1),
+            // Items per page
+            10
+        );
+        return $this->render("backend/eservices/blog.html.twig",[
+            "blogs"=>$blogs
+        ]);
+    }
+    /**
+     * @Route("/addblog/",name="add_blog")
+     */
+    public function addBlog(Request $request, PaginatorInterface $paginator){
         $blog=new Blog();
         $form = $this->createForm(BlogType::class, $blog);
         $form->handleRequest($request);
@@ -148,6 +198,8 @@ class BlogBackController extends AbstractController
 
                 // updates the 'brochureFilename' property to store the PDF file name
                 // instead of its contents
+                $blog->setVues(0);
+                $blog->setCommentaires(0);
                 $blog->setImage($newFilename);
                 $blog->setIdCreateur(1);
                 $blog->setDate(new \DateTime());
@@ -155,28 +207,34 @@ class BlogBackController extends AbstractController
             $em=$this->getDoctrine()->getManager();
             $em->persist($blog);
             $em->flush();
+            $properties = $this->repository->findAll();
+            $blogs = $paginator->paginate(
+            // Doctrine Query, not results
+                $properties,
+                // Define the page parameter
+                $request->query->getInt('page', 1),
+                // Items per page
+                10
+            );
+            return $this->render("backend/eservices/blog.html.twig",[
+                "blogs"=>$blogs,
+                'form' => $form->createView()
+            ]);
         }
-        $properties = $this->repository->findAll();
-        $blogs = $paginator->paginate(
-        // Doctrine Query, not results
-            $properties,
-            // Define the page parameter
-            $request->query->getInt('page', 1),
-            // Items per page
-            1
-        );
-        return $this->render("backend/eservices/blog.html.twig",[
-            "blogs"=>$blogs,
+        return $this->render("backend/eservices/add_blog.html.twig",[
             'form' => $form->createView()
         ]);
     }
 
     /**
-     * @Route("/back/eservices/service/singleblog/{id}",name="back_single_blog")
+     * @Route("/singleblog/{id}",name="back_single_blog")
      */
     public function afficher_single_blog(Request $request,$id)
     {
         $blog=$this->repository->find($id);
+        if($blog==null){
+            return $this->render("errorpages/404error.html.twig");
+        }
         $form = $this->createForm(BlogType::class, $blog);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid())

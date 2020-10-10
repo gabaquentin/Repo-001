@@ -41,6 +41,12 @@ class BlogType extends AbstractType
         ;
     }
 
+
+    public function buildSearch(FormBuilderInterface $builder, array $options)
+    {
+        $builder
+            ->add('nom', AutocompleteType::class, ['class' => 'App:Blog']);
+    }
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([

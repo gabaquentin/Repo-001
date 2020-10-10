@@ -19,6 +19,29 @@ class BlogRepository extends ServiceEntityRepository
         parent::__construct($registry, Blog::class);
     }
 
+    public function findLike($titre)
+    {
+        return $this
+            ->createQueryBuilder('a')
+            ->where('a.nom LIKE :titre')
+            ->setParameter( 'titre', "%$titre%")
+            ->orderBy('a.nom')
+            ->setMaxResults(5)
+            ->getQuery()
+            ->execute()
+            ;
+    }
+    public function findAllLike($titre)
+    {
+        return $this
+            ->createQueryBuilder('a')
+            ->where('a.nom LIKE :titre')
+            ->setParameter( 'titre', "%$titre%")
+            ->orderBy('a.nom')
+            ->getQuery()
+            ->execute()
+            ;
+    }
     // /**
     //  * @return Blog[] Returns an array of Blog objects
     //  */

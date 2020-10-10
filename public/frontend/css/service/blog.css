@@ -8,6 +8,10 @@
     width: 70%;
 }
 
+.tout-back{
+    width: 100%;
+}
+
 .imgBlog{
     width: 100%;
     margin:0px;
@@ -18,7 +22,18 @@
     float: left;
 }
 
+.content .main-content-back{
+    width: 50%;
+    float: left;
+}
+
 .content .main-content.single{
+    background: white;
+    padding: 20px 50px;
+    border-radius: 7px;
+}
+
+.content .main-content-back.single{
     background: white;
     padding: 20px 50px;
     border-radius: 7px;
@@ -29,6 +44,16 @@
 }
 
 .content .main-content.single .post-content{
+    font-family: "Roboto", sans-serif;
+    margin-bottom: 40px;
+    text-align: left;
+}
+
+.content .main-content-back.single .post-title{
+    color: #4e555b;
+}
+
+.content .main-content-back.single .post-content{
     font-family: "Roboto", sans-serif;
     margin-bottom: 40px;
     text-align: left;
@@ -92,16 +117,9 @@
 
 .btn{
     padding: .5rem 1rem;
-    background: white;
-    color: #2b387c;
-    border: 1px solid #2b387c;
-    border-radius: .25rem;
 }
 .btn:hover{
     color: white;
-    background: #00A2E5;
-    border: 1px solid #00A2E5;
-    transition: 0.3s;
 }
 
 .content .sidebar2{
@@ -110,7 +128,17 @@
     text-align: left;
 }
 
+.content .sidebar2-back{
+    width: 50%;
+    float: left;
+    text-align: left;
+}
+
 .content .sidebar2.single{
+    padding: 0px 10px;
+}
+
+.content .sidebar2-back.single{
     padding: 0px 10px;
 }
 
@@ -169,17 +197,50 @@
     font-weight: bolder;
     text-align: left;
     width: 100%;
-    height: 600px;
+    height: 900px;
     background: white;
     padding: 20px;
     margin: 20px auto;
     box-shadow: 0 3px #CCCCCC;
 }
 
+.sup{
+    float: right;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.sup:hover{
+    color: red;
+}
+
+.mod{
+    float: right;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.mod:hover{
+    color: orange;
+}
+
+.chatbox input[type=text]{
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid dimgrey;
+    margin-bottom: 10px;
+}
+
+.chatbox input[type=text]:focus{
+
+    border: none;
+    border-bottom: 2px solid dodgerblue;
+}
+
 .chatlogs {
     padding: 10px;
     width: 100%;
-    height: 450px;
+    height: 750px;
     overflow-x: hidden;
     overflow-y: scroll;
 }
@@ -195,12 +256,17 @@
 
 .chat {
     display: flex;
-    flex-flow: row wrap;
     align-items: flex-start;
-    margin-bottom: 10px;
+}
+
+.reponse{
+    width: 100%;
+    display: none;
 }
 
 .chat .user-photo{
+    position: relative;
+    top: 10px;
     width: 60px;
     height: 60px;
     background: #CCCCCC;
@@ -216,10 +282,8 @@
     width: 70%;
     padding: 15px;
     margin: 5px 10px 0;
-    background: #2ea8e5;
     border-radius: 10px;
-    color: white;
-    font-size: 18px;
+    text-space: 0px;
 }
 
 .chat-form{
@@ -246,19 +310,10 @@
 }
 
 .chat-form button{
-    background: #00e7eb;
     padding: 5px 15px;
-    font-size: 20px;
-    color: white;
-    border: none;
     margin: 0 10px;
-    border-radius: 3px;
-    box-shadow: 0 3px 0 #0eb2c1;
     float: right;
     cursor: pointer;
-    -webkit-transition: background-color .2s ease;
-    -moz-transition: background-color .2s ease;
-    -o-transition: background-color .2s ease;
 }
 
 .chat-form textarea::-webkit-scrollbar{
@@ -270,21 +325,20 @@
     background: rgba(0,0,0,.1);
 }
 
-.chat-form button:hover {
-    background: #13c8d9;
-}
-
 .friends .chat-message{
-    background:#00e7eb;
 }
 
 .self .chat-message{
-    background: #00ff80;
     order: -1;
 }
 
+.rep{
+    padding-left: 10%;
+}
 
-
+.blockRep{
+    display: none;
+}
 
 .content .popular .post img{
     height: 60px;

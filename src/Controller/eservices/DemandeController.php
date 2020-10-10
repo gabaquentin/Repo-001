@@ -93,7 +93,6 @@ class DemandeController extends AbstractController
         $demande = new Demande();
         $form = $this->createForm(DemandeType::class, $demande);
         $form = $form->handleRequest($request);
-        dd($this->getUser());
         if ($form->isValid() && $form->isSubmitted()) {
             $demande->setPhoto1($uploader->upload($form->get('photo1')->getData(), "service",$this->getUser()->getUsername()."-1-"));
             $demande->setPhoto2($uploader->upload($form->get('photo2')->getData(), "service",$this->getUser()->getUsername()."-2-"));

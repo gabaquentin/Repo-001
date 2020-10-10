@@ -33,6 +33,11 @@ class Commentaire
     private $blog;
 
     /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $reponse;
+
+    /**
      * @ORM\Column(type="datetime")
      */
     private $date;
@@ -74,6 +79,18 @@ class Commentaire
     public function setBlog(int $blog): self
     {
         $this->blog = $blog;
+
+        return $this;
+    }
+
+    public function getReponse(): ?int
+    {
+        return $this->reponse;
+    }
+
+    public function setReponse(int $reponse): self
+    {
+        $this->reponse = $reponse;
 
         return $this;
     }
