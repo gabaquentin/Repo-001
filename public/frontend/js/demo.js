@@ -62,13 +62,7 @@ $(document).ready(function () {
   // } //Typed js
 
 
-  var typed = new Typed('.typed-hero', {
-    strings: ["Hello, Bienvenue chez eservice"],
-    typeSpeed: 45,
-    loop: true,
-    loopCount: Infinity,
-    backSpeed: 20
-  }); //Initialize Feather Icons
+
 
   feather.replace(); // Scroll to hash
 

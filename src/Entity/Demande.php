@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\DemandeRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+
 
 /**
  * @ORM\Entity(repositoryClass=DemandeRepository::class)
@@ -19,11 +21,13 @@ class Demande
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"group1"})
      */
     private $localisation;
 
     /**
      * @ORM\Column(type="time", length=255)
+     * @Groups({"group1"})
      */
     private $heure;
 
@@ -61,11 +65,13 @@ class Demande
 
     /**
      * @ORM\Column(name="description",type="text")
+     * @Groups({"group1"})
      */
     private $description;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"group1"})
      */
     private $date;
 
@@ -85,7 +91,7 @@ class Demande
     private $photo3;
 
 
-    public function getPhoto1():? string
+    public function getPhoto1(): ?string
     {
         return $this->photo1;
     }
@@ -97,7 +103,7 @@ class Demande
     }
 
 
-    public function getPhoto2():? string
+    public function getPhoto2(): ?string
     {
         return $this->photo2;
     }
@@ -110,7 +116,7 @@ class Demande
     }
 
 
-    public function getPhoto3():? string
+    public function getPhoto3(): ?string
     {
         return $this->photo3;
     }
@@ -123,7 +129,7 @@ class Demande
     }
 
 
-    public function getPhoto4():? string
+    public function getPhoto4(): ?string
     {
         return $this->photo4;
     }
@@ -179,17 +185,6 @@ class Demande
         return $this;
     }
 
-    public function getPhotos(): ?string
-    {
-        return $this->photos;
-    }
-
-    public function setPhotos(string $photos): self
-    {
-        $this->photos = $photos;
-
-        return $this;
-    }
 
     public function getService(): ?Service
     {

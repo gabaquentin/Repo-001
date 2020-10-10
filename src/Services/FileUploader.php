@@ -15,10 +15,11 @@ class FileUploader
     private $slugger;
     private $fileSystem;
 
-    public function __construct($image_produit_path, SluggerInterface $slugger, Filesystem $filesystem, $image_service_path)
+    public function __construct($image_produit_path, SluggerInterface $slugger, Filesystem $filesystem, $image_service_path,$image_demande_path)
     {
         $this->targetDirectory["produit"] = $image_produit_path;
         $this->targetDirectory["service"] = $image_service_path;
+        $this->targetDirectory["demande"] = $image_demande_path;
         $this->slugger = $slugger;
         $this->fileSystem = $filesystem;
     }

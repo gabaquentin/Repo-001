@@ -79,7 +79,7 @@
                 <a href="javascript:void(0);" id="open-shop"><i data-feather="home"></i></a>
             </li> <!-- Cart sidebar trigger -->
             <li>
-                <a href="javascript:void(0);" id="open-cart"><i data-feather="shopping-cart"></i><span id="cart-dot" class="cart-items gelatine is-hidden"></span></a>
+                <a href="javascript:void(0);" id="open-cart"><i data-feather="shopping-cart"></i><span id="cart-dot" class="demande_items gelatine "></span></a>
             </li> <!-- Search trigger -->
             <li>
                 <a href="javascript:void(0);" id="open-search"><i data-feather="search"></i></a>
@@ -142,8 +142,8 @@
                 </a>
             </li>
             <li>
-                <a href="{{path('service_reponse')}}">
-                    <span>Démandes</span>
+                <a href="{{path('service_demandes_client')}}">
+                    <span>Demandes</span>
                     <i data-feather="box"></i>
                 </a>
             </li>
@@ -197,10 +197,10 @@
         <!-- Total and checkout -->
         <div class="cart-action">
                 <span class="cart-total">
-                        0.00
+                        Total: 0
                     </span>
-            <a href="cart.html" class="button view-cart-button primary-button upper-button raised is-bold">
-                <span>View Cart</span>
+            <a href="{{ path('service_demandes_client') }}"  class="button view-cart-button primary-button upper-button raised is-bold">
+                <span>La Totalité </span>
             </a>
             <a class="button update-cart-button upper-button is-bold is-hidden">
                 <span>Update</span>
@@ -212,103 +212,22 @@
             <!--Placeholder-->
             <div class="empty-cart has-text-centered is-hidden">
                 <img src="{{ asset('frontend/img/icons/line/bag.svg') }}" alt="">
-                <h3>Your cart is empty</h3>
-                <p>Start by adding products to it</p>
-                <a href="shop.html" class="button big-button rounded">Continue Shopping</a>
-                <small>You can create your account later</small>
+                <h3>Liste de demandes vide </h3>
+                <p>Commencez par faire des demandes </p>
+                <a href="{{ path('services_accueil',{"scroll_bool":1}) }}" class="button big-button rounded">Demander un service </a>
+                {% if app.user is null %}
+                    <small>You can create your account </small>
+                {% endif %}
             </div>
+
 
             <!--Loader-->
             <div class="cart-loader is-active">
                 <div class="loader is-loading"></div>
             </div>
 
-            <ul class="shopping-cart-items">
+            <ul class="shopping-cart-items"></ul>
                 <!-- Item -->
-                <li class="clearfix">
-                    <img src="http://via.placeholder.com/250x250" data-demo-src="{{ asset('frontend/img/products/office5.jpg') }}" alt="" />
-                    <span class="item-meta">
-                                <span class="item-name">Cosy Chair</span>
-                        <span class="item-price">
-                                    <var>88.00</var> x <span>1</span>
-                        </span>
-                        </span>
-                    <span class="quantity">
-                                <div data-trigger="spinner" class="return-spinner">
-                                    <input class="hidden-spinner" type="hidden" value="1" data-spin="spinner"
-                                           data-rule="quantity" data-min="1" data-max="99">
-                                    <a class="spinner-button is-remove" href="javascript:;" data-spin="down">
-                                        <i data-feather="minus"></i>
-                                    </a>
-                                    <span class="spinner-value">1</span>
-                        <a class="spinner-button is-add" href="javascript:;" data-spin="up">
-                            <i data-feather="plus"></i>
-                        </a>
-            </div>
-            </span>
-
-                    <span class="remove-item">
-                                <i data-feather="x" class="has-simple-popover" data-content="Remove from Cart"
-                                   data-placement="top"></i>
-                            </span>
-                </li>
-                <!-- Item -->
-                <li class="clearfix">
-                    <img src="http://via.placeholder.com/250x250" data-demo-src="{{ asset('frontend/img/products/red-seat.png') }}" alt="" />
-                    <span class="item-meta">
-                                <span class="item-name">Red Seat</span>
-                <span class="item-price">
-                                    <var>45.00</var> x <span>1</span>
-                </span>
-                </span>
-                    <span class="quantity">
-                                <div data-trigger="spinner" class="return-spinner">
-                                    <input class="hidden-spinner" type="hidden" value="1" data-spin="spinner"
-                                           data-rule="quantity" data-min="1" data-max="99">
-                                    <a class="spinner-button is-remove" href="javascript:;" data-spin="down">
-                                        <i data-feather="minus"></i>
-                                    </a>
-                                    <span class="spinner-value">1</span>
-                <a class="spinner-button is-add" href="javascript:;" data-spin="up">
-                    <i data-feather="plus"></i>
-                </a>
-        </div>
-        </span>
-
-                    <span class="remove-item">
-                                <i data-feather="x" class="has-simple-popover" data-content="Remove from Cart"
-                                   data-placement="top"></i>
-                            </span>
-                </li>
-                <!-- Item -->
-                <li class="clearfix">
-                    <img src="http://via.placeholder.com/250x250" data-demo-src="{{ asset('frontend/img/products/kids2.jpg') }}" alt="" />
-                    <span class="item-meta">
-                                <span class="item-name">Rabbit Lamp</span>
-            <span class="item-price">
-                                    <var>14.49</var> x <span>3</span>
-            </span>
-            </span>
-                    <span class="quantity">
-                                <div data-trigger="spinner" class="return-spinner">
-                                    <input class="hidden-spinner" type="hidden" value="3" data-spin="spinner"
-                                           data-rule="quantity" data-min="1" data-max="99">
-                                    <a class="spinner-button is-remove" href="javascript:;" data-spin="down">
-                                        <i data-feather="minus"></i>
-                                    </a>
-                                    <span class="spinner-value">3</span>
-            <a class="spinner-button is-add" href="javascript:;" data-spin="up">
-                <i data-feather="plus"></i>
-            </a>
-    </div>
-    </span>
-
-                    <span class="remove-item">
-                                <i data-feather="x" class="has-simple-popover" data-content="Remove from Cart"
-                                   data-placement="top"></i>
-                            </span>
-                </li>
-            </ul>
         </div>
     </div>
 </div>

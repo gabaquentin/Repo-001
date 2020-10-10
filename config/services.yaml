@@ -8,6 +8,8 @@ parameters:
     image_service_path: '%kernel.project_dir%/public/images/services'
     blog_directory: '%kernel.project_dir%/public/images/blog'
     populaire_directory: '%kernel.project_dir%/public/images/populaire'
+    image_demande_path: '%kernel.project_dir%/public/images/demandes'
+
 
 
 services:
@@ -38,4 +40,6 @@ services:
         arguments:
             $image_produit_path: '%image_produit_path%'
             $image_service_path: '%image_service_path%'
+            $image_demande_path: '%image_demande_path%'
+
 
