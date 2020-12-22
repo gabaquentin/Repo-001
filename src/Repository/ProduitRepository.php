@@ -187,24 +187,29 @@ class ProduitRepository extends ServiceEntityRepository
 
     /**
      * @param int|array|null $idCategory
+     * @param bool $onlyValide
      * @return QueryBuilder
      */
-    public function qbProductsValid($idCategory)
+    public function qbProductsValid($idCategory,bool $onlyValide = true)
     {
         $qb = $this->createQueryBuilder("p")
             ->innerJoin(Date::class, "d", "WITH", "d.id=p.date")
-            ->andWhere("p.visiblite=:visibilite")
-            ->setParameter(":visibilite", 1)
             ->innerJoin(CategorieProd::class, "c", "WITH", "p.categorieProd=c.id")
             ->orderBy("d.dateModification","desc")
-            ->andWhere("c.categorieParent is not null")
-            ->andWhere("DATE_DIFF(CURRENT_TIMESTAMP(),d.dateModification)<:maxJour")
-            ->setParameter(":maxJour", $this->tools->getDayMaxProduct());
+            ->andWhere("c.categorieParent is not null");
+
+        if($onlyValide)
+            $qb->andWhere("p.visiblite=:visibilite")
+                ->setParameter(":visibilite", 1)
+                ->andWhere("DATE_DIFF(CURRENT_TIMESTAMP(),d.dateModification)<:maxJour")
+                ->setParameter(":maxJour", $this->tools->getDayMaxProduct())
+            ;
 
         if(!is_null($idCategory))
         {
             if (is_array($idCategory)) {
-                $qb->andWhere($qb->expr()->in("p.categorieProd", $idCategory));
+                $qb->andWhere("p.categorieProd in (:categorieProd)")
+                    ->setParameter(":categorieProd",$idCategory);
             } else {
                 $qb->andWhere("p.categorieProd=:cat")
                     ->setParameter(":cat", $idCategory);
@@ -233,19 +238,21 @@ class ProduitRepository extends ServiceEntityRepository
      * @param int|array|null $idCategory
      * @param null|mixed $exception
      * @param null|array $selectedProd
+     * @param bool $onlyValide
      * @return int|mixed|string
      * @todo decommenter setParameter de execption
      */
-    public function FindValidProducts($idCategory, $exception=null,$selectedProd=null)
+    public function FindValidProducts($idCategory, $exception=null,$selectedProd=null,bool $onlyValide=true)
     {
-        $qb = $this->qbProductsValid($idCategory);
-        if($exception!=null){
+        $qb = $this->qbProductsValid($idCategory,$onlyValide);
+        if(!is_null($exception)){
             //->andWhere("p.id!=:id")
             //->setParameter(":id",$exception)
         }
-        if($selectedProd!=null && is_array($selectedProd))
+        if(!is_null($selectedProd) && is_array($selectedProd))
         {
-            $qb->andWhere($qb->expr()->in("p.id", $selectedProd));
+            $qb->andWhere("p.id in (:idsProd)")
+                ->setParameter(":idsProd",$selectedProd);
         }
         return $qb->getQuery()->getResult();
     }
@@ -257,7 +264,7 @@ class ProduitRepository extends ServiceEntityRepository
      */
     public function FindValidProductsForBoost($idCategory,User $user)
     {
-        $qb = $this->qbProductsValid($idCategory);
+        $qb = $this->qbProductsValid($idCategory,false);
 
             $qb->andWhere("p.Client=:idClient")
             ->setParameter(":idClient",$user->getId());

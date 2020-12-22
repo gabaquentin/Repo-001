@@ -42,8 +42,9 @@
                         <form action="#">
 
                             <div class="form-group mb-3">
-                                <label for="password">Mot de passe</label>
-                                <input class="form-control" type="password" required="" id="lock-screen-password" placeholder="Tapez votre mot de passe">
+                                <label for="password">Mot de passe</label></br>
+                                <code id="error-message" ></code>
+                                <input class="form-control" type="password" required id="lock-screen-password" placeholder="Tapez votre mot de passe">
                             </div>
 
                             <div class="form-group mb-0 text-center">
@@ -82,10 +83,17 @@
 <!-- App js -->
 <script src="{{ asset('backend/js/app.min.js') }}"></script>
 
+<!-- toastr init js-->
+<script src="{{ asset('backend/js/pages/toastr.init.js') }}"></script>
+
 <script>
     $('#lock-screen-submit').on('click', function (event) {
         event.preventDefault();
+        const button = document.getElementById('lock-screen-submit');
+        $('#error-message').html("");
         var $this = $(this);
+        button.disabled = true;
+        $('#lock-screen-submit').html("<span class=\"spinner-grow spinner-grow-sm mr-1\" role=\"status\" aria-hidden=\"true\"></span>");
         var form = $('#partenariat-boutique-form');
         $this.addClass('is-loading');
         $.ajax({
@@ -95,26 +103,23 @@
                 "password": $('#lock-screen-password').val(),
             },
             dataType: 'json',
-            success: function (data) {
+            success: function (data,i) {
+
                 if(data['infos'] === "ok")
                 {
-                    $this.removeClass('is-loading');
                     window.location.href = '/back/';
                 }
-                else
+                else if(data['infos'] === "NaN")
                 {
-                    setTimeout(function () {
-                        $this.removeClass('is-loading');
-                        toasts.service.error('', 'fas fa-meh', " Erreur interne du server... Veuillez reesayer ", 'bottomRight', 2800);
-                    }, 800);
+                    $('#error-message').html("Mot de passe incorrect!");
+                    $('#lock-screen-submit').html("Se Connecter");
+                    $('#lock-screen-password').val("");
+                    button.disabled = false;
                 }
 
             },
             error: function (data) {
-                setTimeout(function () {
-                    $this.removeClass('is-loading');
-                    toasts.service.error('', 'fas fa-meh', " Erreur interne du server... Veuillez reesayer ", 'bottomRight', 2800);
-                }, 800);
+                button.disabled = false;
 
             },
         });

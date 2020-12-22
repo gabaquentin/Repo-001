@@ -11,6 +11,7 @@ use App\Entity\Dimension;
 use App\Entity\Produit;
 use App\Entity\User;
 use App\Entity\Ville;
+use App\Services\ecommerce\PackTools;
 use App\Services\ecommerce\Tools;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -21,10 +22,12 @@ class ProductFixtures extends Fixture
 {
     private $tools;
     private $encoder;
-    function __construct(Tools $tools,UserPasswordEncoderInterface $passwordEncoder)
+    private $packTools;
+    function __construct(Tools $tools,PackTools $packTools,UserPasswordEncoderInterface $passwordEncoder)
     {
         $this->tools = $tools;
         $this->encoder = $passwordEncoder;
+        $this->packTools = $packTools;
     }
 
     /**
@@ -33,6 +36,7 @@ class ProductFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $f = Factory::create("fr_FR");
+        $nbPosts = 5;
 
         /** @var CategorieProd[] $cats */
         $cats = [];
@@ -57,33 +61,40 @@ class ProductFixtures extends Fixture
         {
             $cats[$i]->setCategorieParent($cats[$f->numberBetween(0,1)]);
         }
+        $n=5;
+        $defaultPack = [
+            [
+                "id" => "0",
+                "titre" => "Default Pack",
+                "description" => "Ce pack vous deonne la possibilité de poste ".$n." annonces gratuitement",
+                "blaz" => "/frontend/img/illustrations/smile.svg",
+                "prixBase" => "0 F CFA",
+                "postes" => [
+                    "nbrPostes" => $n,
+                    "categories" => [],
+                ],
+            ],
+        ];
 
         for ($i=0;$i<100;$i++)
         {
             $user = (new User())
-                ->setPackProduct([
-                    [
-                        "id"=>0,
-                        "titre"=>"Default Pack",
-                        "description"=>"Ce pack vous donne la possibilité de poste 5 annonces gratuitement",
-                        "blaz"=>"/frontend/img/illustrations/smile.svg",
-                        "prixBase"=>"0 F CFA",
-                        "postes"=>[
-                            "nbrPostes"=>5,
-                            "categories"=>["all"],
-                        ],
-                    ],
-                ])
+                ->setPackProduct($defaultPack)
                 ->setNom($f->firstName())
                 ->setPrenom($f->firstName())
                 ->setEmail($f->email)
                 ->setTelephone($f->phoneNumber)
+                ->setEsa(0)
+                ->setAl(0)
+                ->setIsVerified(0)
+                ->setPhoneVerified(0)
                 ->setLocal(["fr","en"][$f->numberBetween(0,1)])
                 ->setCreation(new \DateTime())
                 ->setRoles((array)'ROLE_USER')
                 ->setEsa(0)
                 ->setPhoneVerified(0)
                 ->setImage("/images/produits/maison au bord de la plage-5f2594ac3b773.jpeg")
+                ->setLogo("/images/produits/maison au bord de la plage-5f2594ac3b773.jpeg")
             ;
             $user->setPassword($this->encoder->encodePassword(
                 $user,

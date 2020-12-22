@@ -2,18 +2,21 @@
 $(document).ready(function () {
     let quill ;
     const extendForm = $("#extend-form");
-    const selectCatgorie = $("#produit_categorie .options li");
     let produitAssocies = $("#produits-associes");
     const btnSubmit = $("#btn-submit");
     const btnReset = $("#btn-reset");
     const form = $("#form-produit");
     const btnRemoveImg = $(".uploaded-image [data-dz-remove]");
 
+    if($("#produit_categorieProd").length) {
+        let selectCatgorie = $("#produit_categorie .options li");
+        getProdFormEvent(selectCatgorie);
+    }
+
     /**
      * initialisation des données
      */
     initProductPage();
-
 
     /**
      * initialiastion de l imput pour les images
@@ -102,9 +105,11 @@ $(document).ready(function () {
     /**
      * recuperation du formulaire du produit en fonction de la catagorie du produit
      */
-    selectCatgorie.on("click",function () {
-        ajaxGetExtendFormCat($(this).attr("rel"),extendForm);
-    })
+    function getProdFormEvent(selectCatgorie) {
+        selectCatgorie.on("click",function () {
+            ajaxGetExtendFormCat($(this).attr("rel"),extendForm);
+        })
+    }
 
     /**
      * initialition des input number en cas d'ajout de l'extention du formulaire
@@ -115,7 +120,9 @@ $(document).ready(function () {
 
     function initProductPage()
     {
-        ajaxGetExtendFormCat($("#produit_categorieProd").val(),extendForm);
+        console.log($("#produit_categorieProd").length)
+        if($("#produit_categorieProd").length)
+            ajaxGetExtendFormCat($("#produit_categorieProd").val(),extendForm);
 
         /**
          * input pour la description

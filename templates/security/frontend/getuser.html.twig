@@ -27,10 +27,16 @@
 <div class="js-user-phone is-hidden" data-phone="{{ app.user ? app.user.telephone }}">
     <!--get phone-->
 </div>
+<div class="js-user-partenariat is-hidden" data-partenariat="{{ app.user ? app.user.partenariat }}">
+    <!--get partenariat-->
+</div>
 <div class="js-user-image is-hidden" data-image="{{ app.user ? app.user.image }}">
     <!--get photoUrl-->
 </div>
 
+<div class="js-user-logo is-hidden" data-logo="{{ app.user ? app.user.logo }}">
+    <!--get logo-->
+</div>
 <!-- get billing address information -->
 
 <div class="js-user-billing-country is-hidden" data-billing-country="{{ app.user ? app.user.paiement ? app.user.paiement.pays }}">
@@ -74,10 +80,18 @@
 
 <!-- get verified? -->
 
-<div class="js-user-is-verified" data-is-verified="{{ app.user ? app.user.verified }}">
+<div class="js-user-is-verified is-hidden" data-is-verified="{{ app.user ? app.user.verified }}">
     <!--get isVerified-->
 </div>
 
-<div class="js-user-phone-verified" data-phone-verified="{{ app.user ? app.user.phoneVerified }}">
+<div class="js-user-phone-verified is-hidden" data-phone-verified="{{ app.user ? app.user.phoneVerified }}">
     <!--get phone verified-->
 </div>
+
+<div class="js-admin-lock is-hidden" data-admin-lock="{{ app.user ? app.user.al }}">
+    <!--get admin lock-->
+</div>
+
+<!-- get whishlist information -->
+
+

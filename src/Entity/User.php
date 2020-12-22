@@ -373,7 +373,7 @@ class User implements UserInterface
 
     public function getLogo()
     {
-        return $this->logo;
+        return stream_get_contents($this->logo);
     }
 
     public function setLogo($logo): self

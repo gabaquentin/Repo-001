@@ -9,14 +9,17 @@ let user = {
   photoUrl: '/frontend/img/avatars/altvatar.png'
 }; // set user local
 
+
 let isAuthenticated = $('.js-user-rating').data('isAuthenticated');
 let nom = $('.js-user-first-name').data('nom');
 let prenom = $('.js-user-last-name').data('prenom');
 let email = $('.js-user-email').data('email');
 let phone = $('.js-user-phone').data('phone');
+let partenariat = $('.js-user-partenariat').data('partenariat');
 let image = $('.js-user-image').data('image');
+let logo = $('.js-user-logo').data('logo');
 let ableToEdit = $('.js-user-able-to-edit').data('ableToEdit');
-console.log(ableToEdit);
+
 if(isAuthenticated)
 {
   let login = {
@@ -26,7 +29,9 @@ if(isAuthenticated)
     lastName: prenom,
     email: email,
     phone: phone,
+    partenariat: partenariat,
     photoUrl: image,
+    logo: logo,
     wishlists: myWishlists,
     orders: myOrders,
     addresses: myAddresses
@@ -702,7 +707,7 @@ function Reset() {
         },
         dataType: 'json',
         success: function (data) {
-          if(data['status'] === "succes") {
+          if(data['code'] === "200") {
             setTimeout(function () {
               $this.removeClass('is-loading');
               toasts.service.success('', 'fas fa-check', "Verifiez vos E-Mail", 'bottomRight', 11200);
@@ -822,6 +827,7 @@ function Reset() {
 
 function Partenariat() {
 
+  // partenariat request validation
   $('#partenariatB-nom').on('change', function () {
     let $this = $(this);
     let nom = $this.val();
@@ -899,6 +905,146 @@ function Partenariat() {
     }
   });
 
+  // partenariat edit validation
+  $('#partenariatB-edit-nom').on('change', function () {
+    let $this = $(this);
+    let nom = $this.val();
+    if (nom === "") {
+      $('#save-partenariatB-button').addClass('is-disabled');
+      $this.closest('.field').addClass('has-error');
+    } else {
+      $('#save-partenariatB-button').removeClass('is-disabled');
+      $this.closest('.field').removeClass('has-error');
+    }
+  });
+  $('#partenariatS-edit-cin').on('change', function () {
+    let $this = $(this);
+    let cin = $this.val();
+    if (cin === "") {
+      $('#save-partenariatS-button').addClass('is-disabled');
+      $this.closest('.field').addClass('has-error');
+    } else {
+      $('#save-partenariatS-button').removeClass('is-disabled');
+      $this.closest('.field').removeClass('has-error');
+    }
+  });
+  $('#partenariatB-edit-desc').on('change', function () {
+    let $this = $(this);
+    let desc = $this.val().trim();
+
+    if (!ValidateLength(desc, 10)) {
+      $('#save-partenariatB-button').addClass('is-disabled');
+      $this.closest('.field').addClass('has-error');
+    } else {
+      $('#save-partenariatB-button').removeClass('is-disabled');
+      $this.closest('.field').removeClass('has-error');
+    }
+  });
+  $('#partenariatS-edit-desc').on('change', function () {
+    let $this = $(this);
+    let desc = $this.val().trim();
+
+    if (!ValidateLength(desc, 10)) {
+      $('#save-partenariatS-button').addClass('is-disabled');
+      $this.closest('.field').addClass('has-error');
+    } else {
+      $('#save-partenariatS-button').removeClass('is-disabled');
+      $this.closest('.field').removeClass('has-error');
+    }
+  });
+  $('#partenariatB-edit-domaine').on('change', function () {
+    let $this = $(this);
+    let domaine = document.querySelector("#partenariatB-edit-domaine").selectedOptions.length;
+
+    if(!domaine)
+    {
+      $('#save-partenariatB-button').removeClass('is-disabled');
+      $this.closest('.field').addClass('has-error');
+    }
+    else
+    {
+      $('#save-partenariatB-button').addClass('is-disabled');
+      $this.closest('.field').removeClass('has-error');
+    }
+  });
+  $('#partenariatS-edit-domaine').on('change', function () {
+    let $this = $(this);
+    let domaine = document.querySelector("#partenariatS-edit-domaine").selectedOptions.length;
+
+    if(!domaine)
+    {
+      $('#save-partenariatS-button').removeClass('is-disabled');
+      $this.closest('.field').addClass('has-error');
+    }
+    else
+    {
+      $('#save-partenariatS-button').addClass('is-disabled');
+      $this.closest('.field').removeClass('has-error');
+    }
+  });
+
+  $('#cancel-partnership').on('click', function () {
+
+      Swal.fire({
+        title: "Ooh",
+        text: "Voulez vous vraiment annuler votre partenariat avec nous ? ",
+        type: "warning",
+        showCancelButton: !0,
+        confirmButtonText: "Oui, Continuer!",
+        cancelButtonText: "Non, annuler!",
+        confirmButtonClass: "btn btn-success mt-2",
+        cancelButtonClass: "btn btn-danger ml-2 mt-2",
+        buttonsStyling: !0
+      }).then(function (t) {
+        if(t.value)
+        {
+          fetch("/account/cancelPartnership" ).then(function(response) {
+            if(response.ok) {
+              Swal.fire({
+                title: "Terminé",
+                text: "N'hesitez pas a nous contacter par mail ou par telephone pour nous faire part de la raison de votre depart afin d'ameliorer nos services",
+                type: "success"
+              })
+
+            } else {
+              t.dismiss === Swal.DismissReason.cancel &&Swal.fire({
+                title: "Erreur",
+                text: "Une erreur s'est produite durant l'operation",
+                type: "error"
+              });
+            }
+          })
+              .catch(function(error) {
+                console.log('Il y a eu un problème avec l\'opération fetch: ' + error.message);
+                t.dismiss === Swal.DismissReason.cancel &&Swal.fire({
+                  title: "Erreur",
+                  text: "Une erreur s'est produite durant l'operation",
+                  type: "error"
+                });
+              });
+        }
+        else
+        {
+          t.dismiss === Swal.DismissReason.cancel &&Swal.fire({
+            title: "OK",
+            text: "Content de vous savoir encore avec nous 😉",
+            type: "error"
+          });
+        }
+      })
+
+  });
+  $('#partenariat-edit-front-alert').on('click', function () {
+
+    $('#edit-partenariat').removeClass("is-hidden");
+
+  });
+  $('#partenariat-exit-edit-front-alert').on('click', function () {
+
+    $('#edit-partenariat').addClass("is-hidden");
+
+  });
+
   $('#partenariat-boutique-submit').on('click', function (event) {
 
     event.preventDefault();
@@ -948,7 +1094,7 @@ function Partenariat() {
 
       $.ajax({
         type: "POST",
-        url: form.attr("/partenariat"),
+        url: form.attr("/account/partenariat"),
         data: {
           "nom": $('#partenariatB-nom').val(),
           "domaine": $('#partenariatB-domaine').val().toString(),
@@ -959,8 +1105,12 @@ function Partenariat() {
         dataType: 'json',
         success: function (data) {
 
-          $('#partenariat-boutique-form').addClass('is-hidden');
-          $('#boutique-submit-ok').removeClass('is-hidden');
+          $('#elements-selection').addClass("is-hidden");
+          $('.is-element').addClass("is-hidden");
+          $('.element-title').addClass("is-hidden");
+          $('.elements-back').addClass("is-hidden");
+          $('#partenariat-main-placeholder').removeClass("is-hidden");
+
           setTimeout(function () {
             $this.removeClass('is-loading');
             toasts.service.success('', 'fas fa-check', data['infos'], 'bottomRight', 11200);
@@ -983,6 +1133,115 @@ function Partenariat() {
       $('#partenariat-boutique-submit').addClass('is-disabled');
     }
   });
+  $('#save-partenariatB-button').on('click', function (event) {
+
+    event.preventDefault();
+    var erreur = 1;
+
+    let nom =  $('#partenariatB-edit-nom').val();
+    let desc =  $('#partenariatB-edit-desc').val();
+    let domaine =  document.querySelector("#partenariatB-edit-domaine").selectedOptions.length;
+
+    if (nom === "") {
+      event.preventDefault();
+      $('#save-partenariatB-button').addClass('is-disabled');
+      $('#partenariatB-edit-nom').closest('.field').addClass('has-error');
+    } else {
+      erreur = -2;
+      $('#save-partenariatB-button').removeClass('is-disabled');
+      $('#partenariatB-edit-nom').closest('.field').removeClass('has-error');
+    }
+
+    if (!ValidateLength(desc, 10)) {
+      event.preventDefault();
+      $('#save-partenariatB-button').addClass('is-disabled');
+      $('#partenariatB-edit-desc').closest('.field').addClass('has-error');
+    } else {
+      erreur -= -1;
+      $('#save-partenariatB-button').removeClass('is-disabled');
+      $('#partenariatB-edit-desc').closest('.field').removeClass('has-error');
+    }
+
+    if(!domaine) {
+      event.preventDefault();
+      $('#save-partenariatB-button').removeClass('is-disabled');
+      $('#partenariatB-edit-domaine').closest('.field').addClass('has-error');
+    } else {
+      erreur -= -1;
+      $('#save-partenariatB-button').addClass('is-disabled');
+      $('#partenariatB-edit-domaine').closest('.field').removeClass('has-error');
+    }
+
+    // si auccune erreur
+    if (erreur === 0)
+    {
+      let $this = $(this);
+      $this.addClass('is-loading');
+
+      Swal.fire({
+        title: "Ooh",
+        text: "Si vous apportez des modifications votre partenariat, vous allez encore passer par une phase de validation.",
+        type: "warning",
+        showCancelButton: !0,
+        confirmButtonText: "Oui, Continuer!",
+        cancelButtonText: "Non, annuler!",
+        confirmButtonClass: "btn btn-success mt-2",
+        cancelButtonClass: "btn btn-danger ml-2 mt-2",
+        buttonsStyling: !0
+      }).then(function (t) {
+        if(t.value)
+        {
+          var form = $('#partenariatB-edit-form');
+
+          $.ajax({
+            type: "POST",
+            url: form.attr("/account/editPartenariat"),
+            data: {
+              "nom": $('#partenariatB-edit-nom').val(),
+              "domaine": $('#partenariatB-edit-domaine').val().toString(),
+              "desc": $('#partenariatB-edit-desc').val(),
+              "partenariat": "boutique",
+              "logo": document.getElementById("partenariatB-edit-logo").src,
+            },
+            dataType: 'json',
+            success: function (data) {
+
+              $('#partenariat-main').addClass("is-hidden");
+              $('#partenariat-main-placeholder').removeClass("is-hidden");
+              setTimeout(function () {
+                $this.removeClass('is-loading');
+                toasts.service.success('', 'fas fa-check', data['infos'], 'bottomRight', 11200);
+              }, 1200);
+            },
+            error: function (data) {
+              setTimeout(function () {
+                $this.removeClass('is-loading');
+                toasts.service.error('', 'fas fa-meh', " Erreur interne du server... Veuillez reesayer ", 'bottomRight', 2800);
+              }, 800);
+
+            },
+          });
+        }
+        else
+        {
+          t.dismiss === Swal.DismissReason.cancel &&Swal.fire({
+            title: "OK",
+            text: "Aucune modification n'as été apporté a votre partenariat",
+            type: "error"
+          });
+        }
+      });
+
+    }
+    else
+    {
+      setTimeout(function () {
+        toasts.service.error('', 'fas fa-dizzy', 'Le formulaire présente des problémes veuillez vérifier vos entrées', 'bottomRight', 11200);
+      }, 1200);
+      $('#partenariat-boutique-submit').addClass('is-disabled');
+    }
+  });
+
   $('#partenariat-services-submit').on('click', function (event) {
 
     event.preventDefault();
@@ -1031,7 +1290,7 @@ function Partenariat() {
 
       $.ajax({
         type: "POST",
-        url: form.attr("/partenariat"),
+        url: form.attr("/account/partenariat"),
         data: {
           "cin": $('#partenariatS-cin').val(),
           "domaine": $('#partenariatS-domaine').val().toString(),
@@ -1041,8 +1300,11 @@ function Partenariat() {
         dataType: 'json',
         success: function (data) {
 
-          $('#partenariat-boutique-form').addClass('is-hidden');
-          $('#boutique-submit-ok').removeClass('is-hidden');
+          $('#elements-selection').addClass("is-hidden");
+          $('.is-element').addClass("is-hidden");
+          $('.element-title').addClass("is-hidden");
+          $('.elements-back').addClass("is-hidden");
+          $('#partenariat-main-placeholder').removeClass("is-hidden");
           setTimeout(function () {
             $this.removeClass('is-loading');
             toasts.service.success('', 'fas fa-check', data['infos'], 'bottomRight', 11200);
@@ -1055,6 +1317,113 @@ function Partenariat() {
           }, 800);
 
         },
+      });
+
+    }
+    else
+    {
+      setTimeout(function () {
+        toasts.service.error('', 'fas fa-dizzy', 'Le formulaire présente des problémes veuillez vérifier vos entrées', 'bottomRight', 11200);
+      }, 1200);
+      $('#partenariat-services-submit').addClass('is-disabled');
+    }
+  });
+  $('#save-partenariatS-button').on('click', function (event) {
+
+    event.preventDefault();
+    var erreur = 1;
+
+    let cin =  $('#partenariatS-edit-cin').val();
+    let desc =  $('#partenariatS-edit-desc').val();
+    let domaine =  document.querySelector("#partenariatS-edit-domaine").selectedOptions.length;
+
+    if (cin === "") {
+      event.preventDefault();
+      $('#save-partenariatS-button').addClass('is-disabled');
+      $('#partenariatS-edit-cin').closest('.field').addClass('has-error');
+    } else {
+      erreur = -2;
+      $('#save-partenariatS-button').removeClass('is-disabled');
+      $('#partenariatS-edit-nom').closest('.field').removeClass('has-error');
+    }
+
+    if (!ValidateLength(desc, 10)) {
+      event.preventDefault();
+      $('#save-partenariatS-button').addClass('is-disabled');
+      $('#partenariatS-edit-desc').closest('.field').addClass('has-error');
+    } else {
+      erreur -= -1;
+      $('#save-partenariatS-button').removeClass('is-disabled');
+      $('#partenariatS-edit-desc').closest('.field').removeClass('has-error');
+    }
+
+    if(!domaine) {
+      event.preventDefault();
+      $('#save-partenariatS-button').removeClass('is-disabled');
+      $('#partenariatS-edit-domaine').closest('.field').addClass('has-error');
+    } else {
+      erreur -= -1;
+      $('#save-partenariatS-button').addClass('is-disabled');
+      $('#partenariatS-edit-domaine').closest('.field').removeClass('has-error');
+    }
+
+    // si auccune erreur
+    if (erreur === 0)
+    {
+      let $this = $(this);
+      $this.addClass('is-loading');
+
+      Swal.fire({
+        title: "Ooh",
+        text: "Si vous apportez des modifications votre partenariat, vous allez encore passer par une phase de validation.",
+        type: "warning",
+        showCancelButton: !0,
+        confirmButtonText: "Oui, Continuer!",
+        cancelButtonText: "Non, annuler!",
+        confirmButtonClass: "btn btn-success mt-2",
+        cancelButtonClass: "btn btn-danger ml-2 mt-2",
+        buttonsStyling: !0
+      }).then(function (t) {
+        if(t.value)
+        {
+          var form = $('#partenariatS-edit-form');
+
+          $.ajax({
+            type: "POST",
+            url: form.attr("/account/partenariat"),
+            data: {
+              "cin": $('#partenariatS-edit-cin').val(),
+              "domaine": $('#partenariatS-edit-domaine').val().toString(),
+              "desc": $('#partenariatS-edit-desc').val(),
+              "partenariat": "services",
+            },
+            dataType: 'json',
+            success: function (data) {
+
+              $('#partenariat-main').addClass("is-hidden");
+              $('#partenariat-main-placeholder').removeClass("is-hidden");
+              setTimeout(function () {
+                $this.removeClass('is-loading');
+                toasts.service.success('', 'fas fa-check', data['infos'], 'bottomRight', 11200);
+              }, 1200);
+            },
+            error: function (data) {
+              setTimeout(function () {
+                $this.removeClass('is-loading');
+                toasts.service.error('', 'fas fa-meh', " Erreur interne du server... Veuillez reesayer ", 'bottomRight', 2800);
+              }, 800);
+
+            },
+          });
+        }
+        else
+        {
+          t.dismiss === Swal.DismissReason.cancel &&Swal.fire({
+            title: "OK",
+            text: "Aucune modification n'as été apporté a votre partenariat",
+            type: "error"
+          });
+        }
       });
 
     }
@@ -1139,11 +1508,8 @@ $(window).on('load', function () {
       }
 
     }
-    else
-    {
-      console.log(userData.ableToEdit);
-    }
-  } else {
+  }
+  else {
     console.log(url.toString());
   }
 });

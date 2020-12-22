@@ -51,7 +51,7 @@
                         <td>{{ partner.prenom }}</td>
                         <td {% if partner.verified == 0 %}style="background-color: #F5275E;color: white;" {% endif %}>{{partner.email}}</td>
                         <td {% if partner.phoneVerified == 0 %}style="background-color: #F5275E;color: white;" {% endif %}>{{partner.telephone}}</td>
-                        <td>{{partner.creation|format_datetime()}}</td>
+                        <td>{{partner.dp|format_datetime()}}</td>
                         <td>{{partner.lastLogin|format_datetime()}}</td>
                         <td>{{partner.partenariat}}</td>
                         <td>{% if partner.verified == 1 and partner.phoneVerified == 1 %}<span class="badge label-table badge-success">Verifié</span> {% elseif partner.verified == 0 or partner.phoneVerified == 0 %} <span class="badge label-table badge-secondary">En Attente</span> {% else %} <span class="badge label-table badge-danger">Desactivé</span> {% endif %}</td>

@@ -29,7 +29,6 @@ function initSpinner(extendForm=false)
 
 $(document).ready(function () {
   "use strict"; //Elements selection
-
   $('.is-element-card .view-element a').on("click", function () {
     var scrollSpeed = 500;
     var element_id = $(this).attr('data-element');

@@ -6,19 +6,28 @@ use App\Entity\Billing;
 use App\Entity\Service;
 use App\Entity\Shipping;
 use App\Entity\User;
+use App\Entity\Whishlist;
+use App\Security\EmailVerifier;
+use App\Services\securo\RegistrationCheck;
 use Exception;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\Mime\Address;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class SecurityController extends AbstractController
 {
+    private $emailVerifier;
+    public function __construct(EmailVerifier $emailVerifier)
+    {
+        $this->emailVerifier = $emailVerifier;
+    }
+
     /**
      * @Route("/login", name="app_login")
      * @param AuthenticationUtils $authenticationUtils
@@ -54,6 +63,11 @@ class SecurityController extends AbstractController
             if($passwordEncoder->isPasswordValid($user, $password))
             {
                 $jsonData["infos"] = "ok";
+                $entityManager = $this->getDoctrine()->getManager();
+                $user = $entityManager->getRepository(User::class)->find($this->getUser());
+
+                $user->setLastLogin(date('Y/m/d H:i:s',time()));
+                $entityManager->flush();
 
                 return new Response(json_encode($jsonData));
             }
@@ -92,6 +106,187 @@ class SecurityController extends AbstractController
     }
 
     /**
+     * @Route("/validateEmail/{email}", name="app_validate_email")
+     * @throws Exception
+     */
+    public function validateEmail($email): Response
+    {
+        $jsonData = array();
+        $entityManager = $this->getDoctrine()->getManager();
+        $user = $entityManager->getRepository(User::class)->find($this->getUser());
+
+        if($user)
+        {
+            // generate a signed url and email it to the user
+
+            $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
+                (new TemplatedEmail())
+                    ->from(new Address('thinkup237@gmail.com', 'ThinkUp Register Mailer'))
+                    ->to($email)
+                    ->subject('Please Confirm your Email')
+                    ->htmlTemplate('registration/confirmation_email.html.twig')
+            );
+
+            $jsonData["infos"] = "ok";
+
+            return new Response(json_encode($jsonData));
+        }
+        else
+        {
+            throw new Exception('User not found ');
+        }
+
+
+    }
+
+    /**
+     * @Route("/changeEmail/{email}", name="app_change_email")
+     * @throws Exception
+     */
+    public function changeEmail($email): Response
+    {
+        $jsonData = array();
+        $entityManager = $this->getDoctrine()->getManager();
+        $user = $entityManager->getRepository(User::class)->find($this->getUser());
+
+        if($user)
+        {
+            $entityRepository = $this->getDoctrine()->getRepository(User::class);
+            if(!$entityRepository->findOneBy(["email" => $email]))
+            {
+                $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
+                    (new TemplatedEmail())
+                        ->from(new Address('thinkup237@gmail.com', 'ThinkUp Register Mailer'))
+                        ->to($email)
+                        ->subject('Please Confirm your Email')
+                        ->htmlTemplate('registration/confirmation_email.html.twig')
+                );
+
+                $user->setEmail($email);
+                $user->setIsVerified(0);
+                $entityManager->flush();
+
+                $jsonData["infos"] = "ok";
+
+                return new Response(json_encode($jsonData));
+            }
+            else
+            {
+                throw new Exception('Email already exist');
+            }
+
+
+        }
+        else
+        {
+            throw new Exception('User not found ');
+        }
+    }
+
+    /**
+     * @Route("/validatePhone/{phone}", name="app_validate_phone")
+     * @throws Exception
+     */
+    public function validatePhone($phone): Response
+    {
+        $jsonData = array();
+        $entityManager = $this->getDoctrine()->getManager();
+        $user = $entityManager->getRepository(User::class)->find($this->getUser());
+
+        if($user)
+        {
+
+            $cookie_name = 'phone_response_code';
+            $cookie_value = substr(bin2hex(openssl_random_pseudo_bytes(100)), 0, 6);
+            setcookie($cookie_name, $cookie_value, time() + (60 * 5), '/'); // 5 minutes
+
+            $jsonData['infos'] = "ok";
+
+            return new Response($jsonData['infos']);
+        }
+        else
+        {
+            throw new Exception('User not found ');
+        }
+
+
+    }
+
+    /**
+     * @Route("/changePhone/{tel}", name="app_change_phone")
+     * @throws Exception
+     */
+    public function changePhone($tel): Response
+    {
+        $jsonData = array();
+        $entityManager = $this->getDoctrine()->getManager();
+        $user = $entityManager->getRepository(User::class)->find($this->getUser());
+
+        if($user)
+        {
+            $entityRepository = $this->getDoctrine()->getRepository(User::class);
+            if(!$entityRepository->findOneBy(["telephone" => $tel]))
+            {
+
+                $user->setTelephone($tel);
+                $user->setPhoneVerified(0);
+                $entityManager->flush();
+
+                $jsonData["infos"] = "ok";
+
+                return new Response(json_encode($jsonData));
+            }
+            else
+            {
+                throw new Exception('Phone already exist');
+            }
+
+
+        }
+        else
+        {
+            throw new Exception('User not found ');
+        }
+    }
+
+    /**
+     * @Route("/markphoneIsverified/{code}", name="app_mark_phone_as_validate")
+     * @throws Exception
+     */
+    public function markphoneIsverified($code): Response
+    {
+        $jsonData = array();
+        $entityManager = $this->getDoctrine()->getManager();
+        $user = $entityManager->getRepository(User::class)->find($this->getUser());
+
+        if($user)
+        {
+            if($code == $_COOKIE['phone_response_code'])
+            {
+                $user->setPhoneVerified(1);
+                $entityManager->flush();
+
+                $cookie_name = 'phone_response_code';
+                unset($_COOKIE[$cookie_name]);
+
+                $jsonData["infos"] = "ok";
+
+                return new Response(json_encode($jsonData));
+            }
+            else
+            {
+                throw new Exception('Code incorrect ');
+            }
+        }
+        else
+        {
+            throw new Exception('User not found ');
+        }
+
+
+    }
+
+    /**
      * @Route("/account", name="app_account")
      */
     public function account()
@@ -104,7 +299,9 @@ class SecurityController extends AbstractController
      */
     public function whishlist()
     {
-        return $this->render('security/frontend/whishlist.html.twig');
+        $entityManager = $this->getDoctrine()->getManager();
+        $whishlist = $entityManager->getRepository(Whishlist::class)->findBy(['user' => $this->getUser()]);
+        return $this->render('security/frontend/whishlist.html.twig',array("whishlist"=>$whishlist));
     }
 
     /**
@@ -236,7 +433,7 @@ class SecurityController extends AbstractController
                     $user->setLogo($logo);
                     $user->setPartenariat($partenariat);
                     $user->setRoles((array)'ROLE_PARTENAIRE');
-                    $user->setDp(new \DateTime());
+                    $user->setDp(date('Y/m/d H:i:s',time()));
                     $user->setPs(0);
                     $entityManager->flush();
                 }
@@ -249,8 +446,11 @@ class SecurityController extends AbstractController
                     $user->setCin($cin);
                     $user->setDescription($desc);
                     $user->setDomaine($domaine);
+                    $user->setLogo("http://127.0.0.1:8000/frontend/img/logo/nephos-greyscale.svg");
                     $user->setPartenariat($partenariat);
                     $user->setRoles((array)'ROLE_PARTENAIRE');
+                    $user->setDp(date('Y/m/d H:i:s',time()));
+                    $user->setPs(0);
                     $entityManager->flush();
                 }
 
@@ -266,6 +466,91 @@ class SecurityController extends AbstractController
             $services = $entityManager->getRepository(Service::class)->findAll();
             return $this->render('security/frontend/partenariat.html.twig',['services'=>$services]);
         }
+    }
+
+    /**
+     * @Route("/account/editPartenariat", name="app_edit_partenariat")
+     */
+    public function editPartenariat(Request $request)
+    {
+        if($request->isXMLHttpRequest()) {
+
+            $jsonData = array();
+            $partenariat = addslashes(trim($request->get('partenariat')));
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $user = $entityManager->getRepository(User::class)->find($this->getUser());
+
+            if (!$user) {
+                $jsonData["infos"] = "Auccun utilisateur trouvé pour cette session";
+            }
+            else
+            {
+                if($partenariat == "boutique")
+                {
+                    $nom = addslashes(trim($request->get('nom')));
+                    $desc = addslashes(trim($request->get('desc')));
+                    $domaine = explode(",",addslashes(trim($request->get('domaine',null))));
+                    $logo = addslashes(trim($request->get('logo')));
+
+                    $user->setBoutique($nom);
+                    $user->setDescription($desc);
+                    $user->setDomaine($domaine);
+                    $user->setLogo($logo);
+                 //   $user->setPs(0);
+                    $entityManager->flush();
+                }
+                else if ($partenariat == "services")
+                {
+                    $cin = addslashes(trim($request->get('cin')));
+                    $desc = addslashes(trim($request->get('desc')));
+                    $domaine = explode(",",addslashes(trim($request->get('domaine',null))));
+
+                    $user->setCin($cin);
+                    $user->setDescription($desc);
+                    $user->setDomaine($domaine);
+                //    $user->setPs(0);
+                    $entityManager->flush();
+                }
+
+
+                $jsonData["infos"] = "Demande envoyé avec succés";
+            }
+
+            return new Response(json_encode($jsonData));
+        }
+        else
+        {
+            $entityManager = $this->getDoctrine()->getManager();
+            $services = $entityManager->getRepository(Service::class)->findAll();
+            return $this->render('security/frontend/partenariat.html.twig',['services'=>$services]);
+        }
+    }
+
+    /**
+     * @Route("/account/cancelPartnership", name="app_cancel_partnership")
+     * @throws Exception
+     */
+    public function cancelPartnership(): Response
+    {
+        // esa === enable shipping address
+        $jsonData = array();
+        $entityManager = $this->getDoctrine()->getManager();
+        $user = $entityManager->getRepository(User::class)->find($this->getUser());
+
+        if($user)
+        {
+
+            $jsonData["infos"] = "ok";
+
+            return new Response(json_encode($jsonData));
+        }
+        else
+        {
+            throw new Exception('User not found ');
+        }
+
+
     }
 
     /**
@@ -292,12 +577,15 @@ class SecurityController extends AbstractController
                 {
                     $jsonData["infos"] = "ok";
 
+                    $user->setAl(0);
+                    $entityManager->flush();
+
                     return new Response(json_encode($jsonData));
                 }
                 else
                 {
                     $jsonData["infos"] = "NaN";
-                    throw new Exception('Incorrect : '.$dbpassword.' ---- my password : '.$passwordEncoder->encodePassword($user, $password).' is valid : '.$passwordEncoder->isPasswordValid($user, $password));
+                    //throw new Exception('Incorrect : '.$dbpassword.' ---- my password : '.$passwordEncoder->encodePassword($user, $password).' is valid : '.$passwordEncoder->isPasswordValid($user, $password));
                 }
             }
 
@@ -305,6 +593,13 @@ class SecurityController extends AbstractController
         }
         else
         {
+            $entityManager = $this->getDoctrine()->getManager();
+            $user = $entityManager->getRepository(User::class)->find($this->getUser());
+
+            $user->setAl(1);
+            $entityManager->flush();
+
+
             return $this->render('security/backend/lock.html.twig');
         }
     }
