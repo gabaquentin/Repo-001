@@ -39,7 +39,7 @@
                                     <a><i data-feather="printer"></i> Imprimer </a>
                                 </div>
                             </div>
-                            <img class="brand-filigrane" src="assets/img/logo/nephos-greyscale.svg" alt="">
+                            <img class="brand-filigrane" src="{{ asset('frontend/img/logo/nephos-greyscale.svg') }}" alt="">
                         </div>
                         <!--Header-->
                         <div class="order-details-wrap">
@@ -49,7 +49,7 @@
                                     <span id="order-details-date">Commandé le : <var>Jul 23 2019</var></span>
                                 </div>
                                 <div class="right">
-                                    <img id="order-details-avatar" src="http://via.placeholder.com/250x250" data-demo-src="assets/img/avatars/janet.jpg" alt="">
+                                    <img id="order-details-avatar" src=""  alt="">
                                     <div class="inner-meta">
                                         <span>Commandé par : </span>
                                         <span id="order-details-contact">Janet Smith</span>
@@ -184,16 +184,16 @@
                                     <div class="column is-4">
                                         <!--Shipping Address-->
                                         <div class="address-widget is-narrow">
-                                            <h3 class="widget-title">Shipping Address</h3>
+                                            <h3 class="widget-title">Adresse de Livraison</h3>
                                             <p class="address">
-                                                <var id="shipping-address1">3833 Mcgowen St.</var> <var id="shipping-address2">Palatanqua Park</var>
-                                                <br><var id="shipping-city">Long Beach</var>, <var id="shipping-state">CA</var> <var id="shipping-postalCode">90808-1702</var>
-                                                <br><var id="shipping-country">United States</var>
+                                                <var id="shipping-country">3833 Mcgowen St.</var>
+                                                <br><var id="shipping-state">Long Beach</var>, <var id="shipping-city">CA</var> <var id="shipping-address1">90808-1702</var>
+                                                <br><var id="shipping-postalCode">United States</var>
                                             </p>
                                         </div>
                                         <!--Billing Address-->
-                                        <div class="address-widget">
-                                            <h3 class="widget-title">Billing Address</h3>
+                                        <div class="address-widget is-hidden">
+                                            <h3 class="widget-title ">Billing Address</h3>
                                             <p class="address">
                                                 <var id="billing-address1">3833 Mcgowen St.</var> <var id="billing-address2">Palatanqua Park</var>
                                                 <br><var id="billing-city">Long Beach</var>, <var id="billing-state">CA</var> <var id="billing-postalCode">90808-1702</var>

@@ -4,6 +4,7 @@ namespace App\Controller\ecommerce;
 
 use App\Entity\Commandes;
 use App\Entity\Coupon;
+use App\Entity\InfoLivraison;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Swift_Mailer;
@@ -17,7 +18,7 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 
 /**
  * Class CommandeFrontController
- * @Route("/front/ecommerce")
+ * @Route("/ecommerce")
  * @package App\Controller\ecommerce
  */
 class CommandeFrontController extends AbstractController
@@ -265,6 +266,7 @@ class CommandeFrontController extends AbstractController
         $commande = new Commandes();
         $payment_mode = $request->get("payment");
         $cart=$request->get("cart",[]);
+        $Ship_adr=$request->get("shippingAdress",[]);
         $shipping = $request->get("shipping");
         $numero = $request->get("numero");
         $email=$request->get("user");
@@ -275,6 +277,9 @@ class CommandeFrontController extends AbstractController
             ->setNumero($numero)
             ->setClient($user)
             ->setPanier($cart)
+            ->setInfoLivraison($Ship_adr)
+            ->setPrixLivraison($request->get("prixL"))
+            ->setRemise($request->get("remise"))
             ->setStatut("En cours de Livraison");
         $manager->persist($commande);
         $manager->flush();
@@ -316,7 +321,6 @@ class CommandeFrontController extends AbstractController
                 'statut' => $com->getStatut(),
                 'mode_liv' => $com->getModeLivraison(),
                 'livreur' => $com->getLivreur(),
-                'info_liv' => $com->getInfoLivraison(),
             ];
             array_push($data, $new_com);
         }

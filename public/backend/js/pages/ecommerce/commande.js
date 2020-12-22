@@ -10,12 +10,12 @@ function show_order(order) {
         span ='<span class="badge label-table badge-danger">';
     }
     return `
-        <tr data-order-id="${order['id']}">
+        <tr class="orders" data-order-id="${order['id']}">
             <td class="text-center">
-                <button class=" btn btn-primary btn-xs btn-icon"><i class="fa fas fa-list-alt"></i></button>
-                <a href="/back/ecommerce/commande/detail/${order['id']}"><button class="affecter-livreur btn btn-primary btn-xs btn-icon"><i class="fa fas fa-edit"></i></button></a>
+                <a href="/back/ecommerce/commande/detail/${order['id']}"><button class=" btn btn-primary btn-xs btn-icon"><i class="fa fas fa-list-alt"></i></button></a>
+                <button class="affecter-livreur btn btn-primary btn-xs btn-icon"><i class="fa fas fa-edit"></i></button>
             </td>
-            <td class="order" id="order_id" data-order="${order['id']}">${order['id']}</td>
+            <td class="order"><span id="order_id" hidden>${order['id']}</span>${order['id']}</td>
             <td>${order['numero']}</td>
             <td>${order['client']}</td>
             <td>${order['livreur']}</td>
@@ -39,7 +39,24 @@ function Show_All_Orders(orders){
 
 $(document).ready(function () {
     Show_All_Orders(JSON.parse($('#demo-foo-filtering').attr('data-orders')));
-    $('.affecter-livreur').on('click',function () {
-        alert($('.order').text());
+    let e = $("#demo-foo-filtering");
+    e.footable().on("click", ".affecter-livreur", function (i) {
+        let o = e.data("footable"), t = $(this).parents("tr:first");
+        let id = $(i.target).closest('td').find("#order_id").html();
+        console.log(id);
+        Swal.fire({
+            title: "Êtes-vous sûr?",
+            text: "L'administrateur seras retrogradé au rang d'utilisateur simple!",
+            type: "warning",
+            showCancelButton: !0,
+            confirmButtonText: "Oui, retrograder l'administrateur!",
+            cancelButtonText: "Non, annuler!",
+            confirmButtonClass: "btn btn-success mt-2",
+            cancelButtonClass: "btn btn-danger ml-2 mt-2",
+            buttonsStyling: !1
+        }).then(function (t1) {
+
+        })
+
     });
 });

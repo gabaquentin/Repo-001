@@ -98,40 +98,67 @@
                                 <img id="checkout-avatar" src="{{ app.user.image }}"  alt="">
                             </div>
                             <div class="meta">
-                                <span>Checkout as</span>
+                                <span>Commandé en tant que </span>
                                 <span id="checkout-username">Elie Daniels</span>
                             </div>
                         </div>
 
-                        <div class="side-card is-address">
-                            <label class="form-switch is-vhidden">
+                        <div class="side-card is-address info-shipping">
+                            <label class="form-switch is-hidden">
                                 <input id="shipping-switch" type="checkbox" class="is-switch">
                                 <i></i>
                             </label>
-                            <h3 class="address-title">Adresse de Livraison <span class="edit-account"></span> </h3>
+                            <h3 class="address-title">Adresse de Livraison <span class="edit-account"></span> <i class="fa fa-edit" style="color: #0023ff ; cursor: pointer"></i> </h3>
                             <p class="address">
-                                <var id="shipping-address1">463 San Bernardo Ave</var>, <var id="shipping-address2">Crimson Road</var>
-                                <br><var id="shipping-city">Long Beach</var>, <var id="shipping-state">CA</var> <var id="shipping-postalCode">90808</var>
-                                <br><var id="shipping-country">United States</var>
+                                <var id="shipping-address1"></var>, <var id="shipping-address2"></var>
+                                <br><var id="shipping-city"></var>, <var id="shipping-state">CA</var> <var id="shipping-postalCode"></var>
+                                <br><var id="shipping-country"></var>
                             </p>
                         </div>
 
+                        <div class="side-card is-address form-shipping">
+                            <label class="form-switch">
+                                <a class="button feather-button primary-button is-small valider-adresse">Ajouter</a>
+                            </label>
+                            <h3 class="address-title">Adresse de Livraison <span class="edit-account"></span> </h3>
+                            <div class="control">
+                                <label>Pays</label>
+                                <input id="country" class="input is-default" type="text" placeholder="">
+                            </div>
+                            <div class="control">
+                                <label>Ville</label>
+                                <input id="town" class="input is-default" type="text" placeholder="">
+                            </div>
+                            <div class="control">
+                                <label>Adresse</label>
+                                <input id="address" class="input is-default" type="text" placeholder="">
+                            </div>
+                            <div class="control">
+                                <label>Quartier</label>
+                                <input id="street" class="input is-default" type="text" placeholder="">
+                            </div>
+                            <div class="control">
+                                <label>Code Postal</label>
+                                <input id="cp" class="input is-default" type="text" placeholder="">
+                            </div>
+                        </div>
+
                         <div class="side-card is-totals">
-                            <h3 class="info-title">Payment Information</h3>
+                            <h3 class="info-title">Information de Payement</h3>
                             <div class="payment-block">
-                                <span>Order subtotal</span>
+                                <span>Prix Initial</span>
                                 <span id="checkout-subtotal-value" class="has-price">200.37</span>
                             </div>
                             <div class="payment-block">
-                                <span>Order shipping</span>
-                                <span id="checkout-shipping-value" class="has-price">0.00</span>
+                                <span>Livraison</span>
+                                <span id="checkout-shipping-value" class="has-price">3000</span>
                             </div>
                             <div class="payment-block">
-                                <span>Rémise </span>
+                                <span>Remise</span>
                                 <span id="checkout-tax-value" class="has-price">7.82</span>
                             </div>
                             <div class="payment-block">
-                                <span class="is-bold">Order total</span>
+                                <span class="is-bold">Prix Total</span>
                                 <span id="checkout-grandtotal-value" class="has-price is-bold">208.09</span>
                             </div>
                         </div>
@@ -148,6 +175,7 @@
 {% endblock %}
 
 {% block js %}
+    <script src="{{ asset('frontend/js/pages/ecommerce/orders.js') }}"></script>
     <script>
         const current= "{{ path('checkout_step') }}";
         const check_couponRoute= "{{ path('coupon') }}";

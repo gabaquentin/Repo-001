@@ -49,7 +49,7 @@ function getOrdersGrid() {
           icon = blockedIcon;
         }
 
-        let template = "\n                <div class=\"column is-4\">\n                    <div class=\"flat-card order-card has-popover-top\" data-order-id=\"" + userData.orders[i].id + "\">\n                        <div class=\"order-info\">\n                            <span><a class=\"order-details-link\" onclick=\"return true\">ORDER-" + userData.orders[i].id + "</a></span>\n                            <span class=\"tag " + modifierClass + "\">" + userData.orders[i].status + "</span>\n                        </div>\n                        <!-- Progress Circle -->\n                        <div class=\"circle-chart-wrapper\">\n                            <svg class=\"circle-chart\" viewbox=\"0 0 33.83098862 33.83098862\" width=\"140\" height=\"140\" xmlns=\"http://www.w3.org/2000/svg\">\n                                <circle class=\"circle-chart-background\" stroke=\"#efefef\" stroke-width=\"2\" fill=\"none\" cx=\"16.91549431\" cy=\"16.91549431\" r=\"15.91549431\" />\n                                <circle class=\"circle-chart-circle\" stroke=\"" + primaryColor + "\" stroke-width=\"2\" stroke-dasharray=\"" + userData.orders[i].completed + ",100\" stroke-linecap=\"round\" fill=\"none\" cx=\"16.91549431\" cy=\"16.91549431\" r=\"15.91549431\" />\n                            </svg>\n                            <!-- Icon -->\n                            <div class=\"chart-icon\">\n                                " + icon + "\n                            </div>\n                            <!-- Label -->\n                            <div class=\"ring-title has-text-centered\">\n                                <span>" + userData.orders[i].completed + "% Complete</span>\n                            </div>\n                        </div>\n                    </div>\n\n                    <div class=\"webui-popover-content\">\n                        <!-- Popover Block -->\n                        <div class=\"popover-flex-block\">\n                            <img class=\"staff-avatar\" src=\"http://via.placeholder.com/250x250\" data-demo-src=\"" + userData.orders[i].contact.photoUrl + "\" alt=\"\">\n                            <div class=\"content-block\">\n                                <label>Order handled by</label>\n                                <span>" + userData.orders[i].contact.name + "</span>\n                            </div>\n                        </div>\n                        <!-- Popover Block -->\n                        <div class=\"popover-flex-block\">\n                            <div class=\"icon-block\">\n                                " + clockIcon + "\n                            </div>\n                            <div class=\"content-block\">\n                                <label>Ordered on</label>\n                                <span>" + userData.orders[i].date + "</span>\n                            </div>\n                        </div>\n                        <!-- Popover Block -->\n                        <div class=\"popover-flex-block\">\n                            <div class=\"icon-block\">\n                                " + ccIcon + "\n                            </div>\n                            <div class=\"content-block\">\n                                <label>Order Total</label>\n                                <span>" + userData.orders[i].total + "</span>\n                            </div>\n                        </div>\n                        <!-- Popover Block -->\n                        <div class=\"popover-flex-block\">\n                            <div class=\"icon-block\">\n                                " + truckIcon + "\n                            </div>\n                            <div class=\"content-block\">\n                                <label>Shipping Method</label>\n                                <span>" + userData.orders[i].shippingMethod + "</span>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n            ";
+        let template = "\n                <div class=\"column is-4\">\n                    <div class=\"flat-card order-card has-popover-top\" data-order-id=\"" + userData.orders[i].id + "\">\n                        <div class=\"order-info\">\n                            <span><a class=\"order-details-link\" onclick=\"return true\">COM-" + userData.orders[i].numero + "</a></span>\n                            <span class=\"tag " + modifierClass + "\">" + userData.orders[i].status + "</span>\n                        </div>\n                        <!-- Progress Circle -->\n                        <div class=\"circle-chart-wrapper\">\n                            <svg class=\"circle-chart\" viewbox=\"0 0 33.83098862 33.83098862\" width=\"140\" height=\"140\" xmlns=\"http://www.w3.org/2000/svg\">\n                                <circle class=\"circle-chart-background\" stroke=\"#efefef\" stroke-width=\"2\" fill=\"none\" cx=\"16.91549431\" cy=\"16.91549431\" r=\"15.91549431\" />\n                                <circle class=\"circle-chart-circle\" stroke=\"" + primaryColor + "\" stroke-width=\"2\" stroke-dasharray=\"" + userData.orders[i].completed + ",100\" stroke-linecap=\"round\" fill=\"none\" cx=\"16.91549431\" cy=\"16.91549431\" r=\"15.91549431\" />\n                            </svg>\n                            <!-- Icon -->\n                            <div class=\"chart-icon\">\n                                " + icon + "\n                            </div>\n                            <!-- Label -->\n                            <div class=\"ring-title has-text-centered\">\n                                <span>" + userData.orders[i].completed + "% Complete</span>\n                            </div>\n                        </div>\n                    </div>\n\n                    <div class=\"webui-popover-content\">\n                        <!-- Popover Block -->\n                        <div class=\"popover-flex-block\">\n                            <img class=\"staff-avatar\" src=\"" + userData.photoUrl+ "\" alt=\"\">\n                            <div class=\"content-block\">\n                                <label>Effectué par </label>\n                                <span>" + userData.firstName+" "+userData.lastName + "</span>\n                            </div>\n                        </div>\n                        <!-- Popover Block -->\n                        <div class=\"popover-flex-block\">\n                            <div class=\"icon-block\">\n                                " + clockIcon + "\n                            </div>\n                            <div class=\"content-block\">\n                                <label>Commandé le </label>\n                                <span>" + userData.orders[i].date + "</span>\n                            </div>\n                        </div>\n                        <!-- Popover Block -->\n                        <div class=\"popover-flex-block\">\n                            <div class=\"icon-block\">\n                                " + ccIcon + "\n                            </div>\n                            <div class=\"content-block\">\n                                <label>Prix Total</label>\n                                <span>" + userData.orders[i].total + "</span>\n                            </div>\n                        </div>\n                        <!-- Popover Block -->\n                        <div class=\"popover-flex-block\">\n                            <div class=\"icon-block\">\n                                " + truckIcon + "\n                            </div>\n                            <div class=\"content-block\">\n                                <label>Méthode de Livraison</label>\n                                <span>" + userData.orders[i].shippingMethod + "</span>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n            ";
         $.when($('#orders-main').append(template)).done(function () {
           initPopovers(); //Hide Loader
 
@@ -81,11 +81,11 @@ function getOrders_list_sorted() {
       primaryColor = '#0023ff';
       modifierClass = 'is-primary';
       icon = truckIcon;
-    } else if (userData.orders[i].status === 'Complete') {
+    } else if (userData.orders[i].status === 'Livré') {
       primaryColor = '#0023ff';
       modifierClass = 'is-primary';
       icon = checkIcon;
-    } else if (userData.orders[i].status === 'Preparing') {
+    } else if (userData.orders[i].status === 'En cours de Livraison') {
       primaryColor = '#00b289';
       modifierClass = 'is-success';
       icon = packageIcon;
@@ -93,13 +93,13 @@ function getOrders_list_sorted() {
       primaryColor = '#eda514';
       modifierClass = 'is-warning';
       icon = ccIcon;
-    } else if (userData.orders[i].status === 'Blocked') {
+    } else if (userData.orders[i].status === 'En Attente') {
       primaryColor = '#FF7273';
       modifierClass = 'is-danger';
       icon = blockedIcon;
     }
 
-    let template = "\n                <div class=\"order-long-card\" data-order-id=\"" + userData.orders[i].id + "\">\n                    <div class=\"left-side\">\n                        <div class=\"order-header\">\n                            <h3>ORDER " + userData.orders[i].id + "</h3>\n                            <span class=\"date\">" + userData.orders[i].date + "</span>\n                            <span class=\"tag is-primary\">" + userData.orders[i].status + "</span>\n                            <span class=\"order-total\">" + userData.orders[i].total + "</span>\n                        </div>\n                        <div class=\"ordered-products has-slimscroll\">\n                            <!--Loader-->\n                            <div class=\"products-loader is-active\">\n                                <div class=\"loader is-loading\"></div>\n                            </div>\n                        </div>\n                    </div>\n                    <div class=\"right-side\">\n                        <img class=\"side-bg\" src=\"assets/img/logo/nephos-greyscale.svg\" alt=\"\">\n                        <div class=\"meta-header\">\n                            <img src=\"http://via.placeholder.com/250x250\" data-demo-src=\"" + userData.orders[i].contact.photoUrl + "\" alt=\"\">\n                            <div class=\"inner-meta\">\n                                <span>Handled by</span>\n                                <span>" + userData.orders[i].contact.name + "</span>\n                            </div>\n                            <a class=\"support\">\n                                " + supportIcon + "\n                            </a>\n                        </div>\n\n                        <div class=\"meta-actions\">\n                            <a class=\"button is-rounded is-fullwidth primary-button raised order-details-link\">Détail de la commande</a>\n                            <a class=\"button is-rounded is-fullwidth grey-button rounded\">Invoice</a>\n                        </div>\n                    </div>\n                </div>\n            ";
+    let template = "\n                <div class=\"order-long-card\" data-order-id=\"" + userData.orders[i].id + "\">\n                    <div class=\"left-side\">\n                        <div class=\"order-header\">\n                            <h3>COMMANDE" + userData.orders[i].numero + "</h3>\n                            <span class=\"date\">" + userData.orders[i].date + "</span>\n                            <span class=\"tag is-primary\">" + userData.orders[i].status + "</span>\n                            <span class=\"order-total\">" + userData.orders[i].total + "</span>\n                        </div>\n                        <div class=\"ordered-products has-slimscroll\">\n                            <!--Loader-->\n                            <div class=\"products-loader is-active\">\n                                <div class=\"loader is-loading\"></div>\n                            </div>\n                        </div>\n                    </div>\n                    <div class=\"right-side\">\n                        <img class=\"side-bg\" src=\"img/logo/nephos-greyscale.svg\" alt=\"\">\n                        <div class=\"meta-header\">\n                            <img class=\"staff-avatar\" src=\"" + userData.photoUrl+ "\" alt=\"\">\n                            <div class=\"inner-meta\">\n                                <span>Effectué par </span>\n                                <span>" + userData.firstName+" "+userData.lastName + "</span>\n                            </div>\n                            <a class=\"support\">\n                                " + supportIcon + "\n                            </a>\n                        </div>\n\n                        <div class=\"meta-actions\">\n                            <a class=\"button is-rounded is-fullwidth primary-button raised order-details-link\">Détail de la commande</a>\n                            <a class=\"button is-rounded is-fullwidth grey-button rounded\">Invoice</a>\n                        </div>\n                    </div>\n                </div>\n            ";
     $.when($('#orders-main .column.is-12').append(template)).done(function () {
       //Hide Loader
       $('.account-loader').addClass('is-hidden');
@@ -109,7 +109,7 @@ function getOrders_list_sorted() {
 
   loadOrdersListProducts(); //Init Order details
 
-  initOrderDetailsLinks("/front/ecommerce/single-order");
+  initOrderDetailsLinks("/ecommerce/single-order");
 
 }
 
@@ -155,7 +155,7 @@ function getOrders_grid_sorted() {
       icon = blockedIcon;
     }
 
-    let template = "\n                <div class=\"column is-4\">\n                    <div class=\"flat-card order-card has-popover-top\" data-order-id=\"" + userData.orders[i].id + "\">\n                        <div class=\"order-info\">\n                            <span><a class=\"order-details-link\" onclick=\"return true\">ORDER-" + userData.orders[i].id + "</a></span>\n                            <span class=\"tag " + modifierClass + "\">" + userData.orders[i].status + "</span>\n                        </div>\n                        <!-- Progress Circle -->\n                        <div class=\"circle-chart-wrapper\">\n                            <svg class=\"circle-chart\" viewbox=\"0 0 33.83098862 33.83098862\" width=\"140\" height=\"140\" xmlns=\"http://www.w3.org/2000/svg\">\n                                <circle class=\"circle-chart-background\" stroke=\"#efefef\" stroke-width=\"2\" fill=\"none\" cx=\"16.91549431\" cy=\"16.91549431\" r=\"15.91549431\" />\n                                <circle class=\"circle-chart-circle\" stroke=\"" + primaryColor + "\" stroke-width=\"2\" stroke-dasharray=\"" + userData.orders[i].completed + ",100\" stroke-linecap=\"round\" fill=\"none\" cx=\"16.91549431\" cy=\"16.91549431\" r=\"15.91549431\" />\n                            </svg>\n                            <!-- Icon -->\n                            <div class=\"chart-icon\">\n                                " + icon + "\n                            </div>\n                            <!-- Label -->\n                            <div class=\"ring-title has-text-centered\">\n                                <span>" + userData.orders[i].completed + "% Complete</span>\n                            </div>\n                        </div>\n                    </div>\n\n                    <div class=\"webui-popover-content\">\n                        <!-- Popover Block -->\n                        <div class=\"popover-flex-block\">\n                            <img class=\"staff-avatar\" src=\"http://via.placeholder.com/250x250\" data-demo-src=\"" + userData.orders[i].contact.photoUrl + "\" alt=\"\">\n                            <div class=\"content-block\">\n                                <label>Order handled by</label>\n                                <span>" + userData.orders[i].contact.name + "</span>\n                            </div>\n                        </div>\n                        <!-- Popover Block -->\n                        <div class=\"popover-flex-block\">\n                            <div class=\"icon-block\">\n                                " + clockIcon + "\n                            </div>\n                            <div class=\"content-block\">\n                                <label>Ordered on</label>\n                                <span>" + userData.orders[i].date + "</span>\n                            </div>\n                        </div>\n                        <!-- Popover Block -->\n                        <div class=\"popover-flex-block\">\n                            <div class=\"icon-block\">\n                                " + ccIcon + "\n                            </div>\n                            <div class=\"content-block\">\n                                <label>Order Total</label>\n                                <span>" + userData.orders[i].total + "</span>\n                            </div>\n                        </div>\n                        <!-- Popover Block -->\n                        <div class=\"popover-flex-block\">\n                            <div class=\"icon-block\">\n                                " + truckIcon + "\n                            </div>\n                            <div class=\"content-block\">\n                                <label>Shipping Method</label>\n                                <span>" + userData.orders[i].shippingMethod + "</span>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n            ";
+    let template = "\n                <div class=\"column is-4\">\n                    <div class=\"flat-card order-card has-popover-top\" data-order-id=\"" + userData.orders[i].id + "\">\n                        <div class=\"order-info\">\n                            <span><a class=\"order-details-link\" onclick=\"return true\">COM-" + userData.orders[i].numero + "</a></span>\n                            <span class=\"tag " + modifierClass + "\">" + userData.orders[i].status + "</span>\n                        </div>\n                        <!-- Progress Circle -->\n                        <div class=\"circle-chart-wrapper\">\n                            <svg class=\"circle-chart\" viewbox=\"0 0 33.83098862 33.83098862\" width=\"140\" height=\"140\" xmlns=\"http://www.w3.org/2000/svg\">\n                                <circle class=\"circle-chart-background\" stroke=\"#efefef\" stroke-width=\"2\" fill=\"none\" cx=\"16.91549431\" cy=\"16.91549431\" r=\"15.91549431\" />\n                                <circle class=\"circle-chart-circle\" stroke=\"" + primaryColor + "\" stroke-width=\"2\" stroke-dasharray=\"" + userData.orders[i].completed + ",100\" stroke-linecap=\"round\" fill=\"none\" cx=\"16.91549431\" cy=\"16.91549431\" r=\"15.91549431\" />\n                            </svg>\n                            <!-- Icon -->\n                            <div class=\"chart-icon\">\n                                " + icon + "\n                            </div>\n                            <!-- Label -->\n                            <div class=\"ring-title has-text-centered\">\n                                <span>" + userData.orders[i].completed + "% Complete</span>\n                            </div>\n                        </div>\n                    </div>\n\n                    <div class=\"webui-popover-content\">\n                        <!-- Popover Block -->\n                        <div class=\"popover-flex-block\">\n                            <img class=\"staff-avatar\" src=\"" + userData.photoUrl + "\" alt=\"\">\n                            <div class=\"content-block\">\n                                <label>Effectué par</label>\n                                <span>" + userData.firstName+" "+userData.lastName + "</span>\n                            </div>\n                        </div>\n                        <!-- Popover Block -->\n                        <div class=\"popover-flex-block\">\n                            <div class=\"icon-block\">\n                                " + clockIcon + "\n                            </div>\n                            <div class=\"content-block\">\n                                <label>Ordered on</label>\n                                <span>" + userData.orders[i].date + "</span>\n                            </div>\n                        </div>\n                        <!-- Popover Block -->\n                        <div class=\"popover-flex-block\">\n                            <div class=\"icon-block\">\n                                " + ccIcon + "\n                            </div>\n                            <div class=\"content-block\">\n                                <label>Order Total</label>\n                                <span>" + userData.orders[i].total + "</span>\n                            </div>\n                        </div>\n                        <!-- Popover Block -->\n                        <div class=\"popover-flex-block\">\n                            <div class=\"icon-block\">\n                                " + truckIcon + "\n                            </div>\n                            <div class=\"content-block\">\n                                <label>Shipping Method</label>\n                                <span>" + userData.orders[i].shippingMethod + "</span>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n            ";
     $.when($('#orders-main').append(template)).done(function () {
       initPopovers(); //Hide Loader
 
@@ -167,44 +167,11 @@ function getOrders_grid_sorted() {
 
 }
 
-function getAllOrders(o) {
-  let supportIcon = feather.icons['life-buoy'].toSvg();
-  return `<div class="order-long-card" data-order-id="${o.id}">
-            <div class="left-side">
-                <div class="order-header"><h3>ORDER-${o.id}</h3>
-                    <span class="date">{$</span>
-                    <span class="tag is-primary">${o.status}</span>
-                    <span class="order-total">${o.total}</span>
-                </div>
-                <div class="ordered-products has-slimscroll">
-                    <div class="products-loader is-active">
-                        <div class="loader is-loading"></div>
-                    </div>
-                </div>
-                </div>
-                <div class="right-side">
-                    <img class="side-bg" src="frontend/img/logo/nephos-greyscale.svg" alt="">
-                    <div class="meta-header">
-                        <img src="${o.contact.photoUrl}" alt="">
-                        <div class="inner-meta">
-                        <span>Commandé par</span><span>${o.contact.name}</span>
-                    </div>
-                    <a class="support">${supportIcon}</a>
-                </div>
-                    <div class="meta-actions">
-                        <a class="button is-rounded is-fullwidth primary-button raised order-details-link">Détail de la commande</a>
-                        <a class="button is-rounded is-fullwidth grey-button rounded">Invoice</a>
-                    </div>
-                </div>
-            </div>
-
-    `;
-}
 
 function TrierCommande(chaine) {
   $.ajax({
     type: "GET",
-    url: "/front/ecommerce/trie_commande",
+    url: "/ecommerce/trie_commande",
     data:{
       "critere":chaine
     },
@@ -241,6 +208,16 @@ function getDate(datecom){
   return chaine;
 }
 
+function getDate2(datecom){
+  let tabD=['Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi','Dimanche'];
+  let tabM=['Janvier','Fevrier','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Nomvembre','Decembre'];
+  let FirstCut =datecom.split('-');
+  let SecondCut = FirstCut[2].split('T');
+  let FinalCut = SecondCut[1].split(':');
+  let chaine=""+SecondCut[0]+"-"+tabM[parseInt(FirstCut[1])]+"-"+FirstCut[0]+" à "+FinalCut[0]+"h :"+FinalCut[1]+"min";
+  return chaine;
+}
+
 function ConvertSQL3(commande){
   let userData = JSON.parse(localStorage.getItem('user'));
   userData.orders = [];
@@ -261,13 +238,20 @@ function ConvertSQL3(commande){
       orderProducts.push(orderItem);
     }
 
-    let datC = orders[i]['datecom'].date;
+    let datC = getDate2(orders[i]['datecom']);
+    let com = 10;
+    if(orders[i]['statut'] === "Livré"){
+      com=100;
+    }else if(orders[i]['statut'] === "En cours de Livraison"){
+      com=30;
+    }
     newOrder = {
       id: orders[i].id,
+      numero : orders[i].numero,
       total: orders[i]["cart"].total,
-      date: orders[i]['datecom'],
+      date: datC,
       status: orders[i]['statut'],
-      completed: 12,
+      completed: com,
       shippingMethod: orders[i]['mode_liv'],
       orderModel: {
         subtotal: orders[i]["cart"].total,
@@ -307,15 +291,20 @@ function ConvertSQL(){
       };
       orderProducts.push(orderItem);
     }
-    console.log(orderProducts);
-
+    let com = 10;
+    if(orders[i]['statut'] === "Livré"){
+      com=100;
+    }else if(orders[i]['statut'] === "En cours de Livraison"){
+      com=30;
+    }
     let datC = getDate(orders[i]['datecom'].date);
     newOrder = {
       id: orders[i].id,
+      numero : orders[i].numero,
       total: orders[i]["cart"].total,
       date: datC,
       status: orders[i]['statut'],
-      completed: 12,
+      completed: com,
       shippingMethod: orders[i]['mode_liv'],
       orderModel: {
         subtotal: orders[i]["cart"].total,
@@ -357,12 +346,19 @@ function ConvertSQL2(){
     console.log(orderProducts);
 
     let datC = getDate(orders[i]['datecom'].date);
+    let com = 10;
+    if(orders[i]['statut'] === "Livré"){
+      com=100;
+    }else if(orders[i]['statut'] === "En cours de Livraison"){
+      com=30;
+    }
     newOrder = {
       id: orders[i].id,
+      numero : orders[i].numero,
       total: orders[i]["cart"].total,
       date: datC,
       status: orders[i]['statut'],
-      completed: 12,
+      completed: com,
       shippingMethod: orders[i]['mode_liv'],
       orderModel: {
         subtotal: orders[i]["cart"].total,
@@ -385,15 +381,6 @@ function ConvertSQL2(){
 
 function getOrdersList() {
   let userData = JSON.parse(localStorage.getItem('user'));
-  let primaryColor;
-  let modifierClass;
-  let icon;
-  let truckIcon = feather.icons.truck.toSvg();
-  let clockIcon = feather.icons.clock.toSvg();
-  let checkIcon = feather.icons.check.toSvg();
-  let packageIcon = feather.icons.package.toSvg();
-  let ccIcon = feather.icons['credit-card'].toSvg();
-  let blockedIcon = feather.icons['alert-octagon'].toSvg();
   let supportIcon = feather.icons['life-buoy'].toSvg(); //If not logged in, hide account
 
   if (!userData.isLoggedIn) {
@@ -407,29 +394,9 @@ function getOrdersList() {
 
     for (let i = 0; i < userData.orders.length; i++) {
       //Apply status color
-      if (userData.orders[i].status === 'Shipping') {
-        primaryColor = '#0023ff';
-        modifierClass = 'is-primary';
-        icon = truckIcon;
-      } else if (userData.orders[i].status === 'Complete') {
-        primaryColor = '#0023ff';
-        modifierClass = 'is-primary';
-        icon = checkIcon;
-      } else if (userData.orders[i].status === 'Preparing') {
-        primaryColor = '#00b289';
-        modifierClass = 'is-success';
-        icon = packageIcon;
-      } else if (userData.orders[i].status === 'Processing') {
-        primaryColor = '#eda514';
-        modifierClass = 'is-warning';
-        icon = ccIcon;
-      } else if (userData.orders[i].status === 'Blocked') {
-        primaryColor = '#FF7273';
-        modifierClass = 'is-danger';
-        icon = blockedIcon;
-      }
 
-      let template = "\n                <div class=\"order-long-card\" data-order-id=\"" + userData.orders[i].id + "\">\n                    <div class=\"left-side\">\n                        <div class=\"order-header\">\n                            <h3>ORDER " + userData.orders[i].id + "</h3>\n                            <span class=\"date\">" + userData.orders[i].date + "</span>\n                            <span class=\"tag is-primary\">" + userData.orders[i].status + "</span>\n                            <span class=\"order-total\">" + userData.orders[i].total + "</span>\n                        </div>\n                        <div class=\"ordered-products has-slimscroll\">\n                            <!--Loader-->\n                            <div class=\"products-loader is-active\">\n                                <div class=\"loader is-loading\"></div>\n                            </div>\n                        </div>\n                    </div>\n                    <div class=\"right-side\">\n                        <img class=\"side-bg\" src=\"assets/img/logo/nephos-greyscale.svg\" alt=\"\">\n                        <div class=\"meta-header\">\n                            <img src=\"http://via.placeholder.com/250x250\" data-demo-src=\"" + userData.orders[i].contact.photoUrl + "\" alt=\"\">\n                            <div class=\"inner-meta\">\n                                <span>Handled by</span>\n                                <span>" + userData.orders[i].contact.name + "</span>\n                            </div>\n                            <a class=\"support\">\n                                " + supportIcon + "\n                            </a>\n                        </div>\n\n                        <div class=\"meta-actions\">\n                            <a class=\"button is-rounded is-fullwidth primary-button raised order-details-link\">Détail de la commande</a>\n                            <a class=\"button is-rounded is-fullwidth grey-button rounded\">Invoice</a>\n                        </div>\n                    </div>\n                </div>\n            ";
+      let template = "\n                <div class=\"order-long-card\" data-order-id=\"" + userData.orders[i].id + "\">\n                    <div class=\"left-side\">\n                        <div class=\"order-header\">\n                            <h3>COMMANDE  " + userData.orders[i].numero + "</h3>\n                            <span class=\"date\">" + userData.orders[i].date + "</span>\n                            <span class=\"tag is-primary statut\">" + userData.orders[i].status + "</span>\n                            <span class=\"order-total\">" + userData.orders[i].total + "</span>\n                        </div>\n                        <div class=\"ordered-products has-slimscroll\">\n                            <!--Loader-->\n                            <div class=\"products-loader is-active\">\n                                <div class=\"loader is-loading\"></div>\n                            </div>\n                        </div>\n                    </div>\n                    <div class=\"right-side\">\n                        <img class=\"side-bg\" src=\"img/logo/nephos-greyscale.svg\" alt=\"\">\n                        <div class=\"meta-header\">\n                            <img src=\"" + userData.photoUrl + "\" alt=\"\">\n                            <div class=\"inner-meta\">\n                                <span>Effectué par </span>\n                                <span>" + userData.firstName+" "+userData.lastName + "</span>\n                            </div>\n                            <a class=\"support\">\n                                " + supportIcon + "\n                            </a>\n                        </div>\n\n                        <div class=\"meta-actions\">\n                            <a class=\"button is-rounded is-fullwidth primary-button raised order-details-link\">Détail de la commande</a>\n                            <a class=\"button is-rounded is-fullwidth grey-button rounded\">Invoice</a>\n                        </div>\n                    </div>\n                </div>\n            ";
+
       $.when($('#orders-main .column.is-12').append(template)).done(function () {
         //Hide Loader
         $('.account-loader').addClass('is-hidden');
@@ -439,7 +406,7 @@ function getOrdersList() {
 
     loadOrdersListProducts(); //Init Order details
 
-    initOrderDetailsLinks("/front/ecommerce/single-order");
+    initOrderDetailsLinks("/ecommerce/single-order");
   }
 } //Populate inner product lists in order lists
 

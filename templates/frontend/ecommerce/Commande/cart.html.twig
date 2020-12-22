@@ -24,10 +24,10 @@
                         <div id="cart-main-placeholder" class="main-placeholder is-hidden">
                             <div class="placeholder-content">
                                 <img src="{{ asset('frontend/img/illustrations/shop.svg') }}" alt="" />
-                                <h3>Empty Cart</h3>
-                                <p>Your shopping cart is currenlty empty. Start adding products to be able to checkout.</p>
+                                <h3>Panier Vide</h3>
+                                <p>Vous pouvez remplir votre panier en ajoutant un produit dans votre panier depuis le shop</p>
                                 <div class="button-wrap">
-                                    <a href="{{ path('show_products_front') }}" class="button big-button primary-button rounded raised">Continue Shopping</a>
+                                    <a href="{{ path('show_products_front') }}" class="button big-button primary-button rounded raised">Visiter la Boutique</a>
                                 </div>
                             </div>
                         </div>
@@ -91,6 +91,7 @@
                                                 <span id="cart-summary-taxes" class="amount">0.00</span>
                                             </div>
                                             <div class="summary-item">
+                                                <span>Shipping</span>
                                                 <span>Shipping</span>
                                                 <span id="cart-summary-shipping" class="amount">0.00</span>
                                             </div>

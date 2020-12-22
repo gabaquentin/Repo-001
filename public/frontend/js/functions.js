@@ -104,7 +104,6 @@ function initOrderDetailsLinks(chaine) {
     let $this = $(this);
     let orderId = $this.closest('.order-card, .order-long-card').attr('data-order-id');
     let orderUrl = chaine + "?orderId=" + orderId;
-    console.log(orderUrl);
     window.location.href = orderUrl;
   });
 } //Init cart sidebar

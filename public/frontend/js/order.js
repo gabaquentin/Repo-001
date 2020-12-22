@@ -115,7 +115,6 @@ function ConvertToJs(){
       };
       orderProducts.push(orderItem);
     }
-    console.log(orderProducts);
 
     let datC = getDate(orders[i]['datecom'].date);
     newOrder = {
@@ -126,6 +125,7 @@ function ConvertToJs(){
       status: orders[i]['statut'],
       completed: 12,
       shippingMethod: orders[i]['mode_liv'],
+      shippingAddress : orders[i]['info_liv'],
       orderModel: {
         subtotal: orders[i]["cart"].total,
         taxes: 0,
@@ -153,8 +153,13 @@ function getOrder2(orderId){
       if (userData.orders[i].id === orderId){
         $('#order-details-id').html(userData.orders[i].numero);
         $('#order-details-date').html(userData.orders[i].date);
-        $('#order-details-avatar').attr('src', 'userData.orders[i].contact.photoUrl');
-        $('#order-details-contact').html(userData.orders[i].contact.name);
+        $('#shipping-address1').html(userData.orders[i].shippingAddress['address']);
+        $('#shipping-city').html(userData.orders[i].shippingAddress['street']);
+        $('#shipping-postalCode').html(userData.orders[i].shippingAddress['cp']);
+        $('#shipping-country').html(userData.orders[i].shippingAddress['country']);
+        $('#shipping-state').html(userData.orders[i].shippingAddress['town']);
+        $('#order-details-avatar').attr('src', userData.photoUrl);
+        $('#order-details-contact').html(userData.firstName+ ' ' + userData.lastName);
 
         if (userData.orders[i].paymentMethod !== "En Espèce" ) {
           $('#payment-tile').addClass('is-done');

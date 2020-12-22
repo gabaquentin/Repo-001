@@ -1,33 +1,31 @@
 "use strict"; //Get checkout summary for checkout sidebar
 
-let nextroute ="/front/ecommerce";
-let prevroute ="/front/ecommerce";
+let nextroute ="/ecommerce";
+let prevroute ="/ecommerce";
 function getCheckoutSidebar() {
   let userData = JSON.parse(localStorage.getItem('user'));
   let checkout = JSON.parse(localStorage.getItem('checkout')); //Populate data
-
+  console.log(checkout);
   $('#checkout-avatar').attr('src', 'http://via.placeholder.com/250x250');
   $('#checkout-avatar').attr('data-demo-src', checkout.avatar);
   $('#checkout-username').html(checkout.username); //Shipping address
-  if (!userData.addresses[1].disabled) {
-    $('#shipping-address1').html(userData.addresses[1].address1);
-    $('#shipping-address2').html(userData.addresses[1].address2);
-    $('#shipping-city').html(userData.addresses[1].city);
-    $('#shipping-state').html(userData.addresses[1].state);
-    $('#shipping-postalCode').html(userData.addresses[1].postalCode);
-    $('#shipping-country').html(userData.addresses[1].country);
-  } else {
-    $('#shipping-address1').html(userData.addresses[0].address1);
-    $('#shipping-address2').html(userData.addresses[0].address2);
-    $('#shipping-city').html(userData.addresses[0].city);
-    $('#shipping-state').html(userData.addresses[0].state);
-    $('#shipping-postalCode').html(userData.addresses[0].postalCode);
-    $('#shipping-country').html(userData.addresses[0].country);
-  } //Totals
+  if(checkout.shippingAddress['street'] === "" || checkout.shippingAddress['town'] === "" || checkout.shippingAddress['cp'] === ""
+      || checkout.shippingAddress['country'] === "" || checkout.shippingAddress['address'] === ""){
+    $('.address').attr('hidden',true);
+  }
+  else{
+    $('#shipping-address1').html(checkout.shippingAddress['address']);
+    $('#shipping-address2').html("");
+    $('#shipping-city').html(checkout.shippingAddress['street']);
+    $('#shipping-state').html(checkout.shippingAddress['town']);
+    $('#shipping-postalCode').html(checkout.shippingAddress['cp']);
+    $('#shipping-country').html(checkout.shippingAddress['country']);
+  }
+
 
 
   $('#checkout-subtotal-value').html(parseFloat(checkout.subtotal).toFixed(2));
-  $('#checkout-shipping-value').html(parseFloat(checkout.shipping).toFixed(2));
+  $('#checkout-shipping-value').html(parseFloat('3000.00').toFixed(2));
   $('#checkout-tax-value').html(parseFloat(checkout.taxes).toFixed(2));
   $('#checkout-grandtotal-value').html(parseFloat(checkout.total).toFixed(2));
 } //Get step 1 info
@@ -151,7 +149,7 @@ function checkCoupon() {
           checkout.coupon = data["id"];
           checkout.taxes= (checkout.subtotal*Reduc ) /100 ;
           checkout.remise=Reduc;
-          checkout.total = checkout.subtotal-checkout.taxes;
+          checkout.total = checkout.subtotal+checkout.shipping-checkout.taxes;
           checkout.taxes =parseFloat(checkout.taxes).toFixed(2);
           checkout.total =parseFloat(checkout.total).toFixed(2);
           localStorage.setItem('checkout', JSON.stringify(checkout));
@@ -220,13 +218,16 @@ function SendOrderInfo() {
   localStorage.setItem('cart', JSON.stringify(cart));
   $.ajax({
     type: "GET",
-    url: "/front/ecommerce/commande",
+    url: "/ecommerce/commande",
     data:{
       "numero": numero,
       "cart": cart,
       "payment":PaymentMode,
       "shipping":ShippingMode,
-      "user":userId
+      "user":userId,
+      "shippingAdress" : checkout.shippingAddress,
+      "prixL" : checkout.shipping,
+      "remise" : checkout.remise,
     },
     async: true,
     dataType: "JSON",
@@ -235,6 +236,10 @@ function SendOrderInfo() {
         $('.cart-loader').removeClass('is-active');
         toasts.service.success('', 'fas fa-check', 'Commande éffectuée avec succès', 'bottomRight', 2500);
       }, 800);
+      setTimeout(function () {
+        window.location.href = "/ecommerce/orders";
+        $this.removeClass('is-loading');
+      }, 5000);
     },
     error: () => {
       setTimeout(function () {
@@ -255,7 +260,7 @@ $(document).ready(function () {
     let items = parseInt(checkout.count);
     let shippingRate = (rate * items).toFixed(2);
     let newTotal = (parseFloat(checkout.total) + parseFloat(shippingRate)).toFixed(2);
-    $('#checkout-shipping-value').html(shippingRate);
+    $('#checkout-shipping-value').html('3000.00');
     $('#checkout-grandtotal-value').html(newTotal);
     $('.shipping-methods-grid .method-card').removeClass('is-selected');
     $this.closest('.method-card').addClass('is-selected');
@@ -309,7 +314,7 @@ $(document).ready(function () {
       else {
         //Redirect to the correct checkout object step
         if (checkout.step !== currentStep) {
-          window.location.href = prevroute;
+          window.location.href = '/ecommerce/checkout_step'+checkout.step;
         } //If checkout step1
 
 
@@ -337,14 +342,6 @@ $(document).ready(function () {
 
           getCheckoutStep4();
         }
-        else if ($('#checkout-5').length) {
-          getCheckoutSidebar();
-
-          setTimeout(function () {
-            $('.success-card').removeClass('is-hidden');
-            getCart();
-          }, 2000);
-        }
       }
     } //If not
     else {
@@ -364,12 +361,21 @@ $(document).ready(function () {
     $this.addClass('is-loading'); //Handle step 1
 
     if ($('#checkout-1').length) {
-      checkout.step = parseInt(checkout.step) + 1;
-      localStorage.setItem('checkout', JSON.stringify(checkout));
-      setTimeout(function () {
-        window.location.href = nextroute;
-        $this.removeClass('is-loading');
-      }, 1000);
+      if($('#shipping-country').text() ===""){
+        setTimeout(function () {
+          $('.cart-loader').removeClass('is-active');
+          toasts.service.success('', 'fas fa-check', "Veillez saisir votre adresse de livraison", 'bottomRight', 2500);
+        }, 800);
+      }
+      else{
+        checkout.step = parseInt(checkout.step) + 1;
+        localStorage.setItem('checkout', JSON.stringify(checkout));
+        setTimeout(function () {
+          window.location.href = nextroute;
+          $this.removeClass('is-loading');
+        }, 1000);
+      }
+      $this.removeClass('is-loading');
     } //Handle step 2
     else if ($('#checkout-2').length) {
       let shippingMethod = {};
@@ -425,10 +431,6 @@ $(document).ready(function () {
       checkout.orderNotes = $('#checkout-notes').val();
       localStorage.setItem('checkout', JSON.stringify(checkout));
       SendOrderInfo();
-      setTimeout(function () {
-        window.location.href = "/front/ecommerce/orders";
-        $this.removeClass('is-loading');
-      }, 5000);
     }
   }); //Checkout back button
 
@@ -450,7 +452,7 @@ $(document).ready(function () {
       } //Back from step 3 to step 2
       else if ($('#checkout-3').length) {
         checkout.total = (parseFloat(checkout.total) - parseFloat(checkout.shipping)).toFixed(2);
-        checkout.shipping = 0.00.toFixed(2);
+        checkout.shipping = 3000.00.toFixed(2);
         localStorage.setItem('checkout', JSON.stringify(checkout));
         setTimeout(function () {
           window.location.href = prevroute;

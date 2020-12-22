@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\CommandesRepository;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\Integer;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CommandesRepository", repositoryClass=CommandesRepository::class)
@@ -60,6 +61,11 @@ class Commandes
     private $panier="a:0:{}";
 
     /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $Infolivraison="a:0:{}";
+
+    /**
      * @ORM\Column(type="string", length=255)
      */
     private $statut;
@@ -68,6 +74,16 @@ class Commandes
      * @ORM\Column(type="string", length=255)
      */
     private $modeLivraison;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $prixLivraison;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $remise;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class)
@@ -79,10 +95,6 @@ class Commandes
      */
     private $livreur;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=InfoLivraison::class, inversedBy="commandes")
-     */
-    private $infoLivraison;
 
     public function getId(): ?int
     {
@@ -144,6 +156,26 @@ class Commandes
         return $this;
     }
 
+
+    /**
+     * @return mixed
+     */
+    public function getRemise()
+    {
+        return $this->remise;
+    }
+
+    /**
+     * @param mixed $remise
+     * @return Commandes
+     */
+    public function setRemise($remise) : self
+    {
+        $this->remise = $remise;
+        return $this;
+    }
+
+
     public function getPanier(): ?array
     {
         return unserialize($this->panier);
@@ -156,6 +188,36 @@ class Commandes
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getPrixLivraison()
+    {
+        return $this->prixLivraison;
+    }
+
+    /**
+     * @param mixed $prixLivraison
+     * @return Commandes
+     */
+    public function setPrixLivraison($prixLivraison)
+    {
+        $this->prixLivraison = $prixLivraison;
+        return $this;
+    }
+
+
+    public function getInfoLivraison(): ?array
+    {
+        return unserialize($this->Infolivraison);
+    }
+
+    public function setInfoLivraison(array $info): self
+    {
+        $this->Infolivraison = serialize($info);
+
+        return $this;
+    }
     public function getStatut(): ?string
     {
         return $this->statut;
@@ -188,18 +250,6 @@ class Commandes
     public function setLivreur(?User $livreur): self
     {
         $this->livreur = $livreur;
-
-        return $this;
-    }
-
-    public function getInfoLivraison(): ?InfoLivraison
-    {
-        return $this->infoLivraison;
-    }
-
-    public function setInfoLivraison(?InfoLivraison $infoLivraison): self
-    {
-        $this->infoLivraison = $infoLivraison;
 
         return $this;
     }

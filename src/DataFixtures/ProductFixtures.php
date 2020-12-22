@@ -81,6 +81,8 @@ class ProductFixtures extends Fixture
                 ->setLocal(["fr","en"][$f->numberBetween(0,1)])
                 ->setCreation(new \DateTime())
                 ->setRoles((array)'ROLE_USER')
+                ->setEsa(0)
+                ->setPhoneVerified(0)
                 ->setImage("/images/produits/maison au bord de la plage-5f2594ac3b773.jpeg")
             ;
             $user->setPassword($this->encoder->encodePassword(

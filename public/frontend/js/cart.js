@@ -189,9 +189,9 @@ function disableCartSidebar() {
   $('#open-cart').off();
   $('#open-cart').on('click', function () {
     if ($('.checkout-wrapper').length) {
-      toasts.service.error('', 'fas fa-comment-alt', 'Cart sidebar is disabled during checkout', 'bottomRight', 2500);
+      toasts.service.error('', 'fas fa-comment-alt', 'Vous ne pouvez pas voir le panier pendant la commande', 'bottomRight', 2500);
     } else {
-      toasts.service.error('', 'fas fa-comment-alt', 'Cart sidebar is disabled on cart page', 'bottomRight', 2500);
+      toasts.service.error('', 'fas fa-comment-alt', 'Impossible de visiter le panier dans cette page ', 'bottomRight', 2500);
     }
   });
 } //Get cart data for cart page
@@ -320,7 +320,13 @@ function removeFromCartPage() {
     if(userData.isLoggedIn){
       let checkoutObject = {};
       checkoutObject.items = cartData.products;
-      checkoutObject.shippingAddress = [];
+      checkoutObject.shippingAddress = {
+        'country': "",
+        'street': "",
+        'town': "",
+        'address': "",
+        'cp': "",
+      };
       checkoutObject.count = cartData.items;
       checkoutObject.subtotal = parseFloat($('#cart-summary-subtotal').text());
       checkoutObject.coupon = 0;
@@ -334,7 +340,7 @@ function removeFromCartPage() {
       checkoutObject.orderNotes = '';
       localStorage.setItem('checkout', JSON.stringify(checkoutObject));
       setTimeout(function () {
-        window.location.href = "/front/ecommerce/checkout_step1" ;
+        window.location.href = "/ecommerce/checkout_step1" ;
       }, 1200);
 
     }
@@ -384,7 +390,7 @@ $(document).ready(function () {
           $('.cart-loader').removeClass('is-active');
         }
 
-        toasts.service.success('', 'fas fa-plus', 'Product successfully added to cart', 'bottomRight', 2500);
+        toasts.service.success('', 'fas fa-plus', 'Produit ajouté avec succès', 'bottomRight', 2500);
       }, 800);
     });
   } //Products List implementation
@@ -409,7 +415,7 @@ $(document).ready(function () {
           $('.cart-loader').removeClass('is-active');
         }
 
-        toasts.service.success('', 'fas fa-plus', 'Product successfully added to cart', 'bottomRight', 2500);
+        toasts.service.success('', 'fas fa-plus', 'Produit ajouté avec succès', 'bottomRight', 2500);
       }, 800);
     });
   } //If cart page
@@ -451,7 +457,7 @@ $(document).ready(function () {
       }, 300);
       setTimeout(function () {
         $('.account-loader').removeClass('is-active');
-        toasts.service.success('', 'fas fa-plus', 'Product successfully added to cart', 'bottomRight', 2500);
+        toasts.service.success('', 'fas fa-plus', 'Produit ajouté avec succès', 'bottomRight', 2500);
       }, 800);
     });
   }
